@@ -2,14 +2,14 @@
 
 package api
 
-// GetLocationParams is parameters of getLocation operation.
-type GetLocationParams struct {
+// LookupLocationParams is parameters of lookupLocation operation.
+type LookupLocationParams struct {
 	// Location query.
 	Query string
 }
 
-// GetTrainStationParams is parameters of getTrainStation operation.
-type GetTrainStationParams struct {
+// LookupTrainStationParams is parameters of lookupTrainStation operation.
+type LookupTrainStationParams struct {
 	// Station query.
 	Query string
 }

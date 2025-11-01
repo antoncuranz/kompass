@@ -14,8 +14,9 @@ func NewGeocodingRoutes(apiV1Group fiber.Router, uc usecase.Geocoding, log logge
 	geocodingV1Group := apiV1Group.Group("/geocoding")
 
 	{
-		geocodingV1Group.Get("/location", r.getLocation)
-		geocodingV1Group.Get("/station", r.getTrainStation)
+		geocodingV1Group.Post("/location", r.lookupLocation)
+		geocodingV1Group.Post("/station", r.lookupTrainStation)
+		geocodingV1Group.Post("/directions", r.lookupDirections)
 	}
 }
 

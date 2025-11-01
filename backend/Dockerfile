@@ -23,7 +23,6 @@ RUN CGO_ENABLED=0 GOOS=linux \
 FROM scratch
 
 COPY --from=builder /app/config /config
-COPY --from=builder /app/migrations /migrations
 COPY --from=builder /bin/app /app
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 COPY --from=builder /usr/share/zoneinfo/ /usr/share/zoneinfo/

@@ -7,6 +7,7 @@ import (
 	"kompass/internal/entity"
 	"kompass/internal/repo/opentraveldata"
 
+	"github.com/paulmach/orb/geojson"
 	"github.com/valyala/fasthttp"
 )
 
@@ -23,6 +24,7 @@ type (
 	Geocoding interface {
 		LookupLocation(ctx *fasthttp.RequestCtx, query string) (entity.GeocodeLocation, error)
 		LookupTrainStation(ctx context.Context, query string) (entity.TrainStation, error)
+		LookupDirections(ctx context.Context, start entity.Location, end entity.Location, transportationType entity.TransportationType) (*geojson.FeatureCollection, error)
 	}
 
 	Flights interface {

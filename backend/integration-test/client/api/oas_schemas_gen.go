@@ -247,7 +247,7 @@ func (s *EntityLocation) SetLongitude(val float64) {
 	s.Longitude = val
 }
 
-func (*EntityLocation) getLocationRes() {}
+func (*EntityLocation) lookupLocationRes() {}
 
 // Ref: #/components/schemas/entity.Train
 type EntityTrain struct {
@@ -395,7 +395,21 @@ func (s *EntityTrainStation) SetName(val string) {
 	s.Name = val
 }
 
-func (*EntityTrainStation) getTrainStationRes() {}
+func (*EntityTrainStation) lookupTrainStationRes() {}
+
+type EntityTransportationType string
+
+type LookupDirectionsBadRequest ResponseError
+
+func (*LookupDirectionsBadRequest) lookupDirectionsRes() {}
+
+type LookupDirectionsInternalServerError ResponseError
+
+func (*LookupDirectionsInternalServerError) lookupDirectionsRes() {}
+
+type LookupDirectionsOKApplicationJSON string
+
+func (*LookupDirectionsOKApplicationJSON) lookupDirectionsRes() {}
 
 // NewNilString returns new NilString with value set to v.
 func NewNilString(v string) NilString {
@@ -503,6 +517,43 @@ func (o OptNilString) Or(d string) string {
 		return v
 	}
 	return d
+}
+
+// Ref: #/components/schemas/request.Directions
+type RequestDirections struct {
+	End                EntityLocation           `json:"end"`
+	Start              EntityLocation           `json:"start"`
+	TransportationType EntityTransportationType `json:"transportationType"`
+}
+
+// GetEnd returns the value of End.
+func (s *RequestDirections) GetEnd() EntityLocation {
+	return s.End
+}
+
+// GetStart returns the value of Start.
+func (s *RequestDirections) GetStart() EntityLocation {
+	return s.Start
+}
+
+// GetTransportationType returns the value of TransportationType.
+func (s *RequestDirections) GetTransportationType() EntityTransportationType {
+	return s.TransportationType
+}
+
+// SetEnd sets the value of End.
+func (s *RequestDirections) SetEnd(val EntityLocation) {
+	s.End = val
+}
+
+// SetStart sets the value of Start.
+func (s *RequestDirections) SetStart(val EntityLocation) {
+	s.Start = val
+}
+
+// SetTransportationType sets the value of TransportationType.
+func (s *RequestDirections) SetTransportationType(val EntityTransportationType) {
+	s.TransportationType = val
 }
 
 // Ref: #/components/schemas/request.Flight
@@ -642,7 +693,7 @@ func (s *ResponseError) SetError(val string) {
 	s.Error = val
 }
 
-func (*ResponseError) getLocationRes()      {}
-func (*ResponseError) getTrainStationRes()  {}
-func (*ResponseError) postFlightRes()       {}
-func (*ResponseError) postTrainJourneyRes() {}
+func (*ResponseError) lookupLocationRes()     {}
+func (*ResponseError) lookupTrainStationRes() {}
+func (*ResponseError) postFlightRes()         {}
+func (*ResponseError) postTrainJourneyRes()   {}

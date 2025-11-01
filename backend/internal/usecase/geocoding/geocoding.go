@@ -3,10 +3,12 @@ package geocoding
 import (
 	"context"
 	"fmt"
-	"github.com/valyala/fasthttp"
 	"kompass/internal/entity"
 	"kompass/internal/repo"
 	"kompass/internal/usecase"
+
+	"github.com/paulmach/orb/geojson"
+	"github.com/valyala/fasthttp"
 )
 
 type UseCase struct {
@@ -37,4 +39,13 @@ func (uc *UseCase) LookupTrainStation(ctx context.Context, query string) (entity
 	}
 
 	return station, nil
+}
+
+func (uc *UseCase) LookupDirections(ctx context.Context, start entity.Location, end entity.Location, transportationType entity.TransportationType) (*geojson.FeatureCollection, error) {
+	directions, err := uc.ors.LookupDirections(ctx, start, end, transportationType)
+	if err != nil {
+		return nil, fmt.Errorf("lookup directions: %w", err)
+	}
+
+	return directions, nil
 }

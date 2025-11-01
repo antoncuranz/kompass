@@ -21,18 +21,24 @@ func trimTrailingSlashes(u *url.URL) {
 
 // Invoker invokes operations described by OpenAPI v3 specification.
 type Invoker interface {
-	// GetLocation invokes getLocation operation.
+	// LookupDirections invokes lookupDirections operation.
+	//
+	// Lookup directions.
+	//
+	// POST /geocoding/directions
+	LookupDirections(ctx context.Context, request *RequestDirections) (LookupDirectionsRes, error)
+	// LookupLocation invokes lookupLocation operation.
 	//
 	// Lookup location.
 	//
-	// GET /geocoding/location
-	GetLocation(ctx context.Context, params GetLocationParams) (GetLocationRes, error)
-	// GetTrainStation invokes getTrainStation operation.
+	// POST /geocoding/location
+	LookupLocation(ctx context.Context, params LookupLocationParams) (LookupLocationRes, error)
+	// LookupTrainStation invokes lookupTrainStation operation.
 	//
 	// Lookup train station.
 	//
-	// GET /geocoding/station
-	GetTrainStation(ctx context.Context, params GetTrainStationParams) (GetTrainStationRes, error)
+	// POST /geocoding/station
+	LookupTrainStation(ctx context.Context, params LookupTrainStationParams) (LookupTrainStationRes, error)
 	// PostFlight invokes postFlight operation.
 	//
 	// Find flight.
@@ -86,17 +92,56 @@ func (c *Client) requestURL(ctx context.Context) *url.URL {
 	return u
 }
 
-// GetLocation invokes getLocation operation.
+// LookupDirections invokes lookupDirections operation.
 //
-// Lookup location.
+// Lookup directions.
 //
-// GET /geocoding/location
-func (c *Client) GetLocation(ctx context.Context, params GetLocationParams) (GetLocationRes, error) {
-	res, err := c.sendGetLocation(ctx, params)
+// POST /geocoding/directions
+func (c *Client) LookupDirections(ctx context.Context, request *RequestDirections) (LookupDirectionsRes, error) {
+	res, err := c.sendLookupDirections(ctx, request)
 	return res, err
 }
 
-func (c *Client) sendGetLocation(ctx context.Context, params GetLocationParams) (res GetLocationRes, err error) {
+func (c *Client) sendLookupDirections(ctx context.Context, request *RequestDirections) (res LookupDirectionsRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/geocoding/directions"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeLookupDirectionsRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeLookupDirectionsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// LookupLocation invokes lookupLocation operation.
+//
+// Lookup location.
+//
+// POST /geocoding/location
+func (c *Client) LookupLocation(ctx context.Context, params LookupLocationParams) (LookupLocationRes, error) {
+	res, err := c.sendLookupLocation(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendLookupLocation(ctx context.Context, params LookupLocationParams) (res LookupLocationRes, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [1]string
@@ -120,7 +165,7 @@ func (c *Client) sendGetLocation(ctx context.Context, params GetLocationParams) 
 	}
 	u.RawQuery = q.Values().Encode()
 
-	r, err := ht.NewRequest(ctx, "GET", u)
+	r, err := ht.NewRequest(ctx, "POST", u)
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
 	}
@@ -131,7 +176,7 @@ func (c *Client) sendGetLocation(ctx context.Context, params GetLocationParams) 
 	}
 	defer resp.Body.Close()
 
-	result, err := decodeGetLocationResponse(resp)
+	result, err := decodeLookupLocationResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -139,17 +184,17 @@ func (c *Client) sendGetLocation(ctx context.Context, params GetLocationParams) 
 	return result, nil
 }
 
-// GetTrainStation invokes getTrainStation operation.
+// LookupTrainStation invokes lookupTrainStation operation.
 //
 // Lookup train station.
 //
-// GET /geocoding/station
-func (c *Client) GetTrainStation(ctx context.Context, params GetTrainStationParams) (GetTrainStationRes, error) {
-	res, err := c.sendGetTrainStation(ctx, params)
+// POST /geocoding/station
+func (c *Client) LookupTrainStation(ctx context.Context, params LookupTrainStationParams) (LookupTrainStationRes, error) {
+	res, err := c.sendLookupTrainStation(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendGetTrainStation(ctx context.Context, params GetTrainStationParams) (res GetTrainStationRes, err error) {
+func (c *Client) sendLookupTrainStation(ctx context.Context, params LookupTrainStationParams) (res LookupTrainStationRes, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [1]string
@@ -173,7 +218,7 @@ func (c *Client) sendGetTrainStation(ctx context.Context, params GetTrainStation
 	}
 	u.RawQuery = q.Values().Encode()
 
-	r, err := ht.NewRequest(ctx, "GET", u)
+	r, err := ht.NewRequest(ctx, "POST", u)
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
 	}
@@ -184,7 +229,7 @@ func (c *Client) sendGetTrainStation(ctx context.Context, params GetTrainStation
 	}
 	defer resp.Body.Close()
 
-	result, err := decodeGetTrainStationResponse(resp)
+	result, err := decodeLookupTrainStationResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}

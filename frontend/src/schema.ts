@@ -10,7 +10,7 @@ export const Activity = co.map({
   name: z.string(),
   description: z.string().optional(),
   date: z.iso.date(),
-  // time: z.iso.time(),
+  time: z.iso.time(),
   price: z.number().optional(),
   address: z.string().optional(),
   location: Location.optional(),
@@ -116,13 +116,14 @@ export const GenericTransportation = co.map({
   type: z.literal("generic"),
   name: z.string(),
   genericType: z.string(),
-  price: z.number().optional(),
   departureDateTime: z.iso.datetime(),
   arrivalDateTime: z.iso.datetime(),
   origin: Location,
   destination: Location,
   originAddress: z.string().optional(),
   destinationAddress: z.string().optional(),
+  price: z.number().optional(),
+  geoJson: z.string().optional(),
 })
 export const RESOLVE_GENERIC_TRANSPORTATION = {
   origin: true,
@@ -138,6 +139,7 @@ export const Flight = co.map({
   legs: co.list(FlightLeg),
   pnrs: co.list(PNR),
   price: z.number().optional(),
+  geoJson: z.string().optional(),
 })
 export const RESOLVE_FLIGHT = {
   legs: { $each: RESOLVE_FLIGHT_LEG },
@@ -150,6 +152,7 @@ export const Train = co.map({
   legs: co.list(TrainLeg),
   refreshToken: z.string().optional(),
   price: z.number().optional(),
+  geoJson: z.string().optional(),
 })
 export const RESOLVE_TRAIN = {
   legs: { $each: RESOLVE_TRAIN_LEG },
