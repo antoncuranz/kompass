@@ -7,16 +7,14 @@ import (
 	"github.com/paulmach/orb/geojson"
 )
 
-func (uc *UseCase) createGeoJson(flight entity.Flight) *geojson.FeatureCollection {
-	legs := flight.Legs
-
+func (uc *UseCase) createGeoJson(flightLegs []entity.FlightLeg) *geojson.FeatureCollection {
 	featureCollection := geojson.NewFeatureCollection()
 	featureCollection.ExtraMembers = map[string]interface{}{"transportationType": "FLIGHT"}
 
 	airportByIata := map[string]entity.Airport{}
 	legsByAirport := map[string][]entity.FlightLeg{}
 
-	for _, leg := range legs {
+	for _, leg := range flightLegs {
 		featureCollection.Append(geojson.NewFeature(
 			orb.LineString{
 				locationToPoint(leg.Origin.Location),
@@ -30,8 +28,8 @@ func (uc *UseCase) createGeoJson(flight entity.Flight) *geojson.FeatureCollectio
 		legsByAirport[leg.Destination.Iata] = append(legsByAirport[leg.Destination.Iata], leg)
 	}
 
-	from := legs[0].Origin.Municipality
-	to := legs[len(legs)-1].Destination.Municipality
+	from := flightLegs[0].Origin.Municipality
+	to := flightLegs[len(flightLegs)-1].Destination.Municipality
 
 	for iata, legs := range legsByAirport {
 		location := airportByIata[iata].Location

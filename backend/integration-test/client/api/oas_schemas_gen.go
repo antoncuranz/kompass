@@ -103,12 +103,23 @@ func (*EntityErrAmbiguousFlightRequest) postFlightRes() {}
 
 // Ref: #/components/schemas/entity.Flight
 type EntityFlight struct {
-	Legs []EntityFlightLeg `json:"legs"`
+	GeoJson EntityFlightGeoJson `json:"geoJson"`
+	Legs    []EntityFlightLeg   `json:"legs"`
+}
+
+// GetGeoJson returns the value of GeoJson.
+func (s *EntityFlight) GetGeoJson() EntityFlightGeoJson {
+	return s.GeoJson
 }
 
 // GetLegs returns the value of Legs.
 func (s *EntityFlight) GetLegs() []EntityFlightLeg {
 	return s.Legs
+}
+
+// SetGeoJson sets the value of GeoJson.
+func (s *EntityFlight) SetGeoJson(val EntityFlightGeoJson) {
+	s.GeoJson = val
 }
 
 // SetLegs sets the value of Legs.
@@ -117,6 +128,8 @@ func (s *EntityFlight) SetLegs(val []EntityFlightLeg) {
 }
 
 func (*EntityFlight) postFlightRes() {}
+
+type EntityFlightGeoJson struct{}
 
 // Ref: #/components/schemas/entity.FlightLeg
 type EntityFlightLeg struct {
@@ -251,8 +264,14 @@ func (*EntityLocation) lookupLocationRes() {}
 
 // Ref: #/components/schemas/entity.Train
 type EntityTrain struct {
-	Legs         []EntityTrainLeg `json:"legs"`
-	RefreshToken string           `json:"refreshToken"`
+	GeoJson      EntityTrainGeoJson `json:"geoJson"`
+	Legs         []EntityTrainLeg   `json:"legs"`
+	RefreshToken string             `json:"refreshToken"`
+}
+
+// GetGeoJson returns the value of GeoJson.
+func (s *EntityTrain) GetGeoJson() EntityTrainGeoJson {
+	return s.GeoJson
 }
 
 // GetLegs returns the value of Legs.
@@ -263,6 +282,11 @@ func (s *EntityTrain) GetLegs() []EntityTrainLeg {
 // GetRefreshToken returns the value of RefreshToken.
 func (s *EntityTrain) GetRefreshToken() string {
 	return s.RefreshToken
+}
+
+// SetGeoJson sets the value of GeoJson.
+func (s *EntityTrain) SetGeoJson(val EntityTrainGeoJson) {
+	s.GeoJson = val
 }
 
 // SetLegs sets the value of Legs.
@@ -276,6 +300,8 @@ func (s *EntityTrain) SetRefreshToken(val string) {
 }
 
 func (*EntityTrain) postTrainJourneyRes() {}
+
+type EntityTrainGeoJson struct{}
 
 // Ref: #/components/schemas/entity.TrainLeg
 type EntityTrainLeg struct {
@@ -407,9 +433,9 @@ type LookupDirectionsInternalServerError ResponseError
 
 func (*LookupDirectionsInternalServerError) lookupDirectionsRes() {}
 
-type LookupDirectionsOKApplicationJSON string
+type LookupDirectionsOK struct{}
 
-func (*LookupDirectionsOKApplicationJSON) lookupDirectionsRes() {}
+func (*LookupDirectionsOK) lookupDirectionsRes() {}
 
 // NewNilString returns new NilString with value set to v.
 func NewNilString(v string) NilString {

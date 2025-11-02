@@ -31,9 +31,9 @@ func (uc *UseCase) FindFlight(ctx context.Context, request request.Flight) (enti
 
 	flight := entity.Flight{
 		Legs: flightLegs,
+		GeoJson: uc.createGeoJson(flightLegs),
 	}
 
-	//uc.createGeoJson(flight)
 
 	return flight, nil
 }

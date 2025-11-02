@@ -37,12 +37,15 @@ components:
       type: object
     entity.Flight:
       properties:
+        geoJson:
+          type: object
         legs:
           items:
             $ref: '#/components/schemas/entity.FlightLeg'
           type: array
           uniqueItems: false
       required:
+      - geoJson
       - legs
       type: object
     entity.FlightLeg:
@@ -90,6 +93,8 @@ components:
       type: object
     entity.Train:
       properties:
+        geoJson:
+          type: object
         legs:
           items:
             $ref: '#/components/schemas/entity.TrainLeg'
@@ -98,6 +103,7 @@ components:
         refreshToken:
           type: string
       required:
+      - geoJson
       - legs
       - refreshToken
       type: object
@@ -285,7 +291,7 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                type: object
           description: OK
         "400":
           content:

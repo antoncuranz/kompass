@@ -30,7 +30,7 @@ func decodeLookupDirectionsResponse(resp *http.Response) (res LookupDirectionsRe
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response LookupDirectionsOKApplicationJSON
+			var response LookupDirectionsOK
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err

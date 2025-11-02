@@ -28,6 +28,10 @@ func (uc *UseCase) FindTrainJourney(ctx context.Context, request request.Train) 
 		return entity.Train{}, fmt.Errorf("failed to retrieve journey: %w", err)
 	}
 
+	train.GeoJson, err = uc.createGeoJson(ctx, train)
+	if err != nil {
+		return entity.Train{}, fmt.Errorf("failed to create geojson: %w", err)
+	}
+
 	return train, nil
-	//_, err = uc.createGeoJson(ctx, train)
 }

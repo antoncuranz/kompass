@@ -5,4 +5,4 @@ replace civil.Time time.Time
 replace civil.DateTime time.Time
 replace time.Duration integer
 replace time.Duration integer
-replace geojson.FeatureCollection string
+replace geojson.FeatureCollection object

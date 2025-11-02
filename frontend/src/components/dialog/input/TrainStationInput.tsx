@@ -27,7 +27,7 @@ export default function TrainStationInput({
 
   async function searchForStationUsingGeocodeApi() {
     const url = encodeURI("/api/v1/geocoding/station?query=" + text)
-    const response = await fetch(url)
+    const response = await fetch(url, { method: "POST" })
 
     if (response.ok) {
       const json = await response.json()

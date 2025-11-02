@@ -25,7 +25,7 @@ export default function AddressInput({
 
   async function searchForLocationUsingGeocodeApi() {
     const url = encodeURI("/api/v1/geocoding/location?query=" + value)
-    const response = await fetch(url)
+    const response = await fetch(url, { method: "POST" })
 
     if (response.ok) {
       const geocodeLocation = await response.json()

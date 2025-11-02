@@ -7,6 +7,7 @@ import (
 	"kompass/internal/repo"
 	"kompass/internal/usecase"
 
+	"github.com/paulmach/orb"
 	"github.com/paulmach/orb/geojson"
 )
 
@@ -41,10 +42,21 @@ func (uc *UseCase) LookupTrainStation(ctx context.Context, query string) (entity
 }
 
 func (uc *UseCase) LookupDirections(ctx context.Context, start entity.Location, end entity.Location, transportationType entity.TransportationType) (*geojson.FeatureCollection, error) {
-	directions, err := uc.ors.LookupDirections(ctx, start, end, transportationType)
+	featureCollection, err := uc.ors.LookupDirections(ctx, start, end, transportationType)
 	if err != nil {
 		return nil, fmt.Errorf("lookup directions: %w", err)
 	}
 
-	return directions, nil
+	featureCollection.ExtraMembers = map[string]interface{}{"transportationType": transportationType}
+	featureCollection.Append(geojson.NewFeature(locationToPoint(start)))
+	featureCollection.Append(geojson.NewFeature(locationToPoint(end)))
+	
+	return featureCollection, nil
+}
+
+func locationToPoint(location entity.Location) orb.Point {
+	return orb.Point{
+		float64(location.Longitude),
+		float64(location.Latitude),
+	}
 }

@@ -4,10 +4,12 @@ import (
 	"fmt"
 
 	"cloud.google.com/go/civil"
+	"github.com/paulmach/orb/geojson"
 )
 
 type Flight struct {
-	Legs []FlightLeg `json:"legs"`
+	Legs    []FlightLeg                  `json:"legs"`
+	GeoJson *geojson.FeatureCollection `json:"geoJson"`
 }
 
 type Airport struct {

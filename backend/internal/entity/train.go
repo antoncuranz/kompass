@@ -1,6 +1,9 @@
 package entity
 
-import "cloud.google.com/go/civil"
+import (
+	"cloud.google.com/go/civil"
+	"github.com/paulmach/orb/geojson"
+)
 
 type TrainStation struct {
 	ID       string   `json:"id"`
@@ -19,6 +22,7 @@ type TrainLeg struct {
 }
 
 type Train struct {
-	RefreshToken string     `json:"refreshToken"`
-	Legs         []TrainLeg `json:"legs"`
+	RefreshToken string                     `json:"refreshToken"`
+	Legs         []TrainLeg                 `json:"legs"`
+	GeoJson      *geojson.FeatureCollection `json:"geoJson"`
 }

@@ -129,12 +129,14 @@ export default function FlightDialogContent({
         flight.$jazz.applyDiff({
           ...values,
           legs: responseJson.legs,
+          geoJson: responseJson.geoJson,
         })
       } else {
         trip.transportation.$jazz.push({
           type: "flight",
           ...values,
           legs: responseJson.legs,
+          geoJson: responseJson.geoJson,
         })
       }
       onClose()

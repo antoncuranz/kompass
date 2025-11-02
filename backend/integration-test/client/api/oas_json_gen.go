@@ -363,6 +363,10 @@ func (s *EntityFlight) Encode(e *jx.Encoder) {
 // encodeFields encodes fields.
 func (s *EntityFlight) encodeFields(e *jx.Encoder) {
 	{
+		e.FieldStart("geoJson")
+		s.GeoJson.Encode(e)
+	}
+	{
 		e.FieldStart("legs")
 		e.ArrStart()
 		for _, elem := range s.Legs {
@@ -372,8 +376,9 @@ func (s *EntityFlight) encodeFields(e *jx.Encoder) {
 	}
 }
 
-var jsonFieldsNameOfEntityFlight = [1]string{
-	0: "legs",
+var jsonFieldsNameOfEntityFlight = [2]string{
+	0: "geoJson",
+	1: "legs",
 }
 
 // Decode decodes EntityFlight from json.
@@ -385,8 +390,18 @@ func (s *EntityFlight) Decode(d *jx.Decoder) error {
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
-		case "legs":
+		case "geoJson":
 			requiredBitSet[0] |= 1 << 0
+			if err := func() error {
+				if err := s.GeoJson.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"geoJson\"")
+			}
+		case "legs":
+			requiredBitSet[0] |= 1 << 1
 			if err := func() error {
 				s.Legs = make([]EntityFlightLeg, 0)
 				if err := d.Arr(func(d *jx.Decoder) error {
@@ -413,7 +428,7 @@ func (s *EntityFlight) Decode(d *jx.Decoder) error {
 	// Validate required fields.
 	var failures []validate.FieldError
 	for i, mask := range [1]uint8{
-		0b00000001,
+		0b00000011,
 	} {
 		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
 			// Mask only required fields and check equality to mask using XOR.
@@ -455,6 +470,50 @@ func (s *EntityFlight) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *EntityFlight) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *EntityFlightGeoJson) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *EntityFlightGeoJson) encodeFields(e *jx.Encoder) {
+}
+
+var jsonFieldsNameOfEntityFlightGeoJson = [0]string{}
+
+// Decode decodes EntityFlightGeoJson from json.
+func (s *EntityFlightGeoJson) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode EntityFlightGeoJson to nil")
+	}
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		default:
+			return d.Skip()
+		}
+	}); err != nil {
+		return errors.Wrap(err, "decode EntityFlightGeoJson")
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *EntityFlightGeoJson) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *EntityFlightGeoJson) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -807,6 +866,10 @@ func (s *EntityTrain) Encode(e *jx.Encoder) {
 // encodeFields encodes fields.
 func (s *EntityTrain) encodeFields(e *jx.Encoder) {
 	{
+		e.FieldStart("geoJson")
+		s.GeoJson.Encode(e)
+	}
+	{
 		e.FieldStart("legs")
 		e.ArrStart()
 		for _, elem := range s.Legs {
@@ -820,9 +883,10 @@ func (s *EntityTrain) encodeFields(e *jx.Encoder) {
 	}
 }
 
-var jsonFieldsNameOfEntityTrain = [2]string{
-	0: "legs",
-	1: "refreshToken",
+var jsonFieldsNameOfEntityTrain = [3]string{
+	0: "geoJson",
+	1: "legs",
+	2: "refreshToken",
 }
 
 // Decode decodes EntityTrain from json.
@@ -834,8 +898,18 @@ func (s *EntityTrain) Decode(d *jx.Decoder) error {
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
-		case "legs":
+		case "geoJson":
 			requiredBitSet[0] |= 1 << 0
+			if err := func() error {
+				if err := s.GeoJson.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"geoJson\"")
+			}
+		case "legs":
+			requiredBitSet[0] |= 1 << 1
 			if err := func() error {
 				s.Legs = make([]EntityTrainLeg, 0)
 				if err := d.Arr(func(d *jx.Decoder) error {
@@ -853,7 +927,7 @@ func (s *EntityTrain) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"legs\"")
 			}
 		case "refreshToken":
-			requiredBitSet[0] |= 1 << 1
+			requiredBitSet[0] |= 1 << 2
 			if err := func() error {
 				v, err := d.Str()
 				s.RefreshToken = string(v)
@@ -874,7 +948,7 @@ func (s *EntityTrain) Decode(d *jx.Decoder) error {
 	// Validate required fields.
 	var failures []validate.FieldError
 	for i, mask := range [1]uint8{
-		0b00000011,
+		0b00000111,
 	} {
 		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
 			// Mask only required fields and check equality to mask using XOR.
@@ -916,6 +990,50 @@ func (s *EntityTrain) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *EntityTrain) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *EntityTrainGeoJson) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *EntityTrainGeoJson) encodeFields(e *jx.Encoder) {
+}
+
+var jsonFieldsNameOfEntityTrainGeoJson = [0]string{}
+
+// Decode decodes EntityTrainGeoJson from json.
+func (s *EntityTrainGeoJson) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode EntityTrainGeoJson to nil")
+	}
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		default:
+			return d.Skip()
+		}
+	}); err != nil {
+		return errors.Wrap(err, "decode EntityTrainGeoJson")
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *EntityTrainGeoJson) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *EntityTrainGeoJson) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -1358,42 +1476,46 @@ func (s *LookupDirectionsInternalServerError) UnmarshalJSON(data []byte) error {
 	return s.Decode(d)
 }
 
-// Encode encodes LookupDirectionsOKApplicationJSON as json.
-func (s LookupDirectionsOKApplicationJSON) Encode(e *jx.Encoder) {
-	unwrapped := string(s)
-
-	e.Str(unwrapped)
+// Encode implements json.Marshaler.
+func (s *LookupDirectionsOK) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
 }
 
-// Decode decodes LookupDirectionsOKApplicationJSON from json.
-func (s *LookupDirectionsOKApplicationJSON) Decode(d *jx.Decoder) error {
+// encodeFields encodes fields.
+func (s *LookupDirectionsOK) encodeFields(e *jx.Encoder) {
+}
+
+var jsonFieldsNameOfLookupDirectionsOK = [0]string{}
+
+// Decode decodes LookupDirectionsOK from json.
+func (s *LookupDirectionsOK) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode LookupDirectionsOKApplicationJSON to nil")
+		return errors.New("invalid: unable to decode LookupDirectionsOK to nil")
 	}
-	var unwrapped string
-	if err := func() error {
-		v, err := d.Str()
-		unwrapped = string(v)
-		if err != nil {
-			return err
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		default:
+			return d.Skip()
 		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
+	}); err != nil {
+		return errors.Wrap(err, "decode LookupDirectionsOK")
 	}
-	*s = LookupDirectionsOKApplicationJSON(unwrapped)
+
 	return nil
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s LookupDirectionsOKApplicationJSON) MarshalJSON() ([]byte, error) {
+func (s *LookupDirectionsOK) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *LookupDirectionsOKApplicationJSON) UnmarshalJSON(data []byte) error {
+func (s *LookupDirectionsOK) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }

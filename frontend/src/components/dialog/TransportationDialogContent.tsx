@@ -28,6 +28,7 @@ import { getTransportationTypeEmoji, TransportationType } from "@/types.ts"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
+import { toast } from "sonner"
 import { z } from "zod"
 
 const formSchema = z.object({
@@ -78,8 +79,27 @@ export default function TransportationDialogContent({
   const { isSubmitting } = form.formState
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    const directionsResponse = await fetch("/api/v1/geocoding/directions", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        start: values.origin,
+        end: values.destination,
+        transportationType: values.genericType.toUpperCase(),
+      }),
+    })
+
+    if (!directionsResponse.ok) {
+      toast("Error fetching directions", {
+        description: await directionsResponse.text(),
+      })
+      return
+    }
+
+    const geoJson = await directionsResponse.json()
+
     if (transportation) {
-      transportation.$jazz.applyDiff(values)
+      transportation.$jazz.applyDiff({ geoJson, ...values })
       if (!transportation.origin) {
         transportation.$jazz.set("origin", values.origin)
       }
@@ -89,6 +109,7 @@ export default function TransportationDialogContent({
     } else {
       trip.transportation.$jazz.push({
         type: "generic",
+        geoJson,
         ...values,
       })
     }

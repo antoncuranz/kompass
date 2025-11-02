@@ -139,7 +139,7 @@ export const Flight = co.map({
   legs: co.list(FlightLeg),
   pnrs: co.list(PNR),
   price: z.number().optional(),
-  geoJson: z.string().optional(),
+  geoJson: z.object().optional(),
 })
 export const RESOLVE_FLIGHT = {
   legs: { $each: RESOLVE_FLIGHT_LEG },
