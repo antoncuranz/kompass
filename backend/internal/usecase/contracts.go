@@ -8,7 +8,6 @@ import (
 	"kompass/internal/repo/opentraveldata"
 
 	"github.com/paulmach/orb/geojson"
-	"github.com/valyala/fasthttp"
 )
 
 //go:generate mockgen -source=contracts.go -destination=./mocks_usecase_test.go -package=usecase_test
@@ -22,7 +21,7 @@ type (
 	}
 
 	Geocoding interface {
-		LookupLocation(ctx *fasthttp.RequestCtx, query string) (entity.GeocodeLocation, error)
+		LookupLocation(ctx context.Context, query string) (entity.GeocodeLocation, error)
 		LookupTrainStation(ctx context.Context, query string) (entity.TrainStation, error)
 		LookupDirections(ctx context.Context, start entity.Location, end entity.Location, transportationType entity.TransportationType) (*geojson.FeatureCollection, error)
 	}

@@ -17,7 +17,7 @@ type BackendProcess struct {
 	cancel context.CancelFunc
 }
 
-func StartBackendSubprocess(t testing.TB, dbConnectionString string, wiremockURL string, port string) *exec.Cmd {
+func StartBackendSubprocess(t testing.TB, wiremockURL string, port string) *exec.Cmd {
 	t.Helper()
 
 	buildCmd := exec.Command("go", "build", "-o", "/tmp/kompass-backend", "../cmd/app")
@@ -28,8 +28,6 @@ func StartBackendSubprocess(t testing.TB, dbConnectionString string, wiremockURL
 	cmd.Dir = "../" // Set working directory to backend root so migrations can be found
 	cmd.Env = append(os.Environ(),
 		fmt.Sprintf("HTTP_PORT=%s", port),
-		fmt.Sprintf("PG_URL=%s", dbConnectionString),
-		fmt.Sprintf("AUTH_JWKS_URL=%s/auth/jwks.json", wiremockURL),
 		fmt.Sprintf("AMADEUS_URL=%s/amadeus", wiremockURL),
 		fmt.Sprintf("DBVENDO_URL=%s/dbvendo", wiremockURL),
 		fmt.Sprintf("ORS_URL=%s/ors", wiremockURL),

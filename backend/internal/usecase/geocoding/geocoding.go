@@ -8,7 +8,6 @@ import (
 	"kompass/internal/usecase"
 
 	"github.com/paulmach/orb/geojson"
-	"github.com/valyala/fasthttp"
 )
 
 type UseCase struct {
@@ -23,7 +22,7 @@ func New(trains usecase.Trains, ors repo.OpenRouteServiceWebAPI) *UseCase {
 	}
 }
 
-func (uc *UseCase) LookupLocation(ctx *fasthttp.RequestCtx, query string) (entity.GeocodeLocation, error) {
+func (uc *UseCase) LookupLocation(ctx context.Context, query string) (entity.GeocodeLocation, error) {
 	location, err := uc.ors.LookupLocation(ctx, query)
 	if err != nil {
 		return entity.GeocodeLocation{}, fmt.Errorf("lookup location: %w", err)
