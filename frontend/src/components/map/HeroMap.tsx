@@ -11,8 +11,8 @@ import {
 import FlightPopup from "@/components/map/popup/FlightPopup.tsx"
 import TrainPopup from "@/components/map/popup/TrainPopup.tsx"
 import TransportationPopup from "@/components/map/popup/TransportationPopup"
-import { formatDateShort } from "@/components/util.ts"
-import { Accommodation, Activity } from "@/schema.ts"
+import { formatDateShort, formatTime } from "@/components/util.ts"
+import { Accommodation, Activity, Transportation } from "@/schema.ts"
 import {
   GeoJsonFlight,
   GeoJsonTrain,
@@ -25,11 +25,11 @@ import React, { useState } from "react"
 export default function HeroMap({
   activities,
   accommodation,
-  geojson,
+  transportation,
 }: {
   activities: Activity[]
   accommodation: Accommodation[]
-  geojson: GeoJSON.FeatureCollection[]
+  transportation: Transportation[]
 }) {
   type PopupInfo = {
     lngLat: LngLat
@@ -58,8 +58,9 @@ export default function HeroMap({
       properties: {
         type: "ACTIVITY",
         popupTitle: activity.name,
-        popupBody: formatDateShort(activity.date), // TODO: show time again!
-        // "popupBody": formatDateShort(activity.date) + (activity.time ? " " + formatTime(activity.time) : "")
+        popupBody:
+          formatDateShort(activity.date) +
+          (activity.time ? " " + formatTime(activity.time) : ""),
       },
     }
   }
@@ -128,11 +129,15 @@ export default function HeroMap({
     }
   }
 
-  function getColorByType(fc: FeatureCollection) {
-    // @ts-expect-error custom property
-    const type = fc["transportationType"] as TransportationType
+  function getTransportationType(t: Transportation): TransportationType {
+    if (t.type === "generic") {
+      return t.genericType.toUpperCase() as TransportationType
+    }
+    return t.type.toUpperCase() as TransportationType
+  }
 
-    switch (type) {
+  function getColorByType(t: Transportation): string {
+    switch (getTransportationType(t)) {
       case TransportationType.Flight:
         return "#007cbf"
       case TransportationType.Train:
@@ -162,19 +167,27 @@ export default function HeroMap({
     }
   }
 
-  function sortedGeojson() {
-    return geojson.sort((a, b) => {
-      return (
-        // @ts-expect-error custom property
-        typeRank(a["transportationType"]) - typeRank(b["transportationType"])
-      )
-    })
+  function sortByTransportationType(
+    a: Transportation,
+    b: Transportation,
+  ): number {
+    return (
+      typeRank(getTransportationType(a)) - typeRank(getTransportationType(b))
+    )
   }
+
+  const transportationWithGeoJson = transportation
+    .filter(t => t.geoJson !== undefined)
+    .sort(sortByTransportationType)
+    .map(t => ({
+      transportation: t,
+      geoJson: t.geoJson as FeatureCollection,
+    }))
 
   return (
     <BaseMap
       id="heroMap"
-      interactiveLayerIds={geojson
+      interactiveLayerIds={transportationWithGeoJson
         .map((_, idx) => "geojson" + idx)
         .concat(["activity", "accommodation", "flight"])}
       onMouseEnter={onMouseEnter}
@@ -205,11 +218,14 @@ export default function HeroMap({
           }}
         />
       </Source>
-      {sortedGeojson().map((fc, idx) => (
-        <Source key={idx} type="geojson" data={fc}>
+      {transportationWithGeoJson.map(({ transportation, geoJson }, idx) => (
+        <Source key={idx} type="geojson" data={geoJson}>
           <Layer
             type="line"
-            paint={{ "line-color": getColorByType(fc), "line-width": 5 }}
+            paint={{
+              "line-color": getColorByType(transportation),
+              "line-width": 5,
+            }}
             layout={{ "line-cap": "round" }}
           />
           <Layer
@@ -217,7 +233,7 @@ export default function HeroMap({
             id={"geojson" + idx}
             filter={["==", ["geometry-type"], "Point"]}
             paint={{
-              "circle-color": getColorByType(fc),
+              "circle-color": getColorByType(transportation),
               "circle-radius": 5,
               "circle-stroke-color": "white",
               "circle-stroke-width": 3,

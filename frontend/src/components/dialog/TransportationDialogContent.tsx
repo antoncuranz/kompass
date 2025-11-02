@@ -78,6 +78,25 @@ export default function TransportationDialogContent({
   })
   const { isSubmitting } = form.formState
 
+  function enrichGeoJsonPoints(
+    geoJson: GeoJSON.FeatureCollection,
+    values: z.infer<typeof formSchema>,
+  ) {
+    if (geoJson.features) {
+      for (const feature of geoJson.features) {
+        if (feature.geometry?.type === "Point") {
+          feature.properties = {
+            ...feature.properties,
+            type: values.genericType.toUpperCase(),
+            name: values.name,
+            departureDateTime: values.departureDateTime,
+            arrivalDateTime: values.arrivalDateTime,
+          }
+        }
+      }
+    }
+  }
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const directionsResponse = await fetch("/api/v1/geocoding/directions", {
       method: "POST",
@@ -97,6 +116,7 @@ export default function TransportationDialogContent({
     }
 
     const geoJson = await directionsResponse.json()
+    enrichGeoJsonPoints(geoJson, values)
 
     if (transportation) {
       transportation.$jazz.applyDiff({ geoJson, ...values })

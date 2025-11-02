@@ -21,7 +21,6 @@ func (uc *UseCase) createGeoJson(ctx context.Context, train entity.Train) (*geoj
 	}
 
 	featureCollection := geojson.NewFeatureCollection()
-	featureCollection.ExtraMembers = map[string]interface{}{"transportationType": "TRAIN"}
 
 	stationByID := map[string]entity.TrainStation{}
 	legsByStation := map[string][]entity.TrainLeg{}

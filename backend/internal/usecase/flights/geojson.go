@@ -9,7 +9,6 @@ import (
 
 func (uc *UseCase) createGeoJson(flightLegs []entity.FlightLeg) *geojson.FeatureCollection {
 	featureCollection := geojson.NewFeatureCollection()
-	featureCollection.ExtraMembers = map[string]interface{}{"transportationType": "FLIGHT"}
 
 	airportByIata := map[string]entity.Airport{}
 	legsByAirport := map[string][]entity.FlightLeg{}

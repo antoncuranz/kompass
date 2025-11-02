@@ -47,7 +47,6 @@ func (uc *UseCase) LookupDirections(ctx context.Context, start entity.Location, 
 		return nil, fmt.Errorf("lookup directions: %w", err)
 	}
 
-	featureCollection.ExtraMembers = map[string]interface{}{"transportationType": transportationType}
 	featureCollection.Append(geojson.NewFeature(locationToPoint(start)))
 	featureCollection.Append(geojson.NewFeature(locationToPoint(end)))
 	

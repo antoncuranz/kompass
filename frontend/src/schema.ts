@@ -123,7 +123,7 @@ export const GenericTransportation = co.map({
   originAddress: z.string().optional(),
   destinationAddress: z.string().optional(),
   price: z.number().optional(),
-  geoJson: z.string().optional(),
+  geoJson: z.object().optional(),
 })
 export const RESOLVE_GENERIC_TRANSPORTATION = {
   origin: true,
@@ -152,7 +152,7 @@ export const Train = co.map({
   legs: co.list(TrainLeg),
   refreshToken: z.string().optional(),
   price: z.number().optional(),
-  geoJson: z.string().optional(),
+  geoJson: z.object().optional(),
 })
 export const RESOLVE_TRAIN = {
   legs: { $each: RESOLVE_TRAIN_LEG },

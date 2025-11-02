@@ -24,16 +24,12 @@ export default function MapCard({
     )
   }
 
-  const geoJson = trip.transportation
-    .filter(t => t !== null && t.geoJson !== undefined)
-    .map(t => t.geoJson as GeoJSON.FeatureCollection)
-
   return (
     <Card className={className}>
       <HeroMap
         activities={trip.activities.filter(act => act !== null)}
         accommodation={trip.accommodation.filter(acc => acc !== null)}
-        geojson={geoJson}
+        transportation={trip.transportation.filter(t => t !== null)}
       />
     </Card>
   )
