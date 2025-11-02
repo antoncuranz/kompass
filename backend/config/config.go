@@ -9,9 +9,7 @@ import (
 type (
 	Config struct {
 		HTTP    HTTP
-		Auth    Auth
 		Log     Log
-		PG      PG
 		Metrics Metrics
 		Swagger Swagger
 		WebApi  WebApi
@@ -22,18 +20,8 @@ type (
 		UsePreforkMode bool   `env:"HTTP_USE_PREFORK_MODE" envDefault:"false"`
 	}
 
-	Auth struct {
-		JwksUrl            string `env:"AUTH_JWKS_URL"`
-		NoAuthUserOverride string `env:"NOAUTH_USER_OVERRIDE"`
-	}
-
 	Log struct {
 		Level string `env:"LOG_LEVEL" envDefault:"debug"`
-	}
-
-	PG struct {
-		PoolMax int    `env:"PG_POOL_MAX" envDefault:"2"`
-		URL     string `env:"PG_URL,required"`
 	}
 
 	Metrics struct {

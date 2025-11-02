@@ -2,368 +2,12 @@
 
 package api
 
-import (
-	ht "github.com/ogen-go/ogen/http"
-)
-
-type Bearerauth struct {
-	Token string
-	Roles []string
-}
-
-// GetToken returns the value of Token.
-func (s *Bearerauth) GetToken() string {
-	return s.Token
-}
-
-// GetRoles returns the value of Roles.
-func (s *Bearerauth) GetRoles() []string {
-	return s.Roles
-}
-
-// SetToken sets the value of Token.
-func (s *Bearerauth) SetToken(val string) {
-	s.Token = val
-}
-
-// SetRoles sets the value of Roles.
-func (s *Bearerauth) SetRoles(val []string) {
-	s.Roles = val
-}
-
-type DeleteAccommodationBadRequest ResponseError
-
-func (*DeleteAccommodationBadRequest) deleteAccommodationRes() {}
-
-type DeleteAccommodationForbidden ResponseError
-
-func (*DeleteAccommodationForbidden) deleteAccommodationRes() {}
-
-type DeleteAccommodationInternalServerError ResponseError
-
-func (*DeleteAccommodationInternalServerError) deleteAccommodationRes() {}
-
-// DeleteAccommodationNoContent is response for DeleteAccommodation operation.
-type DeleteAccommodationNoContent struct{}
-
-func (*DeleteAccommodationNoContent) deleteAccommodationRes() {}
-
-type DeleteAccommodationNotFound ResponseError
-
-func (*DeleteAccommodationNotFound) deleteAccommodationRes() {}
-
-type DeleteActivityBadRequest ResponseError
-
-func (*DeleteActivityBadRequest) deleteActivityRes() {}
-
-type DeleteActivityForbidden ResponseError
-
-func (*DeleteActivityForbidden) deleteActivityRes() {}
-
-type DeleteActivityInternalServerError ResponseError
-
-func (*DeleteActivityInternalServerError) deleteActivityRes() {}
-
-// DeleteActivityNoContent is response for DeleteActivity operation.
-type DeleteActivityNoContent struct{}
-
-func (*DeleteActivityNoContent) deleteActivityRes() {}
-
-type DeleteAttachmentForbidden ResponseError
-
-func (*DeleteAttachmentForbidden) deleteAttachmentRes() {}
-
-type DeleteAttachmentInternalServerError ResponseError
-
-func (*DeleteAttachmentInternalServerError) deleteAttachmentRes() {}
-
-// DeleteAttachmentNoContent is response for DeleteAttachment operation.
-type DeleteAttachmentNoContent struct{}
-
-func (*DeleteAttachmentNoContent) deleteAttachmentRes() {}
-
-type DeleteTransportationForbidden ResponseError
-
-func (*DeleteTransportationForbidden) deleteTransportationRes() {}
-
-type DeleteTransportationInternalServerError ResponseError
-
-func (*DeleteTransportationInternalServerError) deleteTransportationRes() {}
-
-// DeleteTransportationNoContent is response for DeleteTransportation operation.
-type DeleteTransportationNoContent struct{}
-
-func (*DeleteTransportationNoContent) deleteTransportationRes() {}
-
-type DeleteTransportationNotFound ResponseError
-
-func (*DeleteTransportationNotFound) deleteTransportationRes() {}
-
-type DeleteTripBadRequest ResponseError
-
-func (*DeleteTripBadRequest) deleteTripRes() {}
-
-type DeleteTripForbidden ResponseError
-
-func (*DeleteTripForbidden) deleteTripRes() {}
-
-type DeleteTripInternalServerError ResponseError
-
-func (*DeleteTripInternalServerError) deleteTripRes() {}
-
-// DeleteTripNoContent is response for DeleteTrip operation.
-type DeleteTripNoContent struct{}
-
-func (*DeleteTripNoContent) deleteTripRes() {}
-
-type DownloadAttachmentForbidden ResponseError
-
-func (*DownloadAttachmentForbidden) downloadAttachmentRes() {}
-
-type DownloadAttachmentInternalServerError ResponseError
-
-func (*DownloadAttachmentInternalServerError) downloadAttachmentRes() {}
-
-// Ref: #/components/schemas/entity.Accommodation
-type EntityAccommodation struct {
-	Address       NilString         `json:"address"`
-	ArrivalDate   string            `json:"arrivalDate"`
-	CheckInTime   NilString         `json:"checkInTime"`
-	CheckOutTime  NilString         `json:"checkOutTime"`
-	DepartureDate string            `json:"departureDate"`
-	Description   NilString         `json:"description"`
-	ID            int               `json:"id"`
-	Location      NilEntityLocation `json:"location"`
-	Name          string            `json:"name"`
-	Price         NilInt            `json:"price"`
-	TripId        int               `json:"tripId"`
-}
-
-// GetAddress returns the value of Address.
-func (s *EntityAccommodation) GetAddress() NilString {
-	return s.Address
-}
-
-// GetArrivalDate returns the value of ArrivalDate.
-func (s *EntityAccommodation) GetArrivalDate() string {
-	return s.ArrivalDate
-}
-
-// GetCheckInTime returns the value of CheckInTime.
-func (s *EntityAccommodation) GetCheckInTime() NilString {
-	return s.CheckInTime
-}
-
-// GetCheckOutTime returns the value of CheckOutTime.
-func (s *EntityAccommodation) GetCheckOutTime() NilString {
-	return s.CheckOutTime
-}
-
-// GetDepartureDate returns the value of DepartureDate.
-func (s *EntityAccommodation) GetDepartureDate() string {
-	return s.DepartureDate
-}
-
-// GetDescription returns the value of Description.
-func (s *EntityAccommodation) GetDescription() NilString {
-	return s.Description
-}
-
-// GetID returns the value of ID.
-func (s *EntityAccommodation) GetID() int {
-	return s.ID
-}
-
-// GetLocation returns the value of Location.
-func (s *EntityAccommodation) GetLocation() NilEntityLocation {
-	return s.Location
-}
-
-// GetName returns the value of Name.
-func (s *EntityAccommodation) GetName() string {
-	return s.Name
-}
-
-// GetPrice returns the value of Price.
-func (s *EntityAccommodation) GetPrice() NilInt {
-	return s.Price
-}
-
-// GetTripId returns the value of TripId.
-func (s *EntityAccommodation) GetTripId() int {
-	return s.TripId
-}
-
-// SetAddress sets the value of Address.
-func (s *EntityAccommodation) SetAddress(val NilString) {
-	s.Address = val
-}
-
-// SetArrivalDate sets the value of ArrivalDate.
-func (s *EntityAccommodation) SetArrivalDate(val string) {
-	s.ArrivalDate = val
-}
-
-// SetCheckInTime sets the value of CheckInTime.
-func (s *EntityAccommodation) SetCheckInTime(val NilString) {
-	s.CheckInTime = val
-}
-
-// SetCheckOutTime sets the value of CheckOutTime.
-func (s *EntityAccommodation) SetCheckOutTime(val NilString) {
-	s.CheckOutTime = val
-}
-
-// SetDepartureDate sets the value of DepartureDate.
-func (s *EntityAccommodation) SetDepartureDate(val string) {
-	s.DepartureDate = val
-}
-
-// SetDescription sets the value of Description.
-func (s *EntityAccommodation) SetDescription(val NilString) {
-	s.Description = val
-}
-
-// SetID sets the value of ID.
-func (s *EntityAccommodation) SetID(val int) {
-	s.ID = val
-}
-
-// SetLocation sets the value of Location.
-func (s *EntityAccommodation) SetLocation(val NilEntityLocation) {
-	s.Location = val
-}
-
-// SetName sets the value of Name.
-func (s *EntityAccommodation) SetName(val string) {
-	s.Name = val
-}
-
-// SetPrice sets the value of Price.
-func (s *EntityAccommodation) SetPrice(val NilInt) {
-	s.Price = val
-}
-
-// SetTripId sets the value of TripId.
-func (s *EntityAccommodation) SetTripId(val int) {
-	s.TripId = val
-}
-
-func (*EntityAccommodation) getAccommodationByIDRes() {}
-func (*EntityAccommodation) postAccommodationRes()    {}
-
-// Ref: #/components/schemas/entity.Activity
-type EntityActivity struct {
-	Address     NilString         `json:"address"`
-	Date        string            `json:"date"`
-	Description NilString         `json:"description"`
-	ID          int               `json:"id"`
-	Location    NilEntityLocation `json:"location"`
-	Name        string            `json:"name"`
-	Price       NilInt            `json:"price"`
-	Time        NilString         `json:"time"`
-	TripId      int               `json:"tripId"`
-}
-
-// GetAddress returns the value of Address.
-func (s *EntityActivity) GetAddress() NilString {
-	return s.Address
-}
-
-// GetDate returns the value of Date.
-func (s *EntityActivity) GetDate() string {
-	return s.Date
-}
-
-// GetDescription returns the value of Description.
-func (s *EntityActivity) GetDescription() NilString {
-	return s.Description
-}
-
-// GetID returns the value of ID.
-func (s *EntityActivity) GetID() int {
-	return s.ID
-}
-
-// GetLocation returns the value of Location.
-func (s *EntityActivity) GetLocation() NilEntityLocation {
-	return s.Location
-}
-
-// GetName returns the value of Name.
-func (s *EntityActivity) GetName() string {
-	return s.Name
-}
-
-// GetPrice returns the value of Price.
-func (s *EntityActivity) GetPrice() NilInt {
-	return s.Price
-}
-
-// GetTime returns the value of Time.
-func (s *EntityActivity) GetTime() NilString {
-	return s.Time
-}
-
-// GetTripId returns the value of TripId.
-func (s *EntityActivity) GetTripId() int {
-	return s.TripId
-}
-
-// SetAddress sets the value of Address.
-func (s *EntityActivity) SetAddress(val NilString) {
-	s.Address = val
-}
-
-// SetDate sets the value of Date.
-func (s *EntityActivity) SetDate(val string) {
-	s.Date = val
-}
-
-// SetDescription sets the value of Description.
-func (s *EntityActivity) SetDescription(val NilString) {
-	s.Description = val
-}
-
-// SetID sets the value of ID.
-func (s *EntityActivity) SetID(val int) {
-	s.ID = val
-}
-
-// SetLocation sets the value of Location.
-func (s *EntityActivity) SetLocation(val NilEntityLocation) {
-	s.Location = val
-}
-
-// SetName sets the value of Name.
-func (s *EntityActivity) SetName(val string) {
-	s.Name = val
-}
-
-// SetPrice sets the value of Price.
-func (s *EntityActivity) SetPrice(val NilInt) {
-	s.Price = val
-}
-
-// SetTime sets the value of Time.
-func (s *EntityActivity) SetTime(val NilString) {
-	s.Time = val
-}
-
-// SetTripId sets the value of TripId.
-func (s *EntityActivity) SetTripId(val int) {
-	s.TripId = val
-}
-
-func (*EntityActivity) getActivityRes()  {}
-func (*EntityActivity) postActivityRes() {}
-
 // Ref: #/components/schemas/entity.Airport
 type EntityAirport struct {
-	Iata         string            `json:"iata"`
-	Location     NilEntityLocation `json:"location"`
-	Municipality string            `json:"municipality"`
-	Name         string            `json:"name"`
+	Iata         string         `json:"iata"`
+	Location     EntityLocation `json:"location"`
+	Municipality string         `json:"municipality"`
+	Name         string         `json:"name"`
 }
 
 // GetIata returns the value of Iata.
@@ -372,7 +16,7 @@ func (s *EntityAirport) GetIata() string {
 }
 
 // GetLocation returns the value of Location.
-func (s *EntityAirport) GetLocation() NilEntityLocation {
+func (s *EntityAirport) GetLocation() EntityLocation {
 	return s.Location
 }
 
@@ -392,7 +36,7 @@ func (s *EntityAirport) SetIata(val string) {
 }
 
 // SetLocation sets the value of Location.
-func (s *EntityAirport) SetLocation(val NilEntityLocation) {
+func (s *EntityAirport) SetLocation(val EntityLocation) {
 	s.Location = val
 }
 
@@ -443,56 +87,6 @@ func (s *EntityAmbiguousFlightChoice) SetOriginIata(val string) {
 	s.OriginIata = val
 }
 
-// Ref: #/components/schemas/entity.Attachment
-type EntityAttachment struct {
-	Blob   []int  `json:"blob"`
-	ID     int    `json:"id"`
-	Name   string `json:"name"`
-	TripId int    `json:"tripId"`
-}
-
-// GetBlob returns the value of Blob.
-func (s *EntityAttachment) GetBlob() []int {
-	return s.Blob
-}
-
-// GetID returns the value of ID.
-func (s *EntityAttachment) GetID() int {
-	return s.ID
-}
-
-// GetName returns the value of Name.
-func (s *EntityAttachment) GetName() string {
-	return s.Name
-}
-
-// GetTripId returns the value of TripId.
-func (s *EntityAttachment) GetTripId() int {
-	return s.TripId
-}
-
-// SetBlob sets the value of Blob.
-func (s *EntityAttachment) SetBlob(val []int) {
-	s.Blob = val
-}
-
-// SetID sets the value of ID.
-func (s *EntityAttachment) SetID(val int) {
-	s.ID = val
-}
-
-// SetName sets the value of Name.
-func (s *EntityAttachment) SetName(val string) {
-	s.Name = val
-}
-
-// SetTripId sets the value of TripId.
-func (s *EntityAttachment) SetTripId(val int) {
-	s.TripId = val
-}
-
-func (*EntityAttachment) downloadAttachmentRes() {}
-
 // Ref: #/components/schemas/entity.ErrAmbiguousFlightRequest
 type EntityErrAmbiguousFlightRequest map[string][]EntityAmbiguousFlightChoice
 
@@ -507,31 +101,22 @@ func (s *EntityErrAmbiguousFlightRequest) init() EntityErrAmbiguousFlightRequest
 
 func (*EntityErrAmbiguousFlightRequest) postFlightRes() {}
 
-// Ref: #/components/schemas/entity.FlightDetail
-type EntityFlightDetail struct {
+// Ref: #/components/schemas/entity.Flight
+type EntityFlight struct {
 	Legs []EntityFlightLeg `json:"legs"`
-	Pnrs []EntityPNR       `json:"pnrs"`
 }
 
 // GetLegs returns the value of Legs.
-func (s *EntityFlightDetail) GetLegs() []EntityFlightLeg {
+func (s *EntityFlight) GetLegs() []EntityFlightLeg {
 	return s.Legs
 }
 
-// GetPnrs returns the value of Pnrs.
-func (s *EntityFlightDetail) GetPnrs() []EntityPNR {
-	return s.Pnrs
-}
-
 // SetLegs sets the value of Legs.
-func (s *EntityFlightDetail) SetLegs(val []EntityFlightLeg) {
+func (s *EntityFlight) SetLegs(val []EntityFlightLeg) {
 	s.Legs = val
 }
 
-// SetPnrs sets the value of Pnrs.
-func (s *EntityFlightDetail) SetPnrs(val []EntityPNR) {
-	s.Pnrs = val
-}
+func (*EntityFlight) postFlightRes() {}
 
 // Ref: #/components/schemas/entity.FlightLeg
 type EntityFlightLeg struct {
@@ -543,7 +128,6 @@ type EntityFlightLeg struct {
 	Destination       EntityAirport `json:"destination"`
 	DurationInMinutes int           `json:"durationInMinutes"`
 	FlightNumber      string        `json:"flightNumber"`
-	ID                int           `json:"id"`
 	Origin            EntityAirport `json:"origin"`
 }
 
@@ -585,11 +169,6 @@ func (s *EntityFlightLeg) GetDurationInMinutes() int {
 // GetFlightNumber returns the value of FlightNumber.
 func (s *EntityFlightLeg) GetFlightNumber() string {
 	return s.FlightNumber
-}
-
-// GetID returns the value of ID.
-func (s *EntityFlightLeg) GetID() int {
-	return s.ID
 }
 
 // GetOrigin returns the value of Origin.
@@ -637,63 +216,15 @@ func (s *EntityFlightLeg) SetFlightNumber(val string) {
 	s.FlightNumber = val
 }
 
-// SetID sets the value of ID.
-func (s *EntityFlightLeg) SetID(val int) {
-	s.ID = val
-}
-
 // SetOrigin sets the value of Origin.
 func (s *EntityFlightLeg) SetOrigin(val EntityAirport) {
 	s.Origin = val
 }
 
-// Ref: #/components/schemas/entity.GenericDetail
-type EntityGenericDetail struct {
-	DestinationAddress NilString `json:"destinationAddress"`
-	Name               string    `json:"name"`
-	OriginAddress      NilString `json:"originAddress"`
-}
-
-// GetDestinationAddress returns the value of DestinationAddress.
-func (s *EntityGenericDetail) GetDestinationAddress() NilString {
-	return s.DestinationAddress
-}
-
-// GetName returns the value of Name.
-func (s *EntityGenericDetail) GetName() string {
-	return s.Name
-}
-
-// GetOriginAddress returns the value of OriginAddress.
-func (s *EntityGenericDetail) GetOriginAddress() NilString {
-	return s.OriginAddress
-}
-
-// SetDestinationAddress sets the value of DestinationAddress.
-func (s *EntityGenericDetail) SetDestinationAddress(val NilString) {
-	s.DestinationAddress = val
-}
-
-// SetName sets the value of Name.
-func (s *EntityGenericDetail) SetName(val string) {
-	s.Name = val
-}
-
-// SetOriginAddress sets the value of OriginAddress.
-func (s *EntityGenericDetail) SetOriginAddress(val NilString) {
-	s.OriginAddress = val
-}
-
 // Ref: #/components/schemas/entity.Location
 type EntityLocation struct {
-	ID        int     `json:"id"`
 	Latitude  float64 `json:"latitude"`
 	Longitude float64 `json:"longitude"`
-}
-
-// GetID returns the value of ID.
-func (s *EntityLocation) GetID() int {
-	return s.ID
 }
 
 // GetLatitude returns the value of Latitude.
@@ -706,11 +237,6 @@ func (s *EntityLocation) GetLongitude() float64 {
 	return s.Longitude
 }
 
-// SetID sets the value of ID.
-func (s *EntityLocation) SetID(val int) {
-	s.ID = val
-}
-
 // SetLatitude sets the value of Latitude.
 func (s *EntityLocation) SetLatitude(val float64) {
 	s.Latitude = val
@@ -721,68 +247,35 @@ func (s *EntityLocation) SetLongitude(val float64) {
 	s.Longitude = val
 }
 
-// Ref: #/components/schemas/entity.PNR
-type EntityPNR struct {
-	Airline string `json:"airline"`
-	ID      int    `json:"id"`
-	Pnr     string `json:"pnr"`
-}
+func (*EntityLocation) lookupLocationRes() {}
 
-// GetAirline returns the value of Airline.
-func (s *EntityPNR) GetAirline() string {
-	return s.Airline
-}
-
-// GetID returns the value of ID.
-func (s *EntityPNR) GetID() int {
-	return s.ID
-}
-
-// GetPnr returns the value of Pnr.
-func (s *EntityPNR) GetPnr() string {
-	return s.Pnr
-}
-
-// SetAirline sets the value of Airline.
-func (s *EntityPNR) SetAirline(val string) {
-	s.Airline = val
-}
-
-// SetID sets the value of ID.
-func (s *EntityPNR) SetID(val int) {
-	s.ID = val
-}
-
-// SetPnr sets the value of Pnr.
-func (s *EntityPNR) SetPnr(val string) {
-	s.Pnr = val
-}
-
-// Ref: #/components/schemas/entity.TrainDetail
-type EntityTrainDetail struct {
+// Ref: #/components/schemas/entity.Train
+type EntityTrain struct {
 	Legs         []EntityTrainLeg `json:"legs"`
 	RefreshToken string           `json:"refreshToken"`
 }
 
 // GetLegs returns the value of Legs.
-func (s *EntityTrainDetail) GetLegs() []EntityTrainLeg {
+func (s *EntityTrain) GetLegs() []EntityTrainLeg {
 	return s.Legs
 }
 
 // GetRefreshToken returns the value of RefreshToken.
-func (s *EntityTrainDetail) GetRefreshToken() string {
+func (s *EntityTrain) GetRefreshToken() string {
 	return s.RefreshToken
 }
 
 // SetLegs sets the value of Legs.
-func (s *EntityTrainDetail) SetLegs(val []EntityTrainLeg) {
+func (s *EntityTrain) SetLegs(val []EntityTrainLeg) {
 	s.Legs = val
 }
 
 // SetRefreshToken sets the value of RefreshToken.
-func (s *EntityTrainDetail) SetRefreshToken(val string) {
+func (s *EntityTrain) SetRefreshToken(val string) {
 	s.RefreshToken = val
 }
+
+func (*EntityTrain) postTrainJourneyRes() {}
 
 // Ref: #/components/schemas/entity.TrainLeg
 type EntityTrainLeg struct {
@@ -790,7 +283,6 @@ type EntityTrainLeg struct {
 	DepartureDateTime string             `json:"departureDateTime"`
 	Destination       EntityTrainStation `json:"destination"`
 	DurationInMinutes int                `json:"durationInMinutes"`
-	ID                int                `json:"id"`
 	LineName          string             `json:"lineName"`
 	OperatorName      string             `json:"operatorName"`
 	Origin            EntityTrainStation `json:"origin"`
@@ -814,11 +306,6 @@ func (s *EntityTrainLeg) GetDestination() EntityTrainStation {
 // GetDurationInMinutes returns the value of DurationInMinutes.
 func (s *EntityTrainLeg) GetDurationInMinutes() int {
 	return s.DurationInMinutes
-}
-
-// GetID returns the value of ID.
-func (s *EntityTrainLeg) GetID() int {
-	return s.ID
 }
 
 // GetLineName returns the value of LineName.
@@ -856,11 +343,6 @@ func (s *EntityTrainLeg) SetDurationInMinutes(val int) {
 	s.DurationInMinutes = val
 }
 
-// SetID sets the value of ID.
-func (s *EntityTrainLeg) SetID(val int) {
-	s.ID = val
-}
-
 // SetLineName sets the value of LineName.
 func (s *EntityTrainLeg) SetLineName(val string) {
 	s.LineName = val
@@ -878,9 +360,9 @@ func (s *EntityTrainLeg) SetOrigin(val EntityTrainStation) {
 
 // Ref: #/components/schemas/entity.TrainStation
 type EntityTrainStation struct {
-	ID       string            `json:"id"`
-	Location NilEntityLocation `json:"location"`
-	Name     string            `json:"name"`
+	ID       string         `json:"id"`
+	Location EntityLocation `json:"location"`
+	Name     string         `json:"name"`
 }
 
 // GetID returns the value of ID.
@@ -889,7 +371,7 @@ func (s *EntityTrainStation) GetID() string {
 }
 
 // GetLocation returns the value of Location.
-func (s *EntityTrainStation) GetLocation() NilEntityLocation {
+func (s *EntityTrainStation) GetLocation() EntityLocation {
 	return s.Location
 }
 
@@ -904,7 +386,7 @@ func (s *EntityTrainStation) SetID(val string) {
 }
 
 // SetLocation sets the value of Location.
-func (s *EntityTrainStation) SetLocation(val NilEntityLocation) {
+func (s *EntityTrainStation) SetLocation(val EntityLocation) {
 	s.Location = val
 }
 
@@ -913,486 +395,21 @@ func (s *EntityTrainStation) SetName(val string) {
 	s.Name = val
 }
 
-func (*EntityTrainStation) getTrainStationRes() {}
-
-// Ref: #/components/schemas/entity.Transportation
-type EntityTransportation struct {
-	ArrivalDateTime   string                    `json:"arrivalDateTime"`
-	DepartureDateTime string                    `json:"departureDateTime"`
-	Destination       NilEntityLocation         `json:"destination"`
-	FlightDetail      OptNilEntityFlightDetail  `json:"flightDetail"`
-	GenericDetail     OptNilEntityGenericDetail `json:"genericDetail"`
-	ID                int                       `json:"id"`
-	Origin            NilEntityLocation         `json:"origin"`
-	Price             NilInt                    `json:"price"`
-	TrainDetail       OptNilEntityTrainDetail   `json:"trainDetail"`
-	TripId            int                       `json:"tripId"`
-	Type              EntityTransportationType  `json:"type"`
-}
-
-// GetArrivalDateTime returns the value of ArrivalDateTime.
-func (s *EntityTransportation) GetArrivalDateTime() string {
-	return s.ArrivalDateTime
-}
-
-// GetDepartureDateTime returns the value of DepartureDateTime.
-func (s *EntityTransportation) GetDepartureDateTime() string {
-	return s.DepartureDateTime
-}
-
-// GetDestination returns the value of Destination.
-func (s *EntityTransportation) GetDestination() NilEntityLocation {
-	return s.Destination
-}
-
-// GetFlightDetail returns the value of FlightDetail.
-func (s *EntityTransportation) GetFlightDetail() OptNilEntityFlightDetail {
-	return s.FlightDetail
-}
-
-// GetGenericDetail returns the value of GenericDetail.
-func (s *EntityTransportation) GetGenericDetail() OptNilEntityGenericDetail {
-	return s.GenericDetail
-}
-
-// GetID returns the value of ID.
-func (s *EntityTransportation) GetID() int {
-	return s.ID
-}
-
-// GetOrigin returns the value of Origin.
-func (s *EntityTransportation) GetOrigin() NilEntityLocation {
-	return s.Origin
-}
-
-// GetPrice returns the value of Price.
-func (s *EntityTransportation) GetPrice() NilInt {
-	return s.Price
-}
-
-// GetTrainDetail returns the value of TrainDetail.
-func (s *EntityTransportation) GetTrainDetail() OptNilEntityTrainDetail {
-	return s.TrainDetail
-}
-
-// GetTripId returns the value of TripId.
-func (s *EntityTransportation) GetTripId() int {
-	return s.TripId
-}
-
-// GetType returns the value of Type.
-func (s *EntityTransportation) GetType() EntityTransportationType {
-	return s.Type
-}
-
-// SetArrivalDateTime sets the value of ArrivalDateTime.
-func (s *EntityTransportation) SetArrivalDateTime(val string) {
-	s.ArrivalDateTime = val
-}
-
-// SetDepartureDateTime sets the value of DepartureDateTime.
-func (s *EntityTransportation) SetDepartureDateTime(val string) {
-	s.DepartureDateTime = val
-}
-
-// SetDestination sets the value of Destination.
-func (s *EntityTransportation) SetDestination(val NilEntityLocation) {
-	s.Destination = val
-}
-
-// SetFlightDetail sets the value of FlightDetail.
-func (s *EntityTransportation) SetFlightDetail(val OptNilEntityFlightDetail) {
-	s.FlightDetail = val
-}
-
-// SetGenericDetail sets the value of GenericDetail.
-func (s *EntityTransportation) SetGenericDetail(val OptNilEntityGenericDetail) {
-	s.GenericDetail = val
-}
-
-// SetID sets the value of ID.
-func (s *EntityTransportation) SetID(val int) {
-	s.ID = val
-}
-
-// SetOrigin sets the value of Origin.
-func (s *EntityTransportation) SetOrigin(val NilEntityLocation) {
-	s.Origin = val
-}
-
-// SetPrice sets the value of Price.
-func (s *EntityTransportation) SetPrice(val NilInt) {
-	s.Price = val
-}
-
-// SetTrainDetail sets the value of TrainDetail.
-func (s *EntityTransportation) SetTrainDetail(val OptNilEntityTrainDetail) {
-	s.TrainDetail = val
-}
-
-// SetTripId sets the value of TripId.
-func (s *EntityTransportation) SetTripId(val int) {
-	s.TripId = val
-}
-
-// SetType sets the value of Type.
-func (s *EntityTransportation) SetType(val EntityTransportationType) {
-	s.Type = val
-}
-
-func (*EntityTransportation) getTransportationRes()  {}
-func (*EntityTransportation) postFlightRes()         {}
-func (*EntityTransportation) postTrainJourneyRes()   {}
-func (*EntityTransportation) postTransportationRes() {}
+func (*EntityTrainStation) lookupTrainStationRes() {}
 
 type EntityTransportationType string
 
-// Ref: #/components/schemas/entity.Trip
-type EntityTrip struct {
-	Description NilString `json:"description"`
-	EndDate     string    `json:"endDate"`
-	ID          int       `json:"id"`
-	ImageUrl    NilString `json:"imageUrl"`
-	Name        string    `json:"name"`
-	OwnerID     int       `json:"owner_id"`
-	StartDate   string    `json:"startDate"`
-}
+type LookupDirectionsBadRequest ResponseError
 
-// GetDescription returns the value of Description.
-func (s *EntityTrip) GetDescription() NilString {
-	return s.Description
-}
+func (*LookupDirectionsBadRequest) lookupDirectionsRes() {}
 
-// GetEndDate returns the value of EndDate.
-func (s *EntityTrip) GetEndDate() string {
-	return s.EndDate
-}
+type LookupDirectionsInternalServerError ResponseError
 
-// GetID returns the value of ID.
-func (s *EntityTrip) GetID() int {
-	return s.ID
-}
+func (*LookupDirectionsInternalServerError) lookupDirectionsRes() {}
 
-// GetImageUrl returns the value of ImageUrl.
-func (s *EntityTrip) GetImageUrl() NilString {
-	return s.ImageUrl
-}
+type LookupDirectionsOKApplicationJSON string
 
-// GetName returns the value of Name.
-func (s *EntityTrip) GetName() string {
-	return s.Name
-}
-
-// GetOwnerID returns the value of OwnerID.
-func (s *EntityTrip) GetOwnerID() int {
-	return s.OwnerID
-}
-
-// GetStartDate returns the value of StartDate.
-func (s *EntityTrip) GetStartDate() string {
-	return s.StartDate
-}
-
-// SetDescription sets the value of Description.
-func (s *EntityTrip) SetDescription(val NilString) {
-	s.Description = val
-}
-
-// SetEndDate sets the value of EndDate.
-func (s *EntityTrip) SetEndDate(val string) {
-	s.EndDate = val
-}
-
-// SetID sets the value of ID.
-func (s *EntityTrip) SetID(val int) {
-	s.ID = val
-}
-
-// SetImageUrl sets the value of ImageUrl.
-func (s *EntityTrip) SetImageUrl(val NilString) {
-	s.ImageUrl = val
-}
-
-// SetName sets the value of Name.
-func (s *EntityTrip) SetName(val string) {
-	s.Name = val
-}
-
-// SetOwnerID sets the value of OwnerID.
-func (s *EntityTrip) SetOwnerID(val int) {
-	s.OwnerID = val
-}
-
-// SetStartDate sets the value of StartDate.
-func (s *EntityTrip) SetStartDate(val string) {
-	s.StartDate = val
-}
-
-func (*EntityTrip) getTripRes()  {}
-func (*EntityTrip) postTripRes() {}
-
-// Ref: #/components/schemas/entity.User
-type EntityUser struct {
-	ID     int    `json:"id"`
-	JwtSub string `json:"jwtSub"`
-	Name   string `json:"name"`
-}
-
-// GetID returns the value of ID.
-func (s *EntityUser) GetID() int {
-	return s.ID
-}
-
-// GetJwtSub returns the value of JwtSub.
-func (s *EntityUser) GetJwtSub() string {
-	return s.JwtSub
-}
-
-// GetName returns the value of Name.
-func (s *EntityUser) GetName() string {
-	return s.Name
-}
-
-// SetID sets the value of ID.
-func (s *EntityUser) SetID(val int) {
-	s.ID = val
-}
-
-// SetJwtSub sets the value of JwtSub.
-func (s *EntityUser) SetJwtSub(val string) {
-	s.JwtSub = val
-}
-
-// SetName sets the value of Name.
-func (s *EntityUser) SetName(val string) {
-	s.Name = val
-}
-
-func (*EntityUser) getUserRes() {}
-
-type GetAccommodationByIDBadRequest ResponseError
-
-func (*GetAccommodationByIDBadRequest) getAccommodationByIDRes() {}
-
-type GetAccommodationByIDForbidden ResponseError
-
-func (*GetAccommodationByIDForbidden) getAccommodationByIDRes() {}
-
-type GetAccommodationByIDInternalServerError ResponseError
-
-func (*GetAccommodationByIDInternalServerError) getAccommodationByIDRes() {}
-
-type GetAccommodationByIDNotFound ResponseError
-
-func (*GetAccommodationByIDNotFound) getAccommodationByIDRes() {}
-
-type GetActivitiesBadRequest ResponseError
-
-func (*GetActivitiesBadRequest) getActivitiesRes() {}
-
-type GetActivitiesForbidden ResponseError
-
-func (*GetActivitiesForbidden) getActivitiesRes() {}
-
-type GetActivitiesInternalServerError ResponseError
-
-func (*GetActivitiesInternalServerError) getActivitiesRes() {}
-
-type GetActivitiesOKApplicationJSON []EntityActivity
-
-func (*GetActivitiesOKApplicationJSON) getActivitiesRes() {}
-
-type GetActivityBadRequest ResponseError
-
-func (*GetActivityBadRequest) getActivityRes() {}
-
-type GetActivityForbidden ResponseError
-
-func (*GetActivityForbidden) getActivityRes() {}
-
-type GetActivityInternalServerError ResponseError
-
-func (*GetActivityInternalServerError) getActivityRes() {}
-
-type GetActivityNotFound ResponseError
-
-func (*GetActivityNotFound) getActivityRes() {}
-
-type GetAllAccommodationBadRequest ResponseError
-
-func (*GetAllAccommodationBadRequest) getAllAccommodationRes() {}
-
-type GetAllAccommodationForbidden ResponseError
-
-func (*GetAllAccommodationForbidden) getAllAccommodationRes() {}
-
-type GetAllAccommodationInternalServerError ResponseError
-
-func (*GetAllAccommodationInternalServerError) getAllAccommodationRes() {}
-
-type GetAllAccommodationOKApplicationJSON []EntityAccommodation
-
-func (*GetAllAccommodationOKApplicationJSON) getAllAccommodationRes() {}
-
-type GetAllTransportationForbidden ResponseError
-
-func (*GetAllTransportationForbidden) getAllTransportationRes() {}
-
-type GetAllTransportationInternalServerError ResponseError
-
-func (*GetAllTransportationInternalServerError) getAllTransportationRes() {}
-
-type GetAllTransportationOKApplicationJSON []EntityTransportation
-
-func (*GetAllTransportationOKApplicationJSON) getAllTransportationRes() {}
-
-type GetAttachmentsForbidden ResponseError
-
-func (*GetAttachmentsForbidden) getAttachmentsRes() {}
-
-type GetAttachmentsInternalServerError ResponseError
-
-func (*GetAttachmentsInternalServerError) getAttachmentsRes() {}
-
-type GetAttachmentsOKApplicationJSON []EntityAttachment
-
-func (*GetAttachmentsOKApplicationJSON) getAttachmentsRes() {}
-
-type GetGeoJsonForbidden ResponseError
-
-func (*GetGeoJsonForbidden) getGeoJsonRes() {}
-
-type GetGeoJsonInternalServerError ResponseError
-
-func (*GetGeoJsonInternalServerError) getGeoJsonRes() {}
-
-type GetGeoJsonOKApplicationJSON []string
-
-func (*GetGeoJsonOKApplicationJSON) getGeoJsonRes() {}
-
-type GetTransportationForbidden ResponseError
-
-func (*GetTransportationForbidden) getTransportationRes() {}
-
-type GetTransportationInternalServerError ResponseError
-
-func (*GetTransportationInternalServerError) getTransportationRes() {}
-
-type GetTransportationNotFound ResponseError
-
-func (*GetTransportationNotFound) getTransportationRes() {}
-
-type GetTripBadRequest ResponseError
-
-func (*GetTripBadRequest) getTripRes() {}
-
-type GetTripForbidden ResponseError
-
-func (*GetTripForbidden) getTripRes() {}
-
-type GetTripInternalServerError ResponseError
-
-func (*GetTripInternalServerError) getTripRes() {}
-
-type GetTripsOKApplicationJSON []EntityTrip
-
-func (*GetTripsOKApplicationJSON) getTripsRes() {}
-
-type GetUsersOKApplicationJSON []EntityUser
-
-func (*GetUsersOKApplicationJSON) getUsersRes() {}
-
-// NewNilEntityLocation returns new NilEntityLocation with value set to v.
-func NewNilEntityLocation(v EntityLocation) NilEntityLocation {
-	return NilEntityLocation{
-		Value: v,
-	}
-}
-
-// NilEntityLocation is nullable EntityLocation.
-type NilEntityLocation struct {
-	Value EntityLocation
-	Null  bool
-}
-
-// SetTo sets value to v.
-func (o *NilEntityLocation) SetTo(v EntityLocation) {
-	o.Null = false
-	o.Value = v
-}
-
-// IsNull returns true if value is Null.
-func (o NilEntityLocation) IsNull() bool { return o.Null }
-
-// SetToNull sets value to null.
-func (o *NilEntityLocation) SetToNull() {
-	o.Null = true
-	var v EntityLocation
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o NilEntityLocation) Get() (v EntityLocation, ok bool) {
-	if o.Null {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o NilEntityLocation) Or(d EntityLocation) EntityLocation {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-func (*NilEntityLocation) getLocationRes() {}
-
-// NewNilInt returns new NilInt with value set to v.
-func NewNilInt(v int) NilInt {
-	return NilInt{
-		Value: v,
-	}
-}
-
-// NilInt is nullable int.
-type NilInt struct {
-	Value int
-	Null  bool
-}
-
-// SetTo sets value to v.
-func (o *NilInt) SetTo(v int) {
-	o.Null = false
-	o.Value = v
-}
-
-// IsNull returns true if value is Null.
-func (o NilInt) IsNull() bool { return o.Null }
-
-// SetToNull sets value to null.
-func (o *NilInt) SetToNull() {
-	o.Null = true
-	var v int
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o NilInt) Get() (v int, ok bool) {
-	if o.Null {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o NilInt) Or(d int) int {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
+func (*LookupDirectionsOKApplicationJSON) lookupDirectionsRes() {}
 
 // NewNilString returns new NilString with value set to v.
 func NewNilString(v string) NilString {
@@ -1433,195 +450,6 @@ func (o NilString) Get() (v string, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o NilString) Or(d string) string {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptNilEntityFlightDetail returns new OptNilEntityFlightDetail with value set to v.
-func NewOptNilEntityFlightDetail(v EntityFlightDetail) OptNilEntityFlightDetail {
-	return OptNilEntityFlightDetail{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptNilEntityFlightDetail is optional nullable EntityFlightDetail.
-type OptNilEntityFlightDetail struct {
-	Value EntityFlightDetail
-	Set   bool
-	Null  bool
-}
-
-// IsSet returns true if OptNilEntityFlightDetail was set.
-func (o OptNilEntityFlightDetail) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptNilEntityFlightDetail) Reset() {
-	var v EntityFlightDetail
-	o.Value = v
-	o.Set = false
-	o.Null = false
-}
-
-// SetTo sets value to v.
-func (o *OptNilEntityFlightDetail) SetTo(v EntityFlightDetail) {
-	o.Set = true
-	o.Null = false
-	o.Value = v
-}
-
-// IsNull returns true if value is Null.
-func (o OptNilEntityFlightDetail) IsNull() bool { return o.Null }
-
-// SetToNull sets value to null.
-func (o *OptNilEntityFlightDetail) SetToNull() {
-	o.Set = true
-	o.Null = true
-	var v EntityFlightDetail
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptNilEntityFlightDetail) Get() (v EntityFlightDetail, ok bool) {
-	if o.Null {
-		return v, false
-	}
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptNilEntityFlightDetail) Or(d EntityFlightDetail) EntityFlightDetail {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptNilEntityGenericDetail returns new OptNilEntityGenericDetail with value set to v.
-func NewOptNilEntityGenericDetail(v EntityGenericDetail) OptNilEntityGenericDetail {
-	return OptNilEntityGenericDetail{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptNilEntityGenericDetail is optional nullable EntityGenericDetail.
-type OptNilEntityGenericDetail struct {
-	Value EntityGenericDetail
-	Set   bool
-	Null  bool
-}
-
-// IsSet returns true if OptNilEntityGenericDetail was set.
-func (o OptNilEntityGenericDetail) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptNilEntityGenericDetail) Reset() {
-	var v EntityGenericDetail
-	o.Value = v
-	o.Set = false
-	o.Null = false
-}
-
-// SetTo sets value to v.
-func (o *OptNilEntityGenericDetail) SetTo(v EntityGenericDetail) {
-	o.Set = true
-	o.Null = false
-	o.Value = v
-}
-
-// IsNull returns true if value is Null.
-func (o OptNilEntityGenericDetail) IsNull() bool { return o.Null }
-
-// SetToNull sets value to null.
-func (o *OptNilEntityGenericDetail) SetToNull() {
-	o.Set = true
-	o.Null = true
-	var v EntityGenericDetail
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptNilEntityGenericDetail) Get() (v EntityGenericDetail, ok bool) {
-	if o.Null {
-		return v, false
-	}
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptNilEntityGenericDetail) Or(d EntityGenericDetail) EntityGenericDetail {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptNilEntityTrainDetail returns new OptNilEntityTrainDetail with value set to v.
-func NewOptNilEntityTrainDetail(v EntityTrainDetail) OptNilEntityTrainDetail {
-	return OptNilEntityTrainDetail{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptNilEntityTrainDetail is optional nullable EntityTrainDetail.
-type OptNilEntityTrainDetail struct {
-	Value EntityTrainDetail
-	Set   bool
-	Null  bool
-}
-
-// IsSet returns true if OptNilEntityTrainDetail was set.
-func (o OptNilEntityTrainDetail) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptNilEntityTrainDetail) Reset() {
-	var v EntityTrainDetail
-	o.Value = v
-	o.Set = false
-	o.Null = false
-}
-
-// SetTo sets value to v.
-func (o *OptNilEntityTrainDetail) SetTo(v EntityTrainDetail) {
-	o.Set = true
-	o.Null = false
-	o.Value = v
-}
-
-// IsNull returns true if value is Null.
-func (o OptNilEntityTrainDetail) IsNull() bool { return o.Null }
-
-// SetToNull sets value to null.
-func (o *OptNilEntityTrainDetail) SetToNull() {
-	o.Set = true
-	o.Null = true
-	var v EntityTrainDetail
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptNilEntityTrainDetail) Get() (v EntityTrainDetail, ok bool) {
-	if o.Null {
-		return v, false
-	}
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptNilEntityTrainDetail) Or(d EntityTrainDetail) EntityTrainDetail {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -1691,349 +519,46 @@ func (o OptNilString) Or(d string) string {
 	return d
 }
 
-type PostAccommodationBadRequest ResponseError
-
-func (*PostAccommodationBadRequest) postAccommodationRes() {}
-
-type PostAccommodationForbidden ResponseError
-
-func (*PostAccommodationForbidden) postAccommodationRes() {}
-
-type PostAccommodationInternalServerError ResponseError
-
-func (*PostAccommodationInternalServerError) postAccommodationRes() {}
-
-type PostActivityBadRequest ResponseError
-
-func (*PostActivityBadRequest) postActivityRes() {}
-
-type PostActivityForbidden ResponseError
-
-func (*PostActivityForbidden) postActivityRes() {}
-
-type PostActivityInternalServerError ResponseError
-
-func (*PostActivityInternalServerError) postActivityRes() {}
-
-type PostAttachmentForbidden ResponseError
-
-func (*PostAttachmentForbidden) postAttachmentRes() {}
-
-type PostAttachmentInternalServerError ResponseError
-
-func (*PostAttachmentInternalServerError) postAttachmentRes() {}
-
-// PostAttachmentNoContent is response for PostAttachment operation.
-type PostAttachmentNoContent struct{}
-
-func (*PostAttachmentNoContent) postAttachmentRes() {}
-
-type PostFlightForbidden ResponseError
-
-func (*PostFlightForbidden) postFlightRes() {}
-
-type PostFlightInternalServerError ResponseError
-
-func (*PostFlightInternalServerError) postFlightRes() {}
-
-type PostTrainJourneyForbidden ResponseError
-
-func (*PostTrainJourneyForbidden) postTrainJourneyRes() {}
-
-type PostTrainJourneyInternalServerError ResponseError
-
-func (*PostTrainJourneyInternalServerError) postTrainJourneyRes() {}
-
-type PostTransportationForbidden ResponseError
-
-func (*PostTransportationForbidden) postTransportationRes() {}
-
-type PostTransportationInternalServerError ResponseError
-
-func (*PostTransportationInternalServerError) postTransportationRes() {}
-
-type PostTripBadRequest ResponseError
-
-func (*PostTripBadRequest) postTripRes() {}
-
-type PostTripInternalServerError ResponseError
-
-func (*PostTripInternalServerError) postTripRes() {}
-
-type PutAccommodationBadRequest ResponseError
-
-func (*PutAccommodationBadRequest) putAccommodationRes() {}
-
-type PutAccommodationForbidden ResponseError
-
-func (*PutAccommodationForbidden) putAccommodationRes() {}
-
-type PutAccommodationInternalServerError ResponseError
-
-func (*PutAccommodationInternalServerError) putAccommodationRes() {}
-
-// PutAccommodationNoContent is response for PutAccommodation operation.
-type PutAccommodationNoContent struct{}
-
-func (*PutAccommodationNoContent) putAccommodationRes() {}
-
-type PutAccommodationNotFound ResponseError
-
-func (*PutAccommodationNotFound) putAccommodationRes() {}
-
-type PutActivityBadRequest ResponseError
-
-func (*PutActivityBadRequest) putActivityRes() {}
-
-type PutActivityForbidden ResponseError
-
-func (*PutActivityForbidden) putActivityRes() {}
-
-type PutActivityInternalServerError ResponseError
-
-func (*PutActivityInternalServerError) putActivityRes() {}
-
-// PutActivityNoContent is response for PutActivity operation.
-type PutActivityNoContent struct{}
-
-func (*PutActivityNoContent) putActivityRes() {}
-
-type PutFlightForbidden ResponseError
-
-func (*PutFlightForbidden) putFlightRes() {}
-
-type PutFlightInternalServerError ResponseError
-
-func (*PutFlightInternalServerError) putFlightRes() {}
-
-// PutFlightNoContent is response for PutFlight operation.
-type PutFlightNoContent struct{}
-
-func (*PutFlightNoContent) putFlightRes() {}
-
-type PutFlightNotFound ResponseError
-
-func (*PutFlightNotFound) putFlightRes() {}
-
-type PutTransportationForbidden ResponseError
-
-func (*PutTransportationForbidden) putTransportationRes() {}
-
-type PutTransportationInternalServerError ResponseError
-
-func (*PutTransportationInternalServerError) putTransportationRes() {}
-
-// PutTransportationNoContent is response for PutTransportation operation.
-type PutTransportationNoContent struct{}
-
-func (*PutTransportationNoContent) putTransportationRes() {}
-
-type PutTripBadRequest ResponseError
-
-func (*PutTripBadRequest) putTripRes() {}
-
-type PutTripForbidden ResponseError
-
-func (*PutTripForbidden) putTripRes() {}
-
-type PutTripInternalServerError ResponseError
-
-func (*PutTripInternalServerError) putTripRes() {}
-
-// PutTripNoContent is response for PutTrip operation.
-type PutTripNoContent struct{}
-
-func (*PutTripNoContent) putTripRes() {}
-
-// Ref: #/components/schemas/request.Accommodation
-type RequestAccommodation struct {
-	Address       NilString         `json:"address"`
-	ArrivalDate   string            `json:"arrivalDate"`
-	CheckInTime   NilString         `json:"checkInTime"`
-	CheckOutTime  NilString         `json:"checkOutTime"`
-	DepartureDate string            `json:"departureDate"`
-	Description   NilString         `json:"description"`
-	Location      NilEntityLocation `json:"location"`
-	Name          string            `json:"name"`
-	Price         NilInt            `json:"price"`
+// Ref: #/components/schemas/request.Directions
+type RequestDirections struct {
+	End                EntityLocation           `json:"end"`
+	Start              EntityLocation           `json:"start"`
+	TransportationType EntityTransportationType `json:"transportationType"`
 }
 
-// GetAddress returns the value of Address.
-func (s *RequestAccommodation) GetAddress() NilString {
-	return s.Address
+// GetEnd returns the value of End.
+func (s *RequestDirections) GetEnd() EntityLocation {
+	return s.End
 }
 
-// GetArrivalDate returns the value of ArrivalDate.
-func (s *RequestAccommodation) GetArrivalDate() string {
-	return s.ArrivalDate
+// GetStart returns the value of Start.
+func (s *RequestDirections) GetStart() EntityLocation {
+	return s.Start
 }
 
-// GetCheckInTime returns the value of CheckInTime.
-func (s *RequestAccommodation) GetCheckInTime() NilString {
-	return s.CheckInTime
+// GetTransportationType returns the value of TransportationType.
+func (s *RequestDirections) GetTransportationType() EntityTransportationType {
+	return s.TransportationType
 }
 
-// GetCheckOutTime returns the value of CheckOutTime.
-func (s *RequestAccommodation) GetCheckOutTime() NilString {
-	return s.CheckOutTime
+// SetEnd sets the value of End.
+func (s *RequestDirections) SetEnd(val EntityLocation) {
+	s.End = val
 }
 
-// GetDepartureDate returns the value of DepartureDate.
-func (s *RequestAccommodation) GetDepartureDate() string {
-	return s.DepartureDate
+// SetStart sets the value of Start.
+func (s *RequestDirections) SetStart(val EntityLocation) {
+	s.Start = val
 }
 
-// GetDescription returns the value of Description.
-func (s *RequestAccommodation) GetDescription() NilString {
-	return s.Description
-}
-
-// GetLocation returns the value of Location.
-func (s *RequestAccommodation) GetLocation() NilEntityLocation {
-	return s.Location
-}
-
-// GetName returns the value of Name.
-func (s *RequestAccommodation) GetName() string {
-	return s.Name
-}
-
-// GetPrice returns the value of Price.
-func (s *RequestAccommodation) GetPrice() NilInt {
-	return s.Price
-}
-
-// SetAddress sets the value of Address.
-func (s *RequestAccommodation) SetAddress(val NilString) {
-	s.Address = val
-}
-
-// SetArrivalDate sets the value of ArrivalDate.
-func (s *RequestAccommodation) SetArrivalDate(val string) {
-	s.ArrivalDate = val
-}
-
-// SetCheckInTime sets the value of CheckInTime.
-func (s *RequestAccommodation) SetCheckInTime(val NilString) {
-	s.CheckInTime = val
-}
-
-// SetCheckOutTime sets the value of CheckOutTime.
-func (s *RequestAccommodation) SetCheckOutTime(val NilString) {
-	s.CheckOutTime = val
-}
-
-// SetDepartureDate sets the value of DepartureDate.
-func (s *RequestAccommodation) SetDepartureDate(val string) {
-	s.DepartureDate = val
-}
-
-// SetDescription sets the value of Description.
-func (s *RequestAccommodation) SetDescription(val NilString) {
-	s.Description = val
-}
-
-// SetLocation sets the value of Location.
-func (s *RequestAccommodation) SetLocation(val NilEntityLocation) {
-	s.Location = val
-}
-
-// SetName sets the value of Name.
-func (s *RequestAccommodation) SetName(val string) {
-	s.Name = val
-}
-
-// SetPrice sets the value of Price.
-func (s *RequestAccommodation) SetPrice(val NilInt) {
-	s.Price = val
-}
-
-// Ref: #/components/schemas/request.Activity
-type RequestActivity struct {
-	Address     NilString         `json:"address"`
-	Date        string            `json:"date"`
-	Description NilString         `json:"description"`
-	Location    NilEntityLocation `json:"location"`
-	Name        string            `json:"name"`
-	Price       NilInt            `json:"price"`
-	Time        NilString         `json:"time"`
-}
-
-// GetAddress returns the value of Address.
-func (s *RequestActivity) GetAddress() NilString {
-	return s.Address
-}
-
-// GetDate returns the value of Date.
-func (s *RequestActivity) GetDate() string {
-	return s.Date
-}
-
-// GetDescription returns the value of Description.
-func (s *RequestActivity) GetDescription() NilString {
-	return s.Description
-}
-
-// GetLocation returns the value of Location.
-func (s *RequestActivity) GetLocation() NilEntityLocation {
-	return s.Location
-}
-
-// GetName returns the value of Name.
-func (s *RequestActivity) GetName() string {
-	return s.Name
-}
-
-// GetPrice returns the value of Price.
-func (s *RequestActivity) GetPrice() NilInt {
-	return s.Price
-}
-
-// GetTime returns the value of Time.
-func (s *RequestActivity) GetTime() NilString {
-	return s.Time
-}
-
-// SetAddress sets the value of Address.
-func (s *RequestActivity) SetAddress(val NilString) {
-	s.Address = val
-}
-
-// SetDate sets the value of Date.
-func (s *RequestActivity) SetDate(val string) {
-	s.Date = val
-}
-
-// SetDescription sets the value of Description.
-func (s *RequestActivity) SetDescription(val NilString) {
-	s.Description = val
-}
-
-// SetLocation sets the value of Location.
-func (s *RequestActivity) SetLocation(val NilEntityLocation) {
-	s.Location = val
-}
-
-// SetName sets the value of Name.
-func (s *RequestActivity) SetName(val string) {
-	s.Name = val
-}
-
-// SetPrice sets the value of Price.
-func (s *RequestActivity) SetPrice(val NilInt) {
-	s.Price = val
-}
-
-// SetTime sets the value of Time.
-func (s *RequestActivity) SetTime(val NilString) {
-	s.Time = val
+// SetTransportationType sets the value of TransportationType.
+func (s *RequestDirections) SetTransportationType(val EntityTransportationType) {
+	s.TransportationType = val
 }
 
 // Ref: #/components/schemas/request.Flight
 type RequestFlight struct {
-	Legs  []RequestFlightLeg `json:"legs"`
-	Pnrs  []EntityPNR        `json:"pnrs"`
-	Price NilInt             `json:"price"`
+	Legs []RequestFlightLeg `json:"legs"`
 }
 
 // GetLegs returns the value of Legs.
@@ -2041,29 +566,9 @@ func (s *RequestFlight) GetLegs() []RequestFlightLeg {
 	return s.Legs
 }
 
-// GetPnrs returns the value of Pnrs.
-func (s *RequestFlight) GetPnrs() []EntityPNR {
-	return s.Pnrs
-}
-
-// GetPrice returns the value of Price.
-func (s *RequestFlight) GetPrice() NilInt {
-	return s.Price
-}
-
 // SetLegs sets the value of Legs.
 func (s *RequestFlight) SetLegs(val []RequestFlightLeg) {
 	s.Legs = val
-}
-
-// SetPnrs sets the value of Pnrs.
-func (s *RequestFlight) SetPnrs(val []EntityPNR) {
-	s.Pnrs = val
-}
-
-// SetPrice sets the value of Price.
-func (s *RequestFlight) SetPrice(val NilInt) {
-	s.Price = val
 }
 
 // Ref: #/components/schemas/request.FlightLeg
@@ -2103,236 +608,63 @@ func (s *RequestFlightLeg) SetOriginAirport(val NilString) {
 	s.OriginAirport = val
 }
 
-// Ref: #/components/schemas/request.TrainJourney
-type RequestTrainJourney struct {
+// Ref: #/components/schemas/request.Train
+type RequestTrain struct {
 	DepartureDate string    `json:"departureDate"`
 	FromStationId string    `json:"fromStationId"`
-	Price         NilInt    `json:"price"`
 	ToStationId   string    `json:"toStationId"`
 	TrainNumbers  []string  `json:"trainNumbers"`
 	ViaStationId  NilString `json:"viaStationId"`
 }
 
 // GetDepartureDate returns the value of DepartureDate.
-func (s *RequestTrainJourney) GetDepartureDate() string {
+func (s *RequestTrain) GetDepartureDate() string {
 	return s.DepartureDate
 }
 
 // GetFromStationId returns the value of FromStationId.
-func (s *RequestTrainJourney) GetFromStationId() string {
+func (s *RequestTrain) GetFromStationId() string {
 	return s.FromStationId
 }
 
-// GetPrice returns the value of Price.
-func (s *RequestTrainJourney) GetPrice() NilInt {
-	return s.Price
-}
-
 // GetToStationId returns the value of ToStationId.
-func (s *RequestTrainJourney) GetToStationId() string {
+func (s *RequestTrain) GetToStationId() string {
 	return s.ToStationId
 }
 
 // GetTrainNumbers returns the value of TrainNumbers.
-func (s *RequestTrainJourney) GetTrainNumbers() []string {
+func (s *RequestTrain) GetTrainNumbers() []string {
 	return s.TrainNumbers
 }
 
 // GetViaStationId returns the value of ViaStationId.
-func (s *RequestTrainJourney) GetViaStationId() NilString {
+func (s *RequestTrain) GetViaStationId() NilString {
 	return s.ViaStationId
 }
 
 // SetDepartureDate sets the value of DepartureDate.
-func (s *RequestTrainJourney) SetDepartureDate(val string) {
+func (s *RequestTrain) SetDepartureDate(val string) {
 	s.DepartureDate = val
 }
 
 // SetFromStationId sets the value of FromStationId.
-func (s *RequestTrainJourney) SetFromStationId(val string) {
+func (s *RequestTrain) SetFromStationId(val string) {
 	s.FromStationId = val
 }
 
-// SetPrice sets the value of Price.
-func (s *RequestTrainJourney) SetPrice(val NilInt) {
-	s.Price = val
-}
-
 // SetToStationId sets the value of ToStationId.
-func (s *RequestTrainJourney) SetToStationId(val string) {
+func (s *RequestTrain) SetToStationId(val string) {
 	s.ToStationId = val
 }
 
 // SetTrainNumbers sets the value of TrainNumbers.
-func (s *RequestTrainJourney) SetTrainNumbers(val []string) {
+func (s *RequestTrain) SetTrainNumbers(val []string) {
 	s.TrainNumbers = val
 }
 
 // SetViaStationId sets the value of ViaStationId.
-func (s *RequestTrainJourney) SetViaStationId(val NilString) {
+func (s *RequestTrain) SetViaStationId(val NilString) {
 	s.ViaStationId = val
-}
-
-// Ref: #/components/schemas/request.Transportation
-type RequestTransportation struct {
-	ArrivalDateTime    string            `json:"arrivalDateTime"`
-	DepartureDateTime  string            `json:"departureDateTime"`
-	Destination        NilEntityLocation `json:"destination"`
-	DestinationAddress NilString         `json:"destinationAddress"`
-	Name               string            `json:"name"`
-	Origin             NilEntityLocation `json:"origin"`
-	OriginAddress      NilString         `json:"originAddress"`
-	Price              NilInt            `json:"price"`
-	Type               string            `json:"type"`
-}
-
-// GetArrivalDateTime returns the value of ArrivalDateTime.
-func (s *RequestTransportation) GetArrivalDateTime() string {
-	return s.ArrivalDateTime
-}
-
-// GetDepartureDateTime returns the value of DepartureDateTime.
-func (s *RequestTransportation) GetDepartureDateTime() string {
-	return s.DepartureDateTime
-}
-
-// GetDestination returns the value of Destination.
-func (s *RequestTransportation) GetDestination() NilEntityLocation {
-	return s.Destination
-}
-
-// GetDestinationAddress returns the value of DestinationAddress.
-func (s *RequestTransportation) GetDestinationAddress() NilString {
-	return s.DestinationAddress
-}
-
-// GetName returns the value of Name.
-func (s *RequestTransportation) GetName() string {
-	return s.Name
-}
-
-// GetOrigin returns the value of Origin.
-func (s *RequestTransportation) GetOrigin() NilEntityLocation {
-	return s.Origin
-}
-
-// GetOriginAddress returns the value of OriginAddress.
-func (s *RequestTransportation) GetOriginAddress() NilString {
-	return s.OriginAddress
-}
-
-// GetPrice returns the value of Price.
-func (s *RequestTransportation) GetPrice() NilInt {
-	return s.Price
-}
-
-// GetType returns the value of Type.
-func (s *RequestTransportation) GetType() string {
-	return s.Type
-}
-
-// SetArrivalDateTime sets the value of ArrivalDateTime.
-func (s *RequestTransportation) SetArrivalDateTime(val string) {
-	s.ArrivalDateTime = val
-}
-
-// SetDepartureDateTime sets the value of DepartureDateTime.
-func (s *RequestTransportation) SetDepartureDateTime(val string) {
-	s.DepartureDateTime = val
-}
-
-// SetDestination sets the value of Destination.
-func (s *RequestTransportation) SetDestination(val NilEntityLocation) {
-	s.Destination = val
-}
-
-// SetDestinationAddress sets the value of DestinationAddress.
-func (s *RequestTransportation) SetDestinationAddress(val NilString) {
-	s.DestinationAddress = val
-}
-
-// SetName sets the value of Name.
-func (s *RequestTransportation) SetName(val string) {
-	s.Name = val
-}
-
-// SetOrigin sets the value of Origin.
-func (s *RequestTransportation) SetOrigin(val NilEntityLocation) {
-	s.Origin = val
-}
-
-// SetOriginAddress sets the value of OriginAddress.
-func (s *RequestTransportation) SetOriginAddress(val NilString) {
-	s.OriginAddress = val
-}
-
-// SetPrice sets the value of Price.
-func (s *RequestTransportation) SetPrice(val NilInt) {
-	s.Price = val
-}
-
-// SetType sets the value of Type.
-func (s *RequestTransportation) SetType(val string) {
-	s.Type = val
-}
-
-// Ref: #/components/schemas/request.Trip
-type RequestTrip struct {
-	Description NilString `json:"description"`
-	EndDate     string    `json:"endDate"`
-	ImageUrl    NilString `json:"imageUrl"`
-	Name        string    `json:"name"`
-	StartDate   string    `json:"startDate"`
-}
-
-// GetDescription returns the value of Description.
-func (s *RequestTrip) GetDescription() NilString {
-	return s.Description
-}
-
-// GetEndDate returns the value of EndDate.
-func (s *RequestTrip) GetEndDate() string {
-	return s.EndDate
-}
-
-// GetImageUrl returns the value of ImageUrl.
-func (s *RequestTrip) GetImageUrl() NilString {
-	return s.ImageUrl
-}
-
-// GetName returns the value of Name.
-func (s *RequestTrip) GetName() string {
-	return s.Name
-}
-
-// GetStartDate returns the value of StartDate.
-func (s *RequestTrip) GetStartDate() string {
-	return s.StartDate
-}
-
-// SetDescription sets the value of Description.
-func (s *RequestTrip) SetDescription(val NilString) {
-	s.Description = val
-}
-
-// SetEndDate sets the value of EndDate.
-func (s *RequestTrip) SetEndDate(val string) {
-	s.EndDate = val
-}
-
-// SetImageUrl sets the value of ImageUrl.
-func (s *RequestTrip) SetImageUrl(val NilString) {
-	s.ImageUrl = val
-}
-
-// SetName sets the value of Name.
-func (s *RequestTrip) SetName(val string) {
-	s.Name = val
-}
-
-// SetStartDate sets the value of StartDate.
-func (s *RequestTrip) SetStartDate(val string) {
-	s.StartDate = val
 }
 
 // Ref: #/components/schemas/response.Error
@@ -2361,23 +693,7 @@ func (s *ResponseError) SetError(val string) {
 	s.Error = val
 }
 
-func (*ResponseError) getLocationRes()     {}
-func (*ResponseError) getTrainStationRes() {}
-func (*ResponseError) getTripsRes()        {}
-func (*ResponseError) getUserRes()         {}
-func (*ResponseError) getUsersRes()        {}
-
-// Ref: #/components/schemas/v1.AttachmentsParam
-type V1AttachmentsParamMultipart struct {
-	Attachments []ht.MultipartFile `json:"attachments"`
-}
-
-// GetAttachments returns the value of Attachments.
-func (s *V1AttachmentsParamMultipart) GetAttachments() []ht.MultipartFile {
-	return s.Attachments
-}
-
-// SetAttachments sets the value of Attachments.
-func (s *V1AttachmentsParamMultipart) SetAttachments(val []ht.MultipartFile) {
-	s.Attachments = val
-}
+func (*ResponseError) lookupLocationRes()     {}
+func (*ResponseError) lookupTrainStationRes() {}
+func (*ResponseError) postFlightRes()         {}
+func (*ResponseError) postTrainJourneyRes()   {}

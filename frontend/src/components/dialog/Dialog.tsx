@@ -1,38 +1,40 @@
-import React, { createContext, useContext, ReactNode } from 'react';
-import {useRouter} from "next/navigation";
-import {DialogContent} from "@/components/ui/dialog.tsx"
-import { Dialog as BaseDialog } from '@base-ui-components/react/dialog';
+import { DialogContent } from "@/components/ui/dialog.tsx"
+import { Dialog as BaseDialog } from "@base-ui-components/react/dialog"
+import { useRouter } from "next/navigation"
+import React, { createContext, ReactNode, useContext } from "react"
 
 interface DialogContextType {
-  onClose: (needsUpdate?: boolean) => void;
+  onClose: (needsUpdate?: boolean) => void
 }
 
-const DialogContext = createContext<DialogContextType | undefined>(undefined);
+const DialogContext = createContext<DialogContextType | undefined>(undefined)
 
 export function DialogContextProvider({
-  children, onClose
+  children,
+  onClose,
 }: {
-  onClose: (needsUpdate?: boolean) => void
+  onClose: () => void
   children: ReactNode
 }) {
-
   return (
-      <DialogContext.Provider value={{ onClose }}>
-        {children}
-      </DialogContext.Provider>
-  );
+    <DialogContext.Provider value={{ onClose }}>
+      {children}
+    </DialogContext.Provider>
+  )
 }
 
 export function useDialogContext(): DialogContextType {
-  const context = useContext(DialogContext);
+  const context = useContext(DialogContext)
   if (!context) {
-    throw new Error('useUser must be used within a UserProvider');
+    throw new Error("useUser must be used within a UserProvider")
   }
-  return context;
+  return context
 }
 
 export function Dialog({
-  children, open, setOpen
+  children,
+  open,
+  setOpen,
 }: {
   children: React.ReactNode | React.ReactNode[]
   open: boolean
@@ -42,30 +44,21 @@ export function Dialog({
 
   function onClose(needsUpdate?: boolean) {
     setOpen(false)
-    if (needsUpdate)
-      router.refresh()
+    if (needsUpdate) router.refresh()
   }
 
   return (
-      <BaseDialog.Root open={open} onOpenChange={open => open || onClose(false)}>
-        <DialogContent>
-          <DialogContextProvider onClose={onClose}>
-            {children}
-          </DialogContextProvider>
-        </DialogContent>
-      </BaseDialog.Root>
+    <BaseDialog.Root open={open} onOpenChange={open => open || onClose(false)}>
+      <DialogContent>
+        <DialogContextProvider onClose={onClose}>
+          {children}
+        </DialogContextProvider>
+      </DialogContent>
+    </BaseDialog.Root>
   )
 }
 Dialog.displayName = BaseDialog.Root.displayName
 
-export const RowContainer = ({
-  children
-}: {
-  children: React.ReactNode;
-}) => {
-  return (
-      <div className="grid grid-cols-2 gap-2">
-        {children}
-      </div>
-  );
-};
+export const RowContainer = ({ children }: { children: React.ReactNode }) => {
+  return <div className="grid grid-cols-2 gap-2">{children}</div>
+}

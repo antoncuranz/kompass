@@ -9,7 +9,6 @@ type TrainStation struct {
 }
 
 type TrainLeg struct {
-	ID                int32          `json:"id"`
 	Origin            TrainStation   `json:"origin"`
 	Destination       TrainStation   `json:"destination"`
 	DepartureDateTime civil.DateTime `json:"departureDateTime"`
@@ -19,7 +18,7 @@ type TrainLeg struct {
 	OperatorName      string         `json:"operatorName"`
 }
 
-type TrainDetail struct {
+type Train struct {
 	RefreshToken string     `json:"refreshToken"`
 	Legs         []TrainLeg `json:"legs"`
 }

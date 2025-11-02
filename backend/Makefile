@@ -8,12 +8,8 @@ LOCAL_BIN:=$(CURDIR)/bin
 help: ## Display this help screen
 	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m<target>\033[0m\n"} /^[a-zA-Z_-]+:.*?##/ { printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
 
-codegen: sqlc openapi goverter ### run all codegen tasks
+codegen: openapi goverter ### run all codegen tasks
 .PHONY: codegen
-
-sqlc: ### run sqlc codegen tasks
-	$(LOCAL_BIN)/sqlc generate
-.PHONY: sqlc
 
 openapi: ### run openapi codegen tasks
 	$(LOCAL_BIN)/swag init -g internal/controller/http/router.go --v3.1 --requiredByDefault && \
@@ -21,7 +17,7 @@ openapi: ### run openapi codegen tasks
 .PHONY: openapi
 
 goverter: ### run goverter codegen tasks
-	$(LOCAL_BIN)/goverter gen -g 'output:file ./generated.go' -g 'skipCopySameType' kompass/internal/repo/postgres/converter kompass/internal/repo/webapi/converter
+	$(LOCAL_BIN)/goverter gen -g 'output:file ./generated.go' -g 'skipCopySameType' kompass/internal/repo/dbvendo/converter
 .PHONY: goverter
 
 mock: ### run mockgen
@@ -34,7 +30,7 @@ bin-deps: ### install tools
 .PHONY: bin-deps
 
 build-image: ### build container image
-	docker build -t kompa.ss/backend:latest .
+	docker build -t kompass/backend:latest .
 .PHONY: bin-deps
 
 test: ### run unit tests

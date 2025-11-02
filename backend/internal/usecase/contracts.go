@@ -2,97 +2,36 @@
 package usecase
 
 import (
-	"cloud.google.com/go/civil"
 	"context"
-	"github.com/golang-jwt/jwt/v5"
-	"github.com/google/uuid"
-	"github.com/paulmach/orb/geojson"
-	"github.com/valyala/fasthttp"
 	"kompass/internal/controller/http/v1/request"
 	"kompass/internal/entity"
 	"kompass/internal/repo/opentraveldata"
-	"mime/multipart"
+
+	"github.com/paulmach/orb/geojson"
 )
 
 //go:generate mockgen -source=contracts.go -destination=./mocks_usecase_test.go -package=usecase_test
 
 type (
 	UseCases struct {
-		Users          Users
-		Geocoding      Geocoding
-		Trips          Trips
-		Flights        Flights
-		Trains         Trains
-		Transportation Transportation
-		Activities     Activities
-		Accommodation  Accommodation
-		Attachments    Attachments
-		OPTD           opentraveldata.OpenTravelData
-	}
-
-	Users interface {
-		GetUsers(ctx context.Context) ([]entity.User, error)
-		GetUserByID(ctx context.Context, id int32) (entity.User, error)
-		GetUserByJwtSub(ctx context.Context, sub uuid.UUID) (entity.User, error)
-		CreateUserFromJwt(ctx context.Context, sub uuid.UUID, claims jwt.Claims) (entity.User, error)
-		HasReadPermission(ctx context.Context, userID, tripID int32) (bool, error)
-		HasWritePermission(ctx context.Context, userID, tripID int32) (bool, error)
-		IsTripOwner(ctx context.Context, userID int32, tripID int32) (bool, error)
+		Geocoding Geocoding
+		Flights   Flights
+		Trains    Trains
+		OPTD      opentraveldata.OpenTravelData
 	}
 
 	Geocoding interface {
-		LookupLocation(ctx *fasthttp.RequestCtx, query string) (entity.GeocodeLocation, error)
+		LookupLocation(ctx context.Context, query string) (entity.GeocodeLocation, error)
 		LookupTrainStation(ctx context.Context, query string) (entity.TrainStation, error)
-	}
-
-	Trips interface {
-		GetTrips(ctx context.Context, userID int32) ([]entity.Trip, error)
-		GetTripByID(ctx context.Context, id int32) (entity.Trip, error)
-		CreateTrip(ctx context.Context, userID int32, trip request.Trip) (entity.Trip, error)
-		UpdateTrip(ctx context.Context, tripID int32, trip request.Trip) error
-		DeleteTrip(ctx context.Context, tripID int32) error
-		VerifyDatesInBounds(ctx context.Context, tripID int32, dates ...civil.Date) error
-	}
-
-	Transportation interface {
-		CreateTransportation(ctx context.Context, tripID int32, transportation request.Transportation) (entity.Transportation, error)
-		UpdateTransportation(ctx context.Context, tripID int32, transportationID int32, transportation request.Transportation) (entity.Transportation, error)
-		GetAllTransportation(ctx context.Context, tripID int32) ([]entity.Transportation, error)
-		GetTransportationByID(ctx context.Context, tripID int32, transportationID int32) (entity.Transportation, error)
-		DeleteTransportation(ctx context.Context, tripID int32, transportationID int32) error
-		GetAllGeoJson(ctx context.Context, tripID int32) ([]geojson.FeatureCollection, error)
+		LookupDirections(ctx context.Context, start entity.Location, end entity.Location, transportationType entity.TransportationType) (*geojson.FeatureCollection, error)
 	}
 
 	Flights interface {
-		CreateFlight(ctx context.Context, tripID int32, flight request.Flight) (entity.Transportation, error)
-		UpdateFlight(ctx context.Context, tripID int32, flightID int32) error
+		FindFlight(ctx context.Context, flight request.Flight) (entity.Flight, error)
 	}
 
 	Trains interface {
 		LookupTrainStation(ctx context.Context, query string) (entity.TrainStation, error)
-		CreateTrainJourney(ctx context.Context, tripID int32, journey request.TrainJourney) (entity.Transportation, error)
-	}
-
-	Activities interface {
-		GetActivities(ctx context.Context, tripID int32) ([]entity.Activity, error)
-		GetActivityByID(ctx context.Context, tripID int32, activityID int32) (entity.Activity, error)
-		CreateActivity(ctx context.Context, tripID int32, activity request.Activity) (entity.Activity, error)
-		UpdateActivity(ctx context.Context, tripID int32, activityID int32, activity request.Activity) error
-		DeleteActivity(ctx context.Context, tripID int32, activityID int32) error
-	}
-
-	Accommodation interface {
-		GetAllAccommodation(ctx context.Context, tripID int32) ([]entity.Accommodation, error)
-		GetAccommodationByID(ctx context.Context, tripID int32, id int32) (entity.Accommodation, error)
-		CreateAccommodation(ctx context.Context, tripID int32, accommodation request.Accommodation) (entity.Accommodation, error)
-		UpdateAccommodation(ctx context.Context, tripID int32, accommodationID int32, accommodation request.Accommodation) error
-		DeleteAccommodation(ctx context.Context, tripID int32, accommodationID int32) error
-	}
-
-	Attachments interface {
-		GetAttachments(ctx context.Context, tripID int32) ([]entity.Attachment, error)
-		GetAttachmentByID(ctx context.Context, tripID int32, attachmentID int32) (entity.Attachment, error)
-		CreateAttachment(ctx context.Context, tripID int32, attachment *multipart.FileHeader) (entity.Attachment, error)
-		DeleteAttachment(ctx context.Context, tripID int32, attachmentID int32) error
+		FindTrainJourney(ctx context.Context, journey request.Train) (entity.Train, error)
 	}
 )

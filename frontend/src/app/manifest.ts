@@ -1,10 +1,10 @@
-import type { MetadataRoute } from 'next'
+import type { MetadataRoute } from "next"
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "kompa.ss travel planner",
-    short_name: "kompa.ss",
-    description: "kompa.ss travel planner",
+    name: "kompass travel planner",
+    short_name: "kompass",
+    description: "kompass travel planner",
     start_url: "/",
     display: "standalone",
     background_color: "#ffffff",

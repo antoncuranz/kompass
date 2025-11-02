@@ -17,30 +17,22 @@ type TrainsV1 struct {
 	v   *validator.Validate
 }
 
-// @Summary     Add train journey
+// @Summary     Find train journey
 // @ID          postTrainJourney
 // @Tags  	    trains
 // @Accept      json
 // @Produce     json
-// @Param       trip_id path int true "Trip ID"
-// @Param       request body request.TrainJourney true "train journey"
-// @Success     200 {object} entity.Transportation
-// @Failure     403 {object} response.Error
+// @Param       request body request.Train true "train journey"
+// @Success     200 {object} entity.Train
 // @Failure     500 {object} response.Error
-// @Security    bearerauth
-// @Router      /trips/{trip_id}/trains [post]
+// @Router      /trains [post]
 func (r *TrainsV1) postTrainJourney(ctx *fiber.Ctx) error {
-	tripID, err := ctx.ParamsInt("trip_id")
-	if err != nil {
-		return fiber.NewError(http.StatusBadRequest, "unable to parse trip_id")
-	}
-
-	body, err := ParseAndValidateRequestBody[request.TrainJourney](ctx, r.v)
+	body, err := ParseAndValidateRequestBody[request.Train](ctx, r.v)
 	if err != nil {
 		return fiber.NewError(http.StatusBadRequest, "parse request body")
 	}
 
-	transportation, err := r.uc.CreateTrainJourney(ctx.Context(), int32(tripID), *body)
+	transportation, err := r.uc.FindTrainJourney(ctx.Context(), *body)
 	if err != nil {
 		return fmt.Errorf("retrieve journey: %w", err)
 	}

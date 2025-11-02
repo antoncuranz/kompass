@@ -1,21 +1,36 @@
-import React from "react";
-import Card from "@/components/card/Card.tsx";
-import {fetchAccommodation, fetchActivities, fetchGeoJson} from "@/requests.ts";
-import HeroMap from "@/components/map/HeroMap.tsx";
+"use client"
 
-export default async function MapCard({
-  tripId, className
+import Card from "@/components/card/Card.tsx"
+import SkeletonCard from "@/components/card/SkeletonCard.tsx"
+import HeroMap from "@/components/map/HeroMap.tsx"
+import { RESOLVE_TRIP, Trip } from "@/schema.ts"
+import { useCoState } from "jazz-tools/react-core"
+
+export default function MapCard({
+  tripId,
+  className,
 }: {
-  tripId: number
+  tripId: string
   className?: string
 }) {
-  const activities = await fetchActivities(tripId)
-  const accommodation = await fetchAccommodation(tripId)
-  const geojson = await fetchGeoJson(tripId)
+  const trip = useCoState(Trip, tripId, { resolve: RESOLVE_TRIP })
+
+  if (!trip) {
+    return (
+      <SkeletonCard
+        className={className}
+        title={trip === null ? "Error loading Map" : undefined}
+      />
+    )
+  }
 
   return (
     <Card className={className}>
-      <HeroMap activities={activities} accommodation={accommodation} geojson={geojson}/>
+      <HeroMap
+        activities={trip.activities.filter(act => act !== null)}
+        accommodation={trip.accommodation.filter(acc => acc !== null)}
+        geojson={[]}
+      />
     </Card>
   )
 }

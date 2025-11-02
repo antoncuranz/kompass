@@ -1,16 +1,13 @@
-import React, {Suspense} from "react";
-import SkeletonCard from "@/components/card/SkeletonCard.tsx";
-import {ErrorBoundary} from "react-error-boundary";
-import ItineraryCard from "@/components/card/ItineraryCard.tsx";
-import MapCard from "@/components/card/MapCard.tsx";
-import {MapProvider} from "@/components/provider/MapProvider.tsx";
+import ItineraryCard from "@/components/card/ItineraryCard.tsx"
+import MapCard from "@/components/card/MapCard.tsx"
+import { MapProvider } from "@/components/provider/MapProvider.tsx"
 
-export default async function Page( {
-  params
+export default async function Page({
+  params,
 }: {
   params: Promise<{ slug: string }>
 }) {
-  const tripId = parseInt((await params).slug)
+  const tripId = (await params).slug
 
   const itineraryClasses = "lg:max-w-3xl lg:min-w-152"
   const mapClasses = "hidden lg:block"
@@ -18,16 +15,8 @@ export default async function Page( {
   return (
     <div className="flex h-full gap-4">
       <MapProvider>
-        <Suspense fallback={<SkeletonCard className={itineraryClasses}/>}>
-          <ErrorBoundary fallback={<SkeletonCard className={itineraryClasses} title="Error loading Itinerary"/>}>
-            <ItineraryCard tripId={tripId} className={itineraryClasses}/>
-          </ErrorBoundary>
-        </Suspense>
-        <Suspense fallback={<SkeletonCard className={mapClasses}/>}>
-          <ErrorBoundary fallback={<SkeletonCard className={mapClasses} title="Error loading Map"/>}>
-            <MapCard tripId={tripId} className={mapClasses}/>
-          </ErrorBoundary>
-        </Suspense>
+        <ItineraryCard tripId={tripId} className={itineraryClasses} />
+        <MapCard tripId={tripId} className={mapClasses} />
       </MapProvider>
     </div>
   )

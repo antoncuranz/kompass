@@ -2,7 +2,6 @@ package request
 
 import (
 	"cloud.google.com/go/civil"
-	"kompass/internal/entity"
 )
 
 type FlightLeg struct {
@@ -12,7 +11,5 @@ type FlightLeg struct {
 }
 
 type Flight struct {
-	Legs  []FlightLeg  `json:"legs"`
-	PNRs  []entity.PNR `json:"pnrs"`
-	Price *int32       `json:"price" extensions:"nullable"`
+	Legs []FlightLeg `json:"legs"`
 }

@@ -27,4 +27,4 @@ jobs:
         with:
           context: backend
           push: true
-          tags: ghcr.io/antoncuranz/kompa.ss/backend:latest
+          tags: ghcr.io/antoncuranz/kompass/backend:latest

@@ -3,13 +3,14 @@ package v1
 import (
 	"errors"
 	"fmt"
-	"github.com/go-playground/validator/v10"
-	"github.com/gofiber/fiber/v2"
 	"kompass/internal/controller/http/v1/request"
 	"kompass/internal/entity"
 	"kompass/internal/usecase"
 	"kompass/pkg/logger"
 	"net/http"
+
+	"github.com/go-playground/validator/v10"
+	"github.com/gofiber/fiber/v2"
 )
 
 type FlightsV1 struct {
@@ -18,31 +19,23 @@ type FlightsV1 struct {
 	v   *validator.Validate
 }
 
-// @Summary     Add flight
+// @Summary     Find flight
 // @ID          postFlight
 // @Tags  	    flights
 // @Accept      json
 // @Produce     json
-// @Param       trip_id path int true "Trip ID"
 // @Param       request body request.Flight true "flight"
-// @Success     200 {object} entity.Transportation
-// @Failure     403 {object} response.Error
+// @Success     200 {object} entity.Flight
 // @Failure     422 {object} entity.ErrAmbiguousFlightRequest
 // @Failure     500 {object} response.Error
-// @Security    bearerauth
-// @Router      /trips/{trip_id}/flights [post]
+// @Router      /flights [post]
 func (r *FlightsV1) postFlight(ctx *fiber.Ctx) error {
-	tripID, err := ctx.ParamsInt("trip_id")
-	if err != nil {
-		return fiber.NewError(http.StatusBadRequest, "unable to parse trip_id")
-	}
-
 	body, err := ParseAndValidateRequestBody[request.Flight](ctx, r.v)
 	if err != nil {
 		return fiber.NewError(http.StatusBadRequest, "invalid request body")
 	}
 
-	transportation, err := r.uc.CreateFlight(ctx.UserContext(), int32(tripID), *body)
+	transportation, err := r.uc.FindFlight(ctx.UserContext(), *body)
 	if err != nil {
 		var ambiguousError entity.ErrAmbiguousFlightRequest
 		if errors.As(err, &ambiguousError) {
@@ -52,32 +45,4 @@ func (r *FlightsV1) postFlight(ctx *fiber.Ctx) error {
 	}
 
 	return ctx.Status(http.StatusOK).JSON(transportation)
-}
-
-// @Summary     Update flight
-// @ID          putFlight
-// @Tags  	    flights
-// @Param       trip_id path int true "Trip ID"
-// @Param       flight_id path int true "Flight ID"
-// @Success     204
-// @Failure     403 {object} response.Error
-// @Failure     404 {object} response.Error
-// @Failure     500 {object} response.Error
-// @Security    bearerauth
-// @Router      /trips/{trip_id}/flights/{flight_id} [put]
-func (r *FlightsV1) putFlight(ctx *fiber.Ctx) error {
-	tripID, err := ctx.ParamsInt("trip_id")
-	if err != nil {
-		return fiber.NewError(http.StatusBadRequest, "unable to parse trip_id")
-	}
-	flightID, err := ctx.ParamsInt("flight_id")
-	if err != nil {
-		return fiber.NewError(http.StatusBadRequest, "unable to parse flight_id")
-	}
-
-	if err := r.uc.UpdateFlight(ctx.UserContext(), int32(tripID), int32(flightID)); err != nil {
-		return fmt.Errorf("update flight with id %d: %w", flightID, err)
-	}
-
-	return ctx.SendStatus(http.StatusNoContent)
 }

@@ -1,18 +1,25 @@
 "use client"
 
-import React from "react";
-import {Coordinates} from "@/types.ts";
-import BaseMap from "@/components/map/BaseMap.tsx";
-import {LngLat, MapMouseEvent, Marker, useMap} from "@/components/map/common.tsx";
+import BaseMap from "@/components/map/BaseMap.tsx"
+import {
+  LngLat,
+  MapMouseEvent,
+  Marker,
+  useMap,
+} from "@/components/map/common.tsx"
+import { Coordinates } from "@/types.ts"
+import React from "react"
 
 export default function MiniMap({
-  children, value, onChange
+  children,
+  value,
+  onChange,
 }: {
   children: React.ReactNode | React.ReactNode[]
-  value: Coordinates|undefined,
-  onChange: (newLocation: Coordinates) => void,
+  value: Coordinates | undefined
+  onChange: (newLocation: Coordinates) => void
 }) {
-  const {heroMap} = useMap()
+  const { heroMap } = useMap()
 
   function getInitialCoordinates() {
     if (value) {
@@ -37,7 +44,9 @@ export default function MiniMap({
 
   return (
     <BaseMap initialCoordinates={getInitialCoordinates()} onClick={onClick}>
-      {value && <Marker longitude={value.longitude} latitude={value.latitude}/>}
+      {value && (
+        <Marker longitude={value.longitude} latitude={value.latitude} />
+      )}
       {children}
     </BaseMap>
   )

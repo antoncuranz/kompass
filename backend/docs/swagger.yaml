@@ -1,82 +1,5 @@
 components:
   schemas:
-    entity.Accommodation:
-      properties:
-        address:
-          nullable: true
-          type: string
-        arrivalDate:
-          type: string
-        checkInTime:
-          nullable: true
-          type: string
-        checkOutTime:
-          nullable: true
-          type: string
-        departureDate:
-          type: string
-        description:
-          nullable: true
-          type: string
-        id:
-          type: integer
-        location:
-          $ref: '#/components/schemas/entity.Location'
-        name:
-          type: string
-        price:
-          nullable: true
-          type: integer
-        tripId:
-          type: integer
-      required:
-      - address
-      - arrivalDate
-      - checkInTime
-      - checkOutTime
-      - departureDate
-      - description
-      - id
-      - location
-      - name
-      - price
-      - tripId
-      type: object
-    entity.Activity:
-      properties:
-        address:
-          nullable: true
-          type: string
-        date:
-          type: string
-        description:
-          nullable: true
-          type: string
-        id:
-          type: integer
-        location:
-          $ref: '#/components/schemas/entity.Location'
-        name:
-          type: string
-        price:
-          nullable: true
-          type: integer
-        time:
-          nullable: true
-          type: string
-        tripId:
-          type: integer
-      required:
-      - address
-      - date
-      - description
-      - id
-      - location
-      - name
-      - price
-      - time
-      - tripId
-      type: object
     entity.Airport:
       properties:
         iata:
@@ -106,47 +29,21 @@ components:
       - destinationIata
       - originIata
       type: object
-    entity.Attachment:
-      properties:
-        blob:
-          items:
-            type: integer
-          type: array
-          uniqueItems: false
-        id:
-          type: integer
-        name:
-          type: string
-        tripId:
-          type: integer
-      required:
-      - blob
-      - id
-      - name
-      - tripId
-      type: object
     entity.ErrAmbiguousFlightRequest:
       additionalProperties:
         items:
           $ref: '#/components/schemas/entity.AmbiguousFlightChoice'
         type: array
       type: object
-    entity.FlightDetail:
-      nullable: true
+    entity.Flight:
       properties:
         legs:
           items:
             $ref: '#/components/schemas/entity.FlightLeg'
           type: array
           uniqueItems: false
-        pnrs:
-          items:
-            $ref: '#/components/schemas/entity.PNR'
-          type: array
-          uniqueItems: false
       required:
       - legs
-      - pnrs
       type: object
     entity.FlightLeg:
       properties:
@@ -168,8 +65,6 @@ components:
           type: integer
         flightNumber:
           type: string
-        id:
-          type: integer
         origin:
           $ref: '#/components/schemas/entity.Airport'
       required:
@@ -181,56 +76,19 @@ components:
       - destination
       - durationInMinutes
       - flightNumber
-      - id
       - origin
       type: object
-    entity.GenericDetail:
-      nullable: true
-      properties:
-        destinationAddress:
-          nullable: true
-          type: string
-        name:
-          type: string
-        originAddress:
-          nullable: true
-          type: string
-      required:
-      - destinationAddress
-      - name
-      - originAddress
-      type: object
     entity.Location:
-      nullable: true
       properties:
-        id:
-          type: integer
         latitude:
           type: number
         longitude:
           type: number
       required:
-      - id
       - latitude
       - longitude
       type: object
-    entity.PNR:
-      properties:
-        airline:
-          example: LH
-          type: string
-        id:
-          type: integer
-        pnr:
-          example: "123456"
-          type: string
-      required:
-      - airline
-      - id
-      - pnr
-      type: object
-    entity.TrainDetail:
-      nullable: true
+    entity.Train:
       properties:
         legs:
           items:
@@ -253,8 +111,6 @@ components:
           $ref: '#/components/schemas/entity.TrainStation'
         durationInMinutes:
           type: integer
-        id:
-          type: integer
         lineName:
           type: string
         operatorName:
@@ -266,7 +122,6 @@ components:
       - departureDateTime
       - destination
       - durationInMinutes
-      - id
       - lineName
       - operatorName
       - origin
@@ -284,41 +139,6 @@ components:
       - location
       - name
       type: object
-    entity.Transportation:
-      properties:
-        arrivalDateTime:
-          type: string
-        departureDateTime:
-          type: string
-        destination:
-          $ref: '#/components/schemas/entity.Location'
-        flightDetail:
-          $ref: '#/components/schemas/entity.FlightDetail'
-        genericDetail:
-          $ref: '#/components/schemas/entity.GenericDetail'
-        id:
-          type: integer
-        origin:
-          $ref: '#/components/schemas/entity.Location'
-        price:
-          nullable: true
-          type: integer
-        trainDetail:
-          $ref: '#/components/schemas/entity.TrainDetail'
-        tripId:
-          type: integer
-        type:
-          $ref: '#/components/schemas/entity.TransportationType'
-      required:
-      - arrivalDateTime
-      - departureDateTime
-      - destination
-      - id
-      - origin
-      - price
-      - tripId
-      - type
-      type: object
     entity.TransportationType:
       type: string
       x-enum-varnames:
@@ -331,110 +151,18 @@ components:
       - BIKE
       - HIKE
       - OTHER
-    entity.Trip:
+    request.Directions:
       properties:
-        description:
-          nullable: true
-          type: string
-        endDate:
-          type: string
-        id:
-          type: integer
-        imageUrl:
-          nullable: true
-          type: string
-        name:
-          type: string
-        owner_id:
-          type: integer
-        startDate:
-          type: string
-      required:
-      - description
-      - endDate
-      - id
-      - imageUrl
-      - name
-      - owner_id
-      - startDate
-      type: object
-    entity.User:
-      properties:
-        id:
-          type: integer
-        jwtSub:
-          type: string
-        name:
-          type: string
-      required:
-      - id
-      - jwtSub
-      - name
-      type: object
-    request.Accommodation:
-      properties:
-        address:
-          nullable: true
-          type: string
-        arrivalDate:
-          type: string
-        checkInTime:
-          nullable: true
-          type: string
-        checkOutTime:
-          nullable: true
-          type: string
-        departureDate:
-          type: string
-        description:
-          nullable: true
-          type: string
-        location:
+        end:
           $ref: '#/components/schemas/entity.Location'
-        name:
-          type: string
-        price:
-          nullable: true
-          type: integer
-      required:
-      - address
-      - arrivalDate
-      - checkInTime
-      - checkOutTime
-      - departureDate
-      - description
-      - location
-      - name
-      - price
-      type: object
-    request.Activity:
-      properties:
-        address:
-          nullable: true
-          type: string
-        date:
-          type: string
-        description:
-          nullable: true
-          type: string
-        location:
+        start:
           $ref: '#/components/schemas/entity.Location'
-        name:
-          type: string
-        price:
-          nullable: true
-          type: integer
-        time:
-          nullable: true
-          type: string
+        transportationType:
+          $ref: '#/components/schemas/entity.TransportationType'
       required:
-      - address
-      - date
-      - description
-      - location
-      - name
-      - price
-      - time
+      - end
+      - start
+      - transportationType
       type: object
     request.Flight:
       properties:
@@ -443,18 +171,8 @@ components:
             $ref: '#/components/schemas/request.FlightLeg'
           type: array
           uniqueItems: false
-        pnrs:
-          items:
-            $ref: '#/components/schemas/entity.PNR'
-          type: array
-          uniqueItems: false
-        price:
-          nullable: true
-          type: integer
       required:
       - legs
-      - pnrs
-      - price
       type: object
     request.FlightLeg:
       properties:
@@ -473,7 +191,7 @@ components:
       - flightNumber
       - originAirport
       type: object
-    request.TrainJourney:
+    request.Train:
       properties:
         departureDate:
           example: "2025-09-20"
@@ -481,9 +199,6 @@ components:
         fromStationId:
           example: "8011113"
           type: string
-        price:
-          nullable: true
-          type: integer
         toStationId:
           example: "8000261"
           type: string
@@ -501,75 +216,9 @@ components:
       required:
       - departureDate
       - fromStationId
-      - price
       - toStationId
       - trainNumbers
       - viaStationId
-      type: object
-    request.Transportation:
-      properties:
-        arrivalDateTime:
-          type: string
-        departureDateTime:
-          type: string
-        destination:
-          $ref: '#/components/schemas/entity.Location'
-        destinationAddress:
-          nullable: true
-          type: string
-        name:
-          type: string
-        origin:
-          $ref: '#/components/schemas/entity.Location'
-        originAddress:
-          nullable: true
-          type: string
-        price:
-          nullable: true
-          type: integer
-        type:
-          type: string
-          x-enum-varnames:
-          - FLIGHT
-          - TRAIN
-          - BUS
-          - CAR
-          - FERRY
-          - BOAT
-          - BIKE
-          - HIKE
-          - OTHER
-      required:
-      - arrivalDateTime
-      - departureDateTime
-      - destination
-      - destinationAddress
-      - name
-      - origin
-      - originAddress
-      - price
-      - type
-      type: object
-    request.Trip:
-      properties:
-        description:
-          nullable: true
-          type: string
-        endDate:
-          type: string
-        imageUrl:
-          nullable: true
-          type: string
-        name:
-          type: string
-        startDate:
-          type: string
-      required:
-      - description
-      - endDate
-      - imageUrl
-      - name
-      - startDate
       type: object
     response.Error:
       properties:
@@ -581,34 +230,81 @@ components:
       required:
       - error
       type: object
-    v1.AttachmentsParam:
-      properties:
-        attachments:
-          items:
-            format: binary
-            type: string
-          type: array
-          uniqueItems: false
-      required:
-      - attachments
-      type: object
-  securitySchemes:
-    bearerauth:
-      bearerFormat: JWT
-      scheme: bearer
-      type: http
 externalDocs:
   description: ""
   url: ""
 info:
-  description: Using a translation service as an example
-  title: Kompa.ss API
+  title: Kompass Transportation API
   version: "1.0"
 openapi: 3.1.0
 paths:
+  /flights:
+    post:
+      operationId: postFlight
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/request.Flight'
+        description: flight
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/entity.Flight'
+          description: OK
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/entity.ErrAmbiguousFlightRequest'
+          description: Unprocessable Entity
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response.Error'
+          description: Internal Server Error
+      summary: Find flight
+      tags:
+      - flights
+  /geocoding/directions:
+    post:
+      operationId: lookupDirections
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/request.Directions'
+        description: directions request
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: OK
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response.Error'
+          description: Bad Request
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response.Error'
+          description: Internal Server Error
+      summary: Lookup directions
+      tags:
+      - geocoding
   /geocoding/location:
-    get:
-      operationId: getLocation
+    post:
+      operationId: lookupLocation
       parameters:
       - description: location query
         in: query
@@ -629,14 +325,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/response.Error'
           description: Internal Server Error
-      security:
-      - bearerauth: []
       summary: Lookup location
       tags:
       - geocoding
   /geocoding/station:
-    get:
-      operationId: getTrainStation
+    post:
+      operationId: lookupTrainStation
       parameters:
       - description: station query
         in: query
@@ -657,905 +351,17 @@ paths:
               schema:
                 $ref: '#/components/schemas/response.Error'
           description: Internal Server Error
-      security:
-      - bearerauth: []
       summary: Lookup train station
       tags:
       - geocoding
-  /trips:
-    get:
-      operationId: getTrips
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                items:
-                  $ref: '#/components/schemas/entity.Trip'
-                type: array
-          description: OK
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Internal Server Error
-      security:
-      - bearerauth: []
-      summary: Get all trips
-      tags:
-      - trips
-    post:
-      operationId: postTrip
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/request.Trip'
-        description: trip
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/entity.Trip'
-          description: OK
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Bad Request
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Internal Server Error
-      security:
-      - bearerauth: []
-      summary: Add trip
-      tags:
-      - trips
-  /trips/{trip_id}:
-    delete:
-      operationId: deleteTrip
-      parameters:
-      - description: Trip ID
-        in: path
-        name: trip_id
-        required: true
-        schema:
-          type: integer
-      responses:
-        "204":
-          description: No Content
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Bad Request
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Forbidden
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Internal Server Error
-      security:
-      - bearerauth: []
-      summary: Delete trip
-      tags:
-      - trips
-    get:
-      operationId: getTrip
-      parameters:
-      - description: Trip ID
-        in: path
-        name: trip_id
-        required: true
-        schema:
-          type: integer
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/entity.Trip'
-          description: OK
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Bad Request
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Forbidden
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Internal Server Error
-      security:
-      - bearerauth: []
-      summary: Get trip by ID
-      tags:
-      - trips
-    put:
-      operationId: putTrip
-      parameters:
-      - description: Trip ID
-        in: path
-        name: trip_id
-        required: true
-        schema:
-          type: integer
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/request.Trip'
-        description: trip
-        required: true
-      responses:
-        "204":
-          description: No Content
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Bad Request
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Forbidden
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Internal Server Error
-      security:
-      - bearerauth: []
-      summary: Update trip
-      tags:
-      - trips
-  /trips/{trip_id}/accommodation:
-    get:
-      operationId: getAllAccommodation
-      parameters:
-      - description: Trip ID
-        in: path
-        name: trip_id
-        required: true
-        schema:
-          type: integer
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                items:
-                  $ref: '#/components/schemas/entity.Accommodation'
-                type: array
-          description: OK
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Bad Request
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Forbidden
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Internal Server Error
-      security:
-      - bearerauth: []
-      summary: Get all accommodation
-      tags:
-      - accommodation
-    post:
-      operationId: postAccommodation
-      parameters:
-      - description: Trip ID
-        in: path
-        name: trip_id
-        required: true
-        schema:
-          type: integer
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/request.Accommodation'
-        description: accommodation
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/entity.Accommodation'
-          description: OK
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Bad Request
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Forbidden
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Internal Server Error
-      security:
-      - bearerauth: []
-      summary: Add accommodation
-      tags:
-      - accommodation
-  /trips/{trip_id}/accommodation/{accommodation_id}:
-    delete:
-      operationId: deleteAccommodation
-      parameters:
-      - description: Trip ID
-        in: path
-        name: trip_id
-        required: true
-        schema:
-          type: integer
-      - description: Accommodation ID
-        in: path
-        name: accommodation_id
-        required: true
-        schema:
-          type: integer
-      responses:
-        "204":
-          description: No Content
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Bad Request
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Forbidden
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Not Found
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Internal Server Error
-      security:
-      - bearerauth: []
-      summary: Delete accommodation
-      tags:
-      - accommodation
-    get:
-      operationId: getAccommodationByID
-      parameters:
-      - description: Trip ID
-        in: path
-        name: trip_id
-        required: true
-        schema:
-          type: integer
-      - description: Accommodation ID
-        in: path
-        name: accommodation_id
-        required: true
-        schema:
-          type: integer
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/entity.Accommodation'
-          description: OK
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Bad Request
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Forbidden
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Not Found
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Internal Server Error
-      security:
-      - bearerauth: []
-      summary: Get accommodation by ID
-      tags:
-      - accommodation
-    put:
-      operationId: putAccommodation
-      parameters:
-      - description: Trip ID
-        in: path
-        name: trip_id
-        required: true
-        schema:
-          type: integer
-      - description: Accommodation ID
-        in: path
-        name: accommodation_id
-        required: true
-        schema:
-          type: integer
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/request.Accommodation'
-        description: accommodation
-        required: true
-      responses:
-        "204":
-          description: No Content
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Bad Request
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Forbidden
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Not Found
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Internal Server Error
-      security:
-      - bearerauth: []
-      summary: Update accommodation
-      tags:
-      - accommodation
-  /trips/{trip_id}/activities:
-    get:
-      operationId: getActivities
-      parameters:
-      - description: Trip ID
-        in: path
-        name: trip_id
-        required: true
-        schema:
-          type: integer
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                items:
-                  $ref: '#/components/schemas/entity.Activity'
-                type: array
-          description: OK
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Bad Request
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Forbidden
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Internal Server Error
-      security:
-      - bearerauth: []
-      summary: Get all activities
-      tags:
-      - activities
-    post:
-      operationId: postActivity
-      parameters:
-      - description: Trip ID
-        in: path
-        name: trip_id
-        required: true
-        schema:
-          type: integer
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/request.Activity'
-        description: activity
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/entity.Activity'
-          description: OK
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Bad Request
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Forbidden
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Internal Server Error
-      security:
-      - bearerauth: []
-      summary: Add activity
-      tags:
-      - activities
-  /trips/{trip_id}/activities/{activity_id}:
-    delete:
-      operationId: deleteActivity
-      parameters:
-      - description: Trip ID
-        in: path
-        name: trip_id
-        required: true
-        schema:
-          type: integer
-      - description: Activity ID
-        in: path
-        name: activity_id
-        required: true
-        schema:
-          type: integer
-      responses:
-        "204":
-          description: No Content
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Bad Request
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Forbidden
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Internal Server Error
-      security:
-      - bearerauth: []
-      summary: Delete activity
-      tags:
-      - activities
-    get:
-      operationId: getActivity
-      parameters:
-      - description: Trip ID
-        in: path
-        name: trip_id
-        required: true
-        schema:
-          type: integer
-      - description: Activity ID
-        in: path
-        name: activity_id
-        required: true
-        schema:
-          type: integer
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/entity.Activity'
-          description: OK
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Bad Request
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Forbidden
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Not Found
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Internal Server Error
-      security:
-      - bearerauth: []
-      summary: Get activity by ID
-      tags:
-      - activities
-    put:
-      operationId: putActivity
-      parameters:
-      - description: Trip ID
-        in: path
-        name: trip_id
-        required: true
-        schema:
-          type: integer
-      - description: Activity ID
-        in: path
-        name: activity_id
-        required: true
-        schema:
-          type: integer
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/request.Activity'
-        description: activity
-        required: true
-      responses:
-        "204":
-          description: No Content
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Bad Request
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Forbidden
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Internal Server Error
-      security:
-      - bearerauth: []
-      summary: Update activity
-      tags:
-      - activities
-  /trips/{trip_id}/attachments:
-    get:
-      operationId: getAttachments
-      parameters:
-      - description: Trip ID
-        in: path
-        name: trip_id
-        required: true
-        schema:
-          type: integer
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                items:
-                  $ref: '#/components/schemas/entity.Attachment'
-                type: array
-          description: OK
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Forbidden
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Internal Server Error
-      security:
-      - bearerauth: []
-      summary: Get all attachments
-      tags:
-      - attachments
-    post:
-      operationId: postAttachment
-      parameters:
-      - description: Trip ID
-        in: path
-        name: trip_id
-        required: true
-        schema:
-          type: integer
-      requestBody:
-        content:
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/v1.AttachmentsParam'
-        description: attachment
-        required: true
-      responses:
-        "204":
-          description: No Content
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Forbidden
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Internal Server Error
-      security:
-      - bearerauth: []
-      summary: Add attachment
-      tags:
-      - attachments
-  /trips/{trip_id}/attachments/{attachment_id}:
-    delete:
-      operationId: deleteAttachment
-      parameters:
-      - description: Trip ID
-        in: path
-        name: trip_id
-        required: true
-        schema:
-          type: integer
-      - description: Attachment ID
-        in: path
-        name: attachment_id
-        required: true
-        schema:
-          type: integer
-      responses:
-        "204":
-          description: No Content
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Forbidden
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Internal Server Error
-      security:
-      - bearerauth: []
-      summary: Delete attachment
-      tags:
-      - attachments
-    get:
-      operationId: downloadAttachment
-      parameters:
-      - description: Trip ID
-        in: path
-        name: trip_id
-        required: true
-        schema:
-          type: integer
-      - description: Attachment ID
-        in: path
-        name: attachment_id
-        required: true
-        schema:
-          type: integer
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/entity.Attachment'
-          description: OK
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Forbidden
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Internal Server Error
-      security:
-      - bearerauth: []
-      summary: Download attachment by ID
-      tags:
-      - attachments
-  /trips/{trip_id}/flights:
-    post:
-      operationId: postFlight
-      parameters:
-      - description: Trip ID
-        in: path
-        name: trip_id
-        required: true
-        schema:
-          type: integer
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/request.Flight'
-        description: flight
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/entity.Transportation'
-          description: OK
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Forbidden
-        "422":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/entity.ErrAmbiguousFlightRequest'
-          description: Unprocessable Entity
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Internal Server Error
-      security:
-      - bearerauth: []
-      summary: Add flight
-      tags:
-      - flights
-  /trips/{trip_id}/flights/{flight_id}:
-    put:
-      operationId: putFlight
-      parameters:
-      - description: Trip ID
-        in: path
-        name: trip_id
-        required: true
-        schema:
-          type: integer
-      - description: Flight ID
-        in: path
-        name: flight_id
-        required: true
-        schema:
-          type: integer
-      responses:
-        "204":
-          description: No Content
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Forbidden
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Not Found
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Internal Server Error
-      security:
-      - bearerauth: []
-      summary: Update flight
-      tags:
-      - flights
-  /trips/{trip_id}/trains:
+  /trains:
     post:
       operationId: postTrainJourney
-      parameters:
-      - description: Trip ID
-        in: path
-        name: trip_id
-        required: true
-        schema:
-          type: integer
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/request.TrainJourney'
+              $ref: '#/components/schemas/request.Train'
         description: train journey
         required: true
       responses:
@@ -1563,316 +369,16 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/entity.Transportation'
+                $ref: '#/components/schemas/entity.Train'
           description: OK
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Forbidden
         "500":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/response.Error'
           description: Internal Server Error
-      security:
-      - bearerauth: []
-      summary: Add train journey
+      summary: Find train journey
       tags:
       - trains
-  /trips/{trip_id}/transportation:
-    get:
-      operationId: getAllTransportation
-      parameters:
-      - description: Trip ID
-        in: path
-        name: trip_id
-        required: true
-        schema:
-          type: integer
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                items:
-                  $ref: '#/components/schemas/entity.Transportation'
-                type: array
-          description: OK
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Forbidden
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Internal Server Error
-      security:
-      - bearerauth: []
-      summary: Get all Transportation
-      tags:
-      - transportation
-    post:
-      operationId: postTransportation
-      parameters:
-      - description: Trip ID
-        in: path
-        name: trip_id
-        required: true
-        schema:
-          type: integer
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/request.Transportation'
-        description: transportation
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/entity.Transportation'
-          description: OK
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Forbidden
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Internal Server Error
-      security:
-      - bearerauth: []
-      summary: Add transportation
-      tags:
-      - transportation
-  /trips/{trip_id}/transportation/{transportation_id}:
-    delete:
-      operationId: deleteTransportation
-      parameters:
-      - description: Trip ID
-        in: path
-        name: trip_id
-        required: true
-        schema:
-          type: integer
-      - description: Transportation ID
-        in: path
-        name: transportation_id
-        required: true
-        schema:
-          type: integer
-      responses:
-        "204":
-          description: No Content
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Forbidden
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Not Found
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Internal Server Error
-      security:
-      - bearerauth: []
-      summary: Delete Transportation
-      tags:
-      - transportation
-    get:
-      operationId: getTransportation
-      parameters:
-      - description: Trip ID
-        in: path
-        name: trip_id
-        required: true
-        schema:
-          type: integer
-      - description: Transportation ID
-        in: path
-        name: transportation_id
-        required: true
-        schema:
-          type: integer
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/entity.Transportation'
-          description: OK
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Forbidden
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Not Found
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Internal Server Error
-      security:
-      - bearerauth: []
-      summary: Get Transportation by ID
-      tags:
-      - transportation
-    put:
-      operationId: putTransportation
-      parameters:
-      - description: Trip ID
-        in: path
-        name: trip_id
-        required: true
-        schema:
-          type: integer
-      - description: Transportation ID
-        in: path
-        name: transportation_id
-        required: true
-        schema:
-          type: integer
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/request.Transportation'
-        description: transportation
-        required: true
-      responses:
-        "204":
-          description: No Content
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Forbidden
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Internal Server Error
-      security:
-      - bearerauth: []
-      summary: Update transportation
-      tags:
-      - transportation
-  /trips/{trip_id}/transportation/geojson:
-    get:
-      operationId: getGeoJson
-      parameters:
-      - description: Trip ID
-        in: path
-        name: trip_id
-        required: true
-        schema:
-          type: integer
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                items:
-                  type: string
-                type: array
-          description: OK
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Forbidden
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Internal Server Error
-      security:
-      - bearerauth: []
-      summary: Get GeoJson
-      tags:
-      - transportation
-  /users:
-    get:
-      operationId: getUsers
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                items:
-                  $ref: '#/components/schemas/entity.User'
-                type: array
-          description: OK
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Internal Server Error
-      security:
-      - bearerauth: []
-      summary: Get all users
-      tags:
-      - users
-  /users/{user_id}:
-    get:
-      operationId: getUser
-      parameters:
-      - description: User ID
-        in: path
-        name: user_id
-        required: true
-        schema:
-          type: integer
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/entity.User'
-          description: OK
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/response.Error'
-          description: Internal Server Error
-      security:
-      - bearerauth: []
-      summary: Get user by ID
-      tags:
-      - users
 servers:
 - url: http://127.0.0.1:8080/api/v1

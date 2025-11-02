@@ -1,16 +1,14 @@
 package flights
 
 import (
-	"context"
-	"fmt"
+	"kompass/internal/entity"
+
 	"github.com/paulmach/orb"
 	"github.com/paulmach/orb/geojson"
-	"kompass/internal/entity"
 )
 
-func (uc *UseCase) saveGeoJson(ctx context.Context, transportation entity.Transportation) error {
-
-	legs := transportation.FlightDetail.Legs
+func (uc *UseCase) createGeoJson(flight entity.Flight) *geojson.FeatureCollection {
+	legs := flight.Legs
 
 	featureCollection := geojson.NewFeatureCollection()
 	featureCollection.ExtraMembers = map[string]interface{}{"transportationType": "FLIGHT"}
@@ -40,11 +38,7 @@ func (uc *UseCase) saveGeoJson(ctx context.Context, transportation entity.Transp
 		featureCollection.Append(featureWithProperties(from, to, location, legs))
 	}
 
-	err := uc.transportationRepo.SaveGeoJson(ctx, transportation.ID, featureCollection)
-	if err != nil {
-		return fmt.Errorf("save geojson: %w", err)
-	}
-	return nil
+	return featureCollection
 }
 
 func featureWithProperties(fromMunicipality string, toMunicipality string, location entity.Location, legs []entity.FlightLeg) *geojson.Feature {

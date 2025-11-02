@@ -1,9 +1,10 @@
 package http
 
 import (
-	fiberSwagger "github.com/swaggo/fiber-swagger"
 	"kompass/internal/usecase"
 	"net/http"
+
+	fiberSwagger "github.com/swaggo/fiber-swagger"
 
 	"kompass/config"
 	_ "kompass/docs" // Swagger docs.
@@ -17,11 +18,9 @@ import (
 
 // NewRouter -.
 // Swagger spec:
-// @title       Kompa.ss API
-// @description Using a translation service as an example
+// @title       Kompass Transportation API
 // @version     1.0
 // @servers.url http://127.0.0.1:8080/api/v1
-// @securitydefinitions.bearerauth
 func NewRouter(app *fiber.App, cfg *config.Config, useCases usecase.UseCases, log logger.Interface) {
 	// Options
 	app.Use(middleware.Logger())
@@ -45,21 +44,8 @@ func NewRouter(app *fiber.App, cfg *config.Config, useCases usecase.UseCases, lo
 	// Routers
 	apiV1Group := app.Group("/api/v1")
 	{
-		apiV1Group.Use(middleware.JwtMiddleware(cfg.Auth))
-		apiV1Group.Use(middleware.RetrieveOrCreateUserMiddleware(useCases.Users))
-
-		v1.NewUserRoutes(apiV1Group, useCases.Users, log)
 		v1.NewGeocodingRoutes(apiV1Group, useCases.Geocoding, log)
-
-		authorization := middleware.TripAuthorization(useCases.Users)
-		tripsV1Group := v1.NewTripRoutes(apiV1Group, useCases.Trips, log, authorization)
-		{
-			v1.NewTransportationRoutes(tripsV1Group, useCases.Transportation, log)
-			v1.NewFlightRoutes(tripsV1Group, useCases.Flights, log)
-			v1.NewTrainRoutes(tripsV1Group, useCases.Trains, log)
-			v1.NewActivityRoutes(tripsV1Group, useCases.Activities, log)
-			v1.NewAccommodationRoutes(tripsV1Group, useCases.Accommodation, log)
-			v1.NewAttachmentRoutes(tripsV1Group, useCases.Attachments, log)
-		}
+		v1.NewFlightRoutes(apiV1Group, useCases.Flights, log)
+		v1.NewTrainRoutes(apiV1Group, useCases.Trains, log)
 	}
 }

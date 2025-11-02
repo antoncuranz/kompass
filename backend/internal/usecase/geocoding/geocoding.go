@@ -3,10 +3,11 @@ package geocoding
 import (
 	"context"
 	"fmt"
-	"github.com/valyala/fasthttp"
 	"kompass/internal/entity"
 	"kompass/internal/repo"
 	"kompass/internal/usecase"
+
+	"github.com/paulmach/orb/geojson"
 )
 
 type UseCase struct {
@@ -21,7 +22,7 @@ func New(trains usecase.Trains, ors repo.OpenRouteServiceWebAPI) *UseCase {
 	}
 }
 
-func (uc *UseCase) LookupLocation(ctx *fasthttp.RequestCtx, query string) (entity.GeocodeLocation, error) {
+func (uc *UseCase) LookupLocation(ctx context.Context, query string) (entity.GeocodeLocation, error) {
 	location, err := uc.ors.LookupLocation(ctx, query)
 	if err != nil {
 		return entity.GeocodeLocation{}, fmt.Errorf("lookup location: %w", err)
@@ -37,4 +38,13 @@ func (uc *UseCase) LookupTrainStation(ctx context.Context, query string) (entity
 	}
 
 	return station, nil
+}
+
+func (uc *UseCase) LookupDirections(ctx context.Context, start entity.Location, end entity.Location, transportationType entity.TransportationType) (*geojson.FeatureCollection, error) {
+	directions, err := uc.ors.LookupDirections(ctx, start, end, transportationType)
+	if err != nil {
+		return nil, fmt.Errorf("lookup directions: %w", err)
+	}
+
+	return directions, nil
 }

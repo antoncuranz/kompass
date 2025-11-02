@@ -10,66 +10,6 @@ import (
 	"github.com/ogen-go/ogen/validate"
 )
 
-func (s *EntityAccommodation) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if value, ok := s.Location.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "location",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s *EntityActivity) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if value, ok := s.Location.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "location",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
 func (s *EntityAirport) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
@@ -77,43 +17,13 @@ func (s *EntityAirport) Validate() error {
 
 	var failures []validate.FieldError
 	if err := func() error {
-		if value, ok := s.Location.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
+		if err := s.Location.Validate(); err != nil {
+			return err
 		}
 		return nil
 	}(); err != nil {
 		failures = append(failures, validate.FieldError{
 			Name:  "location",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s *EntityAttachment) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if s.Blob == nil {
-			return errors.New("nil is invalid value")
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "blob",
 			Error: err,
 		})
 	}
@@ -145,7 +55,7 @@ func (s EntityErrAmbiguousFlightRequest) Validate() error {
 	return nil
 }
 
-func (s *EntityFlightDetail) Validate() error {
+func (s *EntityFlight) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
 	}
@@ -176,17 +86,6 @@ func (s *EntityFlightDetail) Validate() error {
 	}(); err != nil {
 		failures = append(failures, validate.FieldError{
 			Name:  "legs",
-			Error: err,
-		})
-	}
-	if err := func() error {
-		if s.Pnrs == nil {
-			return errors.New("nil is invalid value")
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "pnrs",
 			Error: err,
 		})
 	}
@@ -264,7 +163,7 @@ func (s *EntityLocation) Validate() error {
 	return nil
 }
 
-func (s *EntityTrainDetail) Validate() error {
+func (s *EntityTrain) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
 	}
@@ -345,15 +244,8 @@ func (s *EntityTrainStation) Validate() error {
 
 	var failures []validate.FieldError
 	if err := func() error {
-		if value, ok := s.Location.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
+		if err := s.Location.Validate(); err != nil {
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -368,265 +260,31 @@ func (s *EntityTrainStation) Validate() error {
 	return nil
 }
 
-func (s *EntityTransportation) Validate() error {
+func (s *RequestDirections) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
 	}
 
 	var failures []validate.FieldError
 	if err := func() error {
-		if value, ok := s.Destination.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
+		if err := s.End.Validate(); err != nil {
+			return err
 		}
 		return nil
 	}(); err != nil {
 		failures = append(failures, validate.FieldError{
-			Name:  "destination",
+			Name:  "end",
 			Error: err,
 		})
 	}
 	if err := func() error {
-		if value, ok := s.FlightDetail.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
+		if err := s.Start.Validate(); err != nil {
+			return err
 		}
 		return nil
 	}(); err != nil {
 		failures = append(failures, validate.FieldError{
-			Name:  "flightDetail",
-			Error: err,
-		})
-	}
-	if err := func() error {
-		if value, ok := s.Origin.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "origin",
-			Error: err,
-		})
-	}
-	if err := func() error {
-		if value, ok := s.TrainDetail.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "trainDetail",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s GetActivitiesOKApplicationJSON) Validate() error {
-	alias := ([]EntityActivity)(s)
-	if alias == nil {
-		return errors.New("nil is invalid value")
-	}
-	var failures []validate.FieldError
-	for i, elem := range alias {
-		if err := func() error {
-			if err := elem.Validate(); err != nil {
-				return err
-			}
-			return nil
-		}(); err != nil {
-			failures = append(failures, validate.FieldError{
-				Name:  fmt.Sprintf("[%d]", i),
-				Error: err,
-			})
-		}
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s GetAllAccommodationOKApplicationJSON) Validate() error {
-	alias := ([]EntityAccommodation)(s)
-	if alias == nil {
-		return errors.New("nil is invalid value")
-	}
-	var failures []validate.FieldError
-	for i, elem := range alias {
-		if err := func() error {
-			if err := elem.Validate(); err != nil {
-				return err
-			}
-			return nil
-		}(); err != nil {
-			failures = append(failures, validate.FieldError{
-				Name:  fmt.Sprintf("[%d]", i),
-				Error: err,
-			})
-		}
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s GetAllTransportationOKApplicationJSON) Validate() error {
-	alias := ([]EntityTransportation)(s)
-	if alias == nil {
-		return errors.New("nil is invalid value")
-	}
-	var failures []validate.FieldError
-	for i, elem := range alias {
-		if err := func() error {
-			if err := elem.Validate(); err != nil {
-				return err
-			}
-			return nil
-		}(); err != nil {
-			failures = append(failures, validate.FieldError{
-				Name:  fmt.Sprintf("[%d]", i),
-				Error: err,
-			})
-		}
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s GetAttachmentsOKApplicationJSON) Validate() error {
-	alias := ([]EntityAttachment)(s)
-	if alias == nil {
-		return errors.New("nil is invalid value")
-	}
-	var failures []validate.FieldError
-	for i, elem := range alias {
-		if err := func() error {
-			if err := elem.Validate(); err != nil {
-				return err
-			}
-			return nil
-		}(); err != nil {
-			failures = append(failures, validate.FieldError{
-				Name:  fmt.Sprintf("[%d]", i),
-				Error: err,
-			})
-		}
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s GetGeoJsonOKApplicationJSON) Validate() error {
-	alias := ([]string)(s)
-	if alias == nil {
-		return errors.New("nil is invalid value")
-	}
-	return nil
-}
-
-func (s GetTripsOKApplicationJSON) Validate() error {
-	alias := ([]EntityTrip)(s)
-	if alias == nil {
-		return errors.New("nil is invalid value")
-	}
-	return nil
-}
-
-func (s GetUsersOKApplicationJSON) Validate() error {
-	alias := ([]EntityUser)(s)
-	if alias == nil {
-		return errors.New("nil is invalid value")
-	}
-	return nil
-}
-
-func (s *RequestAccommodation) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if value, ok := s.Location.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "location",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s *RequestActivity) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if value, ok := s.Location.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "location",
+			Name:  "start",
 			Error: err,
 		})
 	}
@@ -653,24 +311,13 @@ func (s *RequestFlight) Validate() error {
 			Error: err,
 		})
 	}
-	if err := func() error {
-		if s.Pnrs == nil {
-			return errors.New("nil is invalid value")
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "pnrs",
-			Error: err,
-		})
-	}
 	if len(failures) > 0 {
 		return &validate.Error{Fields: failures}
 	}
 	return nil
 }
 
-func (s *RequestTrainJourney) Validate() error {
+func (s *RequestTrain) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
 	}
@@ -684,54 +331,6 @@ func (s *RequestTrainJourney) Validate() error {
 	}(); err != nil {
 		failures = append(failures, validate.FieldError{
 			Name:  "trainNumbers",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s *RequestTransportation) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if value, ok := s.Destination.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "destination",
-			Error: err,
-		})
-	}
-	if err := func() error {
-		if value, ok := s.Origin.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "origin",
 			Error: err,
 		})
 	}

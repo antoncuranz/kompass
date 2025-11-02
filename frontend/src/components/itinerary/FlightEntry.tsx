@@ -1,90 +1,132 @@
 "use client"
 
-import {Button} from "@/components/ui/button.tsx";
-import {ChevronDown, ChevronRight, ChevronUp, SquarePen} from "lucide-react";
+import { useMap } from "@/components/map/common.tsx"
+import PrivacyFilter from "@/components/PrivacyFilter.tsx"
+import { Button } from "@/components/ui/button.tsx"
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@/components/ui/collapsible";
-import {cn} from "@/lib/utils.ts";
-import {FlightDetail, FlightLeg} from "@/types.ts";
-import {formatDurationMinutes, formatTime} from "@/components/util.ts";
-import React, {MouseEvent, MouseEventHandler, useState} from "react";
-import {useMap} from "@/components/map/common.tsx";
+} from "@/components/ui/collapsible"
+import { formatDurationMinutes, formatTime } from "@/components/util.ts"
+import { cn } from "@/lib/utils.ts"
+import { FlightDetail, FlightLeg } from "@/schema.ts"
+import { ChevronDown, ChevronRight, ChevronUp, SquarePen } from "lucide-react"
+import { MouseEvent, MouseEventHandler, useState } from "react"
 
 export default function FlightEntry({
-  flight, flightLeg, className, onInfoBtnClick
+  flight,
+  flightLeg,
+  className,
+  onInfoBtnClick,
 }: {
-  flight: FlightDetail,
-  flightLeg: FlightLeg,
+  flight: FlightDetail
+  flightLeg: FlightLeg
   className?: string
   onInfoBtnClick?: MouseEventHandler<HTMLButtonElement> | undefined
-}){
+}) {
   const [open, setOpen] = useState<boolean>(false)
-  const {heroMap} = useMap();
+  const { heroMap } = useMap()
 
   const iata = flightLeg.flightNumber.substring(0, 2)
 
   function onChevronClick(e: MouseEvent<SVGSVGElement>) {
     e.stopPropagation()
-    heroMap?.flyTo({center: [flightLeg.origin.location.longitude, flightLeg.origin.location.latitude]})
+    heroMap?.flyTo({
+      center: [
+        flightLeg.origin.location.longitude,
+        flightLeg.origin.location.latitude,
+      ],
+    })
   }
 
   return (
     <Collapsible
       open={open}
       onOpenChange={setOpen}
-      className={cn("rounded-xl border mx-3 p-2 pl-4 pr-4 grid bg-background z-10 relative group/flyto", className)}
+      className={cn(
+        "rounded-xl border mx-3 p-2 pl-4 pr-4 grid bg-background z-10 relative group/flyto",
+        className,
+      )}
     >
       <CollapsibleTrigger className="grid grid-cols-[1.5rem_1fr] gap-2 cursor-pointer w-full text-left">
         <span className="mt-0 m-auto">✈️</span>
         <div className="flex overflow-hidden whitespace-nowrap w-full">
           <span className="overflow-hidden text-ellipsis w-full">
-            {open ?
-              `Flight from ${flightLeg.origin.municipality} to ${flightLeg.destination.municipality}`
-            :
-              `${formatTime(flightLeg.departureDateTime)}-${formatTime(flightLeg.arrivalDateTime)} Flight ${flightLeg.flightNumber} from ${flightLeg.origin.municipality} to ${flightLeg.destination.municipality}`
-            }
+            {open
+              ? `Flight from ${flightLeg.origin.municipality} to ${flightLeg.destination.municipality}`
+              : `${formatTime(flightLeg.departureDateTime)}-${formatTime(flightLeg.arrivalDateTime)} Flight ${flightLeg.flightNumber} from ${flightLeg.origin.municipality} to ${flightLeg.destination.municipality}`}
           </span>
-          {open ?
-            <ChevronUp className="float-right text-muted-foreground"/>
-          :
-            <ChevronDown className="float-right text-muted-foreground"/>
-          }
+          {open ? (
+            <ChevronUp className="float-right text-muted-foreground" />
+          ) : (
+            <ChevronDown className="float-right text-muted-foreground" />
+          )}
         </div>
-        {heroMap &&
-            <ChevronRight className="text-muted-foreground absolute top-2 -right-3 bg-background rounded-xl border hidden group-hover/flyto:block" onClick={onChevronClick}/>
-        }
+        {heroMap && (
+          <ChevronRight
+            className="text-muted-foreground absolute top-2 -right-3 bg-background rounded-xl border hidden group-hover/flyto:block"
+            onClick={onChevronClick}
+          />
+        )}
       </CollapsibleTrigger>
       <CollapsibleContent>
-        <div className="grid mt-1" style={{gridTemplateColumns: "1.5rem 1fr", columnGap: "0.5rem"}}>
+        <div
+          className="grid mt-1"
+          style={{ gridTemplateColumns: "1.5rem 1fr", columnGap: "0.5rem" }}
+        >
           <div className="mt-0 m-auto flex flex-col items-center relative top-2">
-            <div className="w-1.5 h-1.5 rounded-lg bg-gray-300"/>
-            <div className="h-10 w-0.5 bg-gray-300"/>
-            <div className="w-1.5 h-1.5 rounded-lg bg-gray-300"/>
+            <div className="w-1.5 h-1.5 rounded-lg bg-gray-300" />
+            <div className="h-10 w-0.5 bg-gray-300" />
+            <div className="w-1.5 h-1.5 rounded-lg bg-gray-300" />
           </div>
           <div>
-            <p>{formatTime(flightLeg.departureDateTime)} {flightLeg.origin.name} ({flightLeg.origin.iata})</p>
-            <p className="text-sm text-muted-foreground">Duration: {formatDurationMinutes(flightLeg.durationInMinutes)}</p>
-            <p>{formatTime(flightLeg.arrivalDateTime)} {flightLeg.destination.name} ({flightLeg.destination.iata})</p>
+            <p>
+              {formatTime(flightLeg.departureDateTime)} {flightLeg.origin.name}{" "}
+              ({flightLeg.origin.iata})
+            </p>
+            <p className="text-sm text-muted-foreground">
+              Duration: {formatDurationMinutes(flightLeg.durationInMinutes)}
+            </p>
+            <p>
+              {formatTime(flightLeg.arrivalDateTime)}{" "}
+              {flightLeg.destination.name} ({flightLeg.destination.iata})
+            </p>
           </div>
-          <img src={"https://seats.aero/static/carriersng/" + iata + ".png"} className="h-4 mt-0 m-auto relative top-1" alt="LH"/>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={"https://seats.aero/static/carriersng/" + iata + ".png"}
+            className="h-4 mt-0 m-auto relative top-1"
+            alt="LH"
+          />
           <div>
-            <span className="text-sm text-muted-foreground">{flightLeg.airline} - {flightLeg.flightNumber} - {flightLeg.aircraft}</span>
+            <span className="text-sm text-muted-foreground">
+              {flightLeg.airline} - {flightLeg.flightNumber} -{" "}
+              {flightLeg.aircraft}
+            </span>
             <div className="flex float-right">
-              {flight.pnrs.map(pnr =>
-                <Button key={pnr.id} size="sm" variant="secondary" className="ml-2 p-2 h-6">
-                  {pnr.airline} {pnr.pnr}
-                </Button>
-              )}
-              <Button variant="secondary" className="ml-2 p-2 h-6" onClick={onInfoBtnClick}>
-                <SquarePen className="w-3.5 h-3.5"/>
+              {flight.pnrs.map(pnr => (
+                <PrivacyFilter key={pnr.$jazz.id} className="flex" mode="hide">
+                  <Button
+                    size="sm"
+                    variant="secondary"
+                    className="ml-2 p-2 h-6"
+                  >
+                    {pnr.airline} {pnr.pnr}
+                  </Button>
+                </PrivacyFilter>
+              ))}
+              <Button
+                variant="secondary"
+                className="ml-2 p-2 h-6"
+                onClick={onInfoBtnClick}
+              >
+                <SquarePen className="w-3.5 h-3.5" />
               </Button>
             </div>
           </div>
         </div>
       </CollapsibleContent>
     </Collapsible>
- )
+  )
 }

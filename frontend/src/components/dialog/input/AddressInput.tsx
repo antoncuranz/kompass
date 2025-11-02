@@ -1,21 +1,27 @@
-import {Input} from "@/components/ui/input.tsx";
-import {Button} from "@/components/ui/button.tsx";
-import {Search} from "lucide-react";
-import {cn} from "@/lib/utils.ts";
-import {ControllerRenderProps, FieldValues} from "react-hook-form";
-import {toast} from "sonner";
-import {Coordinates} from "@/types.ts";
-import {Spinner} from "@/components/ui/shadcn-io/spinner";
-import {useTransition} from "react";
+import { Button } from "@/components/ui/button.tsx"
+import { Input } from "@/components/ui/input.tsx"
+import { Spinner } from "@/components/ui/shadcn-io/spinner"
+import { cn } from "@/lib/utils.ts"
+import { Coordinates } from "@/types.ts"
+import { Search } from "lucide-react"
+import { useTransition } from "react"
+import { ControllerRenderProps, FieldValues } from "react-hook-form"
+import { toast } from "sonner"
 
 export default function AddressInput({
-  onChange, onBlur, value, disabled, name, ref,
-  updateCoordinates, className
+  onChange,
+  onBlur,
+  value,
+  disabled,
+  name,
+  ref,
+  updateCoordinates,
+  className,
 }: ControllerRenderProps<FieldValues, string> & {
-  updateCoordinates: (coordinates: Coordinates) => void,
-  className?: string,
+  updateCoordinates: (coordinates: Coordinates) => void
+  className?: string
 }) {
-  const [isLoading, startTransition] = useTransition();
+  const [isLoading, startTransition] = useTransition()
 
   async function searchForLocationUsingGeocodeApi() {
     const url = encodeURI("/api/v1/geocoding/location?query=" + value)
@@ -25,9 +31,10 @@ export default function AddressInput({
       const geocodeLocation = await response.json()
       onChange(geocodeLocation["label"])
       updateCoordinates(geocodeLocation)
-    } else toast("Error looking up address", {
-      description: await response.text()
-    })
+    } else
+      toast("Error looking up address", {
+        description: await response.text(),
+      })
   }
 
   function onClick() {
@@ -35,26 +42,27 @@ export default function AddressInput({
   }
 
   return (
-      <div className={cn("", className)}>
-        <div className="flex gap-2">
-          <Input ref={ref}
-                 name={name}
-                 value={value}
-                 onChange={e => onChange(e.target.value)}
-                 onBlur={onBlur}
-                 disabled={disabled || isLoading}
-                 data-1p-ignore
-          />
-          {!disabled &&
-            <Button variant="secondary" onClick={onClick} disabled={isLoading}>
-              { isLoading ?
-                <Spinner className="h-4 w-4" variant="pinwheel"/>
-              :
-                <Search className="h-4 w-4"/>
-              }
-            </Button>
-          }
-        </div>
+    <div className={cn("", className)}>
+      <div className="flex gap-2">
+        <Input
+          ref={ref}
+          name={name}
+          value={value}
+          onChange={e => onChange(e.target.value)}
+          onBlur={onBlur}
+          disabled={disabled || isLoading}
+          data-1p-ignore
+        />
+        {!disabled && (
+          <Button variant="secondary" onClick={onClick} disabled={isLoading}>
+            {isLoading ? (
+              <Spinner className="h-4 w-4" variant="pinwheel" />
+            ) : (
+              <Search className="h-4 w-4" />
+            )}
+          </Button>
+        )}
       </div>
+    </div>
   )
 }

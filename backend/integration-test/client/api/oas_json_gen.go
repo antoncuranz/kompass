@@ -12,1130 +12,6 @@ import (
 	"github.com/ogen-go/ogen/validate"
 )
 
-// Encode encodes DeleteAccommodationBadRequest as json.
-func (s *DeleteAccommodationBadRequest) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes DeleteAccommodationBadRequest from json.
-func (s *DeleteAccommodationBadRequest) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode DeleteAccommodationBadRequest to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = DeleteAccommodationBadRequest(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *DeleteAccommodationBadRequest) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *DeleteAccommodationBadRequest) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes DeleteAccommodationForbidden as json.
-func (s *DeleteAccommodationForbidden) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes DeleteAccommodationForbidden from json.
-func (s *DeleteAccommodationForbidden) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode DeleteAccommodationForbidden to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = DeleteAccommodationForbidden(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *DeleteAccommodationForbidden) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *DeleteAccommodationForbidden) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes DeleteAccommodationInternalServerError as json.
-func (s *DeleteAccommodationInternalServerError) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes DeleteAccommodationInternalServerError from json.
-func (s *DeleteAccommodationInternalServerError) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode DeleteAccommodationInternalServerError to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = DeleteAccommodationInternalServerError(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *DeleteAccommodationInternalServerError) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *DeleteAccommodationInternalServerError) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes DeleteAccommodationNotFound as json.
-func (s *DeleteAccommodationNotFound) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes DeleteAccommodationNotFound from json.
-func (s *DeleteAccommodationNotFound) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode DeleteAccommodationNotFound to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = DeleteAccommodationNotFound(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *DeleteAccommodationNotFound) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *DeleteAccommodationNotFound) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes DeleteActivityBadRequest as json.
-func (s *DeleteActivityBadRequest) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes DeleteActivityBadRequest from json.
-func (s *DeleteActivityBadRequest) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode DeleteActivityBadRequest to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = DeleteActivityBadRequest(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *DeleteActivityBadRequest) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *DeleteActivityBadRequest) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes DeleteActivityForbidden as json.
-func (s *DeleteActivityForbidden) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes DeleteActivityForbidden from json.
-func (s *DeleteActivityForbidden) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode DeleteActivityForbidden to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = DeleteActivityForbidden(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *DeleteActivityForbidden) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *DeleteActivityForbidden) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes DeleteActivityInternalServerError as json.
-func (s *DeleteActivityInternalServerError) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes DeleteActivityInternalServerError from json.
-func (s *DeleteActivityInternalServerError) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode DeleteActivityInternalServerError to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = DeleteActivityInternalServerError(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *DeleteActivityInternalServerError) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *DeleteActivityInternalServerError) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes DeleteAttachmentForbidden as json.
-func (s *DeleteAttachmentForbidden) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes DeleteAttachmentForbidden from json.
-func (s *DeleteAttachmentForbidden) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode DeleteAttachmentForbidden to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = DeleteAttachmentForbidden(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *DeleteAttachmentForbidden) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *DeleteAttachmentForbidden) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes DeleteAttachmentInternalServerError as json.
-func (s *DeleteAttachmentInternalServerError) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes DeleteAttachmentInternalServerError from json.
-func (s *DeleteAttachmentInternalServerError) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode DeleteAttachmentInternalServerError to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = DeleteAttachmentInternalServerError(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *DeleteAttachmentInternalServerError) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *DeleteAttachmentInternalServerError) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes DeleteTransportationForbidden as json.
-func (s *DeleteTransportationForbidden) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes DeleteTransportationForbidden from json.
-func (s *DeleteTransportationForbidden) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode DeleteTransportationForbidden to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = DeleteTransportationForbidden(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *DeleteTransportationForbidden) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *DeleteTransportationForbidden) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes DeleteTransportationInternalServerError as json.
-func (s *DeleteTransportationInternalServerError) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes DeleteTransportationInternalServerError from json.
-func (s *DeleteTransportationInternalServerError) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode DeleteTransportationInternalServerError to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = DeleteTransportationInternalServerError(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *DeleteTransportationInternalServerError) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *DeleteTransportationInternalServerError) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes DeleteTransportationNotFound as json.
-func (s *DeleteTransportationNotFound) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes DeleteTransportationNotFound from json.
-func (s *DeleteTransportationNotFound) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode DeleteTransportationNotFound to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = DeleteTransportationNotFound(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *DeleteTransportationNotFound) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *DeleteTransportationNotFound) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes DeleteTripBadRequest as json.
-func (s *DeleteTripBadRequest) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes DeleteTripBadRequest from json.
-func (s *DeleteTripBadRequest) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode DeleteTripBadRequest to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = DeleteTripBadRequest(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *DeleteTripBadRequest) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *DeleteTripBadRequest) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes DeleteTripForbidden as json.
-func (s *DeleteTripForbidden) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes DeleteTripForbidden from json.
-func (s *DeleteTripForbidden) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode DeleteTripForbidden to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = DeleteTripForbidden(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *DeleteTripForbidden) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *DeleteTripForbidden) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes DeleteTripInternalServerError as json.
-func (s *DeleteTripInternalServerError) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes DeleteTripInternalServerError from json.
-func (s *DeleteTripInternalServerError) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode DeleteTripInternalServerError to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = DeleteTripInternalServerError(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *DeleteTripInternalServerError) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *DeleteTripInternalServerError) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes DownloadAttachmentForbidden as json.
-func (s *DownloadAttachmentForbidden) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes DownloadAttachmentForbidden from json.
-func (s *DownloadAttachmentForbidden) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode DownloadAttachmentForbidden to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = DownloadAttachmentForbidden(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *DownloadAttachmentForbidden) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *DownloadAttachmentForbidden) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes DownloadAttachmentInternalServerError as json.
-func (s *DownloadAttachmentInternalServerError) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes DownloadAttachmentInternalServerError from json.
-func (s *DownloadAttachmentInternalServerError) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode DownloadAttachmentInternalServerError to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = DownloadAttachmentInternalServerError(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *DownloadAttachmentInternalServerError) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *DownloadAttachmentInternalServerError) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode implements json.Marshaler.
-func (s *EntityAccommodation) Encode(e *jx.Encoder) {
-	e.ObjStart()
-	s.encodeFields(e)
-	e.ObjEnd()
-}
-
-// encodeFields encodes fields.
-func (s *EntityAccommodation) encodeFields(e *jx.Encoder) {
-	{
-		e.FieldStart("address")
-		s.Address.Encode(e)
-	}
-	{
-		e.FieldStart("arrivalDate")
-		e.Str(s.ArrivalDate)
-	}
-	{
-		e.FieldStart("checkInTime")
-		s.CheckInTime.Encode(e)
-	}
-	{
-		e.FieldStart("checkOutTime")
-		s.CheckOutTime.Encode(e)
-	}
-	{
-		e.FieldStart("departureDate")
-		e.Str(s.DepartureDate)
-	}
-	{
-		e.FieldStart("description")
-		s.Description.Encode(e)
-	}
-	{
-		e.FieldStart("id")
-		e.Int(s.ID)
-	}
-	{
-		e.FieldStart("location")
-		s.Location.Encode(e)
-	}
-	{
-		e.FieldStart("name")
-		e.Str(s.Name)
-	}
-	{
-		e.FieldStart("price")
-		s.Price.Encode(e)
-	}
-	{
-		e.FieldStart("tripId")
-		e.Int(s.TripId)
-	}
-}
-
-var jsonFieldsNameOfEntityAccommodation = [11]string{
-	0:  "address",
-	1:  "arrivalDate",
-	2:  "checkInTime",
-	3:  "checkOutTime",
-	4:  "departureDate",
-	5:  "description",
-	6:  "id",
-	7:  "location",
-	8:  "name",
-	9:  "price",
-	10: "tripId",
-}
-
-// Decode decodes EntityAccommodation from json.
-func (s *EntityAccommodation) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode EntityAccommodation to nil")
-	}
-	var requiredBitSet [2]uint8
-
-	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
-		switch string(k) {
-		case "address":
-			requiredBitSet[0] |= 1 << 0
-			if err := func() error {
-				if err := s.Address.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"address\"")
-			}
-		case "arrivalDate":
-			requiredBitSet[0] |= 1 << 1
-			if err := func() error {
-				v, err := d.Str()
-				s.ArrivalDate = string(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"arrivalDate\"")
-			}
-		case "checkInTime":
-			requiredBitSet[0] |= 1 << 2
-			if err := func() error {
-				if err := s.CheckInTime.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"checkInTime\"")
-			}
-		case "checkOutTime":
-			requiredBitSet[0] |= 1 << 3
-			if err := func() error {
-				if err := s.CheckOutTime.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"checkOutTime\"")
-			}
-		case "departureDate":
-			requiredBitSet[0] |= 1 << 4
-			if err := func() error {
-				v, err := d.Str()
-				s.DepartureDate = string(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"departureDate\"")
-			}
-		case "description":
-			requiredBitSet[0] |= 1 << 5
-			if err := func() error {
-				if err := s.Description.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"description\"")
-			}
-		case "id":
-			requiredBitSet[0] |= 1 << 6
-			if err := func() error {
-				v, err := d.Int()
-				s.ID = int(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"id\"")
-			}
-		case "location":
-			requiredBitSet[0] |= 1 << 7
-			if err := func() error {
-				if err := s.Location.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"location\"")
-			}
-		case "name":
-			requiredBitSet[1] |= 1 << 0
-			if err := func() error {
-				v, err := d.Str()
-				s.Name = string(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"name\"")
-			}
-		case "price":
-			requiredBitSet[1] |= 1 << 1
-			if err := func() error {
-				if err := s.Price.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"price\"")
-			}
-		case "tripId":
-			requiredBitSet[1] |= 1 << 2
-			if err := func() error {
-				v, err := d.Int()
-				s.TripId = int(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"tripId\"")
-			}
-		default:
-			return d.Skip()
-		}
-		return nil
-	}); err != nil {
-		return errors.Wrap(err, "decode EntityAccommodation")
-	}
-	// Validate required fields.
-	var failures []validate.FieldError
-	for i, mask := range [2]uint8{
-		0b11111111,
-		0b00000111,
-	} {
-		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
-			// Mask only required fields and check equality to mask using XOR.
-			//
-			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
-			// Bits of fields which would be set are actually bits of missed fields.
-			missed := bits.OnesCount8(result)
-			for bitN := 0; bitN < missed; bitN++ {
-				bitIdx := bits.TrailingZeros8(result)
-				fieldIdx := i*8 + bitIdx
-				var name string
-				if fieldIdx < len(jsonFieldsNameOfEntityAccommodation) {
-					name = jsonFieldsNameOfEntityAccommodation[fieldIdx]
-				} else {
-					name = strconv.Itoa(fieldIdx)
-				}
-				failures = append(failures, validate.FieldError{
-					Name:  name,
-					Error: validate.ErrFieldRequired,
-				})
-				// Reset bit.
-				result &^= 1 << bitIdx
-			}
-		}
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *EntityAccommodation) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *EntityAccommodation) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode implements json.Marshaler.
-func (s *EntityActivity) Encode(e *jx.Encoder) {
-	e.ObjStart()
-	s.encodeFields(e)
-	e.ObjEnd()
-}
-
-// encodeFields encodes fields.
-func (s *EntityActivity) encodeFields(e *jx.Encoder) {
-	{
-		e.FieldStart("address")
-		s.Address.Encode(e)
-	}
-	{
-		e.FieldStart("date")
-		e.Str(s.Date)
-	}
-	{
-		e.FieldStart("description")
-		s.Description.Encode(e)
-	}
-	{
-		e.FieldStart("id")
-		e.Int(s.ID)
-	}
-	{
-		e.FieldStart("location")
-		s.Location.Encode(e)
-	}
-	{
-		e.FieldStart("name")
-		e.Str(s.Name)
-	}
-	{
-		e.FieldStart("price")
-		s.Price.Encode(e)
-	}
-	{
-		e.FieldStart("time")
-		s.Time.Encode(e)
-	}
-	{
-		e.FieldStart("tripId")
-		e.Int(s.TripId)
-	}
-}
-
-var jsonFieldsNameOfEntityActivity = [9]string{
-	0: "address",
-	1: "date",
-	2: "description",
-	3: "id",
-	4: "location",
-	5: "name",
-	6: "price",
-	7: "time",
-	8: "tripId",
-}
-
-// Decode decodes EntityActivity from json.
-func (s *EntityActivity) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode EntityActivity to nil")
-	}
-	var requiredBitSet [2]uint8
-
-	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
-		switch string(k) {
-		case "address":
-			requiredBitSet[0] |= 1 << 0
-			if err := func() error {
-				if err := s.Address.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"address\"")
-			}
-		case "date":
-			requiredBitSet[0] |= 1 << 1
-			if err := func() error {
-				v, err := d.Str()
-				s.Date = string(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"date\"")
-			}
-		case "description":
-			requiredBitSet[0] |= 1 << 2
-			if err := func() error {
-				if err := s.Description.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"description\"")
-			}
-		case "id":
-			requiredBitSet[0] |= 1 << 3
-			if err := func() error {
-				v, err := d.Int()
-				s.ID = int(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"id\"")
-			}
-		case "location":
-			requiredBitSet[0] |= 1 << 4
-			if err := func() error {
-				if err := s.Location.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"location\"")
-			}
-		case "name":
-			requiredBitSet[0] |= 1 << 5
-			if err := func() error {
-				v, err := d.Str()
-				s.Name = string(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"name\"")
-			}
-		case "price":
-			requiredBitSet[0] |= 1 << 6
-			if err := func() error {
-				if err := s.Price.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"price\"")
-			}
-		case "time":
-			requiredBitSet[0] |= 1 << 7
-			if err := func() error {
-				if err := s.Time.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"time\"")
-			}
-		case "tripId":
-			requiredBitSet[1] |= 1 << 0
-			if err := func() error {
-				v, err := d.Int()
-				s.TripId = int(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"tripId\"")
-			}
-		default:
-			return d.Skip()
-		}
-		return nil
-	}); err != nil {
-		return errors.Wrap(err, "decode EntityActivity")
-	}
-	// Validate required fields.
-	var failures []validate.FieldError
-	for i, mask := range [2]uint8{
-		0b11111111,
-		0b00000001,
-	} {
-		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
-			// Mask only required fields and check equality to mask using XOR.
-			//
-			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
-			// Bits of fields which would be set are actually bits of missed fields.
-			missed := bits.OnesCount8(result)
-			for bitN := 0; bitN < missed; bitN++ {
-				bitIdx := bits.TrailingZeros8(result)
-				fieldIdx := i*8 + bitIdx
-				var name string
-				if fieldIdx < len(jsonFieldsNameOfEntityActivity) {
-					name = jsonFieldsNameOfEntityActivity[fieldIdx]
-				} else {
-					name = strconv.Itoa(fieldIdx)
-				}
-				failures = append(failures, validate.FieldError{
-					Name:  name,
-					Error: validate.ErrFieldRequired,
-				})
-				// Reset bit.
-				result &^= 1 << bitIdx
-			}
-		}
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *EntityActivity) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *EntityActivity) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
 // Encode implements json.Marshaler.
 func (s *EntityAirport) Encode(e *jx.Encoder) {
 	e.ObjStart()
@@ -1412,165 +288,6 @@ func (s *EntityAmbiguousFlightChoice) UnmarshalJSON(data []byte) error {
 }
 
 // Encode implements json.Marshaler.
-func (s *EntityAttachment) Encode(e *jx.Encoder) {
-	e.ObjStart()
-	s.encodeFields(e)
-	e.ObjEnd()
-}
-
-// encodeFields encodes fields.
-func (s *EntityAttachment) encodeFields(e *jx.Encoder) {
-	{
-		e.FieldStart("blob")
-		e.ArrStart()
-		for _, elem := range s.Blob {
-			e.Int(elem)
-		}
-		e.ArrEnd()
-	}
-	{
-		e.FieldStart("id")
-		e.Int(s.ID)
-	}
-	{
-		e.FieldStart("name")
-		e.Str(s.Name)
-	}
-	{
-		e.FieldStart("tripId")
-		e.Int(s.TripId)
-	}
-}
-
-var jsonFieldsNameOfEntityAttachment = [4]string{
-	0: "blob",
-	1: "id",
-	2: "name",
-	3: "tripId",
-}
-
-// Decode decodes EntityAttachment from json.
-func (s *EntityAttachment) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode EntityAttachment to nil")
-	}
-	var requiredBitSet [1]uint8
-
-	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
-		switch string(k) {
-		case "blob":
-			requiredBitSet[0] |= 1 << 0
-			if err := func() error {
-				s.Blob = make([]int, 0)
-				if err := d.Arr(func(d *jx.Decoder) error {
-					var elem int
-					v, err := d.Int()
-					elem = int(v)
-					if err != nil {
-						return err
-					}
-					s.Blob = append(s.Blob, elem)
-					return nil
-				}); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"blob\"")
-			}
-		case "id":
-			requiredBitSet[0] |= 1 << 1
-			if err := func() error {
-				v, err := d.Int()
-				s.ID = int(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"id\"")
-			}
-		case "name":
-			requiredBitSet[0] |= 1 << 2
-			if err := func() error {
-				v, err := d.Str()
-				s.Name = string(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"name\"")
-			}
-		case "tripId":
-			requiredBitSet[0] |= 1 << 3
-			if err := func() error {
-				v, err := d.Int()
-				s.TripId = int(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"tripId\"")
-			}
-		default:
-			return d.Skip()
-		}
-		return nil
-	}); err != nil {
-		return errors.Wrap(err, "decode EntityAttachment")
-	}
-	// Validate required fields.
-	var failures []validate.FieldError
-	for i, mask := range [1]uint8{
-		0b00001111,
-	} {
-		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
-			// Mask only required fields and check equality to mask using XOR.
-			//
-			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
-			// Bits of fields which would be set are actually bits of missed fields.
-			missed := bits.OnesCount8(result)
-			for bitN := 0; bitN < missed; bitN++ {
-				bitIdx := bits.TrailingZeros8(result)
-				fieldIdx := i*8 + bitIdx
-				var name string
-				if fieldIdx < len(jsonFieldsNameOfEntityAttachment) {
-					name = jsonFieldsNameOfEntityAttachment[fieldIdx]
-				} else {
-					name = strconv.Itoa(fieldIdx)
-				}
-				failures = append(failures, validate.FieldError{
-					Name:  name,
-					Error: validate.ErrFieldRequired,
-				})
-				// Reset bit.
-				result &^= 1 << bitIdx
-			}
-		}
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *EntityAttachment) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *EntityAttachment) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode implements json.Marshaler.
 func (s EntityErrAmbiguousFlightRequest) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
@@ -1637,14 +354,14 @@ func (s *EntityErrAmbiguousFlightRequest) UnmarshalJSON(data []byte) error {
 }
 
 // Encode implements json.Marshaler.
-func (s *EntityFlightDetail) Encode(e *jx.Encoder) {
+func (s *EntityFlight) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
 	e.ObjEnd()
 }
 
 // encodeFields encodes fields.
-func (s *EntityFlightDetail) encodeFields(e *jx.Encoder) {
+func (s *EntityFlight) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("legs")
 		e.ArrStart()
@@ -1653,25 +370,16 @@ func (s *EntityFlightDetail) encodeFields(e *jx.Encoder) {
 		}
 		e.ArrEnd()
 	}
-	{
-		e.FieldStart("pnrs")
-		e.ArrStart()
-		for _, elem := range s.Pnrs {
-			elem.Encode(e)
-		}
-		e.ArrEnd()
-	}
 }
 
-var jsonFieldsNameOfEntityFlightDetail = [2]string{
+var jsonFieldsNameOfEntityFlight = [1]string{
 	0: "legs",
-	1: "pnrs",
 }
 
-// Decode decodes EntityFlightDetail from json.
-func (s *EntityFlightDetail) Decode(d *jx.Decoder) error {
+// Decode decodes EntityFlight from json.
+func (s *EntityFlight) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode EntityFlightDetail to nil")
+		return errors.New("invalid: unable to decode EntityFlight to nil")
 	}
 	var requiredBitSet [1]uint8
 
@@ -1695,35 +403,17 @@ func (s *EntityFlightDetail) Decode(d *jx.Decoder) error {
 			}(); err != nil {
 				return errors.Wrap(err, "decode field \"legs\"")
 			}
-		case "pnrs":
-			requiredBitSet[0] |= 1 << 1
-			if err := func() error {
-				s.Pnrs = make([]EntityPNR, 0)
-				if err := d.Arr(func(d *jx.Decoder) error {
-					var elem EntityPNR
-					if err := elem.Decode(d); err != nil {
-						return err
-					}
-					s.Pnrs = append(s.Pnrs, elem)
-					return nil
-				}); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"pnrs\"")
-			}
 		default:
 			return d.Skip()
 		}
 		return nil
 	}); err != nil {
-		return errors.Wrap(err, "decode EntityFlightDetail")
+		return errors.Wrap(err, "decode EntityFlight")
 	}
 	// Validate required fields.
 	var failures []validate.FieldError
 	for i, mask := range [1]uint8{
-		0b00000011,
+		0b00000001,
 	} {
 		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
 			// Mask only required fields and check equality to mask using XOR.
@@ -1735,8 +425,8 @@ func (s *EntityFlightDetail) Decode(d *jx.Decoder) error {
 				bitIdx := bits.TrailingZeros8(result)
 				fieldIdx := i*8 + bitIdx
 				var name string
-				if fieldIdx < len(jsonFieldsNameOfEntityFlightDetail) {
-					name = jsonFieldsNameOfEntityFlightDetail[fieldIdx]
+				if fieldIdx < len(jsonFieldsNameOfEntityFlight) {
+					name = jsonFieldsNameOfEntityFlight[fieldIdx]
 				} else {
 					name = strconv.Itoa(fieldIdx)
 				}
@@ -1757,14 +447,14 @@ func (s *EntityFlightDetail) Decode(d *jx.Decoder) error {
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s *EntityFlightDetail) MarshalJSON() ([]byte, error) {
+func (s *EntityFlight) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *EntityFlightDetail) UnmarshalJSON(data []byte) error {
+func (s *EntityFlight) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -1811,16 +501,12 @@ func (s *EntityFlightLeg) encodeFields(e *jx.Encoder) {
 		e.Str(s.FlightNumber)
 	}
 	{
-		e.FieldStart("id")
-		e.Int(s.ID)
-	}
-	{
 		e.FieldStart("origin")
 		s.Origin.Encode(e)
 	}
 }
 
-var jsonFieldsNameOfEntityFlightLeg = [10]string{
+var jsonFieldsNameOfEntityFlightLeg = [9]string{
 	0: "aircraft",
 	1: "airline",
 	2: "amadeusFlightDate",
@@ -1829,8 +515,7 @@ var jsonFieldsNameOfEntityFlightLeg = [10]string{
 	5: "destination",
 	6: "durationInMinutes",
 	7: "flightNumber",
-	8: "id",
-	9: "origin",
+	8: "origin",
 }
 
 // Decode decodes EntityFlightLeg from json.
@@ -1932,20 +617,8 @@ func (s *EntityFlightLeg) Decode(d *jx.Decoder) error {
 			}(); err != nil {
 				return errors.Wrap(err, "decode field \"flightNumber\"")
 			}
-		case "id":
-			requiredBitSet[1] |= 1 << 0
-			if err := func() error {
-				v, err := d.Int()
-				s.ID = int(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"id\"")
-			}
 		case "origin":
-			requiredBitSet[1] |= 1 << 1
+			requiredBitSet[1] |= 1 << 0
 			if err := func() error {
 				if err := s.Origin.Decode(d); err != nil {
 					return err
@@ -1965,7 +638,7 @@ func (s *EntityFlightLeg) Decode(d *jx.Decoder) error {
 	var failures []validate.FieldError
 	for i, mask := range [2]uint8{
 		0b11111111,
-		0b00000011,
+		0b00000001,
 	} {
 		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
 			// Mask only required fields and check equality to mask using XOR.
@@ -2012,132 +685,6 @@ func (s *EntityFlightLeg) UnmarshalJSON(data []byte) error {
 }
 
 // Encode implements json.Marshaler.
-func (s *EntityGenericDetail) Encode(e *jx.Encoder) {
-	e.ObjStart()
-	s.encodeFields(e)
-	e.ObjEnd()
-}
-
-// encodeFields encodes fields.
-func (s *EntityGenericDetail) encodeFields(e *jx.Encoder) {
-	{
-		e.FieldStart("destinationAddress")
-		s.DestinationAddress.Encode(e)
-	}
-	{
-		e.FieldStart("name")
-		e.Str(s.Name)
-	}
-	{
-		e.FieldStart("originAddress")
-		s.OriginAddress.Encode(e)
-	}
-}
-
-var jsonFieldsNameOfEntityGenericDetail = [3]string{
-	0: "destinationAddress",
-	1: "name",
-	2: "originAddress",
-}
-
-// Decode decodes EntityGenericDetail from json.
-func (s *EntityGenericDetail) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode EntityGenericDetail to nil")
-	}
-	var requiredBitSet [1]uint8
-
-	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
-		switch string(k) {
-		case "destinationAddress":
-			requiredBitSet[0] |= 1 << 0
-			if err := func() error {
-				if err := s.DestinationAddress.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"destinationAddress\"")
-			}
-		case "name":
-			requiredBitSet[0] |= 1 << 1
-			if err := func() error {
-				v, err := d.Str()
-				s.Name = string(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"name\"")
-			}
-		case "originAddress":
-			requiredBitSet[0] |= 1 << 2
-			if err := func() error {
-				if err := s.OriginAddress.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"originAddress\"")
-			}
-		default:
-			return d.Skip()
-		}
-		return nil
-	}); err != nil {
-		return errors.Wrap(err, "decode EntityGenericDetail")
-	}
-	// Validate required fields.
-	var failures []validate.FieldError
-	for i, mask := range [1]uint8{
-		0b00000111,
-	} {
-		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
-			// Mask only required fields and check equality to mask using XOR.
-			//
-			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
-			// Bits of fields which would be set are actually bits of missed fields.
-			missed := bits.OnesCount8(result)
-			for bitN := 0; bitN < missed; bitN++ {
-				bitIdx := bits.TrailingZeros8(result)
-				fieldIdx := i*8 + bitIdx
-				var name string
-				if fieldIdx < len(jsonFieldsNameOfEntityGenericDetail) {
-					name = jsonFieldsNameOfEntityGenericDetail[fieldIdx]
-				} else {
-					name = strconv.Itoa(fieldIdx)
-				}
-				failures = append(failures, validate.FieldError{
-					Name:  name,
-					Error: validate.ErrFieldRequired,
-				})
-				// Reset bit.
-				result &^= 1 << bitIdx
-			}
-		}
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *EntityGenericDetail) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *EntityGenericDetail) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode implements json.Marshaler.
 func (s *EntityLocation) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
@@ -2146,10 +693,6 @@ func (s *EntityLocation) Encode(e *jx.Encoder) {
 
 // encodeFields encodes fields.
 func (s *EntityLocation) encodeFields(e *jx.Encoder) {
-	{
-		e.FieldStart("id")
-		e.Int(s.ID)
-	}
 	{
 		e.FieldStart("latitude")
 		e.Float64(s.Latitude)
@@ -2160,10 +703,9 @@ func (s *EntityLocation) encodeFields(e *jx.Encoder) {
 	}
 }
 
-var jsonFieldsNameOfEntityLocation = [3]string{
-	0: "id",
-	1: "latitude",
-	2: "longitude",
+var jsonFieldsNameOfEntityLocation = [2]string{
+	0: "latitude",
+	1: "longitude",
 }
 
 // Decode decodes EntityLocation from json.
@@ -2175,20 +717,8 @@ func (s *EntityLocation) Decode(d *jx.Decoder) error {
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
-		case "id":
-			requiredBitSet[0] |= 1 << 0
-			if err := func() error {
-				v, err := d.Int()
-				s.ID = int(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"id\"")
-			}
 		case "latitude":
-			requiredBitSet[0] |= 1 << 1
+			requiredBitSet[0] |= 1 << 0
 			if err := func() error {
 				v, err := d.Float64()
 				s.Latitude = float64(v)
@@ -2200,7 +730,7 @@ func (s *EntityLocation) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"latitude\"")
 			}
 		case "longitude":
-			requiredBitSet[0] |= 1 << 2
+			requiredBitSet[0] |= 1 << 1
 			if err := func() error {
 				v, err := d.Float64()
 				s.Longitude = float64(v)
@@ -2221,7 +751,7 @@ func (s *EntityLocation) Decode(d *jx.Decoder) error {
 	// Validate required fields.
 	var failures []validate.FieldError
 	for i, mask := range [1]uint8{
-		0b00000111,
+		0b00000011,
 	} {
 		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
 			// Mask only required fields and check equality to mask using XOR.
@@ -2268,144 +798,14 @@ func (s *EntityLocation) UnmarshalJSON(data []byte) error {
 }
 
 // Encode implements json.Marshaler.
-func (s *EntityPNR) Encode(e *jx.Encoder) {
+func (s *EntityTrain) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
 	e.ObjEnd()
 }
 
 // encodeFields encodes fields.
-func (s *EntityPNR) encodeFields(e *jx.Encoder) {
-	{
-		e.FieldStart("airline")
-		e.Str(s.Airline)
-	}
-	{
-		e.FieldStart("id")
-		e.Int(s.ID)
-	}
-	{
-		e.FieldStart("pnr")
-		e.Str(s.Pnr)
-	}
-}
-
-var jsonFieldsNameOfEntityPNR = [3]string{
-	0: "airline",
-	1: "id",
-	2: "pnr",
-}
-
-// Decode decodes EntityPNR from json.
-func (s *EntityPNR) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode EntityPNR to nil")
-	}
-	var requiredBitSet [1]uint8
-
-	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
-		switch string(k) {
-		case "airline":
-			requiredBitSet[0] |= 1 << 0
-			if err := func() error {
-				v, err := d.Str()
-				s.Airline = string(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"airline\"")
-			}
-		case "id":
-			requiredBitSet[0] |= 1 << 1
-			if err := func() error {
-				v, err := d.Int()
-				s.ID = int(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"id\"")
-			}
-		case "pnr":
-			requiredBitSet[0] |= 1 << 2
-			if err := func() error {
-				v, err := d.Str()
-				s.Pnr = string(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"pnr\"")
-			}
-		default:
-			return d.Skip()
-		}
-		return nil
-	}); err != nil {
-		return errors.Wrap(err, "decode EntityPNR")
-	}
-	// Validate required fields.
-	var failures []validate.FieldError
-	for i, mask := range [1]uint8{
-		0b00000111,
-	} {
-		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
-			// Mask only required fields and check equality to mask using XOR.
-			//
-			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
-			// Bits of fields which would be set are actually bits of missed fields.
-			missed := bits.OnesCount8(result)
-			for bitN := 0; bitN < missed; bitN++ {
-				bitIdx := bits.TrailingZeros8(result)
-				fieldIdx := i*8 + bitIdx
-				var name string
-				if fieldIdx < len(jsonFieldsNameOfEntityPNR) {
-					name = jsonFieldsNameOfEntityPNR[fieldIdx]
-				} else {
-					name = strconv.Itoa(fieldIdx)
-				}
-				failures = append(failures, validate.FieldError{
-					Name:  name,
-					Error: validate.ErrFieldRequired,
-				})
-				// Reset bit.
-				result &^= 1 << bitIdx
-			}
-		}
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *EntityPNR) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *EntityPNR) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode implements json.Marshaler.
-func (s *EntityTrainDetail) Encode(e *jx.Encoder) {
-	e.ObjStart()
-	s.encodeFields(e)
-	e.ObjEnd()
-}
-
-// encodeFields encodes fields.
-func (s *EntityTrainDetail) encodeFields(e *jx.Encoder) {
+func (s *EntityTrain) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("legs")
 		e.ArrStart()
@@ -2420,15 +820,15 @@ func (s *EntityTrainDetail) encodeFields(e *jx.Encoder) {
 	}
 }
 
-var jsonFieldsNameOfEntityTrainDetail = [2]string{
+var jsonFieldsNameOfEntityTrain = [2]string{
 	0: "legs",
 	1: "refreshToken",
 }
 
-// Decode decodes EntityTrainDetail from json.
-func (s *EntityTrainDetail) Decode(d *jx.Decoder) error {
+// Decode decodes EntityTrain from json.
+func (s *EntityTrain) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode EntityTrainDetail to nil")
+		return errors.New("invalid: unable to decode EntityTrain to nil")
 	}
 	var requiredBitSet [1]uint8
 
@@ -2469,7 +869,7 @@ func (s *EntityTrainDetail) Decode(d *jx.Decoder) error {
 		}
 		return nil
 	}); err != nil {
-		return errors.Wrap(err, "decode EntityTrainDetail")
+		return errors.Wrap(err, "decode EntityTrain")
 	}
 	// Validate required fields.
 	var failures []validate.FieldError
@@ -2486,8 +886,8 @@ func (s *EntityTrainDetail) Decode(d *jx.Decoder) error {
 				bitIdx := bits.TrailingZeros8(result)
 				fieldIdx := i*8 + bitIdx
 				var name string
-				if fieldIdx < len(jsonFieldsNameOfEntityTrainDetail) {
-					name = jsonFieldsNameOfEntityTrainDetail[fieldIdx]
+				if fieldIdx < len(jsonFieldsNameOfEntityTrain) {
+					name = jsonFieldsNameOfEntityTrain[fieldIdx]
 				} else {
 					name = strconv.Itoa(fieldIdx)
 				}
@@ -2508,14 +908,14 @@ func (s *EntityTrainDetail) Decode(d *jx.Decoder) error {
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s *EntityTrainDetail) MarshalJSON() ([]byte, error) {
+func (s *EntityTrain) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *EntityTrainDetail) UnmarshalJSON(data []byte) error {
+func (s *EntityTrain) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -2546,10 +946,6 @@ func (s *EntityTrainLeg) encodeFields(e *jx.Encoder) {
 		e.Int(s.DurationInMinutes)
 	}
 	{
-		e.FieldStart("id")
-		e.Int(s.ID)
-	}
-	{
 		e.FieldStart("lineName")
 		e.Str(s.LineName)
 	}
@@ -2563,15 +959,14 @@ func (s *EntityTrainLeg) encodeFields(e *jx.Encoder) {
 	}
 }
 
-var jsonFieldsNameOfEntityTrainLeg = [8]string{
+var jsonFieldsNameOfEntityTrainLeg = [7]string{
 	0: "arrivalDateTime",
 	1: "departureDateTime",
 	2: "destination",
 	3: "durationInMinutes",
-	4: "id",
-	5: "lineName",
-	6: "operatorName",
-	7: "origin",
+	4: "lineName",
+	5: "operatorName",
+	6: "origin",
 }
 
 // Decode decodes EntityTrainLeg from json.
@@ -2629,20 +1024,8 @@ func (s *EntityTrainLeg) Decode(d *jx.Decoder) error {
 			}(); err != nil {
 				return errors.Wrap(err, "decode field \"durationInMinutes\"")
 			}
-		case "id":
-			requiredBitSet[0] |= 1 << 4
-			if err := func() error {
-				v, err := d.Int()
-				s.ID = int(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"id\"")
-			}
 		case "lineName":
-			requiredBitSet[0] |= 1 << 5
+			requiredBitSet[0] |= 1 << 4
 			if err := func() error {
 				v, err := d.Str()
 				s.LineName = string(v)
@@ -2654,7 +1037,7 @@ func (s *EntityTrainLeg) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"lineName\"")
 			}
 		case "operatorName":
-			requiredBitSet[0] |= 1 << 6
+			requiredBitSet[0] |= 1 << 5
 			if err := func() error {
 				v, err := d.Str()
 				s.OperatorName = string(v)
@@ -2666,7 +1049,7 @@ func (s *EntityTrainLeg) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"operatorName\"")
 			}
 		case "origin":
-			requiredBitSet[0] |= 1 << 7
+			requiredBitSet[0] |= 1 << 6
 			if err := func() error {
 				if err := s.Origin.Decode(d); err != nil {
 					return err
@@ -2685,7 +1068,7 @@ func (s *EntityTrainLeg) Decode(d *jx.Decoder) error {
 	// Validate required fields.
 	var failures []validate.FieldError
 	for i, mask := range [1]uint8{
-		0b11111111,
+		0b01111111,
 	} {
 		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
 			// Mask only required fields and check equality to mask using XOR.
@@ -2859,265 +1242,6 @@ func (s *EntityTrainStation) UnmarshalJSON(data []byte) error {
 	return s.Decode(d)
 }
 
-// Encode implements json.Marshaler.
-func (s *EntityTransportation) Encode(e *jx.Encoder) {
-	e.ObjStart()
-	s.encodeFields(e)
-	e.ObjEnd()
-}
-
-// encodeFields encodes fields.
-func (s *EntityTransportation) encodeFields(e *jx.Encoder) {
-	{
-		e.FieldStart("arrivalDateTime")
-		e.Str(s.ArrivalDateTime)
-	}
-	{
-		e.FieldStart("departureDateTime")
-		e.Str(s.DepartureDateTime)
-	}
-	{
-		e.FieldStart("destination")
-		s.Destination.Encode(e)
-	}
-	{
-		if s.FlightDetail.Set {
-			e.FieldStart("flightDetail")
-			s.FlightDetail.Encode(e)
-		}
-	}
-	{
-		if s.GenericDetail.Set {
-			e.FieldStart("genericDetail")
-			s.GenericDetail.Encode(e)
-		}
-	}
-	{
-		e.FieldStart("id")
-		e.Int(s.ID)
-	}
-	{
-		e.FieldStart("origin")
-		s.Origin.Encode(e)
-	}
-	{
-		e.FieldStart("price")
-		s.Price.Encode(e)
-	}
-	{
-		if s.TrainDetail.Set {
-			e.FieldStart("trainDetail")
-			s.TrainDetail.Encode(e)
-		}
-	}
-	{
-		e.FieldStart("tripId")
-		e.Int(s.TripId)
-	}
-	{
-		e.FieldStart("type")
-		s.Type.Encode(e)
-	}
-}
-
-var jsonFieldsNameOfEntityTransportation = [11]string{
-	0:  "arrivalDateTime",
-	1:  "departureDateTime",
-	2:  "destination",
-	3:  "flightDetail",
-	4:  "genericDetail",
-	5:  "id",
-	6:  "origin",
-	7:  "price",
-	8:  "trainDetail",
-	9:  "tripId",
-	10: "type",
-}
-
-// Decode decodes EntityTransportation from json.
-func (s *EntityTransportation) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode EntityTransportation to nil")
-	}
-	var requiredBitSet [2]uint8
-
-	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
-		switch string(k) {
-		case "arrivalDateTime":
-			requiredBitSet[0] |= 1 << 0
-			if err := func() error {
-				v, err := d.Str()
-				s.ArrivalDateTime = string(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"arrivalDateTime\"")
-			}
-		case "departureDateTime":
-			requiredBitSet[0] |= 1 << 1
-			if err := func() error {
-				v, err := d.Str()
-				s.DepartureDateTime = string(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"departureDateTime\"")
-			}
-		case "destination":
-			requiredBitSet[0] |= 1 << 2
-			if err := func() error {
-				if err := s.Destination.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"destination\"")
-			}
-		case "flightDetail":
-			if err := func() error {
-				s.FlightDetail.Reset()
-				if err := s.FlightDetail.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"flightDetail\"")
-			}
-		case "genericDetail":
-			if err := func() error {
-				s.GenericDetail.Reset()
-				if err := s.GenericDetail.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"genericDetail\"")
-			}
-		case "id":
-			requiredBitSet[0] |= 1 << 5
-			if err := func() error {
-				v, err := d.Int()
-				s.ID = int(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"id\"")
-			}
-		case "origin":
-			requiredBitSet[0] |= 1 << 6
-			if err := func() error {
-				if err := s.Origin.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"origin\"")
-			}
-		case "price":
-			requiredBitSet[0] |= 1 << 7
-			if err := func() error {
-				if err := s.Price.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"price\"")
-			}
-		case "trainDetail":
-			if err := func() error {
-				s.TrainDetail.Reset()
-				if err := s.TrainDetail.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"trainDetail\"")
-			}
-		case "tripId":
-			requiredBitSet[1] |= 1 << 1
-			if err := func() error {
-				v, err := d.Int()
-				s.TripId = int(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"tripId\"")
-			}
-		case "type":
-			requiredBitSet[1] |= 1 << 2
-			if err := func() error {
-				if err := s.Type.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"type\"")
-			}
-		default:
-			return d.Skip()
-		}
-		return nil
-	}); err != nil {
-		return errors.Wrap(err, "decode EntityTransportation")
-	}
-	// Validate required fields.
-	var failures []validate.FieldError
-	for i, mask := range [2]uint8{
-		0b11100111,
-		0b00000110,
-	} {
-		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
-			// Mask only required fields and check equality to mask using XOR.
-			//
-			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
-			// Bits of fields which would be set are actually bits of missed fields.
-			missed := bits.OnesCount8(result)
-			for bitN := 0; bitN < missed; bitN++ {
-				bitIdx := bits.TrailingZeros8(result)
-				fieldIdx := i*8 + bitIdx
-				var name string
-				if fieldIdx < len(jsonFieldsNameOfEntityTransportation) {
-					name = jsonFieldsNameOfEntityTransportation[fieldIdx]
-				} else {
-					name = strconv.Itoa(fieldIdx)
-				}
-				failures = append(failures, validate.FieldError{
-					Name:  name,
-					Error: validate.ErrFieldRequired,
-				})
-				// Reset bit.
-				result &^= 1 << bitIdx
-			}
-		}
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *EntityTransportation) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *EntityTransportation) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
 // Encode encodes EntityTransportationType as json.
 func (s EntityTransportationType) Encode(e *jx.Encoder) {
 	unwrapped := string(s)
@@ -3158,341 +1282,17 @@ func (s *EntityTransportationType) UnmarshalJSON(data []byte) error {
 	return s.Decode(d)
 }
 
-// Encode implements json.Marshaler.
-func (s *EntityTrip) Encode(e *jx.Encoder) {
-	e.ObjStart()
-	s.encodeFields(e)
-	e.ObjEnd()
-}
-
-// encodeFields encodes fields.
-func (s *EntityTrip) encodeFields(e *jx.Encoder) {
-	{
-		e.FieldStart("description")
-		s.Description.Encode(e)
-	}
-	{
-		e.FieldStart("endDate")
-		e.Str(s.EndDate)
-	}
-	{
-		e.FieldStart("id")
-		e.Int(s.ID)
-	}
-	{
-		e.FieldStart("imageUrl")
-		s.ImageUrl.Encode(e)
-	}
-	{
-		e.FieldStart("name")
-		e.Str(s.Name)
-	}
-	{
-		e.FieldStart("owner_id")
-		e.Int(s.OwnerID)
-	}
-	{
-		e.FieldStart("startDate")
-		e.Str(s.StartDate)
-	}
-}
-
-var jsonFieldsNameOfEntityTrip = [7]string{
-	0: "description",
-	1: "endDate",
-	2: "id",
-	3: "imageUrl",
-	4: "name",
-	5: "owner_id",
-	6: "startDate",
-}
-
-// Decode decodes EntityTrip from json.
-func (s *EntityTrip) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode EntityTrip to nil")
-	}
-	var requiredBitSet [1]uint8
-
-	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
-		switch string(k) {
-		case "description":
-			requiredBitSet[0] |= 1 << 0
-			if err := func() error {
-				if err := s.Description.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"description\"")
-			}
-		case "endDate":
-			requiredBitSet[0] |= 1 << 1
-			if err := func() error {
-				v, err := d.Str()
-				s.EndDate = string(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"endDate\"")
-			}
-		case "id":
-			requiredBitSet[0] |= 1 << 2
-			if err := func() error {
-				v, err := d.Int()
-				s.ID = int(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"id\"")
-			}
-		case "imageUrl":
-			requiredBitSet[0] |= 1 << 3
-			if err := func() error {
-				if err := s.ImageUrl.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"imageUrl\"")
-			}
-		case "name":
-			requiredBitSet[0] |= 1 << 4
-			if err := func() error {
-				v, err := d.Str()
-				s.Name = string(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"name\"")
-			}
-		case "owner_id":
-			requiredBitSet[0] |= 1 << 5
-			if err := func() error {
-				v, err := d.Int()
-				s.OwnerID = int(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"owner_id\"")
-			}
-		case "startDate":
-			requiredBitSet[0] |= 1 << 6
-			if err := func() error {
-				v, err := d.Str()
-				s.StartDate = string(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"startDate\"")
-			}
-		default:
-			return d.Skip()
-		}
-		return nil
-	}); err != nil {
-		return errors.Wrap(err, "decode EntityTrip")
-	}
-	// Validate required fields.
-	var failures []validate.FieldError
-	for i, mask := range [1]uint8{
-		0b01111111,
-	} {
-		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
-			// Mask only required fields and check equality to mask using XOR.
-			//
-			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
-			// Bits of fields which would be set are actually bits of missed fields.
-			missed := bits.OnesCount8(result)
-			for bitN := 0; bitN < missed; bitN++ {
-				bitIdx := bits.TrailingZeros8(result)
-				fieldIdx := i*8 + bitIdx
-				var name string
-				if fieldIdx < len(jsonFieldsNameOfEntityTrip) {
-					name = jsonFieldsNameOfEntityTrip[fieldIdx]
-				} else {
-					name = strconv.Itoa(fieldIdx)
-				}
-				failures = append(failures, validate.FieldError{
-					Name:  name,
-					Error: validate.ErrFieldRequired,
-				})
-				// Reset bit.
-				result &^= 1 << bitIdx
-			}
-		}
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *EntityTrip) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *EntityTrip) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode implements json.Marshaler.
-func (s *EntityUser) Encode(e *jx.Encoder) {
-	e.ObjStart()
-	s.encodeFields(e)
-	e.ObjEnd()
-}
-
-// encodeFields encodes fields.
-func (s *EntityUser) encodeFields(e *jx.Encoder) {
-	{
-		e.FieldStart("id")
-		e.Int(s.ID)
-	}
-	{
-		e.FieldStart("jwtSub")
-		e.Str(s.JwtSub)
-	}
-	{
-		e.FieldStart("name")
-		e.Str(s.Name)
-	}
-}
-
-var jsonFieldsNameOfEntityUser = [3]string{
-	0: "id",
-	1: "jwtSub",
-	2: "name",
-}
-
-// Decode decodes EntityUser from json.
-func (s *EntityUser) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode EntityUser to nil")
-	}
-	var requiredBitSet [1]uint8
-
-	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
-		switch string(k) {
-		case "id":
-			requiredBitSet[0] |= 1 << 0
-			if err := func() error {
-				v, err := d.Int()
-				s.ID = int(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"id\"")
-			}
-		case "jwtSub":
-			requiredBitSet[0] |= 1 << 1
-			if err := func() error {
-				v, err := d.Str()
-				s.JwtSub = string(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"jwtSub\"")
-			}
-		case "name":
-			requiredBitSet[0] |= 1 << 2
-			if err := func() error {
-				v, err := d.Str()
-				s.Name = string(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"name\"")
-			}
-		default:
-			return d.Skip()
-		}
-		return nil
-	}); err != nil {
-		return errors.Wrap(err, "decode EntityUser")
-	}
-	// Validate required fields.
-	var failures []validate.FieldError
-	for i, mask := range [1]uint8{
-		0b00000111,
-	} {
-		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
-			// Mask only required fields and check equality to mask using XOR.
-			//
-			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
-			// Bits of fields which would be set are actually bits of missed fields.
-			missed := bits.OnesCount8(result)
-			for bitN := 0; bitN < missed; bitN++ {
-				bitIdx := bits.TrailingZeros8(result)
-				fieldIdx := i*8 + bitIdx
-				var name string
-				if fieldIdx < len(jsonFieldsNameOfEntityUser) {
-					name = jsonFieldsNameOfEntityUser[fieldIdx]
-				} else {
-					name = strconv.Itoa(fieldIdx)
-				}
-				failures = append(failures, validate.FieldError{
-					Name:  name,
-					Error: validate.ErrFieldRequired,
-				})
-				// Reset bit.
-				result &^= 1 << bitIdx
-			}
-		}
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *EntityUser) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *EntityUser) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetAccommodationByIDBadRequest as json.
-func (s *GetAccommodationByIDBadRequest) Encode(e *jx.Encoder) {
+// Encode encodes LookupDirectionsBadRequest as json.
+func (s *LookupDirectionsBadRequest) Encode(e *jx.Encoder) {
 	unwrapped := (*ResponseError)(s)
 
 	unwrapped.Encode(e)
 }
 
-// Decode decodes GetAccommodationByIDBadRequest from json.
-func (s *GetAccommodationByIDBadRequest) Decode(d *jx.Decoder) error {
+// Decode decodes LookupDirectionsBadRequest from json.
+func (s *LookupDirectionsBadRequest) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode GetAccommodationByIDBadRequest to nil")
+		return errors.New("invalid: unable to decode LookupDirectionsBadRequest to nil")
 	}
 	var unwrapped ResponseError
 	if err := func() error {
@@ -3503,34 +1303,34 @@ func (s *GetAccommodationByIDBadRequest) Decode(d *jx.Decoder) error {
 	}(); err != nil {
 		return errors.Wrap(err, "alias")
 	}
-	*s = GetAccommodationByIDBadRequest(unwrapped)
+	*s = LookupDirectionsBadRequest(unwrapped)
 	return nil
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s *GetAccommodationByIDBadRequest) MarshalJSON() ([]byte, error) {
+func (s *LookupDirectionsBadRequest) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetAccommodationByIDBadRequest) UnmarshalJSON(data []byte) error {
+func (s *LookupDirectionsBadRequest) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
-// Encode encodes GetAccommodationByIDForbidden as json.
-func (s *GetAccommodationByIDForbidden) Encode(e *jx.Encoder) {
+// Encode encodes LookupDirectionsInternalServerError as json.
+func (s *LookupDirectionsInternalServerError) Encode(e *jx.Encoder) {
 	unwrapped := (*ResponseError)(s)
 
 	unwrapped.Encode(e)
 }
 
-// Decode decodes GetAccommodationByIDForbidden from json.
-func (s *GetAccommodationByIDForbidden) Decode(d *jx.Decoder) error {
+// Decode decodes LookupDirectionsInternalServerError from json.
+func (s *LookupDirectionsInternalServerError) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode GetAccommodationByIDForbidden to nil")
+		return errors.New("invalid: unable to decode LookupDirectionsInternalServerError to nil")
 	}
 	var unwrapped ResponseError
 	if err := func() error {
@@ -3541,1373 +1341,59 @@ func (s *GetAccommodationByIDForbidden) Decode(d *jx.Decoder) error {
 	}(); err != nil {
 		return errors.Wrap(err, "alias")
 	}
-	*s = GetAccommodationByIDForbidden(unwrapped)
+	*s = LookupDirectionsInternalServerError(unwrapped)
 	return nil
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s *GetAccommodationByIDForbidden) MarshalJSON() ([]byte, error) {
+func (s *LookupDirectionsInternalServerError) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetAccommodationByIDForbidden) UnmarshalJSON(data []byte) error {
+func (s *LookupDirectionsInternalServerError) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
-// Encode encodes GetAccommodationByIDInternalServerError as json.
-func (s *GetAccommodationByIDInternalServerError) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
+// Encode encodes LookupDirectionsOKApplicationJSON as json.
+func (s LookupDirectionsOKApplicationJSON) Encode(e *jx.Encoder) {
+	unwrapped := string(s)
 
-	unwrapped.Encode(e)
+	e.Str(unwrapped)
 }
 
-// Decode decodes GetAccommodationByIDInternalServerError from json.
-func (s *GetAccommodationByIDInternalServerError) Decode(d *jx.Decoder) error {
+// Decode decodes LookupDirectionsOKApplicationJSON from json.
+func (s *LookupDirectionsOKApplicationJSON) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode GetAccommodationByIDInternalServerError to nil")
+		return errors.New("invalid: unable to decode LookupDirectionsOKApplicationJSON to nil")
 	}
-	var unwrapped ResponseError
+	var unwrapped string
 	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
+		v, err := d.Str()
+		unwrapped = string(v)
+		if err != nil {
 			return err
 		}
 		return nil
 	}(); err != nil {
 		return errors.Wrap(err, "alias")
 	}
-	*s = GetAccommodationByIDInternalServerError(unwrapped)
+	*s = LookupDirectionsOKApplicationJSON(unwrapped)
 	return nil
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s *GetAccommodationByIDInternalServerError) MarshalJSON() ([]byte, error) {
+func (s LookupDirectionsOKApplicationJSON) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetAccommodationByIDInternalServerError) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetAccommodationByIDNotFound as json.
-func (s *GetAccommodationByIDNotFound) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes GetAccommodationByIDNotFound from json.
-func (s *GetAccommodationByIDNotFound) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetAccommodationByIDNotFound to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = GetAccommodationByIDNotFound(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *GetAccommodationByIDNotFound) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetAccommodationByIDNotFound) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetActivitiesBadRequest as json.
-func (s *GetActivitiesBadRequest) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes GetActivitiesBadRequest from json.
-func (s *GetActivitiesBadRequest) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetActivitiesBadRequest to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = GetActivitiesBadRequest(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *GetActivitiesBadRequest) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetActivitiesBadRequest) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetActivitiesForbidden as json.
-func (s *GetActivitiesForbidden) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes GetActivitiesForbidden from json.
-func (s *GetActivitiesForbidden) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetActivitiesForbidden to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = GetActivitiesForbidden(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *GetActivitiesForbidden) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetActivitiesForbidden) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetActivitiesInternalServerError as json.
-func (s *GetActivitiesInternalServerError) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes GetActivitiesInternalServerError from json.
-func (s *GetActivitiesInternalServerError) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetActivitiesInternalServerError to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = GetActivitiesInternalServerError(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *GetActivitiesInternalServerError) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetActivitiesInternalServerError) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetActivitiesOKApplicationJSON as json.
-func (s GetActivitiesOKApplicationJSON) Encode(e *jx.Encoder) {
-	unwrapped := []EntityActivity(s)
-
-	e.ArrStart()
-	for _, elem := range unwrapped {
-		elem.Encode(e)
-	}
-	e.ArrEnd()
-}
-
-// Decode decodes GetActivitiesOKApplicationJSON from json.
-func (s *GetActivitiesOKApplicationJSON) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetActivitiesOKApplicationJSON to nil")
-	}
-	var unwrapped []EntityActivity
-	if err := func() error {
-		unwrapped = make([]EntityActivity, 0)
-		if err := d.Arr(func(d *jx.Decoder) error {
-			var elem EntityActivity
-			if err := elem.Decode(d); err != nil {
-				return err
-			}
-			unwrapped = append(unwrapped, elem)
-			return nil
-		}); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = GetActivitiesOKApplicationJSON(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s GetActivitiesOKApplicationJSON) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetActivitiesOKApplicationJSON) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetActivityBadRequest as json.
-func (s *GetActivityBadRequest) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes GetActivityBadRequest from json.
-func (s *GetActivityBadRequest) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetActivityBadRequest to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = GetActivityBadRequest(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *GetActivityBadRequest) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetActivityBadRequest) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetActivityForbidden as json.
-func (s *GetActivityForbidden) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes GetActivityForbidden from json.
-func (s *GetActivityForbidden) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetActivityForbidden to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = GetActivityForbidden(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *GetActivityForbidden) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetActivityForbidden) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetActivityInternalServerError as json.
-func (s *GetActivityInternalServerError) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes GetActivityInternalServerError from json.
-func (s *GetActivityInternalServerError) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetActivityInternalServerError to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = GetActivityInternalServerError(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *GetActivityInternalServerError) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetActivityInternalServerError) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetActivityNotFound as json.
-func (s *GetActivityNotFound) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes GetActivityNotFound from json.
-func (s *GetActivityNotFound) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetActivityNotFound to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = GetActivityNotFound(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *GetActivityNotFound) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetActivityNotFound) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetAllAccommodationBadRequest as json.
-func (s *GetAllAccommodationBadRequest) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes GetAllAccommodationBadRequest from json.
-func (s *GetAllAccommodationBadRequest) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetAllAccommodationBadRequest to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = GetAllAccommodationBadRequest(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *GetAllAccommodationBadRequest) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetAllAccommodationBadRequest) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetAllAccommodationForbidden as json.
-func (s *GetAllAccommodationForbidden) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes GetAllAccommodationForbidden from json.
-func (s *GetAllAccommodationForbidden) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetAllAccommodationForbidden to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = GetAllAccommodationForbidden(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *GetAllAccommodationForbidden) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetAllAccommodationForbidden) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetAllAccommodationInternalServerError as json.
-func (s *GetAllAccommodationInternalServerError) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes GetAllAccommodationInternalServerError from json.
-func (s *GetAllAccommodationInternalServerError) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetAllAccommodationInternalServerError to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = GetAllAccommodationInternalServerError(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *GetAllAccommodationInternalServerError) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetAllAccommodationInternalServerError) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetAllAccommodationOKApplicationJSON as json.
-func (s GetAllAccommodationOKApplicationJSON) Encode(e *jx.Encoder) {
-	unwrapped := []EntityAccommodation(s)
-
-	e.ArrStart()
-	for _, elem := range unwrapped {
-		elem.Encode(e)
-	}
-	e.ArrEnd()
-}
-
-// Decode decodes GetAllAccommodationOKApplicationJSON from json.
-func (s *GetAllAccommodationOKApplicationJSON) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetAllAccommodationOKApplicationJSON to nil")
-	}
-	var unwrapped []EntityAccommodation
-	if err := func() error {
-		unwrapped = make([]EntityAccommodation, 0)
-		if err := d.Arr(func(d *jx.Decoder) error {
-			var elem EntityAccommodation
-			if err := elem.Decode(d); err != nil {
-				return err
-			}
-			unwrapped = append(unwrapped, elem)
-			return nil
-		}); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = GetAllAccommodationOKApplicationJSON(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s GetAllAccommodationOKApplicationJSON) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetAllAccommodationOKApplicationJSON) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetAllTransportationForbidden as json.
-func (s *GetAllTransportationForbidden) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes GetAllTransportationForbidden from json.
-func (s *GetAllTransportationForbidden) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetAllTransportationForbidden to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = GetAllTransportationForbidden(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *GetAllTransportationForbidden) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetAllTransportationForbidden) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetAllTransportationInternalServerError as json.
-func (s *GetAllTransportationInternalServerError) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes GetAllTransportationInternalServerError from json.
-func (s *GetAllTransportationInternalServerError) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetAllTransportationInternalServerError to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = GetAllTransportationInternalServerError(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *GetAllTransportationInternalServerError) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetAllTransportationInternalServerError) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetAllTransportationOKApplicationJSON as json.
-func (s GetAllTransportationOKApplicationJSON) Encode(e *jx.Encoder) {
-	unwrapped := []EntityTransportation(s)
-
-	e.ArrStart()
-	for _, elem := range unwrapped {
-		elem.Encode(e)
-	}
-	e.ArrEnd()
-}
-
-// Decode decodes GetAllTransportationOKApplicationJSON from json.
-func (s *GetAllTransportationOKApplicationJSON) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetAllTransportationOKApplicationJSON to nil")
-	}
-	var unwrapped []EntityTransportation
-	if err := func() error {
-		unwrapped = make([]EntityTransportation, 0)
-		if err := d.Arr(func(d *jx.Decoder) error {
-			var elem EntityTransportation
-			if err := elem.Decode(d); err != nil {
-				return err
-			}
-			unwrapped = append(unwrapped, elem)
-			return nil
-		}); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = GetAllTransportationOKApplicationJSON(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s GetAllTransportationOKApplicationJSON) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetAllTransportationOKApplicationJSON) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetAttachmentsForbidden as json.
-func (s *GetAttachmentsForbidden) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes GetAttachmentsForbidden from json.
-func (s *GetAttachmentsForbidden) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetAttachmentsForbidden to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = GetAttachmentsForbidden(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *GetAttachmentsForbidden) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetAttachmentsForbidden) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetAttachmentsInternalServerError as json.
-func (s *GetAttachmentsInternalServerError) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes GetAttachmentsInternalServerError from json.
-func (s *GetAttachmentsInternalServerError) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetAttachmentsInternalServerError to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = GetAttachmentsInternalServerError(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *GetAttachmentsInternalServerError) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetAttachmentsInternalServerError) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetAttachmentsOKApplicationJSON as json.
-func (s GetAttachmentsOKApplicationJSON) Encode(e *jx.Encoder) {
-	unwrapped := []EntityAttachment(s)
-
-	e.ArrStart()
-	for _, elem := range unwrapped {
-		elem.Encode(e)
-	}
-	e.ArrEnd()
-}
-
-// Decode decodes GetAttachmentsOKApplicationJSON from json.
-func (s *GetAttachmentsOKApplicationJSON) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetAttachmentsOKApplicationJSON to nil")
-	}
-	var unwrapped []EntityAttachment
-	if err := func() error {
-		unwrapped = make([]EntityAttachment, 0)
-		if err := d.Arr(func(d *jx.Decoder) error {
-			var elem EntityAttachment
-			if err := elem.Decode(d); err != nil {
-				return err
-			}
-			unwrapped = append(unwrapped, elem)
-			return nil
-		}); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = GetAttachmentsOKApplicationJSON(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s GetAttachmentsOKApplicationJSON) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetAttachmentsOKApplicationJSON) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetGeoJsonForbidden as json.
-func (s *GetGeoJsonForbidden) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes GetGeoJsonForbidden from json.
-func (s *GetGeoJsonForbidden) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetGeoJsonForbidden to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = GetGeoJsonForbidden(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *GetGeoJsonForbidden) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetGeoJsonForbidden) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetGeoJsonInternalServerError as json.
-func (s *GetGeoJsonInternalServerError) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes GetGeoJsonInternalServerError from json.
-func (s *GetGeoJsonInternalServerError) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetGeoJsonInternalServerError to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = GetGeoJsonInternalServerError(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *GetGeoJsonInternalServerError) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetGeoJsonInternalServerError) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetGeoJsonOKApplicationJSON as json.
-func (s GetGeoJsonOKApplicationJSON) Encode(e *jx.Encoder) {
-	unwrapped := []string(s)
-
-	e.ArrStart()
-	for _, elem := range unwrapped {
-		e.Str(elem)
-	}
-	e.ArrEnd()
-}
-
-// Decode decodes GetGeoJsonOKApplicationJSON from json.
-func (s *GetGeoJsonOKApplicationJSON) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetGeoJsonOKApplicationJSON to nil")
-	}
-	var unwrapped []string
-	if err := func() error {
-		unwrapped = make([]string, 0)
-		if err := d.Arr(func(d *jx.Decoder) error {
-			var elem string
-			v, err := d.Str()
-			elem = string(v)
-			if err != nil {
-				return err
-			}
-			unwrapped = append(unwrapped, elem)
-			return nil
-		}); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = GetGeoJsonOKApplicationJSON(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s GetGeoJsonOKApplicationJSON) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetGeoJsonOKApplicationJSON) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetTransportationForbidden as json.
-func (s *GetTransportationForbidden) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes GetTransportationForbidden from json.
-func (s *GetTransportationForbidden) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetTransportationForbidden to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = GetTransportationForbidden(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *GetTransportationForbidden) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetTransportationForbidden) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetTransportationInternalServerError as json.
-func (s *GetTransportationInternalServerError) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes GetTransportationInternalServerError from json.
-func (s *GetTransportationInternalServerError) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetTransportationInternalServerError to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = GetTransportationInternalServerError(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *GetTransportationInternalServerError) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetTransportationInternalServerError) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetTransportationNotFound as json.
-func (s *GetTransportationNotFound) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes GetTransportationNotFound from json.
-func (s *GetTransportationNotFound) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetTransportationNotFound to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = GetTransportationNotFound(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *GetTransportationNotFound) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetTransportationNotFound) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetTripBadRequest as json.
-func (s *GetTripBadRequest) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes GetTripBadRequest from json.
-func (s *GetTripBadRequest) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetTripBadRequest to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = GetTripBadRequest(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *GetTripBadRequest) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetTripBadRequest) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetTripForbidden as json.
-func (s *GetTripForbidden) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes GetTripForbidden from json.
-func (s *GetTripForbidden) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetTripForbidden to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = GetTripForbidden(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *GetTripForbidden) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetTripForbidden) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetTripInternalServerError as json.
-func (s *GetTripInternalServerError) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes GetTripInternalServerError from json.
-func (s *GetTripInternalServerError) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetTripInternalServerError to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = GetTripInternalServerError(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *GetTripInternalServerError) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetTripInternalServerError) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetTripsOKApplicationJSON as json.
-func (s GetTripsOKApplicationJSON) Encode(e *jx.Encoder) {
-	unwrapped := []EntityTrip(s)
-
-	e.ArrStart()
-	for _, elem := range unwrapped {
-		elem.Encode(e)
-	}
-	e.ArrEnd()
-}
-
-// Decode decodes GetTripsOKApplicationJSON from json.
-func (s *GetTripsOKApplicationJSON) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetTripsOKApplicationJSON to nil")
-	}
-	var unwrapped []EntityTrip
-	if err := func() error {
-		unwrapped = make([]EntityTrip, 0)
-		if err := d.Arr(func(d *jx.Decoder) error {
-			var elem EntityTrip
-			if err := elem.Decode(d); err != nil {
-				return err
-			}
-			unwrapped = append(unwrapped, elem)
-			return nil
-		}); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = GetTripsOKApplicationJSON(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s GetTripsOKApplicationJSON) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetTripsOKApplicationJSON) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetUsersOKApplicationJSON as json.
-func (s GetUsersOKApplicationJSON) Encode(e *jx.Encoder) {
-	unwrapped := []EntityUser(s)
-
-	e.ArrStart()
-	for _, elem := range unwrapped {
-		elem.Encode(e)
-	}
-	e.ArrEnd()
-}
-
-// Decode decodes GetUsersOKApplicationJSON from json.
-func (s *GetUsersOKApplicationJSON) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetUsersOKApplicationJSON to nil")
-	}
-	var unwrapped []EntityUser
-	if err := func() error {
-		unwrapped = make([]EntityUser, 0)
-		if err := d.Arr(func(d *jx.Decoder) error {
-			var elem EntityUser
-			if err := elem.Decode(d); err != nil {
-				return err
-			}
-			unwrapped = append(unwrapped, elem)
-			return nil
-		}); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = GetUsersOKApplicationJSON(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s GetUsersOKApplicationJSON) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetUsersOKApplicationJSON) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes EntityLocation as json.
-func (o NilEntityLocation) Encode(e *jx.Encoder) {
-	if o.Null {
-		e.Null()
-		return
-	}
-	o.Value.Encode(e)
-}
-
-// Decode decodes EntityLocation from json.
-func (o *NilEntityLocation) Decode(d *jx.Decoder) error {
-	if o == nil {
-		return errors.New("invalid: unable to decode NilEntityLocation to nil")
-	}
-	if d.Next() == jx.Null {
-		if err := d.Null(); err != nil {
-			return err
-		}
-
-		var v EntityLocation
-		o.Value = v
-		o.Null = true
-		return nil
-	}
-	o.Null = false
-	if err := o.Value.Decode(d); err != nil {
-		return err
-	}
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s NilEntityLocation) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *NilEntityLocation) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes int as json.
-func (o NilInt) Encode(e *jx.Encoder) {
-	if o.Null {
-		e.Null()
-		return
-	}
-	e.Int(int(o.Value))
-}
-
-// Decode decodes int from json.
-func (o *NilInt) Decode(d *jx.Decoder) error {
-	if o == nil {
-		return errors.New("invalid: unable to decode NilInt to nil")
-	}
-	if d.Next() == jx.Null {
-		if err := d.Null(); err != nil {
-			return err
-		}
-
-		var v int
-		o.Value = v
-		o.Null = true
-		return nil
-	}
-	o.Null = false
-	v, err := d.Int()
-	if err != nil {
-		return err
-	}
-	o.Value = int(v)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s NilInt) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *NilInt) UnmarshalJSON(data []byte) error {
+func (s *LookupDirectionsOKApplicationJSON) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -4954,153 +1440,6 @@ func (s NilString) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *NilString) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes EntityFlightDetail as json.
-func (o OptNilEntityFlightDetail) Encode(e *jx.Encoder) {
-	if !o.Set {
-		return
-	}
-	if o.Null {
-		e.Null()
-		return
-	}
-	o.Value.Encode(e)
-}
-
-// Decode decodes EntityFlightDetail from json.
-func (o *OptNilEntityFlightDetail) Decode(d *jx.Decoder) error {
-	if o == nil {
-		return errors.New("invalid: unable to decode OptNilEntityFlightDetail to nil")
-	}
-	if d.Next() == jx.Null {
-		if err := d.Null(); err != nil {
-			return err
-		}
-
-		var v EntityFlightDetail
-		o.Value = v
-		o.Set = true
-		o.Null = true
-		return nil
-	}
-	o.Set = true
-	o.Null = false
-	if err := o.Value.Decode(d); err != nil {
-		return err
-	}
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s OptNilEntityFlightDetail) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *OptNilEntityFlightDetail) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes EntityGenericDetail as json.
-func (o OptNilEntityGenericDetail) Encode(e *jx.Encoder) {
-	if !o.Set {
-		return
-	}
-	if o.Null {
-		e.Null()
-		return
-	}
-	o.Value.Encode(e)
-}
-
-// Decode decodes EntityGenericDetail from json.
-func (o *OptNilEntityGenericDetail) Decode(d *jx.Decoder) error {
-	if o == nil {
-		return errors.New("invalid: unable to decode OptNilEntityGenericDetail to nil")
-	}
-	if d.Next() == jx.Null {
-		if err := d.Null(); err != nil {
-			return err
-		}
-
-		var v EntityGenericDetail
-		o.Value = v
-		o.Set = true
-		o.Null = true
-		return nil
-	}
-	o.Set = true
-	o.Null = false
-	if err := o.Value.Decode(d); err != nil {
-		return err
-	}
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s OptNilEntityGenericDetail) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *OptNilEntityGenericDetail) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes EntityTrainDetail as json.
-func (o OptNilEntityTrainDetail) Encode(e *jx.Encoder) {
-	if !o.Set {
-		return
-	}
-	if o.Null {
-		e.Null()
-		return
-	}
-	o.Value.Encode(e)
-}
-
-// Decode decodes EntityTrainDetail from json.
-func (o *OptNilEntityTrainDetail) Decode(d *jx.Decoder) error {
-	if o == nil {
-		return errors.New("invalid: unable to decode OptNilEntityTrainDetail to nil")
-	}
-	if d.Next() == jx.Null {
-		if err := d.Null(); err != nil {
-			return err
-		}
-
-		var v EntityTrainDetail
-		o.Value = v
-		o.Set = true
-		o.Null = true
-		return nil
-	}
-	o.Set = true
-	o.Null = false
-	if err := o.Value.Decode(d); err != nil {
-		return err
-	}
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s OptNilEntityTrainDetail) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *OptNilEntityTrainDetail) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -5156,1548 +1495,85 @@ func (s *OptNilString) UnmarshalJSON(data []byte) error {
 	return s.Decode(d)
 }
 
-// Encode encodes PostAccommodationBadRequest as json.
-func (s *PostAccommodationBadRequest) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes PostAccommodationBadRequest from json.
-func (s *PostAccommodationBadRequest) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode PostAccommodationBadRequest to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = PostAccommodationBadRequest(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *PostAccommodationBadRequest) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PostAccommodationBadRequest) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes PostAccommodationForbidden as json.
-func (s *PostAccommodationForbidden) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes PostAccommodationForbidden from json.
-func (s *PostAccommodationForbidden) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode PostAccommodationForbidden to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = PostAccommodationForbidden(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *PostAccommodationForbidden) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PostAccommodationForbidden) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes PostAccommodationInternalServerError as json.
-func (s *PostAccommodationInternalServerError) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes PostAccommodationInternalServerError from json.
-func (s *PostAccommodationInternalServerError) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode PostAccommodationInternalServerError to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = PostAccommodationInternalServerError(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *PostAccommodationInternalServerError) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PostAccommodationInternalServerError) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes PostActivityBadRequest as json.
-func (s *PostActivityBadRequest) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes PostActivityBadRequest from json.
-func (s *PostActivityBadRequest) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode PostActivityBadRequest to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = PostActivityBadRequest(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *PostActivityBadRequest) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PostActivityBadRequest) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes PostActivityForbidden as json.
-func (s *PostActivityForbidden) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes PostActivityForbidden from json.
-func (s *PostActivityForbidden) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode PostActivityForbidden to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = PostActivityForbidden(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *PostActivityForbidden) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PostActivityForbidden) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes PostActivityInternalServerError as json.
-func (s *PostActivityInternalServerError) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes PostActivityInternalServerError from json.
-func (s *PostActivityInternalServerError) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode PostActivityInternalServerError to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = PostActivityInternalServerError(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *PostActivityInternalServerError) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PostActivityInternalServerError) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes PostAttachmentForbidden as json.
-func (s *PostAttachmentForbidden) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes PostAttachmentForbidden from json.
-func (s *PostAttachmentForbidden) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode PostAttachmentForbidden to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = PostAttachmentForbidden(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *PostAttachmentForbidden) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PostAttachmentForbidden) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes PostAttachmentInternalServerError as json.
-func (s *PostAttachmentInternalServerError) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes PostAttachmentInternalServerError from json.
-func (s *PostAttachmentInternalServerError) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode PostAttachmentInternalServerError to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = PostAttachmentInternalServerError(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *PostAttachmentInternalServerError) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PostAttachmentInternalServerError) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes PostFlightForbidden as json.
-func (s *PostFlightForbidden) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes PostFlightForbidden from json.
-func (s *PostFlightForbidden) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode PostFlightForbidden to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = PostFlightForbidden(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *PostFlightForbidden) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PostFlightForbidden) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes PostFlightInternalServerError as json.
-func (s *PostFlightInternalServerError) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes PostFlightInternalServerError from json.
-func (s *PostFlightInternalServerError) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode PostFlightInternalServerError to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = PostFlightInternalServerError(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *PostFlightInternalServerError) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PostFlightInternalServerError) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes PostTrainJourneyForbidden as json.
-func (s *PostTrainJourneyForbidden) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes PostTrainJourneyForbidden from json.
-func (s *PostTrainJourneyForbidden) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode PostTrainJourneyForbidden to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = PostTrainJourneyForbidden(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *PostTrainJourneyForbidden) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PostTrainJourneyForbidden) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes PostTrainJourneyInternalServerError as json.
-func (s *PostTrainJourneyInternalServerError) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes PostTrainJourneyInternalServerError from json.
-func (s *PostTrainJourneyInternalServerError) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode PostTrainJourneyInternalServerError to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = PostTrainJourneyInternalServerError(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *PostTrainJourneyInternalServerError) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PostTrainJourneyInternalServerError) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes PostTransportationForbidden as json.
-func (s *PostTransportationForbidden) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes PostTransportationForbidden from json.
-func (s *PostTransportationForbidden) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode PostTransportationForbidden to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = PostTransportationForbidden(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *PostTransportationForbidden) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PostTransportationForbidden) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes PostTransportationInternalServerError as json.
-func (s *PostTransportationInternalServerError) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes PostTransportationInternalServerError from json.
-func (s *PostTransportationInternalServerError) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode PostTransportationInternalServerError to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = PostTransportationInternalServerError(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *PostTransportationInternalServerError) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PostTransportationInternalServerError) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes PostTripBadRequest as json.
-func (s *PostTripBadRequest) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes PostTripBadRequest from json.
-func (s *PostTripBadRequest) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode PostTripBadRequest to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = PostTripBadRequest(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *PostTripBadRequest) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PostTripBadRequest) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes PostTripInternalServerError as json.
-func (s *PostTripInternalServerError) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes PostTripInternalServerError from json.
-func (s *PostTripInternalServerError) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode PostTripInternalServerError to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = PostTripInternalServerError(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *PostTripInternalServerError) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PostTripInternalServerError) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes PutAccommodationBadRequest as json.
-func (s *PutAccommodationBadRequest) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes PutAccommodationBadRequest from json.
-func (s *PutAccommodationBadRequest) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode PutAccommodationBadRequest to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = PutAccommodationBadRequest(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *PutAccommodationBadRequest) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PutAccommodationBadRequest) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes PutAccommodationForbidden as json.
-func (s *PutAccommodationForbidden) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes PutAccommodationForbidden from json.
-func (s *PutAccommodationForbidden) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode PutAccommodationForbidden to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = PutAccommodationForbidden(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *PutAccommodationForbidden) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PutAccommodationForbidden) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes PutAccommodationInternalServerError as json.
-func (s *PutAccommodationInternalServerError) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes PutAccommodationInternalServerError from json.
-func (s *PutAccommodationInternalServerError) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode PutAccommodationInternalServerError to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = PutAccommodationInternalServerError(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *PutAccommodationInternalServerError) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PutAccommodationInternalServerError) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes PutAccommodationNotFound as json.
-func (s *PutAccommodationNotFound) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes PutAccommodationNotFound from json.
-func (s *PutAccommodationNotFound) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode PutAccommodationNotFound to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = PutAccommodationNotFound(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *PutAccommodationNotFound) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PutAccommodationNotFound) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes PutActivityBadRequest as json.
-func (s *PutActivityBadRequest) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes PutActivityBadRequest from json.
-func (s *PutActivityBadRequest) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode PutActivityBadRequest to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = PutActivityBadRequest(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *PutActivityBadRequest) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PutActivityBadRequest) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes PutActivityForbidden as json.
-func (s *PutActivityForbidden) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes PutActivityForbidden from json.
-func (s *PutActivityForbidden) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode PutActivityForbidden to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = PutActivityForbidden(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *PutActivityForbidden) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PutActivityForbidden) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes PutActivityInternalServerError as json.
-func (s *PutActivityInternalServerError) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes PutActivityInternalServerError from json.
-func (s *PutActivityInternalServerError) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode PutActivityInternalServerError to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = PutActivityInternalServerError(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *PutActivityInternalServerError) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PutActivityInternalServerError) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes PutFlightForbidden as json.
-func (s *PutFlightForbidden) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes PutFlightForbidden from json.
-func (s *PutFlightForbidden) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode PutFlightForbidden to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = PutFlightForbidden(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *PutFlightForbidden) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PutFlightForbidden) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes PutFlightInternalServerError as json.
-func (s *PutFlightInternalServerError) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes PutFlightInternalServerError from json.
-func (s *PutFlightInternalServerError) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode PutFlightInternalServerError to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = PutFlightInternalServerError(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *PutFlightInternalServerError) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PutFlightInternalServerError) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes PutFlightNotFound as json.
-func (s *PutFlightNotFound) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes PutFlightNotFound from json.
-func (s *PutFlightNotFound) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode PutFlightNotFound to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = PutFlightNotFound(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *PutFlightNotFound) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PutFlightNotFound) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes PutTransportationForbidden as json.
-func (s *PutTransportationForbidden) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes PutTransportationForbidden from json.
-func (s *PutTransportationForbidden) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode PutTransportationForbidden to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = PutTransportationForbidden(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *PutTransportationForbidden) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PutTransportationForbidden) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes PutTransportationInternalServerError as json.
-func (s *PutTransportationInternalServerError) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes PutTransportationInternalServerError from json.
-func (s *PutTransportationInternalServerError) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode PutTransportationInternalServerError to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = PutTransportationInternalServerError(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *PutTransportationInternalServerError) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PutTransportationInternalServerError) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes PutTripBadRequest as json.
-func (s *PutTripBadRequest) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes PutTripBadRequest from json.
-func (s *PutTripBadRequest) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode PutTripBadRequest to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = PutTripBadRequest(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *PutTripBadRequest) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PutTripBadRequest) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes PutTripForbidden as json.
-func (s *PutTripForbidden) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes PutTripForbidden from json.
-func (s *PutTripForbidden) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode PutTripForbidden to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = PutTripForbidden(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *PutTripForbidden) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PutTripForbidden) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes PutTripInternalServerError as json.
-func (s *PutTripInternalServerError) Encode(e *jx.Encoder) {
-	unwrapped := (*ResponseError)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes PutTripInternalServerError from json.
-func (s *PutTripInternalServerError) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode PutTripInternalServerError to nil")
-	}
-	var unwrapped ResponseError
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = PutTripInternalServerError(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *PutTripInternalServerError) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PutTripInternalServerError) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
 // Encode implements json.Marshaler.
-func (s *RequestAccommodation) Encode(e *jx.Encoder) {
+func (s *RequestDirections) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
 	e.ObjEnd()
 }
 
 // encodeFields encodes fields.
-func (s *RequestAccommodation) encodeFields(e *jx.Encoder) {
+func (s *RequestDirections) encodeFields(e *jx.Encoder) {
 	{
-		e.FieldStart("address")
-		s.Address.Encode(e)
+		e.FieldStart("end")
+		s.End.Encode(e)
 	}
 	{
-		e.FieldStart("arrivalDate")
-		e.Str(s.ArrivalDate)
+		e.FieldStart("start")
+		s.Start.Encode(e)
 	}
 	{
-		e.FieldStart("checkInTime")
-		s.CheckInTime.Encode(e)
-	}
-	{
-		e.FieldStart("checkOutTime")
-		s.CheckOutTime.Encode(e)
-	}
-	{
-		e.FieldStart("departureDate")
-		e.Str(s.DepartureDate)
-	}
-	{
-		e.FieldStart("description")
-		s.Description.Encode(e)
-	}
-	{
-		e.FieldStart("location")
-		s.Location.Encode(e)
-	}
-	{
-		e.FieldStart("name")
-		e.Str(s.Name)
-	}
-	{
-		e.FieldStart("price")
-		s.Price.Encode(e)
+		e.FieldStart("transportationType")
+		s.TransportationType.Encode(e)
 	}
 }
 
-var jsonFieldsNameOfRequestAccommodation = [9]string{
-	0: "address",
-	1: "arrivalDate",
-	2: "checkInTime",
-	3: "checkOutTime",
-	4: "departureDate",
-	5: "description",
-	6: "location",
-	7: "name",
-	8: "price",
+var jsonFieldsNameOfRequestDirections = [3]string{
+	0: "end",
+	1: "start",
+	2: "transportationType",
 }
 
-// Decode decodes RequestAccommodation from json.
-func (s *RequestAccommodation) Decode(d *jx.Decoder) error {
+// Decode decodes RequestDirections from json.
+func (s *RequestDirections) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode RequestAccommodation to nil")
-	}
-	var requiredBitSet [2]uint8
-
-	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
-		switch string(k) {
-		case "address":
-			requiredBitSet[0] |= 1 << 0
-			if err := func() error {
-				if err := s.Address.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"address\"")
-			}
-		case "arrivalDate":
-			requiredBitSet[0] |= 1 << 1
-			if err := func() error {
-				v, err := d.Str()
-				s.ArrivalDate = string(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"arrivalDate\"")
-			}
-		case "checkInTime":
-			requiredBitSet[0] |= 1 << 2
-			if err := func() error {
-				if err := s.CheckInTime.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"checkInTime\"")
-			}
-		case "checkOutTime":
-			requiredBitSet[0] |= 1 << 3
-			if err := func() error {
-				if err := s.CheckOutTime.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"checkOutTime\"")
-			}
-		case "departureDate":
-			requiredBitSet[0] |= 1 << 4
-			if err := func() error {
-				v, err := d.Str()
-				s.DepartureDate = string(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"departureDate\"")
-			}
-		case "description":
-			requiredBitSet[0] |= 1 << 5
-			if err := func() error {
-				if err := s.Description.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"description\"")
-			}
-		case "location":
-			requiredBitSet[0] |= 1 << 6
-			if err := func() error {
-				if err := s.Location.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"location\"")
-			}
-		case "name":
-			requiredBitSet[0] |= 1 << 7
-			if err := func() error {
-				v, err := d.Str()
-				s.Name = string(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"name\"")
-			}
-		case "price":
-			requiredBitSet[1] |= 1 << 0
-			if err := func() error {
-				if err := s.Price.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"price\"")
-			}
-		default:
-			return d.Skip()
-		}
-		return nil
-	}); err != nil {
-		return errors.Wrap(err, "decode RequestAccommodation")
-	}
-	// Validate required fields.
-	var failures []validate.FieldError
-	for i, mask := range [2]uint8{
-		0b11111111,
-		0b00000001,
-	} {
-		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
-			// Mask only required fields and check equality to mask using XOR.
-			//
-			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
-			// Bits of fields which would be set are actually bits of missed fields.
-			missed := bits.OnesCount8(result)
-			for bitN := 0; bitN < missed; bitN++ {
-				bitIdx := bits.TrailingZeros8(result)
-				fieldIdx := i*8 + bitIdx
-				var name string
-				if fieldIdx < len(jsonFieldsNameOfRequestAccommodation) {
-					name = jsonFieldsNameOfRequestAccommodation[fieldIdx]
-				} else {
-					name = strconv.Itoa(fieldIdx)
-				}
-				failures = append(failures, validate.FieldError{
-					Name:  name,
-					Error: validate.ErrFieldRequired,
-				})
-				// Reset bit.
-				result &^= 1 << bitIdx
-			}
-		}
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *RequestAccommodation) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *RequestAccommodation) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode implements json.Marshaler.
-func (s *RequestActivity) Encode(e *jx.Encoder) {
-	e.ObjStart()
-	s.encodeFields(e)
-	e.ObjEnd()
-}
-
-// encodeFields encodes fields.
-func (s *RequestActivity) encodeFields(e *jx.Encoder) {
-	{
-		e.FieldStart("address")
-		s.Address.Encode(e)
-	}
-	{
-		e.FieldStart("date")
-		e.Str(s.Date)
-	}
-	{
-		e.FieldStart("description")
-		s.Description.Encode(e)
-	}
-	{
-		e.FieldStart("location")
-		s.Location.Encode(e)
-	}
-	{
-		e.FieldStart("name")
-		e.Str(s.Name)
-	}
-	{
-		e.FieldStart("price")
-		s.Price.Encode(e)
-	}
-	{
-		e.FieldStart("time")
-		s.Time.Encode(e)
-	}
-}
-
-var jsonFieldsNameOfRequestActivity = [7]string{
-	0: "address",
-	1: "date",
-	2: "description",
-	3: "location",
-	4: "name",
-	5: "price",
-	6: "time",
-}
-
-// Decode decodes RequestActivity from json.
-func (s *RequestActivity) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode RequestActivity to nil")
+		return errors.New("invalid: unable to decode RequestDirections to nil")
 	}
 	var requiredBitSet [1]uint8
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
-		case "address":
+		case "end":
 			requiredBitSet[0] |= 1 << 0
 			if err := func() error {
-				if err := s.Address.Decode(d); err != nil {
+				if err := s.End.Decode(d); err != nil {
 					return err
 				}
 				return nil
 			}(); err != nil {
-				return errors.Wrap(err, "decode field \"address\"")
+				return errors.Wrap(err, "decode field \"end\"")
 			}
-		case "date":
+		case "start":
 			requiredBitSet[0] |= 1 << 1
 			if err := func() error {
-				v, err := d.Str()
-				s.Date = string(v)
-				if err != nil {
+				if err := s.Start.Decode(d); err != nil {
 					return err
 				}
 				return nil
 			}(); err != nil {
-				return errors.Wrap(err, "decode field \"date\"")
+				return errors.Wrap(err, "decode field \"start\"")
 			}
-		case "description":
+		case "transportationType":
 			requiredBitSet[0] |= 1 << 2
 			if err := func() error {
-				if err := s.Description.Decode(d); err != nil {
+				if err := s.TransportationType.Decode(d); err != nil {
 					return err
 				}
 				return nil
 			}(); err != nil {
-				return errors.Wrap(err, "decode field \"description\"")
-			}
-		case "location":
-			requiredBitSet[0] |= 1 << 3
-			if err := func() error {
-				if err := s.Location.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"location\"")
-			}
-		case "name":
-			requiredBitSet[0] |= 1 << 4
-			if err := func() error {
-				v, err := d.Str()
-				s.Name = string(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"name\"")
-			}
-		case "price":
-			requiredBitSet[0] |= 1 << 5
-			if err := func() error {
-				if err := s.Price.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"price\"")
-			}
-		case "time":
-			requiredBitSet[0] |= 1 << 6
-			if err := func() error {
-				if err := s.Time.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"time\"")
+				return errors.Wrap(err, "decode field \"transportationType\"")
 			}
 		default:
 			return d.Skip()
 		}
 		return nil
 	}); err != nil {
-		return errors.Wrap(err, "decode RequestActivity")
+		return errors.Wrap(err, "decode RequestDirections")
 	}
 	// Validate required fields.
 	var failures []validate.FieldError
 	for i, mask := range [1]uint8{
-		0b01111111,
+		0b00000111,
 	} {
 		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
 			// Mask only required fields and check equality to mask using XOR.
@@ -6709,8 +1585,8 @@ func (s *RequestActivity) Decode(d *jx.Decoder) error {
 				bitIdx := bits.TrailingZeros8(result)
 				fieldIdx := i*8 + bitIdx
 				var name string
-				if fieldIdx < len(jsonFieldsNameOfRequestActivity) {
-					name = jsonFieldsNameOfRequestActivity[fieldIdx]
+				if fieldIdx < len(jsonFieldsNameOfRequestDirections) {
+					name = jsonFieldsNameOfRequestDirections[fieldIdx]
 				} else {
 					name = strconv.Itoa(fieldIdx)
 				}
@@ -6731,14 +1607,14 @@ func (s *RequestActivity) Decode(d *jx.Decoder) error {
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s *RequestActivity) MarshalJSON() ([]byte, error) {
+func (s *RequestDirections) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *RequestActivity) UnmarshalJSON(data []byte) error {
+func (s *RequestDirections) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -6760,24 +1636,10 @@ func (s *RequestFlight) encodeFields(e *jx.Encoder) {
 		}
 		e.ArrEnd()
 	}
-	{
-		e.FieldStart("pnrs")
-		e.ArrStart()
-		for _, elem := range s.Pnrs {
-			elem.Encode(e)
-		}
-		e.ArrEnd()
-	}
-	{
-		e.FieldStart("price")
-		s.Price.Encode(e)
-	}
 }
 
-var jsonFieldsNameOfRequestFlight = [3]string{
+var jsonFieldsNameOfRequestFlight = [1]string{
 	0: "legs",
-	1: "pnrs",
-	2: "price",
 }
 
 // Decode decodes RequestFlight from json.
@@ -6807,34 +1669,6 @@ func (s *RequestFlight) Decode(d *jx.Decoder) error {
 			}(); err != nil {
 				return errors.Wrap(err, "decode field \"legs\"")
 			}
-		case "pnrs":
-			requiredBitSet[0] |= 1 << 1
-			if err := func() error {
-				s.Pnrs = make([]EntityPNR, 0)
-				if err := d.Arr(func(d *jx.Decoder) error {
-					var elem EntityPNR
-					if err := elem.Decode(d); err != nil {
-						return err
-					}
-					s.Pnrs = append(s.Pnrs, elem)
-					return nil
-				}); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"pnrs\"")
-			}
-		case "price":
-			requiredBitSet[0] |= 1 << 2
-			if err := func() error {
-				if err := s.Price.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"price\"")
-			}
 		default:
 			return d.Skip()
 		}
@@ -6845,7 +1679,7 @@ func (s *RequestFlight) Decode(d *jx.Decoder) error {
 	// Validate required fields.
 	var failures []validate.FieldError
 	for i, mask := range [1]uint8{
-		0b00000111,
+		0b00000001,
 	} {
 		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
 			// Mask only required fields and check equality to mask using XOR.
@@ -7020,14 +1854,14 @@ func (s *RequestFlightLeg) UnmarshalJSON(data []byte) error {
 }
 
 // Encode implements json.Marshaler.
-func (s *RequestTrainJourney) Encode(e *jx.Encoder) {
+func (s *RequestTrain) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
 	e.ObjEnd()
 }
 
 // encodeFields encodes fields.
-func (s *RequestTrainJourney) encodeFields(e *jx.Encoder) {
+func (s *RequestTrain) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("departureDate")
 		e.Str(s.DepartureDate)
@@ -7035,10 +1869,6 @@ func (s *RequestTrainJourney) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("fromStationId")
 		e.Str(s.FromStationId)
-	}
-	{
-		e.FieldStart("price")
-		s.Price.Encode(e)
 	}
 	{
 		e.FieldStart("toStationId")
@@ -7058,19 +1888,18 @@ func (s *RequestTrainJourney) encodeFields(e *jx.Encoder) {
 	}
 }
 
-var jsonFieldsNameOfRequestTrainJourney = [6]string{
+var jsonFieldsNameOfRequestTrain = [5]string{
 	0: "departureDate",
 	1: "fromStationId",
-	2: "price",
-	3: "toStationId",
-	4: "trainNumbers",
-	5: "viaStationId",
+	2: "toStationId",
+	3: "trainNumbers",
+	4: "viaStationId",
 }
 
-// Decode decodes RequestTrainJourney from json.
-func (s *RequestTrainJourney) Decode(d *jx.Decoder) error {
+// Decode decodes RequestTrain from json.
+func (s *RequestTrain) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode RequestTrainJourney to nil")
+		return errors.New("invalid: unable to decode RequestTrain to nil")
 	}
 	var requiredBitSet [1]uint8
 
@@ -7100,18 +1929,8 @@ func (s *RequestTrainJourney) Decode(d *jx.Decoder) error {
 			}(); err != nil {
 				return errors.Wrap(err, "decode field \"fromStationId\"")
 			}
-		case "price":
-			requiredBitSet[0] |= 1 << 2
-			if err := func() error {
-				if err := s.Price.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"price\"")
-			}
 		case "toStationId":
-			requiredBitSet[0] |= 1 << 3
+			requiredBitSet[0] |= 1 << 2
 			if err := func() error {
 				v, err := d.Str()
 				s.ToStationId = string(v)
@@ -7123,7 +1942,7 @@ func (s *RequestTrainJourney) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"toStationId\"")
 			}
 		case "trainNumbers":
-			requiredBitSet[0] |= 1 << 4
+			requiredBitSet[0] |= 1 << 3
 			if err := func() error {
 				s.TrainNumbers = make([]string, 0)
 				if err := d.Arr(func(d *jx.Decoder) error {
@@ -7143,7 +1962,7 @@ func (s *RequestTrainJourney) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"trainNumbers\"")
 			}
 		case "viaStationId":
-			requiredBitSet[0] |= 1 << 5
+			requiredBitSet[0] |= 1 << 4
 			if err := func() error {
 				if err := s.ViaStationId.Decode(d); err != nil {
 					return err
@@ -7157,390 +1976,7 @@ func (s *RequestTrainJourney) Decode(d *jx.Decoder) error {
 		}
 		return nil
 	}); err != nil {
-		return errors.Wrap(err, "decode RequestTrainJourney")
-	}
-	// Validate required fields.
-	var failures []validate.FieldError
-	for i, mask := range [1]uint8{
-		0b00111111,
-	} {
-		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
-			// Mask only required fields and check equality to mask using XOR.
-			//
-			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
-			// Bits of fields which would be set are actually bits of missed fields.
-			missed := bits.OnesCount8(result)
-			for bitN := 0; bitN < missed; bitN++ {
-				bitIdx := bits.TrailingZeros8(result)
-				fieldIdx := i*8 + bitIdx
-				var name string
-				if fieldIdx < len(jsonFieldsNameOfRequestTrainJourney) {
-					name = jsonFieldsNameOfRequestTrainJourney[fieldIdx]
-				} else {
-					name = strconv.Itoa(fieldIdx)
-				}
-				failures = append(failures, validate.FieldError{
-					Name:  name,
-					Error: validate.ErrFieldRequired,
-				})
-				// Reset bit.
-				result &^= 1 << bitIdx
-			}
-		}
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *RequestTrainJourney) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *RequestTrainJourney) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode implements json.Marshaler.
-func (s *RequestTransportation) Encode(e *jx.Encoder) {
-	e.ObjStart()
-	s.encodeFields(e)
-	e.ObjEnd()
-}
-
-// encodeFields encodes fields.
-func (s *RequestTransportation) encodeFields(e *jx.Encoder) {
-	{
-		e.FieldStart("arrivalDateTime")
-		e.Str(s.ArrivalDateTime)
-	}
-	{
-		e.FieldStart("departureDateTime")
-		e.Str(s.DepartureDateTime)
-	}
-	{
-		e.FieldStart("destination")
-		s.Destination.Encode(e)
-	}
-	{
-		e.FieldStart("destinationAddress")
-		s.DestinationAddress.Encode(e)
-	}
-	{
-		e.FieldStart("name")
-		e.Str(s.Name)
-	}
-	{
-		e.FieldStart("origin")
-		s.Origin.Encode(e)
-	}
-	{
-		e.FieldStart("originAddress")
-		s.OriginAddress.Encode(e)
-	}
-	{
-		e.FieldStart("price")
-		s.Price.Encode(e)
-	}
-	{
-		e.FieldStart("type")
-		e.Str(s.Type)
-	}
-}
-
-var jsonFieldsNameOfRequestTransportation = [9]string{
-	0: "arrivalDateTime",
-	1: "departureDateTime",
-	2: "destination",
-	3: "destinationAddress",
-	4: "name",
-	5: "origin",
-	6: "originAddress",
-	7: "price",
-	8: "type",
-}
-
-// Decode decodes RequestTransportation from json.
-func (s *RequestTransportation) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode RequestTransportation to nil")
-	}
-	var requiredBitSet [2]uint8
-
-	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
-		switch string(k) {
-		case "arrivalDateTime":
-			requiredBitSet[0] |= 1 << 0
-			if err := func() error {
-				v, err := d.Str()
-				s.ArrivalDateTime = string(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"arrivalDateTime\"")
-			}
-		case "departureDateTime":
-			requiredBitSet[0] |= 1 << 1
-			if err := func() error {
-				v, err := d.Str()
-				s.DepartureDateTime = string(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"departureDateTime\"")
-			}
-		case "destination":
-			requiredBitSet[0] |= 1 << 2
-			if err := func() error {
-				if err := s.Destination.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"destination\"")
-			}
-		case "destinationAddress":
-			requiredBitSet[0] |= 1 << 3
-			if err := func() error {
-				if err := s.DestinationAddress.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"destinationAddress\"")
-			}
-		case "name":
-			requiredBitSet[0] |= 1 << 4
-			if err := func() error {
-				v, err := d.Str()
-				s.Name = string(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"name\"")
-			}
-		case "origin":
-			requiredBitSet[0] |= 1 << 5
-			if err := func() error {
-				if err := s.Origin.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"origin\"")
-			}
-		case "originAddress":
-			requiredBitSet[0] |= 1 << 6
-			if err := func() error {
-				if err := s.OriginAddress.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"originAddress\"")
-			}
-		case "price":
-			requiredBitSet[0] |= 1 << 7
-			if err := func() error {
-				if err := s.Price.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"price\"")
-			}
-		case "type":
-			requiredBitSet[1] |= 1 << 0
-			if err := func() error {
-				v, err := d.Str()
-				s.Type = string(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"type\"")
-			}
-		default:
-			return d.Skip()
-		}
-		return nil
-	}); err != nil {
-		return errors.Wrap(err, "decode RequestTransportation")
-	}
-	// Validate required fields.
-	var failures []validate.FieldError
-	for i, mask := range [2]uint8{
-		0b11111111,
-		0b00000001,
-	} {
-		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
-			// Mask only required fields and check equality to mask using XOR.
-			//
-			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
-			// Bits of fields which would be set are actually bits of missed fields.
-			missed := bits.OnesCount8(result)
-			for bitN := 0; bitN < missed; bitN++ {
-				bitIdx := bits.TrailingZeros8(result)
-				fieldIdx := i*8 + bitIdx
-				var name string
-				if fieldIdx < len(jsonFieldsNameOfRequestTransportation) {
-					name = jsonFieldsNameOfRequestTransportation[fieldIdx]
-				} else {
-					name = strconv.Itoa(fieldIdx)
-				}
-				failures = append(failures, validate.FieldError{
-					Name:  name,
-					Error: validate.ErrFieldRequired,
-				})
-				// Reset bit.
-				result &^= 1 << bitIdx
-			}
-		}
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *RequestTransportation) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *RequestTransportation) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode implements json.Marshaler.
-func (s *RequestTrip) Encode(e *jx.Encoder) {
-	e.ObjStart()
-	s.encodeFields(e)
-	e.ObjEnd()
-}
-
-// encodeFields encodes fields.
-func (s *RequestTrip) encodeFields(e *jx.Encoder) {
-	{
-		e.FieldStart("description")
-		s.Description.Encode(e)
-	}
-	{
-		e.FieldStart("endDate")
-		e.Str(s.EndDate)
-	}
-	{
-		e.FieldStart("imageUrl")
-		s.ImageUrl.Encode(e)
-	}
-	{
-		e.FieldStart("name")
-		e.Str(s.Name)
-	}
-	{
-		e.FieldStart("startDate")
-		e.Str(s.StartDate)
-	}
-}
-
-var jsonFieldsNameOfRequestTrip = [5]string{
-	0: "description",
-	1: "endDate",
-	2: "imageUrl",
-	3: "name",
-	4: "startDate",
-}
-
-// Decode decodes RequestTrip from json.
-func (s *RequestTrip) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode RequestTrip to nil")
-	}
-	var requiredBitSet [1]uint8
-
-	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
-		switch string(k) {
-		case "description":
-			requiredBitSet[0] |= 1 << 0
-			if err := func() error {
-				if err := s.Description.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"description\"")
-			}
-		case "endDate":
-			requiredBitSet[0] |= 1 << 1
-			if err := func() error {
-				v, err := d.Str()
-				s.EndDate = string(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"endDate\"")
-			}
-		case "imageUrl":
-			requiredBitSet[0] |= 1 << 2
-			if err := func() error {
-				if err := s.ImageUrl.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"imageUrl\"")
-			}
-		case "name":
-			requiredBitSet[0] |= 1 << 3
-			if err := func() error {
-				v, err := d.Str()
-				s.Name = string(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"name\"")
-			}
-		case "startDate":
-			requiredBitSet[0] |= 1 << 4
-			if err := func() error {
-				v, err := d.Str()
-				s.StartDate = string(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"startDate\"")
-			}
-		default:
-			return d.Skip()
-		}
-		return nil
-	}); err != nil {
-		return errors.Wrap(err, "decode RequestTrip")
+		return errors.Wrap(err, "decode RequestTrain")
 	}
 	// Validate required fields.
 	var failures []validate.FieldError
@@ -7557,8 +1993,8 @@ func (s *RequestTrip) Decode(d *jx.Decoder) error {
 				bitIdx := bits.TrailingZeros8(result)
 				fieldIdx := i*8 + bitIdx
 				var name string
-				if fieldIdx < len(jsonFieldsNameOfRequestTrip) {
-					name = jsonFieldsNameOfRequestTrip[fieldIdx]
+				if fieldIdx < len(jsonFieldsNameOfRequestTrain) {
+					name = jsonFieldsNameOfRequestTrain[fieldIdx]
 				} else {
 					name = strconv.Itoa(fieldIdx)
 				}
@@ -7579,14 +2015,14 @@ func (s *RequestTrip) Decode(d *jx.Decoder) error {
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s *RequestTrip) MarshalJSON() ([]byte, error) {
+func (s *RequestTrain) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *RequestTrip) UnmarshalJSON(data []byte) error {
+func (s *RequestTrain) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }

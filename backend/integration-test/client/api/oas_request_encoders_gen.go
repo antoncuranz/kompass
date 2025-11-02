@@ -4,19 +4,15 @@ package api
 
 import (
 	"bytes"
-	"mime"
-	"mime/multipart"
 	"net/http"
 
-	"github.com/go-faster/errors"
 	"github.com/go-faster/jx"
 
 	ht "github.com/ogen-go/ogen/http"
-	"github.com/ogen-go/ogen/uri"
 )
 
-func encodePostAccommodationRequest(
-	req *RequestAccommodation,
+func encodeLookupDirectionsRequest(
+	req *RequestDirections,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -26,48 +22,6 @@ func encodePostAccommodationRequest(
 	}
 	encoded := e.Bytes()
 	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodePostActivityRequest(
-	req *RequestActivity,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	e := new(jx.Encoder)
-	{
-		req.Encode(e)
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodePostAttachmentRequest(
-	req *V1AttachmentsParamMultipart,
-	r *http.Request,
-) error {
-	const contentType = "multipart/form-data"
-	request := req
-
-	q := uri.NewFormEncoder(map[string]string{})
-	body, boundary := ht.CreateMultipartBody(func(w *multipart.Writer) error {
-		if err := func() error {
-			for idx, val := range request.Attachments {
-				if err := val.WriteMultipart("attachments", w); err != nil {
-					return errors.Wrapf(err, "file [%d]", idx)
-				}
-			}
-			return nil
-		}(); err != nil {
-			return errors.Wrap(err, "write \"attachments\"")
-		}
-		if err := q.WriteMultipart(w); err != nil {
-			return errors.Wrap(err, "write multipart")
-		}
-		return nil
-	})
-	ht.SetCloserBody(r, body, mime.FormatMediaType(contentType, map[string]string{"boundary": boundary}))
 	return nil
 }
 
@@ -86,91 +40,7 @@ func encodePostFlightRequest(
 }
 
 func encodePostTrainJourneyRequest(
-	req *RequestTrainJourney,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	e := new(jx.Encoder)
-	{
-		req.Encode(e)
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodePostTransportationRequest(
-	req *RequestTransportation,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	e := new(jx.Encoder)
-	{
-		req.Encode(e)
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodePostTripRequest(
-	req *RequestTrip,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	e := new(jx.Encoder)
-	{
-		req.Encode(e)
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodePutAccommodationRequest(
-	req *RequestAccommodation,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	e := new(jx.Encoder)
-	{
-		req.Encode(e)
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodePutActivityRequest(
-	req *RequestActivity,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	e := new(jx.Encoder)
-	{
-		req.Encode(e)
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodePutTransportationRequest(
-	req *RequestTransportation,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	e := new(jx.Encoder)
-	{
-		req.Encode(e)
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodePutTripRequest(
-	req *RequestTrip,
+	req *RequestTrain,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"

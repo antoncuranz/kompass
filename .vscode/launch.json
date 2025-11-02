@@ -1,0 +1,22 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Next.js Frontend",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "${workspaceFolder}/frontend/node_modules/.bin/next",
+      "runtimeArgs": ["dev", "--turbopack"],
+      "cwd": "${workspaceFolder}/frontend",
+    },
+    {
+      "name": "Go Backend",
+      "type": "go",
+      "request": "launch",
+      "mode": "exec",
+      "program": "${workspaceFolder}/backend/bin/app",
+      "cwd": "${workspaceFolder}/backend",
+      "envFile": "${workspaceFolder}/.vscode/.env",
+    }
+  ]
+}

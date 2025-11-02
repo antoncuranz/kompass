@@ -1,35 +1,38 @@
 "use client"
 
-import React, {useState} from "react";
-import {Trip} from "@/types.ts";
+import AccommodationDialogContent from "@/components/dialog/AccommodationDialogContent.tsx"
+import ActivityDialogContent from "@/components/dialog/ActivityDialogContent.tsx"
+import { Dialog } from "@/components/dialog/Dialog.tsx"
+import FlightDialogContent from "@/components/dialog/FlightDialogContent.tsx"
+import TrainDialogContent from "@/components/dialog/TrainDialogContent.tsx"
+import TransportationDialogContent from "@/components/dialog/TransportationDialogContent.tsx"
+import { Button } from "@/components/ui/button.tsx"
 import {
   DropdownMenu,
-  DropdownMenuItem,
   DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuPositioner,
   DropdownMenuTrigger,
-  DropdownMenuPositioner
-} from "@/components/ui/dropdown-menu.tsx";
-import {Button} from "@/components/ui/button.tsx";
-import {PlaneTakeoff} from "lucide-react";
-import AccommodationDialogContent from "@/components/dialog/AccommodationDialogContent.tsx";
-import FlightDialogContent from "@/components/dialog/FlightDialogContent.tsx";
-import TrainDialogContent from "@/components/dialog/TrainDialogContent.tsx";
-import ActivityDialogContent from "@/components/dialog/ActivityDialogContent.tsx";
-import {Dialog} from "@/components/dialog/Dialog.tsx";
-import TransportationDialogContent from "@/components/dialog/TransportationDialogContent.tsx";
+} from "@/components/ui/dropdown-menu.tsx"
+import { Trip } from "@/schema.ts"
+import { PlaneTakeoff } from "lucide-react"
+import { useState } from "react"
 
-export default function AddSomethingDropdown({trip}: {trip: Trip}) {
+export default function AddSomethingDropdown({ trip }: { trip: Trip }) {
   const [activityDialogOpen, setActivityDialogOpen] = useState(false)
   const [accommodationDialogOpen, setAccommodationDialogOpen] = useState(false)
   const [flightDialogOpen, setFlightDialogOpen] = useState(false)
   const [trainDialogOpen, setTrainDialogOpen] = useState(false)
-  const [transportationDialogOpen, setTransportationDialogOpen] = useState(false)
+  const [transportationDialogOpen, setTransportationDialogOpen] =
+    useState(false)
 
   return (
     <div>
       <DropdownMenu>
-        <DropdownMenuTrigger render={<Button size="sm" className="h-8 gap-1 mt-0 ml-1 self-end"/>}>
-          <PlaneTakeoff className="h-3.5 w-3.5"/>
+        <DropdownMenuTrigger
+          render={<Button size="sm" className="h-8 gap-1 mt-0 ml-1 self-end" />}
+        >
+          <PlaneTakeoff className="h-3.5 w-3.5" />
           <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
             Add Something
           </span>
@@ -55,19 +58,25 @@ export default function AddSomethingDropdown({trip}: {trip: Trip}) {
         </DropdownMenuPositioner>
       </DropdownMenu>
       <Dialog open={activityDialogOpen} setOpen={setActivityDialogOpen}>
-        <ActivityDialogContent trip={trip}/>
+        <ActivityDialogContent trip={trip} />
       </Dialog>
-      <Dialog open={accommodationDialogOpen} setOpen={setAccommodationDialogOpen}>
-        <AccommodationDialogContent trip={trip}/>
+      <Dialog
+        open={accommodationDialogOpen}
+        setOpen={setAccommodationDialogOpen}
+      >
+        <AccommodationDialogContent trip={trip} />
       </Dialog>
       <Dialog open={flightDialogOpen} setOpen={setFlightDialogOpen}>
-        <FlightDialogContent trip={trip}/>
+        <FlightDialogContent trip={trip} />
       </Dialog>
       <Dialog open={trainDialogOpen} setOpen={setTrainDialogOpen}>
-        <TrainDialogContent trip={trip}/>
+        <TrainDialogContent trip={trip} />
       </Dialog>
-      <Dialog open={transportationDialogOpen} setOpen={setTransportationDialogOpen}>
-        <TransportationDialogContent trip={trip}/>
+      <Dialog
+        open={transportationDialogOpen}
+        setOpen={setTransportationDialogOpen}
+      >
+        <TransportationDialogContent trip={trip} />
       </Dialog>
     </div>
   )
