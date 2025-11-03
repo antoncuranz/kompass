@@ -85,13 +85,15 @@ export default function TripDialogContent({
         [],
         createJoinRequestsGroup(account),
       )
+      const sharedTripGroup = Group.create()
+      sharedTripGroup.addMember("everyone", "reader")
 
       const newSharedTrip = SharedTrip.create(
         {
           trip: newTrip,
           joinRequests,
         },
-        tripGroup,
+        sharedTripGroup,
       )
 
       account.root.trips.$jazz.push(newSharedTrip)

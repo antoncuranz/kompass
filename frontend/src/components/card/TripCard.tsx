@@ -1,17 +1,20 @@
 "use client"
 
 import Card from "@/components/card/Card.tsx"
+import ShareButton from "@/components/buttons/ShareButton.tsx"
 import { cn } from "@/lib/utils.ts"
 import { Trip } from "@/schema.ts"
 import { Pencil } from "lucide-react"
 
 export default function TripCard({
   trip,
+  sharedTripId,
   className,
   fallbackColor,
   onEdit,
 }: {
   trip: Trip
+  sharedTripId: string
   className?: string
   fallbackColor: string
   onEdit: () => void
@@ -46,14 +49,20 @@ export default function TripCard({
           />
         )}
       </div>
-      <div
-        className="absolute bottom-4 right-4 z-50 bg-background rounded-full p-2 cursor-pointer flex items-center justify-center hidden group-hover/trip-card:block not-sm:block"
-        onClick={e => {
-          e.preventDefault()
-          onEdit()
-        }}
-      >
-        <Pencil className="h-4 w-4" />
+      <div className="absolute bottom-4 right-4 z-50 flex gap-2 hidden group-hover/trip-card:flex not-sm:flex">
+        <ShareButton
+          sharedTripId={sharedTripId}
+          className="rounded-full p-2 h-auto w-auto"
+        />
+        <div
+          className="bg-background rounded-full p-2 cursor-pointer flex items-center justify-center"
+          onClick={e => {
+            e.preventDefault()
+            onEdit()
+          }}
+        >
+          <Pencil className="h-4 w-4" />
+        </div>
       </div>
     </Card>
   )

@@ -9,12 +9,12 @@ import {
   LoadedTransportation,
   RESOLVE_FLIGHT,
   RESOLVE_GENERIC_TRANSPORTATION,
+  RESOLVE_SHARED_TRIP,
   RESOLVE_TRAIN,
-  RESOLVE_TRIP,
-  Trip,
+  SharedTrip,
 } from "@/schema.ts"
 import { DayRenderData } from "@/types.ts"
-import { useCoState } from "jazz-tools/react-core"
+import { useCoStateWithSelector } from "jazz-tools/react-core"
 import { useCallback, useEffect, useState } from "react"
 
 export default function ItineraryCard({
@@ -24,7 +24,10 @@ export default function ItineraryCard({
   tripId: string
   className?: string
 }) {
-  const trip = useCoState(Trip, tripId, { resolve: RESOLVE_TRIP })
+  const trip = useCoStateWithSelector(SharedTrip, tripId, {
+    resolve: RESOLVE_SHARED_TRIP,
+    select: sharedTrip => sharedTrip?.trip,
+  })
   const [dataByDays, setDataByDays] = useState<DayRenderData[]>([])
 
   function getDepartureDateTime(transportation: LoadedTransportation): string {

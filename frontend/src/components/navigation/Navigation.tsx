@@ -1,10 +1,11 @@
 "use client"
 
 import { ModeToggle } from "@/components/buttons/ModeToggle.tsx"
+import ShareButton from "@/components/buttons/ShareButton.tsx"
 import { Button } from "@/components/ui/button.tsx"
 import { cn } from "@/lib/utils.ts"
-import { Trip } from "@/schema.ts"
-import { useCoState } from "jazz-tools/react-core"
+import { SharedTrip } from "@/schema.ts"
+import { useCoStateWithSelector } from "jazz-tools/react"
 import { GalleryHorizontalEnd } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -12,7 +13,9 @@ import { ButtonGroup } from "../ui/button-group"
 
 export default function Navigation({ tripId }: { tripId: string }) {
   const pathname = usePathname()
-  const trip = useCoState(Trip, tripId)
+  const trip = useCoStateWithSelector(SharedTrip, tripId, {
+    select: sharedTrip => sharedTrip?.trip,
+  })
 
   const commonStyle =
     "inline-block h-10 sm:h-14 leading-9 sm:leading-14 border-[chocolate]"
@@ -52,7 +55,7 @@ export default function Navigation({ tripId }: { tripId: string }) {
           {["Itinerary", "Map"].map(page => (
             <Link
               key={page.toLowerCase()}
-              href={"/" + trip?.$jazz.id + "/" + page.toLowerCase()}
+              href={"/" + tripId + "/" + page.toLowerCase()}
               className={
                 pathname.endsWith("/" + page.toLowerCase())
                   ? activeStyle
@@ -62,8 +65,21 @@ export default function Navigation({ tripId }: { tripId: string }) {
               {page}
             </Link>
           ))}
+          {trip?.$jazz.owner.myRole() === "admin" && (
+            <Link
+              href={"/" + tripId + "/share"}
+              className={
+                pathname.endsWith("/share") ? activeStyle : inactiveStyle
+              }
+            >
+              Share
+            </Link>
+          )}
         </div>
-        <ModeToggle className="hidden sm:inline-flex" />
+        <div className="hidden sm:flex gap-2">
+          <ShareButton sharedTripId={tripId} />
+          <ModeToggle />
+        </div>
       </nav>
     </header>
   )

@@ -31,6 +31,7 @@ export default function Page() {
     >
       <TripCard
         trip={sharedTrip.trip}
+        sharedTripId={sharedTrip.$jazz.id}
         className={cardClasses}
         fallbackColor={fallbackColors[idx % fallbackColors.length]}
         onEdit={() => {

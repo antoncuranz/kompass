@@ -3,8 +3,8 @@
 import Card from "@/components/card/Card.tsx"
 import SkeletonCard from "@/components/card/SkeletonCard.tsx"
 import HeroMap from "@/components/map/HeroMap.tsx"
-import { RESOLVE_TRIP, Trip } from "@/schema.ts"
-import { useCoState } from "jazz-tools/react-core"
+import { RESOLVE_SHARED_TRIP, SharedTrip } from "@/schema.ts"
+import { useCoStateWithSelector } from "jazz-tools/react-core"
 
 export default function MapCard({
   tripId,
@@ -13,7 +13,10 @@ export default function MapCard({
   tripId: string
   className?: string
 }) {
-  const trip = useCoState(Trip, tripId, { resolve: RESOLVE_TRIP })
+  const trip = useCoStateWithSelector(SharedTrip, tripId, {
+    resolve: RESOLVE_SHARED_TRIP,
+    select: sharedTrip => sharedTrip?.trip,
+  })
 
   if (!trip) {
     return (
