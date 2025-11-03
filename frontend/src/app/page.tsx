@@ -24,14 +24,17 @@ export default function Page() {
   const cardClasses =
     "aspect-3/5 min-h-[20rem] sm:min-h-[26rem] h-[calc(100vh-20rem)] md:h-[calc(100vh-26rem)] max-h-160"
 
-  const cards = account.root.trips.map((trip, idx) => (
-    <Link key={trip.$jazz.id} href={"/" + trip.$jazz.id + "/itinerary"}>
+  const cards = account.root.trips.map((sharedTrip, idx) => (
+    <Link
+      key={sharedTrip.$jazz.id}
+      href={"/" + sharedTrip.$jazz.id + "/itinerary"}
+    >
       <TripCard
-        trip={trip}
+        trip={sharedTrip.trip}
         className={cardClasses}
         fallbackColor={fallbackColors[idx % fallbackColors.length]}
         onEdit={() => {
-          setSelectedTrip(trip)
+          setSelectedTrip(sharedTrip.trip)
           setTripDialogOpen(true)
         }}
       />

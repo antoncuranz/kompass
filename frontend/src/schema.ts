@@ -184,11 +184,46 @@ export const RESOLVE_TRIP = {
 }
 export type Trip = co.loaded<typeof Trip, typeof RESOLVE_TRIP>
 
+export const JoinRequest = co.map({
+  account: co.account(),
+  status: z.enum(["pending", "approved", "rejected"]),
+  requestedAt: z.iso.datetime(),
+})
+export const RESOLVE_JOIN_REQUEST = {
+  account: true,
+}
+export type JoinRequest = co.loaded<
+  typeof JoinRequest,
+  typeof RESOLVE_JOIN_REQUEST
+>
+
+export const RequestsList = co.list(JoinRequest)
+export const RESOLVE_REQUESTS_LIST = {
+  $each: RESOLVE_JOIN_REQUEST,
+}
+export type RequestsList = co.loaded<
+  typeof RequestsList,
+  typeof RESOLVE_REQUESTS_LIST
+>
+
+export const SharedTrip = co.map({
+  trip: Trip,
+  joinRequests: RequestsList,
+})
+export const RESOLVE_SHARED_TRIP = {
+  trip: RESOLVE_TRIP,
+  joinRequests: RESOLVE_REQUESTS_LIST,
+}
+export type SharedTrip = co.loaded<
+  typeof SharedTrip,
+  typeof RESOLVE_SHARED_TRIP
+>
+
 export const AccountRoot = co.map({
-  trips: co.list(Trip),
+  trips: co.list(SharedTrip),
 })
 export const RESOLVE_ROOT = {
-  trips: { $each: RESOLVE_TRIP },
+  trips: { $each: RESOLVE_SHARED_TRIP },
 }
 export type AccountRoot = co.loaded<typeof AccountRoot, typeof RESOLVE_ROOT>
 

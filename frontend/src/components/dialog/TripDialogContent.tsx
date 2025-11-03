@@ -12,8 +12,10 @@ import { Spinner } from "@/components/ui/shadcn-io/spinner"
 import { Textarea } from "@/components/ui/textarea.tsx"
 import { dateFromString } from "@/components/util.ts"
 import { dateRange, optionalString } from "@/formschema.ts"
-import { JazzAccount, Trip } from "@/schema.ts"
+import { createRequestsToJoin as createJoinRequestsGroup } from "@/lib/collaboration.ts"
+import { JazzAccount, RequestsList, SharedTrip, Trip } from "@/schema.ts"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { Group } from "jazz-tools"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -64,14 +66,35 @@ export default function TripDialogContent({
         endDate: values.dateRange.to,
       })
     } else {
-      account.root.trips.$jazz.push({
-        ...values,
-        startDate: values.dateRange.from,
-        endDate: values.dateRange.to,
-        activities: [],
-        accommodation: [],
-        transportation: [],
-      })
+      const tripGroup = Group.create()
+      tripGroup.addMember(account, "admin")
+
+      const newTrip = Trip.create(
+        {
+          ...values,
+          startDate: values.dateRange.from,
+          endDate: values.dateRange.to,
+          activities: [],
+          accommodation: [],
+          transportation: [],
+        },
+        tripGroup,
+      )
+
+      const joinRequests = RequestsList.create(
+        [],
+        createJoinRequestsGroup(account),
+      )
+
+      const newSharedTrip = SharedTrip.create(
+        {
+          trip: newTrip,
+          joinRequests,
+        },
+        tripGroup,
+      )
+
+      account.root.trips.$jazz.push(newSharedTrip)
     }
     onClose()
   }
@@ -81,7 +104,8 @@ export default function TripDialogContent({
       return
     }
 
-    account.root.trips.$jazz.remove(t => t?.$jazz.id == trip.$jazz.id)
+    account.root.trips.$jazz.remove(st => st?.trip.$jazz.id == trip.$jazz.id)
+    // TODO: think about revoking access
     onClose()
   }
 
