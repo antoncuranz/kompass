@@ -10,7 +10,7 @@ import { dateFromString, getNextDay } from "@/components/util.ts"
 import { cn } from "@/lib/utils.ts"
 import { format } from "date-fns"
 import { CalendarIcon } from "lucide-react"
-import { Matcher } from "react-day-picker"
+import { DateRange, Matcher } from "react-day-picker"
 import { ControllerRenderProps, FieldValues } from "react-hook-form"
 
 export default function DateInput({
@@ -23,10 +23,14 @@ export default function DateInput({
   startDate,
   excludeStartDate,
   endDate,
+  mode = "single",
+  min,
 }: ControllerRenderProps<FieldValues, string> & {
   startDate?: string | null
   excludeStartDate?: boolean | null
   endDate?: string | null
+  mode?: "single" | "range"
+  min?: number
 }) {
   function getMatcher(): Matcher | undefined {
     const adjustedStartDate = getAdjustedStartDate()
@@ -52,8 +56,8 @@ export default function DateInput({
     return excludeStartDate ? getNextDay(startDate) : startDate
   }
 
-  function onSelect(value: Date) {
-    onChange(value)
+  function onSelect(selectedValue: Date | DateRange | undefined) {
+    onChange(selectedValue)
     onBlur()
   }
 
@@ -75,13 +79,23 @@ export default function DateInput({
         }
       >
         <CalendarIcon className="mr-2 h-4 w-4" />
-        {value ? format(value, "PP") : <span>Pick a date</span>}
+        {mode === "range" ? (
+          (value as DateRange)?.to ? (
+            `${format((value as DateRange).from!, "MMM dd")} - ${format((value as DateRange).to!, "MMM dd, yyyy")}`
+          ) : (
+            <span>Pick a date range</span>
+          )
+        ) : value ? (
+          format(value as Date, "PP")
+        ) : (
+          <span>Pick a date</span>
+        )}
       </PopoverTrigger>
       <PopoverPositioner>
         <PopoverContent>
           <Calendar
             ISOWeek
-            mode="single"
+            mode={mode}
             selected={value}
             onSelect={onSelect}
             startMonth={
@@ -90,6 +104,7 @@ export default function DateInput({
             endMonth={endDate ? dateFromString(endDate) : undefined}
             disabled={getMatcher()}
             required={true}
+            min={min}
           />
         </PopoverContent>
       </PopoverPositioner>

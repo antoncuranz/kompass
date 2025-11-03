@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/select"
 import { Separator } from "@/components/ui/separator.tsx"
 import { Spinner } from "@/components/ui/shadcn-io/spinner"
-import { dateFromString, titleCase } from "@/components/util.ts"
+import { dateFromString, dateToString, titleCase } from "@/components/util.ts"
 import { isoDateTime, location, optionalString } from "@/formschema"
 import { GenericTransportation, Trip } from "@/schema"
 import { getTransportationTypeEmoji, TransportationType } from "@/types.ts"
@@ -185,7 +185,11 @@ export default function TransportationDialogContent({
                 disabled={field.disabled}
               >
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select type" />
+                  <SelectValue placeholder="Select type">
+                    {field.value
+                      ? `${getTransportationTypeEmoji(field.value)} ${titleCase(field.value)}`
+                      : undefined}
+                  </SelectValue>
                 </SelectTrigger>
                 <SelectPositioner>
                   <SelectContent>
@@ -224,6 +228,10 @@ export default function TransportationDialogContent({
               startDate={trip.startDate}
               endDate={trip.endDate}
               {...field}
+              onChange={date => {
+                field.onChange(date)
+                form.setValue("arrivalDateTime", date)
+              }}
             />
           )}
         />
@@ -251,7 +259,11 @@ export default function TransportationDialogContent({
           label="Arrival Time"
           render={({ field }) => (
             <DateTimeInput
-              startDate={trip.startDate}
+              startDate={
+                form.getValues("departureDateTime")
+                  ? dateToString(form.getValues("departureDateTime"))
+                  : trip.startDate
+              }
               endDate={trip.endDate}
               {...field}
             />

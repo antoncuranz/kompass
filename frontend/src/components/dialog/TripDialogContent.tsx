@@ -1,4 +1,4 @@
-import { RowContainer, useDialogContext } from "@/components/dialog/Dialog.tsx"
+import { useDialogContext } from "@/components/dialog/Dialog.tsx"
 import DateInput from "@/components/dialog/input/DateInput.tsx"
 import { Button } from "@/components/ui/button.tsx"
 import {
@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input.tsx"
 import { Spinner } from "@/components/ui/shadcn-io/spinner"
 import { Textarea } from "@/components/ui/textarea.tsx"
 import { dateFromString } from "@/components/util.ts"
-import { isoDate, optionalString } from "@/formschema.ts"
+import { dateRange, optionalString } from "@/formschema.ts"
 import { JazzAccount, Trip } from "@/schema.ts"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useState } from "react"
@@ -20,8 +20,7 @@ import { z } from "zod"
 
 const formSchema = z.object({
   name: z.string().nonempty("Required"),
-  startDate: isoDate("Required"),
-  endDate: isoDate("Required"),
+  dateRange: dateRange("Required"),
   description: optionalString(),
   imageUrl: optionalString(),
 })
@@ -45,8 +44,12 @@ export default function TripDialogContent({
     defaultValues: {
       name: trip?.name ?? "",
       description: trip?.description ?? "",
-      startDate: trip?.startDate ? dateFromString(trip.startDate) : undefined,
-      endDate: trip?.endDate ? dateFromString(trip.endDate) : undefined,
+      dateRange: trip
+        ? {
+            from: dateFromString(trip.startDate),
+            to: dateFromString(trip.endDate),
+          }
+        : undefined,
       imageUrl: trip?.imageUrl ?? "",
     },
     disabled: !edit,
@@ -55,10 +58,16 @@ export default function TripDialogContent({
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     if (trip) {
-      trip.$jazz.applyDiff(values)
+      trip.$jazz.applyDiff({
+        ...values,
+        startDate: values.dateRange.from,
+        endDate: values.dateRange.to,
+      })
     } else {
       account.root.trips.$jazz.push({
         ...values,
+        startDate: values.dateRange.from,
+        endDate: values.dateRange.to,
         activities: [],
         accommodation: [],
         transportation: [],
@@ -92,20 +101,12 @@ export default function TripDialogContent({
             <Input data-1p-ignore placeholder="My awesome Trip" {...field} />
           )}
         />
-        <RowContainer>
-          <FormField
-            control={form.control}
-            name="startDate"
-            label="Start Date"
-            render={({ field }) => <DateInput {...field} />}
-          />
-          <FormField
-            control={form.control}
-            name="endDate"
-            label="End Date"
-            render={({ field }) => <DateInput {...field} />}
-          />
-        </RowContainer>
+        <FormField
+          control={form.control}
+          name="dateRange"
+          label="Start and End Date"
+          render={({ field }) => <DateInput mode="range" min={1} {...field} />}
+        />
         <FormField
           control={form.control}
           name="description"

@@ -1,4 +1,4 @@
-import { RowContainer, useDialogContext } from "@/components/dialog/Dialog.tsx"
+import { useDialogContext } from "@/components/dialog/Dialog.tsx"
 import AddressInput from "@/components/dialog/input/AddressInput.tsx"
 import AmountInput from "@/components/dialog/input/AmountInput.tsx"
 import DateInput from "@/components/dialog/input/DateInput.tsx"
@@ -14,7 +14,7 @@ import { Input } from "@/components/ui/input.tsx"
 import { Spinner } from "@/components/ui/shadcn-io/spinner"
 import { Textarea } from "@/components/ui/textarea.tsx"
 import { dateFromString } from "@/components/util.ts"
-import { isoDate, optionalLocation, optionalString } from "@/formschema.ts"
+import { dateRange, optionalLocation, optionalString } from "@/formschema.ts"
 import { Accommodation, Trip } from "@/schema.ts"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useState } from "react"
@@ -24,8 +24,7 @@ import { z } from "zod"
 const formSchema = z.object({
   name: z.string().nonempty("Required"),
   description: optionalString(),
-  arrivalDate: isoDate("Required"),
-  departureDate: isoDate("Required"),
+  dateRange: dateRange("Required"),
   price: z.number().optional(),
   address: optionalString(),
   location: optionalLocation(),
@@ -50,11 +49,11 @@ export default function AccommodationDialogContent({
     defaultValues: {
       name: accommodation?.name ?? "",
       description: accommodation?.description ?? "",
-      arrivalDate: accommodation?.arrivalDate
-        ? dateFromString(accommodation.arrivalDate)
-        : undefined,
-      departureDate: accommodation?.departureDate
-        ? dateFromString(accommodation.departureDate)
+      dateRange: accommodation
+        ? {
+            from: dateFromString(accommodation.arrivalDate),
+            to: dateFromString(accommodation.departureDate),
+          }
         : undefined,
       price: accommodation?.price ?? undefined,
       address: accommodation?.address ?? "",
@@ -66,12 +65,20 @@ export default function AccommodationDialogContent({
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     if (accommodation) {
-      accommodation.$jazz.applyDiff(values)
+      accommodation.$jazz.applyDiff({
+        ...values,
+        arrivalDate: values.dateRange.from,
+        departureDate: values.dateRange.to,
+      })
       if (!accommodation.location) {
         accommodation.$jazz.set("location", values.location)
       }
     } else {
-      trip.accommodation.$jazz.push(values)
+      trip.accommodation.$jazz.push({
+        ...values,
+        arrivalDate: values.dateRange.from,
+        departureDate: values.dateRange.to,
+      })
     }
     onClose()
   }
@@ -104,32 +111,20 @@ export default function AccommodationDialogContent({
           label="Name"
           render={({ field }) => <Input data-1p-ignore {...field} />}
         />
-        <RowContainer>
-          <FormField
-            control={form.control}
-            name="arrivalDate"
-            label="Arrival Date"
-            render={({ field }) => (
-              <DateInput
-                startDate={trip.startDate}
-                endDate={trip.endDate}
-                {...field}
-              />
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="departureDate"
-            label="Departure Date"
-            render={({ field }) => (
-              <DateInput
-                startDate={trip.startDate}
-                endDate={trip.endDate}
-                {...field}
-              />
-            )}
-          />
-        </RowContainer>
+        <FormField
+          control={form.control}
+          name="dateRange"
+          label="Arrival and Departure Date"
+          render={({ field }) => (
+            <DateInput
+              mode="range"
+              startDate={trip.startDate}
+              endDate={trip.endDate}
+              min={1}
+              {...field}
+            />
+          )}
+        />
         <FormField
           control={form.control}
           name="description"

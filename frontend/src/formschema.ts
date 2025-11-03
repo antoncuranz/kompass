@@ -14,6 +14,16 @@ export function isoDate(params?: string | core.$ZodDateParams) {
   return z.date(params).transform(dateToString)
 }
 
+export function dateRange(params?: string | core.$ZodObjectParams) {
+  return z.object(
+    {
+      from: isoDate("Required"),
+      to: isoDate("Required"),
+    },
+    params,
+  )
+}
+
 export function isoDateTime(params?: string | core.$ZodDateParams) {
   return z.date(params).transform(dateTimeToString)
 }
