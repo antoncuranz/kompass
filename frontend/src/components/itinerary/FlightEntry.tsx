@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/collapsible"
 import { formatDurationMinutes, formatTime } from "@/components/util.ts"
 import { cn } from "@/lib/utils.ts"
-import { FlightDetail, FlightLeg } from "@/schema.ts"
+import { Flight, FlightLeg } from "@/schema.ts"
 import { ChevronDown, ChevronRight, ChevronUp, SquarePen } from "lucide-react"
 import { MouseEvent, MouseEventHandler, useState } from "react"
 
@@ -20,7 +20,7 @@ export default function FlightEntry({
   className,
   onInfoBtnClick,
 }: {
-  flight: FlightDetail
+  flight: Flight
   flightLeg: FlightLeg
   className?: string
   onInfoBtnClick?: MouseEventHandler<HTMLButtonElement> | undefined

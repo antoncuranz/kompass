@@ -1,10 +1,9 @@
-import { co, z } from "jazz-tools"
+import { co, Group, z } from "jazz-tools"
 
 export const Location = co.map({
   latitude: z.number(),
   longitude: z.number(),
 })
-export type Location = co.loaded<typeof Location>
 
 export const Activity = co.map({
   name: z.string(),
@@ -15,9 +14,7 @@ export const Activity = co.map({
   address: z.string().optional(),
   location: Location.optional(),
 })
-export const RESOLVE_ACTIVITY = {
-  location: true,
-}
+const RESOLVE_ACTIVITY = { location: true }
 export type Activity = co.loaded<typeof Activity, typeof RESOLVE_ACTIVITY>
 
 export const Accommodation = co.map({
@@ -29,9 +26,7 @@ export const Accommodation = co.map({
   address: z.string().optional(),
   location: Location.optional(),
 })
-export const RESOLVE_ACCOMMODATION = {
-  location: true,
-}
+const RESOLVE_ACCOMMODATION = { location: true }
 export type Accommodation = co.loaded<
   typeof Accommodation,
   typeof RESOLVE_ACCOMMODATION
@@ -43,10 +38,7 @@ export const Airport = co.map({
   municipality: z.string(),
   location: Location,
 })
-export const RESOLVE_AIRPORT = {
-  location: true,
-}
-export type Airport = co.loaded<typeof Airport, typeof RESOLVE_AIRPORT>
+const RESOLVE_AIRPORT = { location: true }
 
 export const FlightLeg = co.map({
   origin: Airport,
@@ -59,7 +51,7 @@ export const FlightLeg = co.map({
   durationInMinutes: z.number(),
   aircraft: z.string().optional(),
 })
-export const RESOLVE_FLIGHT_LEG = {
+const RESOLVE_FLIGHT_LEG = {
   origin: RESOLVE_AIRPORT,
   destination: RESOLVE_AIRPORT,
 }
@@ -69,33 +61,26 @@ export const PNR = co.map({
   airline: z.string(),
   pnr: z.string(),
 })
-export type PNR = co.loaded<typeof PNR>
 
-export const FlightDetail = co.map({
+export const Flight = co.map({
+  type: z.literal("flight"),
   legs: co.list(FlightLeg),
   pnrs: co.list(PNR),
+  price: z.number().optional(),
+  geoJson: z.object().optional(),
 })
-export const RESOLVE_FLIGHT_DETAIL = {
+const RESOLVE_FLIGHT = {
   legs: { $each: RESOLVE_FLIGHT_LEG },
   pnrs: { $each: true },
 }
-export type FlightDetail = co.loaded<
-  typeof FlightDetail,
-  typeof RESOLVE_FLIGHT_DETAIL
->
+export type Flight = co.loaded<typeof Flight, typeof RESOLVE_FLIGHT>
 
 export const TrainStation = co.map({
   id: z.string(),
   name: z.string(),
   location: Location,
 })
-export const RESOLVE_TRAIN_STATION = {
-  location: true,
-}
-export type TrainStation = co.loaded<
-  typeof TrainStation,
-  typeof RESOLVE_TRAIN_STATION
->
+const RESOLVE_TRAIN_STATION = { location: true }
 
 export const TrainLeg = co.map({
   origin: TrainStation,
@@ -106,11 +91,23 @@ export const TrainLeg = co.map({
   lineName: z.string(),
   operatorName: z.string(),
 })
-export const RESOLVE_TRAIN_LEG = {
+const RESOLVE_TRAIN_LEG = {
   origin: RESOLVE_TRAIN_STATION,
   destination: RESOLVE_TRAIN_STATION,
 }
 export type TrainLeg = co.loaded<typeof TrainLeg, typeof RESOLVE_TRAIN_LEG>
+
+export const Train = co.map({
+  type: z.literal("train"),
+  legs: co.list(TrainLeg),
+  refreshToken: z.string().optional(),
+  price: z.number().optional(),
+  geoJson: z.object().optional(),
+})
+const RESOLVE_TRAIN = {
+  legs: { $each: RESOLVE_TRAIN_LEG },
+}
+export type Train = co.loaded<typeof Train, typeof RESOLVE_TRAIN>
 
 export const GenericTransportation = co.map({
   type: z.literal("generic"),
@@ -125,7 +122,7 @@ export const GenericTransportation = co.map({
   price: z.number().optional(),
   geoJson: z.object().optional(),
 })
-export const RESOLVE_GENERIC_TRANSPORTATION = {
+const RESOLVE_GENERIC_TRANSPORTATION = {
   origin: true,
   destination: true,
 }
@@ -134,38 +131,33 @@ export type GenericTransportation = co.loaded<
   typeof RESOLVE_GENERIC_TRANSPORTATION
 >
 
-export const Flight = co.map({
-  type: z.literal("flight"),
-  legs: co.list(FlightLeg),
-  pnrs: co.list(PNR),
-  price: z.number().optional(),
-  geoJson: z.object().optional(),
-})
-export const RESOLVE_FLIGHT = {
-  legs: { $each: RESOLVE_FLIGHT_LEG },
-  pnrs: { $each: true },
-}
-export type Flight = co.loaded<typeof Flight, typeof RESOLVE_FLIGHT>
-
-export const Train = co.map({
-  type: z.literal("train"),
-  legs: co.list(TrainLeg),
-  refreshToken: z.string().optional(),
-  price: z.number().optional(),
-  geoJson: z.object().optional(),
-})
-export const RESOLVE_TRAIN = {
-  legs: { $each: RESOLVE_TRAIN_LEG },
-}
-export type Train = co.loaded<typeof Train, typeof RESOLVE_TRAIN>
-
 export const Transportation = co.discriminatedUnion("type", [
   GenericTransportation,
   Flight,
   Train,
 ])
-export type Transportation = co.loaded<typeof Transportation>
-export type LoadedTransportation = Flight | Train | GenericTransportation
+export type Transportation = Flight | Train | GenericTransportation
+
+export async function loadTransportation(
+  transportation: co.loaded<typeof Transportation>,
+) {
+  switch (transportation.type) {
+    case "flight":
+      return await transportation.$jazz.ensureLoaded({
+        resolve: RESOLVE_FLIGHT,
+      })
+
+    case "train":
+      return await transportation.$jazz.ensureLoaded({
+        resolve: RESOLVE_TRAIN,
+      })
+
+    case "generic":
+      return await transportation.$jazz.ensureLoaded({
+        resolve: RESOLVE_GENERIC_TRANSPORTATION,
+      })
+  }
+}
 
 export const Trip = co.map({
   name: z.string(),
@@ -177,19 +169,23 @@ export const Trip = co.map({
   accommodation: co.list(Accommodation),
   transportation: co.list(Transportation),
 })
-export const RESOLVE_TRIP = {
-  activities: { $each: RESOLVE_ACTIVITY },
-  accommodation: { $each: RESOLVE_ACCOMMODATION },
+const RESOLVE_TRIP = {
+  activities: { $each: { location: true } },
+  accommodation: { $each: { location: true } },
   transportation: { $each: true },
 }
 export type Trip = co.loaded<typeof Trip, typeof RESOLVE_TRIP>
 
+// COLLABORATION
+
+export const JoinRequestStatus = z.enum(["pending", "approved", "rejected"])
+
 export const JoinRequest = co.map({
   account: co.account(),
-  status: z.enum(["pending", "approved", "rejected"]),
+  status: JoinRequestStatus,
   requestedAt: z.iso.datetime(),
 })
-export const RESOLVE_JOIN_REQUEST = {
+const RESOLVE_JOIN_REQUEST = {
   account: true,
 }
 export type JoinRequest = co.loaded<
@@ -197,22 +193,31 @@ export type JoinRequest = co.loaded<
   typeof RESOLVE_JOIN_REQUEST
 >
 
-export const RequestsList = co.list(JoinRequest)
-export const RESOLVE_REQUESTS_LIST = {
+export const RequestStatuses = co.record(z.string(), JoinRequestStatus)
+export type RequestStatuses = co.loaded<
+  typeof RequestStatuses,
+  typeof RESOLVE_REQUESTS_LIST
+>
+
+export const JoinRequests = co.record(z.string(), JoinRequest)
+const RESOLVE_REQUESTS_LIST = {
   $each: RESOLVE_JOIN_REQUEST,
 }
-export type RequestsList = co.loaded<
-  typeof RequestsList,
+export type JoinRequests = co.loaded<
+  typeof JoinRequests,
   typeof RESOLVE_REQUESTS_LIST
 >
 
 export const SharedTrip = co.map({
   trip: Trip,
-  joinRequests: RequestsList,
+  requests: JoinRequests,
+  statuses: RequestStatuses,
+  members: Group,
+  admins: Group,
 })
 export const RESOLVE_SHARED_TRIP = {
   trip: RESOLVE_TRIP,
-  joinRequests: RESOLVE_REQUESTS_LIST,
+  requests: RESOLVE_REQUESTS_LIST,
 }
 export type SharedTrip = co.loaded<
   typeof SharedTrip,
@@ -221,8 +226,9 @@ export type SharedTrip = co.loaded<
 
 export const AccountRoot = co.map({
   trips: co.list(SharedTrip),
+  requests: JoinRequests,
 })
-export const RESOLVE_ROOT = {
+const RESOLVE_ROOT = {
   trips: { $each: RESOLVE_SHARED_TRIP },
 }
 export type AccountRoot = co.loaded<typeof AccountRoot, typeof RESOLVE_ROOT>
@@ -236,6 +242,7 @@ export const JazzAccount = co
     if (!account.$jazz.has("root")) {
       account.$jazz.set("root", {
         trips: [],
+        requests: {},
       })
     }
   })

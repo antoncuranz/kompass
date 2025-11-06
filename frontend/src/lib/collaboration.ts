@@ -1,4 +1,4 @@
-import { type JazzAccount, JoinRequest, type RequestsList } from "@/schema"
+import { type JazzAccount, JoinRequest, SharedTrip } from "@/schema"
 import { Account, co, Group } from "jazz-tools"
 
 export function createRequestsToJoin(owner: JazzAccount) {
@@ -10,7 +10,7 @@ export function createRequestsToJoin(owner: JazzAccount) {
 }
 
 export function sendJoinRequest(
-  requestsList: co.loaded<typeof RequestsList>,
+  sharedTrip: co.loaded<typeof SharedTrip, { requests: true; admins: true }>,
   account: Account,
 ) {
   const now = new Date().toISOString()
@@ -21,10 +21,10 @@ export function sendJoinRequest(
       status: "pending",
       requestedAt: now,
     },
-    requestsList.$jazz.owner,
+    sharedTrip.admins,
   )
 
-  requestsList.$jazz.push(request)
+  sharedTrip.requests.$jazz.set(account.$jazz.id, request)
 }
 
 export function approveJoinRequest(

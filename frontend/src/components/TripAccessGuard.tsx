@@ -2,12 +2,8 @@
 
 import { Button } from "@/components/ui/button.tsx"
 import { sendJoinRequest } from "@/lib/collaboration.ts"
-import { JazzAccount, RESOLVE_ACCOUNT, SharedTrip } from "@/schema.ts"
-import {
-  useAccount,
-  useCoState,
-  useCoStateWithSelector,
-} from "jazz-tools/react-core"
+import { JazzAccount, SharedTrip } from "@/schema.ts"
+import { useAccount, useCoState } from "jazz-tools/react-core"
 import { useState } from "react"
 import { toast } from "sonner"
 import Card from "./card/Card"
@@ -19,12 +15,9 @@ export default function TripAccessGuard({
   tripId: string
   children: React.ReactNode
 }) {
-  const { me: account } = useAccount(JazzAccount, { resolve: RESOLVE_ACCOUNT })
+  const { me: account } = useAccount(JazzAccount)
   const sharedTrip = useCoState(SharedTrip, tripId, {
-    resolve: { joinRequests: true },
-  })
-  const trip = useCoStateWithSelector(SharedTrip, tripId, {
-    select: sharedTrip => sharedTrip?.trip,
+    resolve: { trip: true, requests: true, admins: true },
   })
   const [hasRequested, setHasRequested] = useState(false)
 
@@ -38,18 +31,15 @@ export default function TripAccessGuard({
     )
   }
 
-  if (trip) {
+  if (account.canRead(sharedTrip.trip)) {
     return <>{children}</>
   }
 
-  const existingRequest = sharedTrip.joinRequests.find(
-    req => req?.account?.$jazz.id === account.$jazz.id,
-  )
-
+  const existingRequest = sharedTrip.requests[account.$jazz.id]
   const requestStatus = existingRequest?.status
 
   const handleRequestAccess = () => {
-    sendJoinRequest(sharedTrip.joinRequests, account)
+    sendJoinRequest(sharedTrip, account)
     setHasRequested(true)
     toast.success("Access request sent")
   }

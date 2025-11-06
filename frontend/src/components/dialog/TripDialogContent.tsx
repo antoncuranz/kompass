@@ -12,8 +12,13 @@ import { Spinner } from "@/components/ui/shadcn-io/spinner"
 import { Textarea } from "@/components/ui/textarea.tsx"
 import { dateFromString } from "@/components/util.ts"
 import { dateRange, optionalString } from "@/formschema.ts"
-import { createRequestsToJoin as createJoinRequestsGroup } from "@/lib/collaboration.ts"
-import { JazzAccount, RequestsList, SharedTrip, Trip } from "@/schema.ts"
+import {
+  JazzAccount,
+  JoinRequests,
+  RequestStatuses,
+  SharedTrip,
+  Trip,
+} from "@/schema.ts"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Group } from "jazz-tools"
 import { useState } from "react"
@@ -66,10 +71,20 @@ export default function TripDialogContent({
         endDate: values.dateRange.to,
       })
     } else {
-      const tripGroup = Group.create()
-      tripGroup.addMember(account, "admin")
+      const adminsGroup = Group.create()
 
-      const newTrip = Trip.create(
+      const membersGroup = Group.create()
+      membersGroup.addMember(adminsGroup)
+
+      const requestsGroup = Group.create()
+      requestsGroup.addMember("everyone", "writeOnly")
+      requestsGroup.addMember(adminsGroup)
+
+      const publicGroup = Group.create()
+      publicGroup.addMember("everyone", "reader")
+      publicGroup.addMember(adminsGroup)
+
+      const trip = Trip.create(
         {
           ...values,
           startDate: values.dateRange.from,
@@ -78,25 +93,21 @@ export default function TripDialogContent({
           accommodation: [],
           transportation: [],
         },
-        tripGroup,
+        membersGroup,
       )
 
-      const joinRequests = RequestsList.create(
-        [],
-        createJoinRequestsGroup(account),
-      )
-      const sharedTripGroup = Group.create()
-      sharedTripGroup.addMember("everyone", "reader")
-
-      const newSharedTrip = SharedTrip.create(
+      const sharedTrip = SharedTrip.create(
         {
-          trip: newTrip,
-          joinRequests,
+          trip: trip,
+          requests: JoinRequests.create({}, requestsGroup),
+          statuses: RequestStatuses.create({}, adminsGroup),
+          members: membersGroup,
+          admins: adminsGroup,
         },
-        sharedTripGroup,
+        publicGroup,
       )
 
-      account.root.trips.$jazz.push(newSharedTrip)
+      account.root.trips.$jazz.push(sharedTrip)
     }
     onClose()
   }

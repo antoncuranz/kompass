@@ -6,12 +6,10 @@ import SkeletonCard from "@/components/card/SkeletonCard.tsx"
 import Itinerary from "@/components/itinerary/Itinerary.tsx"
 import { dayIsBetween, getDaysBetween, isSameDay } from "@/components/util.ts"
 import {
-  LoadedTransportation,
-  RESOLVE_FLIGHT,
-  RESOLVE_GENERIC_TRANSPORTATION,
+  loadTransportation,
   RESOLVE_SHARED_TRIP,
-  RESOLVE_TRAIN,
   SharedTrip,
+  Transportation,
 } from "@/schema.ts"
 import { DayRenderData } from "@/types.ts"
 import { useCoStateWithSelector } from "jazz-tools/react-core"
@@ -30,7 +28,7 @@ export default function ItineraryCard({
   })
   const [dataByDays, setDataByDays] = useState<DayRenderData[]>([])
 
-  function getDepartureDateTime(transportation: LoadedTransportation): string {
+  function getDepartureDateTime(transportation: Transportation): string {
     switch (transportation.type) {
       case "flight":
         return transportation.legs[0]!.departureDateTime
@@ -43,7 +41,7 @@ export default function ItineraryCard({
     }
   }
 
-  function getArrivalDateTime(transportation: LoadedTransportation): string {
+  function getArrivalDateTime(transportation: Transportation): string {
     switch (transportation.type) {
       case "flight":
         return transportation.legs[0]!.arrivalDateTime
@@ -57,7 +55,7 @@ export default function ItineraryCard({
   }
 
   const processDataAndGroupByDays = useCallback(
-    (transportation: LoadedTransportation[]) => {
+    (transportation: Transportation[]) => {
       const grouped: DayRenderData[] = []
 
       for (const day of getDaysBetween(trip!.startDate, trip!.endDate)) {
@@ -105,24 +103,7 @@ export default function ItineraryCard({
       }
 
       const loaded = await Promise.all(
-        trip.transportation.map(async transportation => {
-          switch (transportation.type) {
-            case "flight":
-              return await transportation.$jazz.ensureLoaded({
-                resolve: RESOLVE_FLIGHT,
-              })
-
-            case "train":
-              return await transportation.$jazz.ensureLoaded({
-                resolve: RESOLVE_TRAIN,
-              })
-
-            case "generic":
-              return await transportation.$jazz.ensureLoaded({
-                resolve: RESOLVE_GENERIC_TRANSPORTATION,
-              })
-          }
-        }),
+        trip.transportation.map(async t => await loadTransportation(t)),
       )
 
       processDataAndGroupByDays(loaded)

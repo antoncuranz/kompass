@@ -20,6 +20,7 @@ import {
   TransportationType,
 } from "@/types.ts"
 import type { Feature, FeatureCollection, GeoJsonProperties } from "geojson"
+import { co } from "jazz-tools"
 import React, { useState } from "react"
 
 export default function HeroMap({
@@ -29,7 +30,7 @@ export default function HeroMap({
 }: {
   activities: Activity[]
   accommodation: Accommodation[]
-  transportation: Transportation[]
+  transportation: co.loaded<typeof Transportation>[]
 }) {
   type PopupInfo = {
     lngLat: LngLat
@@ -129,14 +130,16 @@ export default function HeroMap({
     }
   }
 
-  function getTransportationType(t: Transportation): TransportationType {
+  function getTransportationType(
+    t: co.loaded<typeof Transportation>,
+  ): TransportationType {
     if (t.type === "generic") {
       return t.genericType.toUpperCase() as TransportationType
     }
     return t.type.toUpperCase() as TransportationType
   }
 
-  function getColorByType(t: Transportation): string {
+  function getColorByType(t: co.loaded<typeof Transportation>): string {
     switch (getTransportationType(t)) {
       case TransportationType.Flight:
         return "#007cbf"
@@ -168,8 +171,8 @@ export default function HeroMap({
   }
 
   function sortByTransportationType(
-    a: Transportation,
-    b: Transportation,
+    a: co.loaded<typeof Transportation>,
+    b: co.loaded<typeof Transportation>,
   ): number {
     return (
       typeRank(getTransportationType(a)) - typeRank(getTransportationType(b))

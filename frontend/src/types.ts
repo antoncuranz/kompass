@@ -1,4 +1,4 @@
-import { Accommodation, Activity, LoadedTransportation } from "./schema"
+import { Accommodation, Activity, Transportation } from "./schema"
 
 export type OmitNever<T extends Record<string, unknown>> = {
   [K in keyof T as T[K] extends never ? never : K]: T[K]
@@ -49,7 +49,7 @@ export type AmbiguousFlightChoice = {
 
 export type DayRenderData = {
   day: string
-  transportation: LoadedTransportation[]
+  transportation: Transportation[]
   activities: Activity[]
   accommodation: Accommodation | undefined
 }

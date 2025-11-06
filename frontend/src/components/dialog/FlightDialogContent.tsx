@@ -20,6 +20,7 @@ import { isoDate, optionalString } from "@/formschema.ts"
 import { Flight, FlightLeg, PNR, Trip } from "@/schema.ts"
 import { AmbiguousFlightChoice } from "@/types"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { co } from "jazz-tools"
 import { Minus, Plus } from "lucide-react"
 import { useState } from "react"
 import { useFieldArray, useForm } from "react-hook-form"
@@ -61,7 +62,9 @@ export default function FlightDialogContent({
     useState<AmbiguousDialogData>({ legs: [], choices: {} })
   const { onClose } = useDialogContext()
 
-  function mapLegsOrDefault(flightLegs: FlightLeg[] | undefined) {
+  function mapLegsOrDefault(
+    flightLegs: co.loaded<typeof FlightLeg>[] | undefined,
+  ) {
     if (flightLegs) {
       return flightLegs.map(leg => ({
         date: dateFromString(trip.startDate),
@@ -77,7 +80,7 @@ export default function FlightDialogContent({
     ]
   }
 
-  function mapPnrsOrDefault(pnrs: PNR[] | undefined) {
+  function mapPnrsOrDefault(pnrs: co.loaded<typeof PNR>[] | undefined) {
     if (pnrs) {
       return pnrs.map(pnr => ({
         airline: pnr.airline,

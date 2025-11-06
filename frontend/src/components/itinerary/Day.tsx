@@ -11,8 +11,8 @@ import {
   Activity,
   Flight,
   GenericTransportation,
-  LoadedTransportation,
   Train,
+  Transportation,
 } from "@/schema.ts"
 import { DayRenderData } from "@/types"
 
@@ -39,7 +39,7 @@ export default function Day({
   const hasNightTransportation =
     dayData.transportation.find(isOvernight) != undefined
 
-  function isOvernight(transportation: LoadedTransportation): boolean {
+  function isOvernight(transportation: Transportation): boolean {
     switch (transportation.type) {
       case "flight":
         return (
@@ -64,7 +64,7 @@ export default function Day({
     }
   }
 
-  function renderTransportation(transportation: LoadedTransportation) {
+  function renderTransportation(transportation: Transportation) {
     switch (transportation.type) {
       case "flight": {
         return renderFlight(transportation)

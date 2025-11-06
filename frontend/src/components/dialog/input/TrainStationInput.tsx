@@ -2,7 +2,6 @@ import { Button } from "@/components/ui/button.tsx"
 import { Input } from "@/components/ui/input.tsx"
 import { Spinner } from "@/components/ui/shadcn-io/spinner"
 import { cn } from "@/lib/utils.ts"
-import { TrainStation } from "@/schema.ts"
 import { Pencil, Search } from "lucide-react"
 import { useState, useTransition } from "react"
 import { ControllerRenderProps, FieldValues } from "react-hook-form"
@@ -30,9 +29,7 @@ export default function TrainStationInput({
     const response = await fetch(url, { method: "POST" })
 
     if (response.ok) {
-      const json = await response.json()
-      const station = json as TrainStation
-      onChange(station)
+      onChange(await response.json())
       setEdit(false)
     } else
       toast("No stations found", {

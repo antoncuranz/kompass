@@ -42,25 +42,11 @@ export default function SharePage() {
     )
   }
 
-  const isOwner = sharedTrip.$jazz.owner.myRole() === "admin"
-
-  if (!isOwner) {
-    return (
-      <div className="flex h-full items-center justify-center">
-        <Card className="max-w-2xl p-8">
-          <p className="text-center text-muted-foreground">
-            Only the trip owner can access this page
-          </p>
-        </Card>
-      </div>
-    )
-  }
-
-  const pendingRequests = sharedTrip.joinRequests.filter(
-    req => req?.status === "pending",
+  const pendingRequests = Object.values(sharedTrip.requests).filter(
+    req => req.status === "pending",
   )
-  const rejectedRequests = sharedTrip.joinRequests.filter(
-    req => req?.status === "rejected",
+  const rejectedRequests = Object.values(sharedTrip.requests).filter(
+    req => req.status === "rejected",
   )
 
   return (
@@ -170,7 +156,10 @@ function RequestRow({
         </p>
       </div>
       <div className="flex items-center gap-2">
-        <Select value={selectedRole} onValueChange={setSelectedRole}>
+        <Select
+          value={selectedRole}
+          onValueChange={v => setSelectedRole(v as any)}
+        >
           <SelectTrigger className="w-32">
             <SelectValue />
           </SelectTrigger>
@@ -211,8 +200,8 @@ function MembersSection({
 }) {
   // TODO: Get members from group when Jazz provides API
   // For now, show approved requests
-  const approvedRequests = sharedTrip.joinRequests.filter(
-    req => req?.status === "approved",
+  const approvedRequests = Object.values(sharedTrip.requests).filter(
+    req => req.status === "approved",
   )
 
   return (

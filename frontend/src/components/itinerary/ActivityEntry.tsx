@@ -1,9 +1,10 @@
 import { useMap } from "@/components/map/common.tsx"
-import { Activity } from "@/schema.ts"
+import { Activity } from "@/schema"
 import { ChevronRight } from "lucide-react"
 import { MouseEvent, MouseEventHandler } from "react"
+import { formatTime } from "../util"
 
-export default function ActivityEnty({
+export default function ActivityEntry({
   activity,
   onClick,
 }: {
@@ -25,9 +26,9 @@ export default function ActivityEnty({
       onClick={onClick}
     >
       {activity.name}
-      {/* <span className="float-right">
+      <span className="float-right">
         {activity.time && formatTime(activity.time, true)}
-      </span> */}
+      </span>
       {activity.location && heroMap && (
         <ChevronRight
           className="text-muted-foreground absolute top-2 -right-3 bg-background rounded-xl border hidden group-hover/flyto:block"
