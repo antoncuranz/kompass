@@ -8,19 +8,11 @@ import { cn } from "@/lib/utils"
 import TripAccessGuard from "@/components/TripAccessGuard"
 
 export const Route = createFileRoute("/$trip")({
-  loader: async ({ context }) => {
-    if (!context.account) throw new Error("must be logged in")
-    const loaded = await context.account.$jazz.ensureLoaded({
-      resolve: { root: { requests: { $each: true } } },
-    })
-    return { account: loaded }
-  },
   component: RouteComponent,
 })
 
 function RouteComponent() {
   const sharedTripId = Route.useParams().trip
-  const { account } = Route.useLoaderData()
 
   const isMapPage = useLocation({
     select: location => location.pathname.endsWith("/map"),
@@ -61,7 +53,7 @@ function RouteComponent() {
               <MapCard className={mapCardClasses} />
             </TripProvider>
           </MapProvider>
-          <TripAccessGuard account={account} sharedTripId={sharedTripId} />
+          <TripAccessGuard sharedTripId={sharedTripId} />
         </div>
       </main>
     </>

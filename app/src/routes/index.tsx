@@ -1,5 +1,6 @@
 import { Link, createFileRoute } from "@tanstack/react-router"
 import { useState } from "react"
+import { useAccount } from "jazz-tools/react"
 import type { co } from "jazz-tools"
 import type { Trip } from "@/schema"
 import { UserAccount } from "@/schema"
@@ -11,26 +12,17 @@ import { Carousel } from "@/components/ui/cards-carousel"
 import { Dialog } from "@/components/dialog/Dialog"
 
 export const Route = createFileRoute("/")({
-  loader: async ({ context }) => {
-    if (!context.account) {
-      return { account: null }
-    }
-    const loaded = await context.account.$jazz.ensureLoaded({
-      resolve: UserAccount.resolveQuery,
-    })
-    return { account: loaded }
-  },
   component: App,
 })
 
 function App() {
-  const { account } = Route.useLoaderData()
+  const account = useAccount(UserAccount)
   const [tripDialogOpen, setTripDialogOpen] = useState(false)
   const [selectedTrip, setSelectedTrip] = useState<
     co.loaded<typeof Trip> | undefined
   >(undefined)
 
-  if (!account) {
+  if (!account.$isLoaded) {
     return <>Error loading data</>
   }
 

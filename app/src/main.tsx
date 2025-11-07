@@ -1,11 +1,9 @@
 import { StrictMode } from "react"
 import ReactDOM from "react-dom/client"
 import { RouterProvider, createRouter } from "@tanstack/react-router"
-import { useAccount } from "jazz-tools/react"
 import { routeTree } from "./routeTree.gen"
 import "./styles.css"
 import reportWebVitals from "./reportWebVitals.ts"
-import { UserAccount } from "./schema.ts"
 import { JazzProvider } from "./components/provider/JazzProvider.tsx"
 import { ThemeProvider } from "./components/provider/ThemeProvider.tsx"
 import { PrivacyProvider } from "./components/provider/PrivacyProvider.tsx"
@@ -13,10 +11,6 @@ import { PrivacyProvider } from "./components/provider/PrivacyProvider.tsx"
 // Create a new router instance
 const router = createRouter({
   routeTree,
-  context: {
-    // @ts-expect-error - just a placeholder
-    account: undefined,
-  },
   defaultPreload: "intent",
   scrollRestoration: true,
   defaultStructuralSharing: true,
@@ -30,20 +24,6 @@ declare module "@tanstack/react-router" {
   }
 }
 
-function RouterWithContext() {
-  const account = useAccount(UserAccount)
-
-  return (
-    account.$isLoaded && (
-      <ThemeProvider defaultTheme="system">
-        <PrivacyProvider>
-          <RouterProvider router={router} context={{ account }} />
-        </PrivacyProvider>
-      </ThemeProvider>
-    )
-  )
-}
-
 // Render the app
 const rootElement = document.getElementById("app")
 if (rootElement && !rootElement.innerHTML) {
@@ -51,7 +31,11 @@ if (rootElement && !rootElement.innerHTML) {
   root.render(
     <StrictMode>
       <JazzProvider>
-        <RouterWithContext />
+        <ThemeProvider defaultTheme="system">
+          <PrivacyProvider>
+            <RouterProvider router={router} />
+          </PrivacyProvider>
+        </ThemeProvider>
       </JazzProvider>
     </StrictMode>,
   )

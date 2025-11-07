@@ -1,25 +1,21 @@
-import { useCoState } from "jazz-tools/react-core"
+import { useAccount, useCoState } from "jazz-tools/react-core"
 import { DialogFooter, DialogHeader, DialogTitle } from "./ui/dialog"
 import { Dialog } from "./dialog/Dialog"
-import type { co } from "jazz-tools"
-import type { UserAccount } from "@/schema.ts"
-import { SharedTrip } from "@/schema.ts"
+import { SharedTrip, UserAccount } from "@/schema.ts"
 import { sendJoinRequest } from "@/lib/collaboration.ts"
 import { Button } from "@/components/ui/button.tsx"
 
 export default function TripAccessGuard({
-  account,
   sharedTripId,
 }: {
-  account: co.loaded<
-    typeof UserAccount,
-    { root: { requests: { $each: true } } }
-  >
   sharedTripId: string
 }) {
+  const account = useAccount(UserAccount)
   const sharedTrip = useCoState(SharedTrip, sharedTripId, {
     resolve: { members: true, admins: true, requests: true },
   })
+
+  if (!account.$isLoaded || !sharedTrip.$isLoaded) return null
 
   const existingRequest =
     sharedTripId in account.root.requests
@@ -37,7 +33,6 @@ export default function TripAccessGuard({
   }
 
   return (
-    sharedTrip.$isLoaded &&
     !canRead(sharedTrip.members.myRole()) && (
       <Dialog>
         <DialogHeader>

@@ -1,13 +1,7 @@
-import { Outlet, createRootRouteWithContext } from "@tanstack/react-router"
-import type { UserAccount } from "@/schema"
-import type { co } from "jazz-tools"
+import { Outlet, createRootRoute } from "@tanstack/react-router"
 import { Toaster } from "@/components/ui/sonner"
 
-export interface RouterContext {
-  account: co.loaded<typeof UserAccount> | null
-}
-
-export const Route = createRootRouteWithContext<RouterContext>()({
+export const Route = createRootRoute({
   component: () => (
     <div className="root">
       <Outlet />
