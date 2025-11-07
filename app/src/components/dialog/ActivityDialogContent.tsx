@@ -3,6 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import type { Activity, Trip } from "@/schema"
+import type { co } from "jazz-tools"
 import { Button } from "@/components/ui/button.tsx"
 import {
   DialogFooter,
@@ -35,8 +36,8 @@ export default function ActivityDialogContent({
   trip,
   activity,
 }: {
-  trip: Trip
-  activity?: Activity
+  trip: co.loaded<typeof Trip>
+  activity?: co.loaded<typeof Activity>
 }) {
   const [edit, setEdit] = useState<boolean>(activity == null)
   const { onClose } = useDialogContext()

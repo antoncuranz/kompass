@@ -2,7 +2,7 @@ import { Check, X } from "lucide-react"
 import { useState, useTransition } from "react"
 import { toast } from "sonner"
 import { createFileRoute } from "@tanstack/react-router"
-import type { Account } from "jazz-tools"
+import type { Account, co } from "jazz-tools"
 import type { JoinRequest, SharedTrip } from "@/schema.ts"
 import Card from "@/components/card/Card.tsx"
 import { Button } from "@/components/ui/button.tsx"
@@ -26,8 +26,8 @@ function SharePage() {
   const sharedTrip = useSharedTrip()
 
   const pendingRequests = Object.values(sharedTrip.requests).filter(
-    req => req?.status === "pending",
-  ) // TODO: use statuses as source of truth!
+    req => req.status === "pending",
+  )
 
   const admins = sharedTrip.admins.getDirectMembers()
   const members = sharedTrip.members.getDirectMembers()
@@ -83,8 +83,8 @@ function RequestRow({
   request,
   sharedTrip,
 }: {
-  request: JoinRequest
-  sharedTrip: SharedTrip
+  request: co.loaded<typeof JoinRequest>
+  sharedTrip: co.loaded<typeof SharedTrip>
 }) {
   const [isProcessing, startTransition] = useTransition()
   const [selectedRole, setSelectedRole] = useState<"reader" | "writer">(
@@ -111,7 +111,9 @@ function RequestRow({
     <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
       <div>
         <p className="font-medium">
-          {request.account.profile?.name || "Unknown"}
+          {request.account.profile.$isLoaded
+            ? request.account.profile.name
+            : "Unknown"}
         </p>
         <p className="text-xs text-muted-foreground">
           Requested {new Date(request.requestedAt).toLocaleDateString()}
@@ -154,7 +156,7 @@ function RequestRow({
 }
 
 function MemberRow({ account, role }: { account: Account; role: string }) {
-  const name = account.profile ? account.profile.name : undefined
+  const name = account.profile.$isLoaded ? account.profile.name : undefined
 
   return (
     <div className="flex items-center justify-between p-3 bg-muted rounded-lg">

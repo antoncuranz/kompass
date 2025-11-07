@@ -1,11 +1,7 @@
-import {
-  motion,
-  useMotionTemplate,
-  useMotionValue,
-  type MotionStyle,
-  type MotionValue,
-} from "motion/react"
-import { useEffect, useState, type MouseEvent } from "react"
+import { motion, useMotionTemplate, useMotionValue } from "motion/react"
+import { useEffect, useState } from "react"
+import type { MotionStyle, MotionValue } from "motion/react"
+import type { MouseEvent } from "react"
 
 import { cn } from "@/lib/utils"
 
@@ -82,7 +78,6 @@ export function useIsMobile() {
     // if (isDev) setIsMobile(isSmall || isMobile)
     //
     // setIsMobile(isSmall && isMobile)
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsMobile(isSmall || isMobile)
   }, [])
 

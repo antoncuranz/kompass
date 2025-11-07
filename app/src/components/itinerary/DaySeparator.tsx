@@ -1,4 +1,5 @@
 import type { Accommodation } from "@/schema.ts"
+import type { co } from "jazz-tools"
 import { Separator } from "@/components/ui/separator.tsx"
 import { cn } from "@/lib/utils.ts"
 
@@ -9,8 +10,10 @@ export default function DaySeparator({
   className,
 }: {
   collapsedDays: number
-  accomodation: Accommodation | undefined
-  onAccommodationClick?: (accommodation: Accommodation | undefined) => void
+  accomodation: co.loaded<typeof Accommodation> | undefined
+  onAccommodationClick?: (
+    accommodation: co.loaded<typeof Accommodation> | undefined,
+  ) => void
   className?: string
 }) {
   return (

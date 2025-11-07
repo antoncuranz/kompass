@@ -26,6 +26,7 @@ import { Input } from "@/components/ui/input.tsx"
 import { Spinner } from "@/components/ui/shadcn-io/spinner"
 import { dateFromString } from "@/components/util.ts"
 import { isoDate, optionalString } from "@/formschema.ts"
+import { isLoaded } from "@/lib/utils"
 
 const formSchema = z.object({
   legs: z.array(
@@ -53,8 +54,8 @@ export default function FlightDialogContent({
   trip,
   flight,
 }: {
-  trip: Trip
-  flight?: Flight
+  trip: co.loaded<typeof Trip>
+  flight?: co.loaded<typeof Flight>
 }) {
   const [edit, setEdit] = useState<boolean>(flight == undefined)
   const [ambiguousDialogOpen, setAmbiguousDialogOpen] = useState(false)
@@ -98,8 +99,8 @@ export default function FlightDialogContent({
   >({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      legs: mapLegsOrDefault(flight?.legs.filter(leg => leg !== null)),
-      pnrs: mapPnrsOrDefault(flight?.pnrs.filter(pnr => pnr !== null)),
+      legs: mapLegsOrDefault(flight?.legs.filter(isLoaded)),
+      pnrs: mapPnrsOrDefault(flight?.pnrs.filter(isLoaded)),
       price: flight?.price ?? undefined,
     },
     disabled: !edit,
@@ -184,7 +185,7 @@ export default function FlightDialogContent({
       return
     }
 
-    trip.transportation.$jazz.remove(t => t && t.$jazz.id == flight.$jazz.id)
+    trip.transportation.$jazz.remove(t => t.$jazz.id == flight.$jazz.id)
     onClose()
   }
 

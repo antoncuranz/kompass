@@ -1,6 +1,6 @@
-import { dateTimeToString, dateToString } from "@/components/util.ts"
 import { z } from "jazz-tools"
-import * as core from "zod/v4/core"
+import type * as core from "zod/v4/core"
+import { dateTimeToString, dateToString } from "@/components/util.ts"
 
 export function optionalString(params?: string | core.$ZodStringParams) {
   return z

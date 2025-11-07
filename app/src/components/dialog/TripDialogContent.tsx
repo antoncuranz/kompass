@@ -3,6 +3,7 @@ import { Group } from "jazz-tools"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
+import type { co } from "jazz-tools"
 import type { UserAccount } from "@/schema.ts"
 import { useDialogContext } from "@/components/dialog/Dialog.tsx"
 import DateInput from "@/components/dialog/input/DateInput.tsx"
@@ -31,8 +32,8 @@ export default function TripDialogContent({
   account,
   trip,
 }: {
-  account: UserAccount
-  trip?: Trip
+  account: co.loaded<typeof UserAccount>
+  trip?: co.loaded<typeof Trip>
 }) {
   const [edit, setEdit] = useState<boolean>(trip == undefined)
   const { onClose } = useDialogContext()

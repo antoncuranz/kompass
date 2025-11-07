@@ -1,7 +1,8 @@
 import { Link, createFileRoute } from "@tanstack/react-router"
 import { useState } from "react"
+import type { co } from "jazz-tools"
 import type { Trip } from "@/schema"
-import { RESOLVE_ACCOUNT } from "@/schema"
+import { UserAccount } from "@/schema"
 import { ModeToggle } from "@/components/buttons/ModeToggle"
 import NewTripCard from "@/components/card/NewTripCard"
 import TripCard from "@/components/card/TripCard"
@@ -15,7 +16,7 @@ export const Route = createFileRoute("/")({
       return { account: null }
     }
     const loaded = await context.account.$jazz.ensureLoaded({
-      resolve: RESOLVE_ACCOUNT,
+      resolve: UserAccount.resolveQuery,
     })
     return { account: loaded }
   },
@@ -25,7 +26,9 @@ export const Route = createFileRoute("/")({
 function App() {
   const { account } = Route.useLoaderData()
   const [tripDialogOpen, setTripDialogOpen] = useState(false)
-  const [selectedTrip, setSelectedTrip] = useState<Trip | undefined>(undefined)
+  const [selectedTrip, setSelectedTrip] = useState<
+    co.loaded<typeof Trip> | undefined
+  >(undefined)
 
   if (!account) {
     return <>Error loading data</>

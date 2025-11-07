@@ -26,7 +26,7 @@ export function AmbiguousFlightDialogContent({
 
   const ambiguousFlightLegs = flightLegs
     .map((leg, idx) => ({ ...leg, legIdx: idx }))
-    .filter(leg => flightChoices[leg.flightNumber])
+    .filter(leg => leg.flightNumber in flightChoices)
 
   const handleSelectionChange = (legId: number, choiceIdx: number) => {
     setSelectedChoices(prev => new Map(prev).set(legId, choiceIdx))

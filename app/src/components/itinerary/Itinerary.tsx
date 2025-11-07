@@ -8,6 +8,7 @@ import type {
   Trip,
 } from "@/schema.ts"
 import type { DayRenderData } from "@/types.ts"
+import type { co } from "jazz-tools"
 import AccommodationDialogContent from "@/components/dialog/AccommodationDialogContent.tsx"
 import ActivityDialogContent from "@/components/dialog/ActivityDialogContent.tsx"
 import { Dialog } from "@/components/dialog/Dialog.tsx"
@@ -20,50 +21,60 @@ export default function Itinerary({
   trip,
   dataByDays,
 }: {
-  trip: Trip
+  trip: co.loaded<typeof Trip>
   dataByDays: Array<DayRenderData>
 }) {
   const [activityDialogOpen, setActivityDialogOpen] = useState(false)
-  const [dialogActivity, setDialogActivity] = useState<Activity | undefined>()
+  const [dialogActivity, setDialogActivity] = useState<
+    co.loaded<typeof Activity> | undefined
+  >()
 
   const [accommodationDialogOpen, setAccommodationDialogOpen] = useState(false)
   const [dialogAccommodation, setDialogAccommodation] = useState<
-    Accommodation | undefined
+    co.loaded<typeof Accommodation> | undefined
   >()
 
   const [flightDialogOpen, setFlightDialogOpen] = useState(false)
-  const [dialogFlight, setDialogFlight] = useState<Flight | undefined>()
+  const [dialogFlight, setDialogFlight] = useState<
+    co.loaded<typeof Flight> | undefined
+  >()
 
   const [trainDialogOpen, setTrainDialogOpen] = useState(false)
-  const [dialogTrain, setDialogTrain] = useState<Train | undefined>()
+  const [dialogTrain, setDialogTrain] = useState<
+    co.loaded<typeof Train> | undefined
+  >()
 
   const [transportationDialogOpen, setTransportationDialogOpen] =
     useState(false)
   const [dialogTransportation, setDialogTransportation] = useState<
-    GenericTransportation | undefined
+    co.loaded<typeof GenericTransportation> | undefined
   >()
 
-  function onActivityClick(activity: Activity) {
+  function onActivityClick(activity: co.loaded<typeof Activity>) {
     setDialogActivity(activity)
     setActivityDialogOpen(true)
   }
 
-  function onAccommodationClick(accommodation: Accommodation | undefined) {
+  function onAccommodationClick(
+    accommodation: co.loaded<typeof Accommodation> | undefined,
+  ) {
     setDialogAccommodation(accommodation)
     setAccommodationDialogOpen(true)
   }
 
-  function onFlightClick(flight: Flight) {
+  function onFlightClick(flight: co.loaded<typeof Flight>) {
     setDialogFlight(flight)
     setFlightDialogOpen(true)
   }
 
-  function onTrainClick(train: Train) {
+  function onTrainClick(train: co.loaded<typeof Train>) {
     setDialogTrain(train)
     setTrainDialogOpen(true)
   }
 
-  function onTransportationClick(transportation: GenericTransportation) {
+  function onTransportationClick(
+    transportation: co.loaded<typeof GenericTransportation>,
+  ) {
     setDialogTransportation(transportation)
     setTransportationDialogOpen(true)
   }

@@ -13,11 +13,13 @@ export default function MapDialogContent({
   onChange: (newLocation: Coordinates) => void
 }) {
   const { onClose } = useDialogContext()
-  const [coordinates, setCoordinates] = useState<Coordinates>(value)
+  const [coordinates, setCoordinates] = useState<Coordinates | undefined>(value)
 
-  function onClick() {
-    onChange(coordinates)
-    onClose(false)
+  function onSelect() {
+    if (coordinates) {
+      onChange(coordinates)
+      onClose(false)
+    }
   }
 
   return (
@@ -27,7 +29,7 @@ export default function MapDialogContent({
         <MiniMap value={coordinates} onChange={setCoordinates}>
           {coordinates && (
             <div className="p-4 absolute bottom-0 w-full">
-              <Button className="w-full" onClick={() => onClick()}>
+              <Button className="w-full" onClick={() => onSelect()}>
                 Select Location
               </Button>
             </div>

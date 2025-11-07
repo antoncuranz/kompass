@@ -22,8 +22,8 @@ export default function HeroMap({
   accommodation,
   transportation,
 }: {
-  activities: Array<Activity>
-  accommodation: Array<Accommodation>
+  activities: Array<co.loaded<typeof Activity>>
+  accommodation: Array<co.loaded<typeof Accommodation>>
   transportation: Array<co.loaded<typeof Transportation>>
 }) {
   type PopupInfo = {
@@ -40,7 +40,7 @@ export default function HeroMap({
     return { type: "FeatureCollection", features: features }
   }
 
-  function mapActivityToFeature(activity: Activity): Feature {
+  function mapActivityToFeature(activity: co.loaded<typeof Activity>): Feature {
     return {
       type: "Feature",
       geometry: {
@@ -68,7 +68,9 @@ export default function HeroMap({
     return { type: "FeatureCollection", features: features }
   }
 
-  function mapAccommodationToFeature(accommodation: Accommodation): Feature {
+  function mapAccommodationToFeature(
+    accommodation: co.loaded<typeof Accommodation>,
+  ): Feature {
     return {
       type: "Feature",
       geometry: {

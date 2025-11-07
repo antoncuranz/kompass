@@ -27,7 +27,7 @@ export function sendJoinRequest(
 
 export function approveJoinRequest(
   sharedTrip: co.loaded<typeof SharedTrip, { members: true; statuses: true }>,
-  joinRequest: JoinRequest,
+  joinRequest: co.loaded<typeof JoinRequest>,
   role: "reader" | "writer",
 ) {
   sharedTrip.members.addMember(joinRequest.account, role)
@@ -37,7 +37,7 @@ export function approveJoinRequest(
 
 export function rejectJoinRequest(
   sharedTrip: co.loaded<typeof SharedTrip, { members: true; statuses: true }>,
-  joinRequest: JoinRequest,
+  joinRequest: co.loaded<typeof JoinRequest>,
 ) {
   sharedTrip.statuses.$jazz.set(joinRequest.account.$jazz.id, "rejected")
   joinRequest.$jazz.set("status", "rejected")

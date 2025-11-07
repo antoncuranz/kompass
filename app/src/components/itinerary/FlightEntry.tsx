@@ -3,6 +3,7 @@ import { useState } from "react"
 import { useMap } from "react-map-gl/maplibre"
 import type { MouseEvent, MouseEventHandler } from "react"
 import type { Flight, FlightLeg } from "@/schema.ts"
+import type { co } from "jazz-tools"
 import PrivacyFilter from "@/components/PrivacyFilter.tsx"
 import { Button } from "@/components/ui/button.tsx"
 import {
@@ -19,8 +20,8 @@ export default function FlightEntry({
   className,
   onInfoBtnClick,
 }: {
-  flight: Flight
-  flightLeg: FlightLeg
+  flight: co.loaded<typeof Flight>
+  flightLeg: co.loaded<typeof FlightLeg>
   className?: string
   onInfoBtnClick?: MouseEventHandler<HTMLButtonElement> | undefined
 }) {

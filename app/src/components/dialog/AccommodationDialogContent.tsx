@@ -3,6 +3,7 @@ import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import type { Accommodation, Trip } from "@/schema.ts"
+import type { co } from "jazz-tools"
 import { useDialogContext } from "@/components/dialog/Dialog.tsx"
 import AddressInput from "@/components/dialog/input/AddressInput.tsx"
 import AmountInput from "@/components/dialog/input/AmountInput.tsx"
@@ -34,8 +35,8 @@ export default function AccommodationDialogContent({
   trip,
   accommodation,
 }: {
-  trip: Trip
-  accommodation?: Accommodation
+  trip: co.loaded<typeof Trip>
+  accommodation?: co.loaded<typeof Accommodation>
 }) {
   const [edit, setEdit] = useState<boolean>(accommodation == null)
   const { onClose } = useDialogContext()

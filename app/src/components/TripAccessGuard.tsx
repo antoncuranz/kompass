@@ -21,10 +21,11 @@ export default function TripAccessGuard({
     resolve: { members: true, admins: true, requests: true },
   })
 
-  function isUnauthorized() {
-    const role = sharedTrip?.members.myRole()
-    return sharedTrip != undefined && !canRead(role)
-  }
+  const existingRequest =
+    sharedTripId in account.root.requests
+      ? account.root.requests[sharedTripId]
+      : undefined
+  const requestStatus = existingRequest?.status
 
   function canRead(role: string | undefined) {
     return (
@@ -35,44 +36,42 @@ export default function TripAccessGuard({
     )
   }
 
-  // const test = sharedTripId in account.root.requests
-  console.log("existingRequest", account.root.requests[sharedTripId])
-  const existingRequest = account.root.requests[sharedTripId]
-  const requestStatus = existingRequest?.status
-
   return (
-    <Dialog open={isUnauthorized()} setOpen={() => {}}>
-      <DialogHeader>
-        <DialogTitle>Unauthorized</DialogTitle>
-      </DialogHeader>
-      {requestStatus === "pending" ? (
-        <div className="text-center space-y-2">
-          <p className="text-sm text-muted-foreground">
-            Access request pending
-          </p>
-          <p className="text-xs text-muted-foreground">
-            The trip owner will review your request
-          </p>
-        </div>
-      ) : requestStatus === "rejected" ? (
-        <div className="text-center space-y-2">
-          <p className="text-sm text-destructive">Access request denied</p>
-        </div>
-      ) : (
-        <>
-          <p className="text-sm text-muted-foreground text-center">
-            You don't have access to this trip
-          </p>
-          <DialogFooter>
-            <Button
-              className="w-full"
-              onClick={() => sendJoinRequest(sharedTrip!, account)}
-            >
-              Request Access
-            </Button>
-          </DialogFooter>
-        </>
-      )}
-    </Dialog>
+    sharedTrip.$isLoaded &&
+    !canRead(sharedTrip.members.myRole()) && (
+      <Dialog>
+        <DialogHeader>
+          <DialogTitle>Unauthorized</DialogTitle>
+        </DialogHeader>
+        {requestStatus === "pending" ? (
+          <div className="text-center space-y-2">
+            <p className="text-sm text-muted-foreground">
+              Access request pending
+            </p>
+            <p className="text-xs text-muted-foreground">
+              The trip owner will review your request
+            </p>
+          </div>
+        ) : requestStatus === "rejected" ? (
+          <div className="text-center space-y-2">
+            <p className="text-sm text-destructive">Access request denied</p>
+          </div>
+        ) : (
+          <>
+            <p className="text-sm text-muted-foreground text-center">
+              You don't have access to this trip
+            </p>
+            <DialogFooter>
+              <Button
+                className="w-full"
+                onClick={() => sendJoinRequest(sharedTrip, account)}
+              >
+                Request Access
+              </Button>
+            </DialogFooter>
+          </>
+        )}
+      </Dialog>
+    )
   )
 }

@@ -1,6 +1,7 @@
 import { PlaneTakeoff } from "lucide-react"
 import { useState } from "react"
-import type { Trip } from "@/schema.ts"
+import type { Trip } from "@/schema"
+import type { co } from "jazz-tools"
 import AccommodationDialogContent from "@/components/dialog/AccommodationDialogContent.tsx"
 import ActivityDialogContent from "@/components/dialog/ActivityDialogContent.tsx"
 import { Dialog } from "@/components/dialog/Dialog.tsx"
@@ -16,7 +17,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu.tsx"
 
-export default function AddSomethingDropdown({ trip }: { trip: Trip }) {
+export default function AddSomethingDropdown({
+  trip,
+}: {
+  trip: co.loaded<typeof Trip>
+}) {
   const [activityDialogOpen, setActivityDialogOpen] = useState(false)
   const [accommodationDialogOpen, setAccommodationDialogOpen] = useState(false)
   const [flightDialogOpen, setFlightDialogOpen] = useState(false)

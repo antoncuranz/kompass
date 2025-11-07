@@ -1,5 +1,6 @@
 import { Pencil } from "lucide-react"
 import type { Trip } from "@/schema.ts"
+import type { co } from "jazz-tools"
 import Card from "@/components/card/Card.tsx"
 import { cn } from "@/lib/utils.ts"
 
@@ -9,7 +10,7 @@ export default function TripCard({
   fallbackColor,
   onEdit,
 }: {
-  trip: Trip
+  trip: co.loaded<typeof Trip>
   sharedTripId: string
   className?: string
   fallbackColor: string

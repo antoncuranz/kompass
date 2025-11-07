@@ -38,7 +38,9 @@ export default function Navigation({ sharedTripId }: { sharedTripId: string }) {
               variant="outline"
               className="rounded-r-full pointer-events-none text-base pr-4"
             >
-              {sharedTrip?.trip.name}
+              {sharedTrip.$isLoaded
+                ? sharedTrip.trip.name
+                : sharedTrip.$jazz.loadingState}
             </Button>
           </ButtonGroup>
           <ModeToggle className="sm:hidden" />
@@ -63,7 +65,7 @@ export default function Navigation({ sharedTripId }: { sharedTripId: string }) {
               {page}
             </Link>
           ))}
-          {sharedTrip?.admins.myRole() === "admin" && (
+          {sharedTrip.$isLoaded && sharedTrip.admins.myRole() === "admin" && (
             <Link
               to={"/" + sharedTripId + "/share"}
               className={

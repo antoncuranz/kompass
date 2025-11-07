@@ -3,6 +3,7 @@ import { useState } from "react"
 import { useMap } from "react-map-gl/maplibre"
 import type { MouseEvent, MouseEventHandler } from "react"
 import type { TrainLeg } from "@/schema.ts"
+import type { co } from "jazz-tools"
 import { Button } from "@/components/ui/button.tsx"
 import {
   Collapsible,
@@ -17,7 +18,7 @@ export default function TrainEntry({
   className,
   onInfoBtnClick,
 }: {
-  trainLeg: TrainLeg
+  trainLeg: co.loaded<typeof TrainLeg>
   className?: string
   onInfoBtnClick?: MouseEventHandler<HTMLButtonElement> | undefined
 }) {

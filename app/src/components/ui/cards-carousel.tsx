@@ -64,6 +64,7 @@ export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
   }
 
   const isMobile = () => {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     return window && window.innerWidth < 768
   }
 

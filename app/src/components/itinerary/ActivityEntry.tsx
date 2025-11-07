@@ -3,12 +3,13 @@ import { useMap } from "react-map-gl/maplibre"
 import { formatTime } from "../util"
 import type { MouseEvent, MouseEventHandler } from "react"
 import type { Activity } from "@/schema"
+import type { co } from "jazz-tools"
 
 export default function ActivityEntry({
   activity,
   onClick,
 }: {
-  activity: Activity
+  activity: co.loaded<typeof Activity>
   onClick?: MouseEventHandler<HTMLDivElement> | undefined
 }) {
   const { heroMap } = useMap()

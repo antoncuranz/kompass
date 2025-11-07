@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
 import type { GenericTransportation, Trip } from "@/schema"
+import type { co } from "jazz-tools"
 import { RowContainer, useDialogContext } from "@/components/dialog/Dialog.tsx"
 import AddressInput from "@/components/dialog/input/AddressInput.tsx"
 import AmountInput from "@/components/dialog/input/AmountInput.tsx"
@@ -47,8 +48,8 @@ export default function TransportationDialogContent({
   trip,
   transportation,
 }: {
-  trip: Trip
-  transportation?: GenericTransportation
+  trip: co.loaded<typeof Trip>
+  transportation?: co.loaded<typeof GenericTransportation>
 }) {
   const [edit, setEdit] = useState<boolean>(transportation == null)
   const { onClose } = useDialogContext()
@@ -82,16 +83,14 @@ export default function TransportationDialogContent({
     geoJson: GeoJSON.FeatureCollection,
     values: z.infer<typeof formSchema>,
   ) {
-    if (geoJson.features) {
-      for (const feature of geoJson.features) {
-        if (feature.geometry?.type === "Point") {
-          feature.properties = {
-            ...feature.properties,
-            type: values.genericType.toUpperCase(),
-            name: values.name,
-            departureDateTime: values.departureDateTime,
-            arrivalDateTime: values.arrivalDateTime,
-          }
+    for (const feature of geoJson.features) {
+      if (feature.geometry.type === "Point") {
+        feature.properties = {
+          ...feature.properties,
+          type: values.genericType.toUpperCase(),
+          name: values.name,
+          departureDateTime: values.departureDateTime,
+          arrivalDateTime: values.arrivalDateTime,
         }
       }
     }
@@ -120,12 +119,6 @@ export default function TransportationDialogContent({
 
     if (transportation) {
       transportation.$jazz.applyDiff({ geoJson, ...values })
-      if (!transportation.origin) {
-        transportation.$jazz.set("origin", values.origin)
-      }
-      if (!transportation.destination) {
-        transportation.$jazz.set("destination", values.destination)
-      }
     } else {
       trip.transportation.$jazz.push({
         type: "generic",
@@ -179,7 +172,7 @@ export default function TransportationDialogContent({
               <Select
                 name={field.name}
                 onValueChange={field.onChange}
-                value={field.value ?? ""}
+                value={field.value}
                 disabled={field.disabled}
               >
                 <SelectTrigger className="w-full">
@@ -258,6 +251,7 @@ export default function TransportationDialogContent({
           render={({ field }) => (
             <DateTimeInput
               startDate={
+                // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
                 form.getValues("departureDateTime")
                   ? dateToString(form.getValues("departureDateTime"))
                   : trip.startDate

@@ -5,6 +5,7 @@ import { useFieldArray, useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
 import type { Train, TrainLeg, Trip } from "@/schema.ts"
+import type { co } from "jazz-tools"
 import { RowContainer, useDialogContext } from "@/components/dialog/Dialog.tsx"
 import AmountInput from "@/components/dialog/input/AmountInput.tsx"
 import DateInput from "@/components/dialog/input/DateInput.tsx"
@@ -20,6 +21,7 @@ import { Input } from "@/components/ui/input.tsx"
 import { Spinner } from "@/components/ui/shadcn-io/spinner"
 import { dateFromString } from "@/components/util.ts"
 import { isoDate, trainStation } from "@/formschema"
+import { isLoaded } from "@/lib/utils"
 
 const formSchema = z.object({
   departureDate: isoDate("Required"),
@@ -40,8 +42,8 @@ export default function TrainDialogContent({
   trip,
   train,
 }: {
-  trip: Trip
-  train?: Train
+  trip: co.loaded<typeof Trip>
+  train?: co.loaded<typeof Train>
 }) {
   const [edit, setEdit] = useState<boolean>(train == null)
   const { onClose } = useDialogContext()
@@ -54,35 +56,39 @@ export default function TrainDialogContent({
     resolver: zodResolver(formSchema),
     defaultValues: {
       departureDate: train
-        ? dateFromString(train?.legs[0].departureDateTime)
+        ? dateFromString(train.legs[0].departureDateTime)
         : undefined,
-      fromStationId: getDefaultFromStation(
-        train?.legs.filter(leg => leg !== null),
-      ),
-      toStationId: getDefaultToStation(train?.legs.filter(leg => leg !== null)),
+      fromStationId: getDefaultFromStation(train?.legs.filter(isLoaded)),
+      toStationId: getDefaultToStation(train?.legs.filter(isLoaded)),
       viaStationId: undefined,
-      trainNumbers: mapLegsOrDefault(train?.legs.filter(leg => leg !== null)),
+      trainNumbers: mapLegsOrDefault(train?.legs.filter(isLoaded)),
       price: train?.price ?? undefined,
     },
     disabled: !edit,
   })
   const { isSubmitting } = form.formState
 
-  function getDefaultFromStation(trainLegs: Array<TrainLeg> | undefined) {
+  function getDefaultFromStation(
+    trainLegs: Array<co.loaded<typeof TrainLeg>> | undefined,
+  ) {
     if (trainLegs !== undefined) {
       return trainLegs[0].origin
     }
     return undefined
   }
 
-  function getDefaultToStation(trainLegs: Array<TrainLeg> | undefined) {
+  function getDefaultToStation(
+    trainLegs: Array<co.loaded<typeof TrainLeg>> | undefined,
+  ) {
     if (trainLegs !== undefined) {
       return trainLegs[trainLegs.length - 1].destination
     }
     return undefined
   }
 
-  function mapLegsOrDefault(trainLegs: Array<TrainLeg> | undefined) {
+  function mapLegsOrDefault(
+    trainLegs: Array<co.loaded<typeof TrainLeg>> | undefined,
+  ) {
     if (trainLegs !== undefined) {
       return trainLegs.map(leg => ({
         value: leg.lineName,
@@ -134,7 +140,7 @@ export default function TrainDialogContent({
       return
     }
 
-    trip.transportation.$jazz.remove(t => t && t.$jazz.id == train.$jazz.id)
+    trip.transportation.$jazz.remove(t => t.$jazz.id == train.$jazz.id)
     onClose()
   }
 

@@ -1,9 +1,5 @@
+import type { co } from "jazz-tools"
 import type { Accommodation, Activity, Transportation } from "./schema"
-
-export type OmitNever<T extends Record<string, unknown>> = {
-  [K in keyof T as T[K] extends never ? never : K]: T[K]
-}
-export type SharedProperties<A, B> = OmitNever<Pick<A & B, keyof A & keyof B>>
 
 export enum TransportationType {
   Flight = "FLIGHT",
@@ -50,8 +46,8 @@ export type AmbiguousFlightChoice = {
 export type DayRenderData = {
   day: string
   transportation: Array<Transportation>
-  activities: Array<Activity>
-  accommodation: Accommodation | undefined
+  activities: Array<co.loaded<typeof Activity>>
+  accommodation: co.loaded<typeof Accommodation> | undefined
 }
 
 export type GeoJsonFlight = {

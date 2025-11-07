@@ -13,7 +13,10 @@ import { PrivacyProvider } from "./components/provider/PrivacyProvider.tsx"
 // Create a new router instance
 const router = createRouter({
   routeTree,
-  context: { account: null },
+  context: {
+    // @ts-expect-error - just a placeholder
+    account: undefined,
+  },
   defaultPreload: "intent",
   scrollRestoration: true,
   defaultStructuralSharing: true,
@@ -28,14 +31,16 @@ declare module "@tanstack/react-router" {
 }
 
 function RouterWithContext() {
-  const { me: account } = useAccount(UserAccount)
+  const account = useAccount(UserAccount)
 
   return (
-    <ThemeProvider defaultTheme="system">
-      <PrivacyProvider>
-        <RouterProvider router={router} context={{ account }} />
-      </PrivacyProvider>
-    </ThemeProvider>
+    account.$isLoaded && (
+      <ThemeProvider defaultTheme="system">
+        <PrivacyProvider>
+          <RouterProvider router={router} context={{ account }} />
+        </PrivacyProvider>
+      </ThemeProvider>
+    )
   )
 }
 

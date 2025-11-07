@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react"
 import type { Transportation, Trip } from "@/schema.ts"
 import type { DayRenderData } from "@/types.ts"
+import type { co } from "jazz-tools"
 import AddSomethingDropdown from "@/components/buttons/AddSomethingDropdown.tsx"
 import Card from "@/components/card/Card.tsx"
 import Itinerary from "@/components/itinerary/Itinerary.tsx"
@@ -11,7 +12,7 @@ export default function ItineraryCard({
   trip,
   className,
 }: {
-  trip: Trip
+  trip: co.loaded<typeof Trip>
   className?: string
 }) {
   const [dataByDays, setDataByDays] = useState<Array<DayRenderData>>([])
