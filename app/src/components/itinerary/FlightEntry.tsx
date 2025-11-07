@@ -1,8 +1,8 @@
 import { ChevronDown, ChevronRight, ChevronUp, SquarePen } from "lucide-react"
 import { useState } from "react"
+import { useMap } from "react-map-gl/maplibre"
 import type { MouseEvent, MouseEventHandler } from "react"
 import type { Flight, FlightLeg } from "@/schema.ts"
-import { useMap } from "@/components/map/common.tsx"
 import PrivacyFilter from "@/components/PrivacyFilter.tsx"
 import { Button } from "@/components/ui/button.tsx"
 import {

@@ -1,15 +1,16 @@
 import React, { useState } from "react"
+import { Layer, Popup, Source } from "react-map-gl/maplibre"
+import type { MapMouseEvent } from "react-map-gl/maplibre"
 import type { Feature, FeatureCollection, GeoJsonProperties } from "geojson"
 import type { co } from "jazz-tools"
-import type { LngLat, MapMouseEvent } from "@/components/map/common.tsx"
 import type { Accommodation, Activity, Transportation } from "@/schema.ts"
 import type {
   GeoJsonFlight,
   GeoJsonTrain,
   GeoJsonTransportation,
 } from "@/types.ts"
+import type { LngLat } from "maplibre-gl"
 import BaseMap from "@/components/map/BaseMap.tsx"
-import { Layer, Popup, Source } from "@/components/map/common.tsx"
 import FlightPopup from "@/components/map/popup/FlightPopup.tsx"
 import TrainPopup from "@/components/map/popup/TrainPopup.tsx"
 import TransportationPopup from "@/components/map/popup/TransportationPopup"
@@ -89,7 +90,7 @@ export default function HeroMap({
     if (!event.features || event.features.length == 0) return
 
     const featureProperties = event.features
-      .filter(feature => feature.properties && feature.properties["type"])
+      .filter(feature => feature.properties["type"])
       .map(feature => feature.properties)
 
     setPopupInfo({

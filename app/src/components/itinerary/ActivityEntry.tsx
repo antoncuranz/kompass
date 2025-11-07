@@ -1,8 +1,8 @@
 import { ChevronRight } from "lucide-react"
+import { useMap } from "react-map-gl/maplibre"
 import { formatTime } from "../util"
 import type { MouseEvent, MouseEventHandler } from "react"
 import type { Activity } from "@/schema"
-import { useMap } from "@/components/map/common.tsx"
 
 export default function ActivityEntry({
   activity,

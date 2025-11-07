@@ -1,8 +1,8 @@
 import React from "react"
-import type { LngLat, MapMouseEvent } from "@/components/map/common.tsx"
+import { Marker, useMap } from "react-map-gl/maplibre"
+import type { LngLat, MapMouseEvent } from "react-map-gl/maplibre"
 import type { Coordinates } from "@/types.ts"
 import BaseMap from "@/components/map/BaseMap.tsx"
-import { Marker, useMap } from "@/components/map/common.tsx"
 
 export default function MiniMap({
   children,

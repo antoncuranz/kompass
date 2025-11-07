@@ -1,6 +1,6 @@
 import { Outlet, createFileRoute, useLocation } from "@tanstack/react-router"
+import { MapProvider } from "react-map-gl/maplibre"
 import Navigation from "@/components/navigation/Navigation"
-import { MapProvider } from "@/components/provider/MapProvider"
 import MapCard from "@/components/card/MapCard"
 import { TripProvider } from "@/components/provider/TripProvider"
 import SkeletonCard from "@/components/card/SkeletonCard"
