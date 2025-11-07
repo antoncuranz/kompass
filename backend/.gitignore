@@ -24,4 +24,4 @@ vendor/
 
 coverage.txt
 
-migrations/100_insert_test_data.sql
+cmd/app/__debug*

@@ -4,7 +4,6 @@
 find /app/.next -type f -name "*.js" -print0 | while read -d $'\0' file
 do
   sed -i "s|VITE_MAPLIBRE_STYLE_URL_PLACEHOLDER|${MAPLIBRE_STYLE_URL}|g" $file
-  sed -i "s|VITE_TRANSPORTATION_API_URL_PLACEHOLDER|${TRANSPORTATION_API_URL}|g" $file # not in use
 done
 
 # docker-node entrypoint
