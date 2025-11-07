@@ -1,10 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Group } from "jazz-tools"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import type { co } from "jazz-tools"
-import type { UserAccount } from "@/schema.ts"
+import type { Trip, UserAccount } from "@/schema.ts"
 import { useDialogContext } from "@/components/dialog/Dialog.tsx"
 import DateInput from "@/components/dialog/input/DateInput.tsx"
 import { Button } from "@/components/ui/button.tsx"
@@ -19,7 +18,7 @@ import { Spinner } from "@/components/ui/shadcn-io/spinner"
 import { Textarea } from "@/components/ui/textarea.tsx"
 import { dateFromString } from "@/components/util.ts"
 import { dateRange, optionalString } from "@/formschema.ts"
-import { JoinRequests, RequestStatuses, SharedTrip, Trip } from "@/schema.ts"
+import { createNewTrip } from "@/lib/utils"
 
 const formSchema = z.object({
   name: z.string().nonempty("Required"),
@@ -67,43 +66,14 @@ export default function TripDialogContent({
         endDate: values.dateRange.to,
       })
     } else {
-      const adminsGroup = Group.create()
-
-      const membersGroup = Group.create()
-      membersGroup.addMember(adminsGroup)
-
-      const requestsGroup = Group.create()
-      requestsGroup.addMember("everyone", "writeOnly")
-      requestsGroup.addMember(adminsGroup)
-
-      const publicGroup = Group.create()
-      publicGroup.addMember("everyone", "reader")
-      publicGroup.addMember(adminsGroup)
-
-      const newTrip = Trip.create(
-        {
-          ...values,
-          startDate: values.dateRange.from,
-          endDate: values.dateRange.to,
-          activities: [],
-          accommodation: [],
-          transportation: [],
-        },
-        membersGroup,
-      )
-
-      const sharedTrip = SharedTrip.create(
-        {
-          trip: newTrip,
-          requests: JoinRequests.create({}, requestsGroup),
-          statuses: RequestStatuses.create({}, adminsGroup),
-          members: membersGroup,
-          admins: adminsGroup,
-        },
-        publicGroup,
-      )
-
-      account.root.trips.$jazz.push(sharedTrip)
+      createNewTrip(account, {
+        ...values,
+        startDate: values.dateRange.from,
+        endDate: values.dateRange.to,
+        activities: [],
+        accommodation: [],
+        transportation: [],
+      })
     }
     onClose()
   }

@@ -137,27 +137,6 @@ export type Transportation =
   | co.loaded<typeof Train>
   | co.loaded<typeof GenericTransportation>
 
-export async function loadTransportation(
-  transportation: co.loaded<typeof Transportation>,
-) {
-  switch (transportation.type) {
-    case "flight":
-      return await transportation.$jazz.ensureLoaded({
-        resolve: Flight.resolveQuery,
-      })
-
-    case "train":
-      return await transportation.$jazz.ensureLoaded({
-        resolve: Train.resolveQuery,
-      })
-
-    case "generic":
-      return await transportation.$jazz.ensureLoaded({
-        resolve: GenericTransportation.resolveQuery,
-      })
-  }
-}
-
 export const Trip = co
   .map({
     name: z.string(),
