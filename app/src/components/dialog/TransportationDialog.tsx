@@ -5,7 +5,11 @@ import { toast } from "sonner"
 import { z } from "zod"
 import type { GenericTransportation, Trip } from "@/schema"
 import type { co } from "jazz-tools"
-import { RowContainer, useDialogContext } from "@/components/dialog/Dialog.tsx"
+import {
+  Dialog,
+  RowContainer,
+  useDialogContext,
+} from "@/components/dialog/Dialog.tsx"
 import AddressInput from "@/components/dialog/input/AddressInput.tsx"
 import AmountInput from "@/components/dialog/input/AmountInput.tsx"
 import DateTimeInput from "@/components/dialog/input/DateTimeInput.tsx"
@@ -44,7 +48,28 @@ const formSchema = z.object({
   destinationAddress: optionalString(),
 })
 
-export default function TransportationDialogContent({
+export default function TransportationDialog({
+  trip,
+  transportation,
+  open,
+  onOpenChange,
+}: {
+  trip: co.loaded<typeof Trip>
+  transportation?: co.loaded<typeof GenericTransportation>
+  open: boolean
+  onOpenChange: (open: boolean) => void
+}) {
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <TransportationDialogContent
+        trip={trip}
+        transportation={transportation}
+      />
+    </Dialog>
+  )
+}
+
+function TransportationDialogContent({
   trip,
   transportation,
 }: {

@@ -7,9 +7,8 @@ import { UserAccount } from "@/schema"
 import { ModeToggle } from "@/components/buttons/ModeToggle"
 import NewTripCard from "@/components/card/NewTripCard"
 import TripCard from "@/components/card/TripCard"
-import TripDialogContent from "@/components/dialog/TripDialogContent"
+import TripDialog from "@/components/dialog/TripDialog"
 import { Carousel } from "@/components/ui/cards-carousel"
-import { Dialog } from "@/components/dialog/Dialog"
 
 export const Route = createFileRoute("/")({
   component: App,
@@ -83,9 +82,12 @@ function App() {
           </div>
         </div>
       </main>
-      <Dialog open={tripDialogOpen} setOpen={setTripDialogOpen}>
-        <TripDialogContent account={account} trip={selectedTrip} />
-      </Dialog>
+      <TripDialog
+        account={account}
+        trip={selectedTrip}
+        open={tripDialogOpen}
+        onOpenChange={setTripDialogOpen}
+      />
     </>
   )
 }

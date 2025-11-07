@@ -2,6 +2,7 @@ import { useState } from "react"
 import type { AmbiguousFlightChoice } from "@/types.ts"
 import { Button } from "@/components/ui/button.tsx"
 import {
+  Dialog,
   DialogDescription,
   DialogFooter,
   DialogHeader,
@@ -11,7 +12,31 @@ import { Field, FieldLabel } from "@/components/ui/field.tsx"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group.tsx"
 import { formatDateShort } from "@/components/util.ts"
 
-export function AmbiguousFlightDialogContent({
+export default function AmbiguousFlightDialog({
+  flightChoices,
+  flightLegs,
+  onSelection,
+  open,
+  onOpenChange,
+}: {
+  flightChoices: { [flightNumber: string]: Array<AmbiguousFlightChoice> }
+  flightLegs: Array<{ date: string; flightNumber: string }>
+  onSelection: (selectedFlights: Map<number, AmbiguousFlightChoice>) => void
+  open: boolean
+  onOpenChange: (open: boolean) => void
+}) {
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <AmbiguousFlightDialogContent
+        flightChoices={flightChoices}
+        flightLegs={flightLegs}
+        onSelection={onSelection}
+      />
+    </Dialog>
+  )
+}
+
+function AmbiguousFlightDialogContent({
   flightChoices,
   flightLegs,
   onSelection,

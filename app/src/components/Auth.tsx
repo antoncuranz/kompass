@@ -65,7 +65,7 @@ export function Auth() {
 
   return (
     passkeyAuth.state !== "signedIn" && (
-      <Dialog open={true} setOpen={() => {}}>
+      <Dialog open={true} onOpenChange={() => {}}>
         <DialogHeader>
           <DialogTitle>Welcome to kompass!</DialogTitle>
         </DialogHeader>

@@ -2,8 +2,7 @@ import { Map } from "lucide-react"
 import { useState } from "react"
 import type { ControllerRenderProps, FieldValues } from "react-hook-form"
 import type { Coordinates } from "@/types.ts"
-import { Dialog } from "@/components/dialog/Dialog.tsx"
-import MapDialogContent from "@/components/dialog/MapDialogContent.tsx"
+import MapDialog from "@/components/dialog/MapDialog"
 import { Button } from "@/components/ui/button.tsx"
 import { Input } from "@/components/ui/input.tsx"
 import { cn } from "@/lib/utils.ts"
@@ -43,9 +42,12 @@ export default function LocationInput({
           </Button>
         )}
       </div>
-      <Dialog open={mapDialogOpen} setOpen={setMapDialogOpen}>
-        <MapDialogContent value={value} onChange={onMapDialogClose} />
-      </Dialog>
+      <MapDialog
+        value={value}
+        onChange={onMapDialogClose}
+        open={mapDialogOpen}
+        onOpenChange={setMapDialogOpen}
+      />
     </div>
   )
 }

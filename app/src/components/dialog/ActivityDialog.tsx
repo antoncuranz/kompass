@@ -13,7 +13,11 @@ import {
 import { Input } from "@/components/ui/input.tsx"
 import { Textarea } from "@/components/ui/textarea.tsx"
 
-import { RowContainer, useDialogContext } from "@/components/dialog/Dialog.tsx"
+import {
+  Dialog,
+  RowContainer,
+  useDialogContext,
+} from "@/components/dialog/Dialog.tsx"
 import AddressInput from "@/components/dialog/input/AddressInput.tsx"
 import AmountInput from "@/components/dialog/input/AmountInput.tsx"
 import DateInput from "@/components/dialog/input/DateInput.tsx"
@@ -32,7 +36,25 @@ const formSchema = z.object({
   location: optionalLocation(),
 })
 
-export default function ActivityDialogContent({
+export default function ActivityDialog({
+  trip,
+  activity,
+  open,
+  onOpenChange,
+}: {
+  trip: co.loaded<typeof Trip>
+  activity?: co.loaded<typeof Activity>
+  open: boolean
+  onOpenChange: (open: boolean) => void
+}) {
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <ActivityDialogContent trip={trip} activity={activity} />
+    </Dialog>
+  )
+}
+
+function ActivityDialogContent({
   trip,
   activity,
 }: {

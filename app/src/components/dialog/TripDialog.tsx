@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import type { co } from "jazz-tools"
 import type { Trip, UserAccount } from "@/schema.ts"
-import { useDialogContext } from "@/components/dialog/Dialog.tsx"
+import { Dialog, useDialogContext } from "@/components/dialog/Dialog.tsx"
 import DateInput from "@/components/dialog/input/DateInput.tsx"
 import { Button } from "@/components/ui/button.tsx"
 import {
@@ -27,7 +27,25 @@ const formSchema = z.object({
   imageUrl: optionalString(),
 })
 
-export default function TripDialogContent({
+export default function TripDialog({
+  account,
+  trip,
+  open,
+  onOpenChange,
+}: {
+  account: co.loaded<typeof UserAccount>
+  trip?: co.loaded<typeof Trip>
+  open: boolean
+  onOpenChange: (open: boolean) => void
+}) {
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <TripDialogContent trip={trip} account={account} />
+    </Dialog>
+  )
+}
+
+function TripDialogContent({
   account,
   trip,
 }: {

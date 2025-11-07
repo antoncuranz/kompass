@@ -2,12 +2,11 @@ import { PlaneTakeoff } from "lucide-react"
 import { useState } from "react"
 import type { Trip } from "@/schema"
 import type { co } from "jazz-tools"
-import AccommodationDialogContent from "@/components/dialog/AccommodationDialogContent.tsx"
-import ActivityDialogContent from "@/components/dialog/ActivityDialogContent.tsx"
-import { Dialog } from "@/components/dialog/Dialog.tsx"
-import FlightDialogContent from "@/components/dialog/FlightDialogContent.tsx"
-import TrainDialogContent from "@/components/dialog/TrainDialogContent.tsx"
-import TransportationDialogContent from "@/components/dialog/TransportationDialogContent.tsx"
+import AccommodationDialogContent from "@/components/dialog/AccommodationDialog"
+import ActivityDialog from "@/components/dialog/ActivityDialog"
+import FlightDialog from "@/components/dialog/FlightDialog"
+import TrainDialog from "@/components/dialog/TrainDialog"
+import TransportationDialog from "@/components/dialog/TransportationDialog"
 import { Button } from "@/components/ui/button.tsx"
 import {
   DropdownMenu,
@@ -60,27 +59,31 @@ export default function AddSomethingDropdown({
           </DropdownMenuContent>
         </DropdownMenuPositioner>
       </DropdownMenu>
-      <Dialog open={activityDialogOpen} setOpen={setActivityDialogOpen}>
-        <ActivityDialogContent trip={trip} />
-      </Dialog>
-      <Dialog
+      <ActivityDialog
+        trip={trip}
+        open={activityDialogOpen}
+        onOpenChange={setActivityDialogOpen}
+      />
+      <AccommodationDialogContent
+        trip={trip}
         open={accommodationDialogOpen}
-        setOpen={setAccommodationDialogOpen}
-      >
-        <AccommodationDialogContent trip={trip} />
-      </Dialog>
-      <Dialog open={flightDialogOpen} setOpen={setFlightDialogOpen}>
-        <FlightDialogContent trip={trip} />
-      </Dialog>
-      <Dialog open={trainDialogOpen} setOpen={setTrainDialogOpen}>
-        <TrainDialogContent trip={trip} />
-      </Dialog>
-      <Dialog
+        onOpenChange={setAccommodationDialogOpen}
+      />
+      <FlightDialog
+        trip={trip}
+        open={flightDialogOpen}
+        onOpenChange={setFlightDialogOpen}
+      />
+      <TrainDialog
+        trip={trip}
+        open={trainDialogOpen}
+        onOpenChange={setTrainDialogOpen}
+      />
+      <TransportationDialog
+        trip={trip}
         open={transportationDialogOpen}
-        setOpen={setTransportationDialogOpen}
-      >
-        <TransportationDialogContent trip={trip} />
-      </Dialog>
+        onOpenChange={setTransportationDialogOpen}
+      />
     </div>
   )
 }

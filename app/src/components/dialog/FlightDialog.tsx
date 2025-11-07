@@ -7,7 +7,7 @@ import { z } from "zod"
 import type { co } from "jazz-tools"
 import type { Flight, FlightLeg, PNR, Trip } from "@/schema.ts"
 import type { AmbiguousFlightChoice } from "@/types"
-import { AmbiguousFlightDialogContent } from "@/components/dialog/AmbiguousFlightDialogContent.tsx"
+import AmbiguousFlightDialog from "@/components/dialog/AmbiguousFlightDialog"
 import {
   Dialog,
   RowContainer,
@@ -50,7 +50,25 @@ type AmbiguousDialogData = {
   choices: { [flightNumber: string]: Array<AmbiguousFlightChoice> }
 }
 
-export default function FlightDialogContent({
+export default function FlightDialog({
+  trip,
+  flight,
+  open,
+  onOpenChange,
+}: {
+  trip: co.loaded<typeof Trip>
+  flight?: co.loaded<typeof Flight>
+  open: boolean
+  onOpenChange: (open: boolean) => void
+}) {
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <FlightDialogContent trip={trip} flight={flight} />
+    </Dialog>
+  )
+}
+
+function FlightDialogContent({
   trip,
   flight,
 }: {
@@ -321,13 +339,13 @@ export default function FlightDialogContent({
           render={({ field }) => <AmountInput {...field} />}
         />
       </Form>
-      <Dialog open={ambiguousDialogOpen} setOpen={setAmbiguousDialogOpen}>
-        <AmbiguousFlightDialogContent
-          flightLegs={ambiguousDialogData.legs}
-          flightChoices={ambiguousDialogData.choices}
-          onSelection={handleAmbiguousFlightSelection}
-        />
-      </Dialog>
+      <AmbiguousFlightDialog
+        flightLegs={ambiguousDialogData.legs}
+        flightChoices={ambiguousDialogData.choices}
+        onSelection={handleAmbiguousFlightSelection}
+        open={ambiguousDialogOpen}
+        onOpenChange={setAmbiguousDialogOpen}
+      />
       <DialogFooter>
         {edit ? (
           <Button

@@ -34,11 +34,11 @@ export function useDialogContext(): DialogContextType {
 export function Dialog({
   children,
   open = true,
-  setOpen = () => {},
+  onOpenChange: setOpen = () => {},
 }: {
   children: React.ReactNode | Array<React.ReactNode>
   open?: boolean
-  setOpen?: (needsUpdate: boolean) => void
+  onOpenChange?: (needsUpdate: boolean) => void
 }) {
   function onClose() {
     setOpen(false)

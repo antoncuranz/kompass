@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import type { Accommodation, Trip } from "@/schema.ts"
 import type { co } from "jazz-tools"
-import { useDialogContext } from "@/components/dialog/Dialog.tsx"
+import { Dialog, useDialogContext } from "@/components/dialog/Dialog.tsx"
 import AddressInput from "@/components/dialog/input/AddressInput.tsx"
 import AmountInput from "@/components/dialog/input/AmountInput.tsx"
 import DateInput from "@/components/dialog/input/DateInput.tsx"
@@ -31,7 +31,25 @@ const formSchema = z.object({
   location: optionalLocation(),
 })
 
-export default function AccommodationDialogContent({
+export default function AccommodationDialog({
+  trip,
+  accommodation,
+  open,
+  onOpenChange,
+}: {
+  trip: co.loaded<typeof Trip>
+  accommodation?: co.loaded<typeof Accommodation>
+  open: boolean
+  onOpenChange: (open: boolean) => void
+}) {
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <AccommodationDialogContent trip={trip} accommodation={accommodation} />
+    </Dialog>
+  )
+}
+
+function AccommodationDialogContent({
   trip,
   accommodation,
 }: {

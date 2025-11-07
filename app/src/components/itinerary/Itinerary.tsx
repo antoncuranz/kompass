@@ -9,12 +9,11 @@ import type {
 } from "@/schema.ts"
 import type { DayRenderData } from "@/types.ts"
 import type { co } from "jazz-tools"
-import AccommodationDialogContent from "@/components/dialog/AccommodationDialogContent.tsx"
-import ActivityDialogContent from "@/components/dialog/ActivityDialogContent.tsx"
-import { Dialog } from "@/components/dialog/Dialog.tsx"
-import FlightDialogContent from "@/components/dialog/FlightDialogContent.tsx"
-import TrainDialogContent from "@/components/dialog/TrainDialogContent.tsx"
-import TransportationDialogContent from "@/components/dialog/TransportationDialogContent.tsx"
+import AccommodationDialog from "@/components/dialog/AccommodationDialog"
+import ActivityDialog from "@/components/dialog/ActivityDialog"
+import FlightDialog from "@/components/dialog/FlightDialog"
+import TrainDialog from "@/components/dialog/TrainDialog"
+import TransportationDialog from "@/components/dialog/TransportationDialog"
 import Day from "@/components/itinerary/Day.tsx"
 
 export default function Itinerary({
@@ -93,33 +92,36 @@ export default function Itinerary({
           onTransportationClick={onTransportationClick}
         />
       ))}
-      <Dialog open={activityDialogOpen} setOpen={setActivityDialogOpen}>
-        <ActivityDialogContent trip={trip} activity={dialogActivity} />
-      </Dialog>
-      <Dialog
+      <ActivityDialog
+        trip={trip}
+        activity={dialogActivity}
+        open={activityDialogOpen}
+        onOpenChange={setActivityDialogOpen}
+      />
+      <AccommodationDialog
+        trip={trip}
+        accommodation={dialogAccommodation}
         open={accommodationDialogOpen}
-        setOpen={setAccommodationDialogOpen}
-      >
-        <AccommodationDialogContent
-          trip={trip}
-          accommodation={dialogAccommodation}
-        />
-      </Dialog>
-      <Dialog open={flightDialogOpen} setOpen={setFlightDialogOpen}>
-        <FlightDialogContent trip={trip} flight={dialogFlight} />
-      </Dialog>
-      <Dialog open={trainDialogOpen} setOpen={setTrainDialogOpen}>
-        <TrainDialogContent trip={trip} train={dialogTrain} />
-      </Dialog>
-      <Dialog
+        onOpenChange={setAccommodationDialogOpen}
+      />
+      <FlightDialog
+        trip={trip}
+        flight={dialogFlight}
+        open={flightDialogOpen}
+        onOpenChange={setFlightDialogOpen}
+      />
+      <TrainDialog
+        trip={trip}
+        train={dialogTrain}
+        open={trainDialogOpen}
+        onOpenChange={setTrainDialogOpen}
+      />
+      <TransportationDialog
+        trip={trip}
+        transportation={dialogTransportation}
         open={transportationDialogOpen}
-        setOpen={setTransportationDialogOpen}
-      >
-        <TransportationDialogContent
-          trip={trip}
-          transportation={dialogTransportation}
-        />
-      </Dialog>
+        onOpenChange={setTransportationDialogOpen}
+      />
     </div>
   )
 }

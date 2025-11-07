@@ -1,11 +1,29 @@
 import { useState } from "react"
 import type { Coordinates } from "@/types.ts"
-import { useDialogContext } from "@/components/dialog/Dialog.tsx"
+import { Dialog, useDialogContext } from "@/components/dialog/Dialog.tsx"
 import MiniMap from "@/components/map/MiniMap.tsx"
 import { Button } from "@/components/ui/button.tsx"
 import { DialogTitle } from "@/components/ui/dialog.tsx"
 
-export default function MapDialogContent({
+export default function MapDialog({
+  value,
+  onChange,
+  open,
+  onOpenChange,
+}: {
+  value: Coordinates
+  onChange: (newLocation: Coordinates) => void
+  open: boolean
+  onOpenChange: (open: boolean) => void
+}) {
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <MapDialogContent value={value} onChange={onChange} />
+    </Dialog>
+  )
+}
+
+function MapDialogContent({
   value,
   onChange,
 }: {
