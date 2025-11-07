@@ -49,10 +49,8 @@ export default function AmountInput({
     )
     const match = valueString.replace(/\s/g, "").match(re)
 
-    if (
-      !match ||
-      match[2].length + (match.length > 3 ? match[3].length : 0) == 0
-    )
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    if (!match || match[2].length + (match[3]?.length ?? 0) == 0)
       throw new Error("Unable to parse value string '" + valueString + "'")
 
     const sign = match[1] ? -1 : 1
