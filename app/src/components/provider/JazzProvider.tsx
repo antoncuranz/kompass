@@ -1,7 +1,10 @@
-import { JazzInspector } from "jazz-tools/inspector"
 import { JazzReactProvider } from "jazz-tools/react"
 import { Auth } from "@/components/Auth.tsx"
 import { UserAccount } from "@/schema"
+
+const JazzInspector = import.meta.env.DEV
+  ? (await import("jazz-tools/inspector")).JazzInspector
+  : () => null
 
 export function JazzProvider({ children }: { children: React.ReactNode }) {
   return (
