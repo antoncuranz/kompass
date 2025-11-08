@@ -1,11 +1,11 @@
-name: Build and Push Backend
+name: Build and Push Transportation API
 
 on:
   push:
     branches:
       - main
     paths:
-      - backend/**
+      - transportation-api/**
 
 jobs:
   build:
@@ -22,9 +22,9 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ github.token }}
 
-      - name: Build and push backend
+      - name: Build and push transportation-api
         uses: docker/build-push-action@v6
         with:
-          context: backend
+          context: transportation-api
           push: true
-          tags: ghcr.io/antoncuranz/kompass/backend:latest
+          tags: ghcr.io/antoncuranz/kompass/transportation-api:latest

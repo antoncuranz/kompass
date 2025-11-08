@@ -2,20 +2,20 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Next.js Frontend",
+      "name": "React App",
       "type": "node",
       "request": "launch",
-      "runtimeExecutable": "${workspaceFolder}/frontend/node_modules/.bin/next",
-      "runtimeArgs": ["dev", "--turbopack"],
-      "cwd": "${workspaceFolder}/frontend",
+      "runtimeExecutable": "${workspaceFolder}/app/node_modules/.bin/vite",
+      "runtimeArgs": ["--port", "3000"],
+      "cwd": "${workspaceFolder}/app",
     },
     {
-      "name": "Go Backend",
+      "name": "Transportation API",
       "type": "go",
       "request": "launch",
       "mode": "auto",
-      "program": "${workspaceFolder}/backend/cmd/app/main.go",
-      "cwd": "${workspaceFolder}/backend",
+      "program": "${workspaceFolder}/transportation-api/cmd/app/main.go",
+      "cwd": "${workspaceFolder}/transportation-api",
       "envFile": "${workspaceFolder}/.vscode/.env",
     }
   ]

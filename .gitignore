@@ -1,14 +1,9 @@
 /.idea/
-/.vscode/*
+/**/.vscode/*
 !/.vscode/launch.json
 !/.vscode/tasks.json
 /.vscode/.env
 /kompass.iml
 /frontend/.env
-/frontend/.next
-/pmtiles/**
-/versatiles-style/**
-backend/optd_aircraft.csv
-backend/optd_airline_best_known_so_far.csv
-backend/optd_por_public.csv
+/transportation-api/optd_*.csv
 /**/sync-db/**/*

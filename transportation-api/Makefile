@@ -30,7 +30,7 @@ bin-deps: ### install tools
 .PHONY: bin-deps
 
 build-image: ### build container image
-	docker build -t kompass/backend:latest .
+	docker build -t kompass/transportation-api:latest .
 .PHONY: bin-deps
 
 test: ### run unit tests
