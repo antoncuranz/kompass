@@ -1,0 +1,30 @@
+name: Build and Push Transportation API
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - transportation-api/**
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3.1.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+
+      - name: Build and push transportation-api
+        uses: docker/build-push-action@v6
+        with:
+          context: transportation-api
+          push: true
+          tags: ghcr.io/antoncuranz/kompass/transportation-api:latest
