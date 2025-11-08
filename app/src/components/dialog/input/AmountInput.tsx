@@ -7,6 +7,7 @@ import { formatAmount } from "@/components/util.ts"
 import { cn } from "@/lib/utils.ts"
 
 export default function AmountInput({
+  id,
   onChange,
   onBlur,
   value,
@@ -18,6 +19,7 @@ export default function AmountInput({
   className,
   readOnly = false,
 }: ControllerRenderProps<FieldValues, string> & {
+  id?: string
   decimals?: number
   placeholder?: string
   readOnly?: boolean
@@ -64,6 +66,7 @@ export default function AmountInput({
 
   return (
     <Input
+      id={id}
       ref={ref}
       name={name}
       value={stringAmount}

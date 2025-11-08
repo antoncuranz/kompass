@@ -200,7 +200,10 @@ function TransportationDialogContent({
                 value={field.value}
                 disabled={field.disabled}
               >
-                <SelectTrigger className="w-full">
+                <SelectTrigger
+                  data-testid="generic-type-select"
+                  className="w-full"
+                >
                   <SelectValue placeholder="Select type">
                     {field.value
                       ? `${getTransportationTypeEmoji(field.value)} ${titleCase(field.value)}`

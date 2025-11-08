@@ -1,22 +1,16 @@
 import { JazzReactProvider } from "jazz-tools/react"
-import { Auth } from "@/components/Auth.tsx"
 import { UserAccount } from "@/schema"
-
-const JazzInspector = import.meta.env.DEV
-  ? (await import("jazz-tools/inspector")).JazzInspector
-  : () => null
 
 export function JazzProvider({ children }: { children: React.ReactNode }) {
   return (
     <JazzReactProvider
       sync={{
         peer: "ws://127.0.0.1:4200",
+        when: "signedUp",
       }}
       guestMode={false}
       AccountSchema={UserAccount}
     >
-      <JazzInspector />
-      <Auth />
       {children}
     </JazzReactProvider>
   )

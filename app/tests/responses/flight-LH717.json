@@ -1,0 +1,83 @@
+{
+  "legs": [
+    {
+      "origin": {
+        "iata": "HND",
+        "name": "Tokyo International Airport",
+        "municipality": "Tokyo",
+        "location": { "latitude": 35.552258, "longitude": 139.7797 }
+      },
+      "destination": {
+        "iata": "FRA",
+        "name": "Frankfurt Airport",
+        "municipality": "Frankfurt am Main",
+        "location": { "latitude": 50.0406, "longitude": 8.55603 }
+      },
+      "airline": "Lufthansa",
+      "flightNumber": "LH 717",
+      "departureDateTime": "2025-11-10T12:35:00",
+      "arrivalDateTime": "2025-11-10T19:00:00",
+      "amadeusFlightDate": "2025-11-10",
+      "durationInMinutes": 865,
+      "aircraft": "Boeing 747-8i"
+    }
+  ],
+  "geoJson": {
+    "features": [
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [139.77969360351562, 35.5522575378418],
+            [8.5560302734375, 50.04059982299805]
+          ]
+        },
+        "properties": null
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [139.77969360351562, 35.5522575378418]
+        },
+        "properties": {
+          "fromMunicipality": "Tokyo",
+          "legs": [
+            {
+              "arrivalDateTime": "2025-11-10T19:00:00",
+              "departureDateTime": "2025-11-10T12:35:00",
+              "flightNumber": "LH 717",
+              "fromIata": "HND",
+              "toIata": "FRA"
+            }
+          ],
+          "toMunicipality": "Frankfurt am Main",
+          "type": "FLIGHT"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [8.5560302734375, 50.04059982299805]
+        },
+        "properties": {
+          "fromMunicipality": "Tokyo",
+          "legs": [
+            {
+              "arrivalDateTime": "2025-11-10T19:00:00",
+              "departureDateTime": "2025-11-10T12:35:00",
+              "flightNumber": "LH 717",
+              "fromIata": "HND",
+              "toIata": "FRA"
+            }
+          ],
+          "toMunicipality": "Frankfurt am Main",
+          "type": "FLIGHT"
+        }
+      }
+    ],
+    "type": "FeatureCollection"
+  }
+}

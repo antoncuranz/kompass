@@ -10,6 +10,7 @@ export default function Card({
   className,
   onClick,
   onSmallDevices = false,
+  testId,
 }: {
   title?: string
   subtitle?: string
@@ -18,9 +19,11 @@ export default function Card({
   className?: string
   onClick?: MouseEventHandler<HTMLDivElement>
   onSmallDevices?: boolean
+  testId?: string
 }) {
   return (
     <div
+      data-testid={testId}
       className={cn(
         "h-full w-full bg-background rounded-3xl shadow-xl shadow-black/10 dark:shadow-white/5",
         !onSmallDevices && "not-sm:rounded-none not-sm:shadow-none",

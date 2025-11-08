@@ -8,6 +8,7 @@ import { Spinner } from "@/components/ui/shadcn-io/spinner"
 import { cn } from "@/lib/utils.ts"
 
 export default function TrainStationInput({
+  id,
   onChange,
   onBlur,
   value,
@@ -17,6 +18,7 @@ export default function TrainStationInput({
   placeholder,
   className,
 }: ControllerRenderProps<FieldValues, string> & {
+  id?: string
   placeholder?: string
   className?: string
 }) {
@@ -52,6 +54,7 @@ export default function TrainStationInput({
     <div className={cn("", className)}>
       <div className="flex gap-2">
         <Input
+          id={id}
           ref={ref}
           name={name}
           value={edit ? text : (value?.name ?? "")}

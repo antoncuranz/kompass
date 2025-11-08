@@ -127,7 +127,7 @@ function ActivityDialogContent({
           control={form.control}
           name="description"
           label="Description"
-          render={({ field }) => <Textarea id="description" {...field} />}
+          render={({ field }) => <Textarea {...field} />}
         />
         <RowContainer>
           <FormField

@@ -11,7 +11,7 @@ export default function NewTripCard({
 }) {
   return (
     <Card
-      key="new-trip"
+      testId="new-trip-card"
       className={cn(
         "shadow-none hover:shadow-xl hover:cursor-pointer",
         className,

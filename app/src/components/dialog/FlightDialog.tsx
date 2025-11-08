@@ -291,6 +291,7 @@ function FlightDialogContent({
             <div>
               {pnrsArray.fields.length > 0 ? (
                 <Button
+                  aria-label="Delete PNR"
                   variant="ghost"
                   className="p-2 h-auto rounded-full"
                   onClick={() => deletePnr()}
@@ -301,6 +302,7 @@ function FlightDialogContent({
                 <div />
               )}
               <Button
+                aria-label="Add PNR"
                 variant="ghost"
                 className="p-2 h-auto rounded-full"
                 onClick={() => addPnr()}

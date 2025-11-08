@@ -148,7 +148,7 @@ function AccommodationDialogContent({
           control={form.control}
           name="description"
           label="Description"
-          render={({ field }) => <Textarea id="description" {...field} />}
+          render={({ field }) => <Textarea {...field} />}
         />
         <FormField
           control={form.control}

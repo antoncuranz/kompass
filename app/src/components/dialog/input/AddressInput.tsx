@@ -9,6 +9,7 @@ import { Spinner } from "@/components/ui/shadcn-io/spinner"
 import { cn } from "@/lib/utils.ts"
 
 export default function AddressInput({
+  id,
   onChange,
   onBlur,
   value,
@@ -18,6 +19,7 @@ export default function AddressInput({
   updateCoordinates,
   className,
 }: ControllerRenderProps<FieldValues, string> & {
+  id?: string
   updateCoordinates: (coordinates: Coordinates) => void
   className?: string
 }) {
@@ -45,6 +47,7 @@ export default function AddressInput({
     <div className={cn("", className)}>
       <div className="flex gap-2">
         <Input
+          id={id}
           ref={ref}
           name={name}
           value={value}
@@ -54,7 +57,12 @@ export default function AddressInput({
           data-1p-ignore
         />
         {!disabled && (
-          <Button variant="secondary" onClick={onClick} disabled={isLoading}>
+          <Button
+            variant="secondary"
+            onClick={onClick}
+            disabled={isLoading}
+            aria-label="Lookup Address"
+          >
             {isLoading ? (
               <Spinner className="h-4 w-4" variant="pinwheel" />
             ) : (

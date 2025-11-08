@@ -22,7 +22,9 @@ function App() {
   >(undefined)
 
   if (!account.$isLoaded) {
-    return <>Error loading data</>
+    return account.$jazz.loadingState !== "loading" ? (
+      <>Error loading data</>
+    ) : null
   }
 
   const fallbackColors = ["#0081A7", "#459f00", "#FED9B7", "#F07167"]
