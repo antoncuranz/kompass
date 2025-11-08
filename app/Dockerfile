@@ -1,0 +1,18 @@
+FROM node:lts-alpine AS builder
+
+WORKDIR /build
+
+COPY package*.json ./
+RUN npm ci
+
+COPY . .
+RUN npm run build
+
+FROM nginx:stable-alpine
+
+COPY --from=builder /build/dist /usr/share/nginx/html
+
+COPY docker-entrypoint.sh /docker-entrypoint.d/40-substitute-env.sh
+RUN chmod +x /docker-entrypoint.d/40-substitute-env.sh
+
+EXPOSE 80

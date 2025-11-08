@@ -1,11 +1,11 @@
-name: Build and Push Frontend
+name: Build and Push App
 
 on:
   push:
     branches:
       - main
     paths:
-      - frontend/**
+      - app/**
 
 jobs:
   build:
@@ -22,9 +22,9 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ github.token }}
 
-      - name: Build and push frontend
+      - name: Build and push app
         uses: docker/build-push-action@v6
         with:
-          context: frontend
+          context: app
           push: true
-          tags: ghcr.io/antoncuranz/kompass/frontend:latest
+          tags: ghcr.io/antoncuranz/kompass/app:latest
