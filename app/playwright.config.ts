@@ -15,6 +15,8 @@ export default defineConfig({
   use: {
     baseURL: "http://localhost:3000",
   },
+  snapshotPathTemplate:
+    "{testDir}/{testFileDir}/{testFileName}-snapshots/{arg}{ext}",
 
   projects: [
     {
