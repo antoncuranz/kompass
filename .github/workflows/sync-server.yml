@@ -20,6 +20,7 @@ jobs:
         id: jazz_version
         run: |
           VERSION=$(grep 'ARG JAZZ_VERSION=' sync-server/Dockerfile | sed 's/.*JAZZ_VERSION="\(.*\)"/\1/')
+          echo "found version $VERSION"
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Login to GHCR
