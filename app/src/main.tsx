@@ -8,7 +8,7 @@ import { JazzProvider } from "./components/provider/JazzProvider.tsx"
 import { ThemeProvider } from "./components/provider/ThemeProvider.tsx"
 import { PrivacyProvider } from "./components/provider/PrivacyProvider.tsx"
 
-// Create a new router instance
+// Create a new router instance hallo
 const router = createRouter({
   routeTree,
   defaultPreload: "intent",
