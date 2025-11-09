@@ -1,10 +1,5 @@
 @import "@fontsource/redacted-script" layer(base);
 @import "@fontsource/inconsolata" layer(base);
-@import "../fonts/index.css" layer(base);
-
-* {
-  font-family: "Liberation Sans", "OpenMoji";
-}
 
 @import "tailwindcss";
 @import "tw-animate-css";
