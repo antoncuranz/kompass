@@ -24,6 +24,10 @@ jobs:
         run: npm ci
         working-directory: ./app
 
+      - name: Install jazz-run
+        run: npm install jazz-run
+        working-directory: ./app
+
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
         working-directory: ./app

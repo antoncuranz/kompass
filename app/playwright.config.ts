@@ -46,7 +46,7 @@ export default defineConfig({
     },
     {
       name: "jazz sync-server",
-      command: "npx -y jazz-run sync --version",
+      command: "npx -y jazz-run sync --in-memory",
       stdout: "pipe",
       url: "http://localhost:4200/health",
       reuseExistingServer: !process.env.CI,
