@@ -1,4 +1,4 @@
-name: Build and Push App
+name: Build and Push sync-server
 
 on:
   push:
