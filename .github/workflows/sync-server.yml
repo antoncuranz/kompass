@@ -1,7 +1,10 @@
-name: Build and Push sync-server
+name: Build sync-server
 
 on:
   push:
+    branches: [main]
+    paths: [sync-server/**]
+  pull_request:
     branches: [main]
     paths: [sync-server/**]
 
@@ -13,7 +16,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v5
 
+      - name: Extract JAZZ_VERSION
+        id: jazz_version
+        run: |
+          VERSION=$(grep 'ARG JAZZ_VERSION=' sync-server/Dockerfile | sed 's/.*JAZZ_VERSION="\(.*\)"/\1/')
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
       - name: Login to GHCR
+        if: github.event_name == 'push'
         uses: docker/login-action@v3.6.0
         with:
           registry: ghcr.io
@@ -23,6 +33,8 @@ jobs:
       - name: Build and push app
         uses: docker/build-push-action@v6
         with:
-          context: app
-          push: true
-          tags: ghcr.io/antoncuranz/kompass/sync-server:latest
+          context: sync-server
+          push: ${{ github.event_name == 'push' }}
+          tags: |
+            ghcr.io/antoncuranz/kompass/sync-server:latest
+            ghcr.io/antoncuranz/kompass/sync-server:${{ steps.jazz_version.outputs.version }}
