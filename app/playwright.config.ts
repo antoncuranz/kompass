@@ -40,12 +40,14 @@ export default defineConfig({
     {
       name: "kompass app",
       command: "npm run dev -- -m staging",
+      stdout: "pipe",
       url: "http://localhost:3000",
       reuseExistingServer: !process.env.CI,
     },
     {
       name: "jazz sync-server",
       command: "npx -y jazz-run sync --in-memory",
+      stdout: "pipe",
       url: "http://localhost:4200/health",
       reuseExistingServer: !process.env.CI,
     },
