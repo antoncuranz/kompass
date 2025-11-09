@@ -2,10 +2,8 @@ name: Build and Push Transportation API
 
 on:
   push:
-    branches:
-      - main
-    paths:
-      - transportation-api/**
+    branches: [main]
+    paths: [sync-transportation-api/**]
 
 jobs:
   build:

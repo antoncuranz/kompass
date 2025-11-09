@@ -2,10 +2,8 @@ name: Build and Push sync-server
 
 on:
   push:
-    branches:
-      - main
-    paths:
-      - sync-server/**
+    branches: [main]
+    paths: [sync-server/**]
 
 jobs:
   build:

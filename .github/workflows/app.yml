@@ -2,10 +2,8 @@ name: Build and Push App
 
 on:
   push:
-    branches:
-      - main
-    paths:
-      - app/**
+    branches: [main]
+    paths: [app/**]
 
 jobs:
   build:
