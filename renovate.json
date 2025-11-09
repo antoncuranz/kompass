@@ -13,7 +13,7 @@
     {
       "description": "Process annotated dependencies",
       "customType": "regex",
-      "managerFilePatterns": ["Dockerfile"],
+      "managerFilePatterns": ["/Dockerfile/"],
       "matchStrings": [
         // # renovate: datasource=github-releases depName=k3s-io/k3s
         // k3s_release_version: &version v1.29.0+k3s1
@@ -24,15 +24,6 @@
         "datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( repository=(?<registryUrl>\\S+))?\\n.+(:\\s|=)(&\\S+\\s)?(?<currentValue>\\S+)"
       ],
       "datasourceTemplate": "{{#if datasource}}{{{datasource}}}{{else}}github-releases{{/if}}"
-    }
-  ],
-  "regexManagers": [
-    {
-      "fileMatch": ["^sync-server/Dockerfile$"],
-      "matchStrings": [
-        "# renovate: datasource=(?<datasource>[a-z-]+?) depName=(?<depName>.+?)(?: versioning=(?<versioning>[a-z-]+?))?\\s+FROM [a-z]+:(?<currentValue>.+)",
-        "# renovate: datasource=(?<datasource>[a-z-]+?) depName=(?<depName>.+?)(?: versioning=(?<versioning>[a-z-]+?))?\\s+ARG \\w+=\"(?<currentValue>.+?)\""
-      ]
     }
   ]
 }
