@@ -3,10 +3,10 @@ name: Build Transportation API
 on:
   push:
     branches: [main]
-    paths: [sync-transportation-api/**]
+    paths: [transportation-api/**]
   pull_request:
     branches: [main]
-    paths: [sync-transportation-api/**]
+    paths: [transportation-api/**]
 
 jobs:
   build:
