@@ -7,5 +7,6 @@
     ":automergeBranch"
   ],
   "dependencyDashboardTitle": "Renovate Dashboard 🤖",
-  "commitMessageExtra": "from {{{displayFrom}}} to {{{displayTo}}}"
+  "commitMessageExtra": "from {{{displayFrom}}} to {{{displayTo}}}",
+  "ignoreTests": true
 }

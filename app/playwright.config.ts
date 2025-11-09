@@ -43,10 +43,11 @@ export default defineConfig({
       url: "http://localhost:3000",
       reuseExistingServer: !process.env.CI,
     },
-    // {
-    //   name: "jazz sync-server",
-    //   command: "npx jazz-run sync --in-memory",
-    //   reuseExistingServer: !process.env.CI,
-    // },
+    {
+      name: "jazz sync-server",
+      command: "npx jazz-run sync --in-memory",
+      url: "http://localhost:4200/health",
+      reuseExistingServer: !process.env.CI,
+    },
   ],
 })
