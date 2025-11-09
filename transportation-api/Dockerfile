@@ -1,4 +1,4 @@
-# Step 1: Modules caching hallo
+# Step 1: Modules caching
 FROM golang:1.25-alpine as modules
 
 COPY go.mod go.sum /modules/
