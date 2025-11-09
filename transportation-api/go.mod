@@ -10,7 +10,7 @@ tool (
 )
 
 require (
-	cloud.google.com/go v0.122.0
+	cloud.google.com/go v0.123.0
 	github.com/ansrivas/fiberprometheus/v2 v2.14.0
 	github.com/caarlos0/env/v11 v11.3.1
 	github.com/go-faster/errors v0.7.1
