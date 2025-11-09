@@ -24,9 +24,9 @@ require (
 	github.com/stretchr/testify v1.11.1
 	github.com/swaggo/fiber-swagger v1.3.1-0.20250217163408-2de6d674e0ae
 	github.com/swaggo/swag/v2 v2.0.0-rc4
-	github.com/testcontainers/testcontainers-go v0.38.0
-	github.com/wiremock/go-wiremock v1.13.0
-	github.com/wiremock/wiremock-testcontainers-go v1.0.0-alpha-9
+	github.com/testcontainers/testcontainers-go v0.39.0
+	github.com/wiremock/go-wiremock v1.14.0
+	github.com/wiremock/wiremock-testcontainers-go v1.0.1
 	github.com/xnacly/go-iso8601-duration v1.1.0
 )
 
