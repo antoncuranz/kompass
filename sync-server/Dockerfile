@@ -1,10 +1,10 @@
 # syntax=docker/dockerfile:1
 
-ARG NODE_VERSION="22.21.0"
-ARG ALPINE_VERSION="3.21"
+# renovate: datasource=npm depName=jazz-run
 ARG JAZZ_VERSION="0.19.0"
 
-FROM node:${NODE_VERSION}-alpine${ALPINE_VERSION}
+# renovate: datasource=docker depName=node
+FROM node:22.21.0-alpine3.21
 
 ENV \
     NODE_ENV=production
