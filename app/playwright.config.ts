@@ -11,12 +11,10 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
-  reporter: "html",
+  reporter: process.env.CI ? [["github"], ["html"]] : "html",
   use: {
     baseURL: "http://localhost:3000",
   },
-  snapshotPathTemplate:
-    "{testDir}/{testFileDir}/{testFileName}-snapshots/{arg}{ext}",
 
   projects: [
     {
@@ -48,7 +46,9 @@ export default defineConfig({
     },
     {
       name: "jazz sync-server",
-      command: "jazz-run sync --in-memory",
+      command: process.env.CI
+        ? "jazz-run sync --in-memory"
+        : "npx jazz-run sync --in-memory",
       stdout: "pipe",
       url: "http://localhost:4200/health",
       reuseExistingServer: !process.env.CI,
