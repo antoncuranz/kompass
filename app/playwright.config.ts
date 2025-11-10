@@ -7,6 +7,7 @@ export const storageState = path.join(currentDir, "tests/.storageState.json")
 
 export default defineConfig({
   testDir: "./tests",
+  snapshotDir: "./tests/screenshots",
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
