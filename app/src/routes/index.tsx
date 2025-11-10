@@ -37,7 +37,7 @@ function App() {
       to={"/" + sharedTrip.$jazz.id + "/itinerary"}
     >
       <TripCard
-        trip={sharedTrip.trip}
+        trip={sharedTrip.trip} // TODO: sometimes, trip is undefined (race condition?)
         sharedTripId={sharedTrip.$jazz.id}
         className={cardClasses}
         fallbackColor={fallbackColors[idx % fallbackColors.length]}
