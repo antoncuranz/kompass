@@ -1,0 +1,5 @@
+@import "../fonts/index.css" layer(base);
+
+* {
+  font-family: "Liberation Sans", "OpenMoji";
+}

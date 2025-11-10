@@ -23,7 +23,10 @@ RUN \
 
 RUN \
     npm install jazz-run@${JAZZ_VERSION} && \
-    npm cache clean --force
+    npm cache clean --force && \
+    chown -R root:root /app && chmod -R 755 /app
+
+COPY . /
 
 USER nobody:nogroup
 WORKDIR /data
