@@ -7,12 +7,14 @@ export const storageState = path.join(currentDir, "tests/.storageState.json")
 
 export default defineConfig({
   testDir: "./tests",
+  outputDir: "./tests/results",
   snapshotDir: "./tests/screenshots",
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
-  reporter: process.env.CI ? [["github"], ["html"]] : "html",
+  reporter: process.env.CI
+    ? [["github"], ["html", { outputFolder: "./tests/report" }]]
+    : [["html", { outputFolder: "./tests/report" }]],
   use: {
     baseURL: "http://localhost:3000",
   },

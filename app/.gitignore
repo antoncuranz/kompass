@@ -10,8 +10,8 @@ count.txt
 .wrangler
 
 # Playwright
-/test-results/
-/playwright-report/
+/tests/results/
+/tests/report/
 /blob-report/
 /playwright/.cache/
 /playwright/.auth/
