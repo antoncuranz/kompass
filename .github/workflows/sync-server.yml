@@ -31,7 +31,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ github.token }}
 
-      - name: Build and push app
+      - name: Build and push sync-server
         uses: docker/build-push-action@v6
         with:
           context: sync-server
