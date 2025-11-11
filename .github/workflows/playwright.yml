@@ -45,6 +45,7 @@ jobs:
   update-screenshots:
     name: "Update Screenshots"
     runs-on: ubuntu-latest
+    needs: playwright
     environment: manual
 
     steps:
