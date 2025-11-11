@@ -20,6 +20,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
+        with:
+          lfs: "true"
 
       - uses: actions/setup-node@v6
         with:
@@ -39,3 +41,13 @@ jobs:
           name: playwright-report
           path: app/playwright-report/
           retention-days: 30
+
+  update-screenshots:
+    name: "Update Screenshots"
+    runs-on: ubuntu-latest
+    environment: manual
+
+    steps:
+      - name: Update Screenshots
+        run: |
+          echo "Manually approved"
