@@ -5,4 +5,5 @@ ROOT_DIR=/usr/share/nginx/html
 for file in $ROOT_DIR/assets/*.js* $ROOT_DIR/index.html;
 do
   sed -i 's|VITE_MAPLIBRE_STYLE_URL_PLACEHOLDER|'${MAPLIBRE_STYLE_URL}'|g' $file
+  sed -i 's|VITE_JAZZ_SYNC_URL_PLACEHOLDER|'${JAZZ_SYNC_URL}'|g' $file
 done
