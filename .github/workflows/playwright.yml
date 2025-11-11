@@ -39,16 +39,12 @@ jobs:
         if: ${{ !cancelled() }}
         with:
           name: playwright-report
-          path: app/playwright-report/
-          retention-days: 30
+          path: app/tests/report/
+          retention-days: 7
 
-  update-screenshots:
-    name: "Update Screenshots"
-    runs-on: ubuntu-latest
-    needs: playwright
-    environment: manual
-
-    steps:
-      - name: Update Screenshots
-        run: |
-          echo "Manually approved"
+      - uses: actions/upload-artifact@v5
+        if: ${{ !cancelled() }}
+        with:
+          name: test-results
+          path: app/tests/results/
+          retention-days: 7
