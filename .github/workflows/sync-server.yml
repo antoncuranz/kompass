@@ -3,10 +3,10 @@ name: Build sync-server
 on:
   push:
     branches: [main]
-    paths: [sync-server/**]
+    paths: [.github/**, sync-server/**]
   pull_request:
     branches: [main]
-    paths: [sync-server/**]
+    paths: [.github/**, sync-server/**]
 
 jobs:
   build:

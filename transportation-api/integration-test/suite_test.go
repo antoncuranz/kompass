@@ -20,7 +20,7 @@ type IntegrationTestSuite struct {
 func (suite *IntegrationTestSuite) SetupSuite() {
 	port := "8081"
 	wiremockClient, wiremockUrl := util.StartWiremockContainer(suite.T())
-	util.StartBackendSubprocess(suite.T(), wiremockUrl, port)
+	util.StartTransportationAPISubprocess(suite.T(), wiremockUrl, port)
 	suite.wiremock = wiremockClient
 
 	suite.server = fmt.Sprintf("http://127.0.0.1:%s/api/v1", port)

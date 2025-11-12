@@ -3,10 +3,10 @@ name: Build Transportation API
 on:
   push:
     branches: [main]
-    paths: [transportation-api/**]
+    paths: [.github/**, transportation-api/**]
   pull_request:
     branches: [main]
-    paths: [transportation-api/**]
+    paths: [.github/**, transportation-api/**]
 
 jobs:
   test:
@@ -19,11 +19,15 @@ jobs:
       - name: Setup Go
         uses: actions/setup-go@v5
         with:
-          go-version: '1.24'
+          go-version: "1.24"
+
+      - name: Install dependencies
+        working-directory: ./transportation-api
+        run: go get .
 
       - name: Run integration tests
         working-directory: ./transportation-api
-        run: make integration-test
+        run: go test -v ./integration-test/...
 
   build:
     runs-on: ubuntu-latest
