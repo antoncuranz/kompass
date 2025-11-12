@@ -40,11 +40,15 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ github.token }}
 
+      - name: Set outputs
+        id: vars
+        run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
       - name: Build and push transportation-api
         uses: docker/build-push-action@v6
         with:
           context: transportation-api
           push: true
           tags: |
-            ghcr.io/antoncuranz/kompass/transportation-api:${GITHUB_SHA::7}
+            ghcr.io/antoncuranz/kompass/transportation-api:${{ steps.vars.outputs.sha_short }}
             ${{ github.event_name == 'push' && 'ghcr.io/antoncuranz/kompass/transportation-api:latest' || '' }}
