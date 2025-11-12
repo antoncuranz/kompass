@@ -9,15 +9,31 @@ on:
     paths: [transportation-api/**]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
 
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.24'
+
+      - name: Run integration tests
+        working-directory: ./transportation-api
+        run: make integration-test
+
+  build:
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
       - name: Login to GHCR
-        if: github.event_name == 'push'
         uses: docker/login-action@v3.6.0
         with:
           registry: ghcr.io
@@ -28,5 +44,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: transportation-api
-          push: ${{ github.event_name == 'push' }}
-          tags: ghcr.io/antoncuranz/kompass/transportation-api:latest
+          push: true
+          tags: |
+            ghcr.io/antoncuranz/kompass/transportation-api:${{ github.sha }}
+            ${{ github.event_name == 'push' && 'ghcr.io/antoncuranz/kompass/transportation-api:latest' || '' }}
