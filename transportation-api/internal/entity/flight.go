@@ -50,5 +50,5 @@ type AmbiguousFlightChoice struct {
 }
 
 func (e ErrAmbiguousFlightRequest) Error() string {
-	return fmt.Sprint(e)
+	return fmt.Sprint(map[string][]AmbiguousFlightChoice(e))
 }

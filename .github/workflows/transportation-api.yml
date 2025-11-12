@@ -3,30 +3,52 @@ name: Build Transportation API
 on:
   push:
     branches: [main]
-    paths: [transportation-api/**]
+    paths: [.github/**, transportation-api/**]
   pull_request:
     branches: [main]
-    paths: [transportation-api/**]
+    paths: [.github/**, transportation-api/**]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
 
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.24"
+
+      - name: Run integration tests
+        working-directory: ./transportation-api
+        run: go test -v ./integration-test/...
+
+  build:
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
       - name: Login to GHCR
-        if: github.event_name == 'push'
         uses: docker/login-action@v3.6.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ github.token }}
 
+      - name: Set outputs
+        id: vars
+        run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
       - name: Build and push transportation-api
         uses: docker/build-push-action@v6
         with:
           context: transportation-api
-          push: ${{ github.event_name == 'push' }}
-          tags: ghcr.io/antoncuranz/kompass/transportation-api:latest
+          push: true
+          tags: |
+            ghcr.io/antoncuranz/kompass/transportation-api:${{ steps.vars.outputs.sha_short }}
+            ${{ github.event_name == 'push' && 'ghcr.io/antoncuranz/kompass/transportation-api:latest' || '' }}
