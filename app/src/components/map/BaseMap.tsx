@@ -3,6 +3,7 @@ import { Map as MaplibreMap } from "react-map-gl/maplibre"
 import type { MapProps } from "react-map-gl/maplibre"
 import type { Coordinates } from "@/types.ts"
 import RenderAfterMap from "@/components/map/RenderAfterMap.tsx"
+import config from "@/config"
 import "maplibre-gl/dist/maplibre-gl.css"
 
 export default function BaseMap({
@@ -13,13 +14,9 @@ export default function BaseMap({
   children: React.ReactNode | Array<React.ReactNode>
   initialCoordinates?: Coordinates | undefined
 }) {
-  const mapStyle = import.meta.env.VITE_MAPLIBRE_STYLE_URL
-
   return (
     <MaplibreMap
-      mapStyle={
-        mapStyle ?? "https://antoncuranz.github.io/basemaps-assets/streets.json"
-      }
+      mapStyle={config.MAPLIBRE_STYLE_URL}
       projection="globe"
       workerCount={2}
       maxParallelImageRequests={32}

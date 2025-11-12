@@ -1,13 +1,12 @@
 import { JazzReactProvider } from "jazz-tools/react"
 import { UserAccount } from "@/schema"
+import config from "@/config"
 
 export function JazzProvider({ children }: { children: React.ReactNode }) {
-  const syncUrl = import.meta.env.VITE_JAZZ_SYNC_URL
-
   return (
     <JazzReactProvider
       sync={{
-        peer: syncUrl ?? "ws://127.0.0.1:4200",
+        peer: config.JAZZ_SYNC_URL,
         when: "signedUp",
       }}
       guestMode={false}
