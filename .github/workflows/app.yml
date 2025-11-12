@@ -66,5 +66,5 @@ jobs:
           context: app
           push: true
           tags: |
-            ghcr.io/antoncuranz/kompass/app:${{ github.sha }}
+            ghcr.io/antoncuranz/kompass/app:${GITHUB_SHA::7}
             ${{ github.event_name == 'push' && 'ghcr.io/antoncuranz/kompass/app:latest' || '' }}

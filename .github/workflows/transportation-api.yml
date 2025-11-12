@@ -21,10 +21,6 @@ jobs:
         with:
           go-version: "1.24"
 
-      - name: Install dependencies
-        working-directory: ./transportation-api
-        run: go get .
-
       - name: Run integration tests
         working-directory: ./transportation-api
         run: go test -v ./integration-test/...
@@ -50,5 +46,5 @@ jobs:
           context: transportation-api
           push: true
           tags: |
-            ghcr.io/antoncuranz/kompass/transportation-api:${{ github.sha }}
+            ghcr.io/antoncuranz/kompass/transportation-api:${GITHUB_SHA::7}
             ${{ github.event_name == 'push' && 'ghcr.io/antoncuranz/kompass/transportation-api:latest' || '' }}
