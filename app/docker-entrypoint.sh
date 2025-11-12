@@ -1,5 +1,5 @@
 #!/bin/sh
-ROOT_DIR=/usr/share/nginx/html
+ROOT_DIR=/var/www
 
 # Replace env vars in files served by NGINX
 for file in $ROOT_DIR/assets/*.js* $ROOT_DIR/index.html;
