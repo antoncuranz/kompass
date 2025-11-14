@@ -6,7 +6,7 @@ import directionsTubFernsehturmResponse from "./responses/directions-tub-fernseh
 import trainStationBerlinResponse from "./responses/train-station-berlin.json" with { type: "json" }
 import trainStationMunichResponse from "./responses/train-station-munich.json" with { type: "json" }
 import trainBerlinMunichResponse from "./responses/train-berlin-munich.json" with { type: "json" }
-import type { Page } from "@playwright/test"
+import type { Browser, BrowserContext, Page } from "@playwright/test"
 
 export async function signUpWithPasskey(page: Page, name: string) {
   const welcomeDialog = page.getByRole("dialog", {
@@ -284,4 +284,77 @@ export async function createTrain(page: Page) {
 
   await expect(trainEntry).toBeVisible()
   return trainEntry
+}
+
+async function setupVirtualAuthenticator(context: BrowserContext, page: Page) {
+  const cdp = await context.newCDPSession(page)
+  await cdp.send("WebAuthn.enable")
+  await cdp.send("WebAuthn.addVirtualAuthenticator", {
+    options: {
+      protocol: "ctap2",
+      transport: "internal",
+      hasResidentKey: true,
+      hasUserVerification: true,
+      isUserVerified: true,
+    },
+  })
+  return cdp
+}
+
+export async function createBrowserContextWithAuth(
+  browser: Browser,
+  userName: string,
+  options?: { permissions?: string[] },
+) {
+  const context = await browser.newContext({
+    storageState: undefined,
+    ...options,
+  })
+  const page = await context.newPage()
+
+  const cdp = await setupVirtualAuthenticator(context, page)
+
+  await page.goto("/")
+  await signUpWithPasskey(page, userName)
+
+  await cdp.detach()
+
+  return { context, page }
+}
+
+export async function getShareUrl(page: Page): Promise<string> {
+  const shareLink = page.getByRole("link", { name: "Share" })
+  await expect(shareLink).toBeVisible()
+  await shareLink.click()
+
+  await expect(page.getByText("Share Trip")).toBeVisible()
+
+  const shareButton = page.getByRole("button", { name: /Copy Link/ })
+  await expect(shareButton).toBeVisible()
+
+  await page.evaluate(() => navigator.clipboard.writeText(""))
+  await shareButton.click()
+
+  return await page.evaluate(() => navigator.clipboard.readText())
+}
+
+export async function requestAccess(page: Page) {
+  const accessDialog = page.getByRole("dialog", { name: "Unauthorized" })
+  await expect(accessDialog).toBeVisible()
+
+  const requestButton = page.getByRole("button", {
+    name: "Request Access",
+  })
+  await expect(requestButton).toBeVisible()
+  await requestButton.click()
+
+  await expect(page.getByText("Access request pending")).toBeVisible()
+}
+
+export async function approveAccessRequest(page: Page, guestName: string) {
+  await expect(page.getByText("Pending Requests")).toBeVisible()
+  await expect(page.getByText(guestName)).toBeVisible()
+
+  const approveButton = page.getByRole("button", { name: "Approve" })
+  await approveButton.click()
 }

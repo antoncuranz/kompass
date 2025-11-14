@@ -14,7 +14,7 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   reporter: process.env.CI
     ? [["github"], ["html", { outputFolder: "./tests/report" }]]
-    : [["html", { outputFolder: "./tests/report" }]],
+    : [["html", { open: "never", outputFolder: "./tests/report" }]],
   use: {
     baseURL: "http://localhost:3000",
   },
@@ -30,12 +30,29 @@ export default defineConfig({
       testMatch: /global.teardown\.ts/,
     },
     {
-      name: "chromium",
+      name: "desktop",
+      testIgnore: /mobile\.spec\.ts|collaboration\.spec\.ts/,
       use: {
         ...devices["Desktop Chrome"],
         storageState,
       },
       dependencies: ["setup"],
+    },
+    {
+      name: "mobile",
+      testMatch: /mobile\.spec\.ts/,
+      use: {
+        ...devices["iPhone 13"],
+        storageState,
+      },
+      dependencies: ["setup"],
+    },
+    {
+      name: "collaboration",
+      testMatch: /collaboration\.spec\.ts/,
+      use: {
+        ...devices["Desktop Chrome"],
+      },
     },
   ],
 
