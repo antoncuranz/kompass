@@ -1,4 +1,4 @@
-import { useAccount, useCoState } from "jazz-tools/react-core"
+import { useAccount, useCoState, useIsAuthenticated } from "jazz-tools/react"
 import { DialogFooter, DialogHeader, DialogTitle } from "./ui/dialog"
 import { Dialog } from "./dialog/Dialog"
 import { SharedTrip, UserAccount } from "@/schema.ts"
@@ -11,11 +11,13 @@ export default function TripAccessGuard({
   sharedTripId: string
 }) {
   const account = useAccount(UserAccount)
+  const isAuthenticated = useIsAuthenticated()
   const sharedTrip = useCoState(SharedTrip, sharedTripId, {
     resolve: { members: true, admins: true, requests: true },
   })
 
   if (!account.$isLoaded || !sharedTrip.$isLoaded) return null
+  if (!isAuthenticated) return null
 
   const existingRequest =
     sharedTripId in account.root.requests

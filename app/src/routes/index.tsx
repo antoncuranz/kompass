@@ -4,7 +4,7 @@ import { useAccount } from "jazz-tools/react"
 import type { co } from "jazz-tools"
 import type { Trip } from "@/schema"
 import { UserAccount } from "@/schema"
-import { ModeToggle } from "@/components/buttons/ModeToggle"
+import { ProfileMenu } from "@/components/navigation/ProfileMenu"
 import NewTripCard from "@/components/card/NewTripCard"
 import TripCard from "@/components/card/TripCard"
 import TripDialog from "@/components/dialog/TripDialog"
@@ -66,7 +66,7 @@ function App() {
           <Link to="/">
             <strong>🧭 kompass</strong>
           </Link>
-          <ModeToggle />
+          <ProfileMenu />
         </nav>
       </header>
       <main

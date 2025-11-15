@@ -203,7 +203,9 @@ export const AccountRoot = co
 export const UserAccount = co
   .account({
     root: AccountRoot,
-    profile: co.profile(),
+    profile: co.profile({
+      avatar: co.image().optional(),
+    }),
   })
   .withMigration(account => {
     if (!account.$jazz.has("root")) {
