@@ -58,6 +58,7 @@ function ItineraryPage() {
     <Card
       title="Trip Itinerary"
       headerSlot={<AddSomethingDropdown trip={trip} />}
+      testId="itinerary-card"
     >
       <Itinerary trip={trip} dataByDays={processDataAndGroupByDays()} />
     </Card>

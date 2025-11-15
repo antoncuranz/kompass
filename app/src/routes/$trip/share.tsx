@@ -36,6 +36,7 @@ function SharePage() {
     <Card
       title="Share Trip"
       headerSlot={<ShareButton sharedTripId={sharedTrip.$jazz.id} />}
+      testId="share-card"
     >
       <div className="m-2 space-y-2">
         {pendingRequests.length > 0 && (
@@ -139,6 +140,7 @@ function RequestRow({
           variant="default"
           onClick={() => processRequest(true)}
           disabled={isProcessing}
+          aria-label="Approve"
         >
           <Check className="h-4 w-4" />
         </Button>
@@ -147,6 +149,7 @@ function RequestRow({
           variant="destructive"
           onClick={() => processRequest(false)}
           disabled={isProcessing}
+          aria-label="Reject"
         >
           <X className="h-4 w-4" />
         </Button>
