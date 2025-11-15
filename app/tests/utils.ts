@@ -304,7 +304,7 @@ async function setupVirtualAuthenticator(context: BrowserContext, page: Page) {
 export async function createBrowserContextWithAuth(
   browser: Browser,
   userName: string,
-  options?: { permissions?: string[] },
+  options?: { permissions?: Array<string> },
 ) {
   const context = await browser.newContext({
     storageState: undefined,
