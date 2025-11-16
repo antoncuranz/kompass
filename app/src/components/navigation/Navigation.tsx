@@ -3,7 +3,7 @@ import { Link, useLocation } from "@tanstack/react-router"
 import { useCoState } from "jazz-tools/react-core"
 import { ButtonGroup } from "../ui/button-group"
 import { SharedTrip } from "@/schema.ts"
-import { ModeToggle } from "@/components/buttons/ModeToggle.tsx"
+import { ProfileMenu } from "@/components/navigation/ProfileMenu.tsx"
 import { Button } from "@/components/ui/button.tsx"
 import { cn } from "@/lib/utils.ts"
 
@@ -43,7 +43,7 @@ export default function Navigation({ sharedTripId }: { sharedTripId: string }) {
                 : sharedTrip.$jazz.loadingState}
             </Button>
           </ButtonGroup>
-          <ModeToggle className="sm:hidden" />
+          <ProfileMenu className="sm:hidden" />
         </div>
         <div
           className="flex gap-6 lg:gap-8 overflow-x-auto w-full no-scrollbar items-center pl-5 md:pl-6 pr-10"
@@ -77,7 +77,7 @@ export default function Navigation({ sharedTripId }: { sharedTripId: string }) {
           )}
         </div>
         <div className="hidden sm:flex gap-2">
-          <ModeToggle />
+          <ProfileMenu />
         </div>
       </nav>
     </header>

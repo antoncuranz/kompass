@@ -74,6 +74,33 @@ export async function loadTransportation(
   }
 }
 
+async function exportTrip(sharedTrip: co.loaded<typeof SharedTrip>) {
+  const transportation = await Promise.all(
+    sharedTrip.trip.transportation.map(async t => await loadTransportation(t)),
+  )
+  return {
+    id: sharedTrip.$jazz.id,
+    transportation,
+    ...sharedTrip.trip.toJSON(),
+  }
+}
+
+export async function exportUserData(account: co.loaded<typeof UserAccount>) {
+  const trips = await Promise.all(account.root.trips.map(exportTrip))
+
+  return {
+    type: "kompass",
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    account: {
+      id: account.$jazz.id,
+      name: account.profile.name,
+      avatar: account.profile.avatar?.$jazz.id,
+    },
+    trips,
+  }
+}
+
 export function getDepartureDateTime(transportation: Transportation): string {
   switch (transportation.type) {
     case "flight":

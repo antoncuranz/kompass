@@ -1,10 +1,19 @@
 import { zodResolver } from "@hookform/resolvers/zod"
-import { usePasskeyAuth, usePassphraseAuth } from "jazz-tools/react"
+import { createImage } from "jazz-tools/media"
+import {
+  useAccount,
+  useIsAuthenticated,
+  usePasskeyAuth,
+  usePassphraseAuth,
+} from "jazz-tools/react"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
+import { toast } from "sonner"
 import { z } from "zod"
 import wordlist from "../lib/wordlist.ts"
+import { UserAccount } from "@/schema.ts"
 import { Dialog } from "@/components/dialog/Dialog.tsx"
+import { ImageUpload } from "@/components/ImageUpload.tsx"
 import { Button } from "@/components/ui/button.tsx"
 import { DialogHeader, DialogTitle } from "@/components/ui/dialog.tsx"
 import { Form, FormField } from "@/components/ui/form.tsx"
@@ -22,12 +31,33 @@ const loginFormSchema = z.object({
 })
 
 export function Auth() {
+  const isAuthenticated = useIsAuthenticated()
   const passphraseAuth = usePassphraseAuth({ wordlist })
   const passkeyAuth = usePasskeyAuth({
     appName: "kompass",
   })
+  const account = useAccount(UserAccount)
 
   const [passphraseFormShown, setPassphraseFormShown] = useState<boolean>(false)
+  const [profileImage, setProfileImage] = useState<File | null>(null)
+
+  async function handleSignup(name: string) {
+    await passkeyAuth.signUp(name)
+    if (profileImage && account.$isLoaded) {
+      try {
+        await account.profile.$jazz.set(
+          "avatar",
+          await createImage(profileImage, {
+            owner: account.profile.$jazz.owner,
+            progressive: true,
+            placeholder: "blur",
+          }),
+        )
+      } catch (error) {
+        toast.error("Failed to upload profile picture")
+      }
+    }
+  }
 
   const signupForm = useForm<
     z.input<typeof signupFormSchema>,
@@ -64,7 +94,7 @@ export function Auth() {
   }
 
   return (
-    passkeyAuth.state !== "signedIn" && (
+    !isAuthenticated && (
       <Dialog>
         <DialogHeader>
           <DialogTitle>Welcome to kompass!</DialogTitle>
@@ -111,12 +141,15 @@ export function Auth() {
         <Form
           form={signupForm}
           onSubmit={signupForm.handleSubmit(
-            async values => await passkeyAuth.signUp(values.name),
+            async values => await handleSignup(values.name),
           )}
         >
           <h3 className="mx-4 text-lg font-semibold leading-none tracking-tight">
-            Don&apos;t have an account yet?
+            Don't have an account yet?
           </h3>
+          <div className="px-4">
+            <ImageUpload onFileSelect={setProfileImage} />
+          </div>
           <FormField
             control={signupForm.control}
             name="name"
