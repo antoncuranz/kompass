@@ -26,7 +26,7 @@ func Run(cfg *config.Config) {
 	log := logger.New(cfg.Log.Level)
 
 	// Use-Case
-	useCases := createUseCases(cfg)
+	useCases := createUseCases(cfg, log)
 
 	// HTTP Server
 	httpServer := httpserver.New(
@@ -55,9 +55,12 @@ func Run(cfg *config.Config) {
 	}
 }
 
-func createUseCases(cfg *config.Config) usecase.UseCases {
+func createUseCases(cfg *config.Config, log *logger.Logger) usecase.UseCases {
 	ors := openrouteservice.New(cfg.WebApi)
-	optd := opentraveldata.New(cfg.WebApi)
+	optd, err := opentraveldata.New(cfg.WebApi)
+	if err != nil {
+		log.Fatal(fmt.Errorf("app - createUseCases - opentraveldata.New: %w", err))
+	}
 
 	flightsUseCase := flights.New(amadeus.New(cfg.WebApi, optd))
 	trainsUseCase := trains.New(dbvendo.New(cfg.WebApi))

@@ -24,12 +24,15 @@ type OpenTravelData struct {
 	dataDir string
 }
 
-func New(config config.WebApi) *OpenTravelData {
-	dataDir, _ := os.MkdirTemp("", "optd-")
+func New(config config.WebApi) (*OpenTravelData, error) {
+	dataDir, err := os.MkdirTemp("", "optd-")
+	if err != nil {
+		return nil, fmt.Errorf("create temp dir: %w", err)
+	}
 	return &OpenTravelData{
 		baseURL: config.OpenTravelDataBaseURL,
 		dataDir: dataDir,
-	}
+	}, nil
 }
 
 func (a *OpenTravelData) LookupAirport(iata string) (entity.AirportWithTimezone, error) {
