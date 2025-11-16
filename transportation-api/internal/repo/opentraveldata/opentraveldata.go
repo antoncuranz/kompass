@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"path/filepath"
 	"strconv"
 	"strings"
 )
@@ -20,12 +21,18 @@ const airlineDataset = "optd_airline_best_known_so_far.csv"
 
 type OpenTravelData struct {
 	baseURL string
+	dataDir string
 }
 
-func New(config config.WebApi) *OpenTravelData {
+func New(config config.WebApi) (*OpenTravelData, error) {
+	dataDir, err := os.MkdirTemp("", "optd-")
+	if err != nil {
+		return nil, fmt.Errorf("create temp dir: %w", err)
+	}
 	return &OpenTravelData{
 		baseURL: config.OpenTravelDataBaseURL,
-	}
+		dataDir: dataDir,
+	}, nil
 }
 
 func (a *OpenTravelData) LookupAirport(iata string) (entity.AirportWithTimezone, error) {
@@ -150,13 +157,14 @@ func (a *OpenTravelData) DownloadDatasets() error {
 }
 
 func (a *OpenTravelData) accessDataset(dataset string) (*os.File, error) {
-	if _, err := os.Stat(dataset); errors.Is(err, os.ErrNotExist) {
+	filePath := filepath.Join(a.dataDir, dataset)
+	if _, err := os.Stat(filePath); errors.Is(err, os.ErrNotExist) {
 		err := a.downloadDataset(dataset)
 		if err != nil {
 			return nil, fmt.Errorf("download dataset %s: %w", dataset, err)
 		}
 	}
-	return os.Open(dataset)
+	return os.Open(filePath)
 }
 
 func (a *OpenTravelData) downloadDataset(dataset string) error {
@@ -174,7 +182,8 @@ func (a *OpenTravelData) downloadDataset(dataset string) error {
 		return fmt.Errorf("bad status: %s", resp.Status)
 	}
 
-	localFile, err := os.Create(dataset)
+	filePath := filepath.Join(a.dataDir, dataset)
+	localFile, err := os.Create(filePath)
 	if err != nil {
 		return fmt.Errorf("create file: %w", err)
 	}
