@@ -3,7 +3,7 @@ import { createTrip } from "./utils"
 
 test.describe("Mobile", () => {
   test("should navigate to map view", async ({ page }) => {
-    const tripName = "Mobile Map Trip"
+    const tripName = "Mobile Trip"
     await page.goto("/")
     await createTrip(page, tripName)
 
