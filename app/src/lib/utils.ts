@@ -117,10 +117,10 @@ export function getDepartureDateTime(transportation: Transportation): string {
 export function getArrivalDateTime(transportation: Transportation): string {
   switch (transportation.type) {
     case "flight":
-      return transportation.legs[0].arrivalDateTime
+      return transportation.legs[transportation.legs.length - 1].arrivalDateTime
 
     case "train":
-      return transportation.legs[0].arrivalDateTime
+      return transportation.legs[transportation.legs.length - 1].arrivalDateTime
 
     case "generic":
       return transportation.arrivalDateTime
