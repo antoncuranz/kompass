@@ -104,17 +104,22 @@ export default function FlightEntry({
               {flightLeg.aircraft}
             </span>
             <div className="flex float-right">
-              {flight.pnrs.map(pnr => (
-                <PrivacyFilter key={pnr.$jazz.id} className="flex" mode="hide">
-                  <Button
-                    size="sm"
-                    variant="secondary"
-                    className="ml-2 p-2 h-6"
+              {flight.pnrs.$isLoaded &&
+                flight.pnrs.map(pnr => (
+                  <PrivacyFilter
+                    key={pnr.$jazz.id}
+                    className="flex"
+                    mode="hide"
                   >
-                    {pnr.airline} {pnr.pnr}
-                  </Button>
-                </PrivacyFilter>
-              ))}
+                    <Button
+                      size="sm"
+                      variant="secondary"
+                      className="ml-2 p-2 h-6"
+                    >
+                      {pnr.airline} {pnr.pnr}
+                    </Button>
+                  </PrivacyFilter>
+                ))}
               <Button
                 variant="secondary"
                 className="ml-2 p-2 h-6"
