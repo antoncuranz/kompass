@@ -86,7 +86,7 @@ function FlightDialogContent({
   ) {
     if (flightLegs) {
       return flightLegs.map(leg => ({
-        date: dateFromString(trip.startDate),
+        date: dateFromString(leg.amadeusFlightDate ?? leg.departureDateTime),
         flightNumber: leg.flightNumber,
       }))
     }
@@ -99,15 +99,11 @@ function FlightDialogContent({
     ]
   }
 
-  function mapPnrsOrDefault(pnrs: Array<co.loaded<typeof PNR>> | undefined) {
-    if (pnrs) {
-      return pnrs.map(pnr => ({
-        airline: pnr.airline,
-        pnr: pnr.pnr,
-      }))
-    }
-
-    return []
+  function mapPnrsOrDefault(pnrs: Array<co.loaded<typeof PNR>>) {
+    return pnrs.map(pnr => ({
+      airline: pnr.airline,
+      pnr: pnr.pnr,
+    }))
   }
 
   const form = useForm<
@@ -118,7 +114,9 @@ function FlightDialogContent({
     resolver: zodResolver(formSchema),
     defaultValues: {
       legs: mapLegsOrDefault(flight?.legs.filter(isLoaded)),
-      pnrs: mapPnrsOrDefault(flight?.pnrs.filter(isLoaded)),
+      pnrs: mapPnrsOrDefault(
+        flight?.pnrs.$isLoaded ? flight.pnrs.filter(isLoaded) : [],
+      ),
       price: flight?.price ?? undefined,
     },
     disabled: !edit,
@@ -148,11 +146,13 @@ function FlightDialogContent({
     if (response.ok) {
       const responseJson = await response.json()
       if (flight) {
+        const { pnrs, ...rest } = values
         flight.$jazz.applyDiff({
-          ...values,
+          ...rest,
           legs: responseJson.legs,
           geoJson: responseJson.geoJson,
         })
+        if (flight.pnrs.$isLoaded) flight.pnrs.$jazz.applyDiff(pnrs)
       } else {
         trip.transportation.$jazz.push({
           type: "flight",
@@ -285,54 +285,60 @@ function FlightDialogContent({
           </div>
         ))}
 
-        <div className="flex">
-          <h3 className="font-semibold mb-2 grow">PNRs</h3>
-          {edit && (
-            <div>
-              {pnrsArray.fields.length > 0 ? (
-                <Button
-                  aria-label="Delete PNR"
-                  variant="ghost"
-                  className="p-2 h-auto rounded-full"
-                  onClick={() => deletePnr()}
-                >
-                  <Minus className="h-4 w-4" />
-                </Button>
-              ) : (
-                <div />
+        {flight?.pnrs.$isLoaded && (
+          <>
+            <div className="flex">
+              <h3 className="font-semibold mb-2 grow">PNRs</h3>
+              {edit && (
+                <div>
+                  {pnrsArray.fields.length > 0 ? (
+                    <Button
+                      aria-label="Delete PNR"
+                      variant="ghost"
+                      className="p-2 h-auto rounded-full"
+                      onClick={() => deletePnr()}
+                    >
+                      <Minus className="h-4 w-4" />
+                    </Button>
+                  ) : (
+                    <div />
+                  )}
+                  <Button
+                    aria-label="Add PNR"
+                    variant="ghost"
+                    className="p-2 h-auto rounded-full"
+                    onClick={() => addPnr()}
+                  >
+                    <Plus className="w-4 h-4" />
+                  </Button>
+                </div>
               )}
-              <Button
-                aria-label="Add PNR"
-                variant="ghost"
-                className="p-2 h-auto rounded-full"
-                onClick={() => addPnr()}
-              >
-                <Plus className="w-4 h-4" />
-              </Button>
             </div>
-          )}
-        </div>
 
-        {pnrsArray.fields.map((field, index) => (
-          <div key={field.id}>
-            <RowContainer>
-              <FormField
-                control={form.control}
-                name={`pnrs.${index}.airline`}
-                label={`Airline ${pnrsArray.fields.length > 1 ? index + 1 : ""}`}
-                render={({ field }) => <Input placeholder="LH" {...field} />}
-              />
-              <FormField
-                control={form.control}
-                name={`pnrs.${index}.pnr`}
-                label={`PNR ${pnrsArray.fields.length > 1 ? index + 1 : ""}`}
-                render={({ field }) => (
-                  <Input placeholder="123ABC" {...field} />
-                )}
-              />
-            </RowContainer>
-          </div>
-        ))}
+            {pnrsArray.fields.map((field, index) => (
+              <div key={field.id}>
+                <RowContainer>
+                  <FormField
+                    control={form.control}
+                    name={`pnrs.${index}.airline`}
+                    label={`Airline ${pnrsArray.fields.length > 1 ? index + 1 : ""}`}
+                    render={({ field }) => (
+                      <Input placeholder="LH" {...field} />
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name={`pnrs.${index}.pnr`}
+                    label={`PNR ${pnrsArray.fields.length > 1 ? index + 1 : ""}`}
+                    render={({ field }) => (
+                      <Input placeholder="123ABC" {...field} />
+                    )}
+                  />
+                </RowContainer>
+              </div>
+            ))}
+          </>
+        )}
 
         <FormField
           control={form.control}

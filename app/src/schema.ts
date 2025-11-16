@@ -70,7 +70,7 @@ export const Flight = co
   })
   .resolved({
     legs: { $each: FlightLeg.resolveQuery },
-    pnrs: { $each: PNR.resolveQuery },
+    pnrs: { $each: PNR.resolveQuery, $onError: "catch" },
   })
 
 export const TrainStation = co
@@ -172,7 +172,7 @@ export const RequestStatuses = co
 
 export const JoinRequests = co
   .record(z.string(), JoinRequest)
-  .resolved({ $each: JoinRequest.resolveQuery })
+  .resolved({ $each: JoinRequest.resolveQuery, $onError: "catch" })
 
 export const SharedTrip = co
   .map({
