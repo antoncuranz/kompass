@@ -285,7 +285,7 @@ function FlightDialogContent({
           </div>
         ))}
 
-        {flight?.pnrs.$isLoaded && (
+        {(flight === undefined || flight.pnrs.$isLoaded) && (
           <>
             <div className="flex">
               <h3 className="font-semibold mb-2 grow">PNRs</h3>
