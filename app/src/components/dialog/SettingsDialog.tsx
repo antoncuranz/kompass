@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
 import type { co } from "jazz-tools"
-import type { SharedTrip, UserAccount } from "@/schema"
+import { UserAccount } from "@/schema"
 import wordlist from "@/lib/wordlist"
 import { Dialog, useDialogContext } from "@/components/dialog/Dialog"
 import { ImageUpload } from "@/components/ImageUpload"
@@ -17,6 +17,7 @@ import { Form, FormField } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
 import { Spinner } from "@/components/ui/shadcn-io/spinner"
+import { exportUserData } from "@/lib/utils"
 
 const formSchema = z.object({
   name: z.string().nonempty("Required"),
@@ -83,28 +84,9 @@ function SettingsDialogContent({
     })
   }
 
-  function handleExportData() {
+  async function handleExportData() {
     try {
-      const data = {
-        account: {
-          id: account.$jazz.id,
-          profile: {
-            name: account.profile.name,
-            avatar: account.profile.avatar?.$jazz.id,
-          },
-        },
-        trips: account.root.trips.map(
-          (sharedTrip: co.loaded<typeof SharedTrip>) => ({
-            id: sharedTrip.$jazz.id,
-            trip: {
-              name: sharedTrip.trip.name,
-              startDate: sharedTrip.trip.startDate,
-              endDate: sharedTrip.trip.endDate,
-              description: sharedTrip.trip.description,
-            },
-          }),
-        ),
-      }
+      const data = await exportUserData(account)
 
       const blob = new Blob([JSON.stringify(data, null, 2)], {
         type: "application/json",
@@ -120,7 +102,7 @@ function SettingsDialogContent({
 
       toast.success("Data exported")
     } catch (error) {
-      toast.error("Failed to export data")
+      toast.error("Failed to export data: " + error)
     }
   }
 
