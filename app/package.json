@@ -23,7 +23,7 @@
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "jazz-tools": "^0.19.0",
-    "lucide-react": "^0.553.0",
+    "lucide-react": "^0.554.0",
     "maplibre-gl": "^5.10.0",
     "motion": "^12.23.24",
     "react": "^19.2.0",
