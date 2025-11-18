@@ -39,10 +39,11 @@ export function Auth() {
   const account = useAccount(UserAccount)
 
   const [passphraseFormShown, setPassphraseFormShown] = useState<boolean>(false)
+  const [passphraseSignupShown, setPassphraseSignupShown] = useState<boolean>(false)
+  const [generatedPassphrase, setGeneratedPassphrase] = useState<string>("")
   const [profileImage, setProfileImage] = useState<File | null>(null)
 
-  async function handleSignup(name: string) {
-    await passkeyAuth.signUp(name)
+  async function uploadProfileImage() {
     if (profileImage && account.$isLoaded) {
       try {
         await account.profile.$jazz.set(
@@ -57,6 +58,25 @@ export function Auth() {
         toast.error("Failed to upload profile picture")
       }
     }
+  }
+
+  async function handleSignup(name: string) {
+    try {
+      await passkeyAuth.signUp(name)
+      await uploadProfileImage()
+    } catch (error) {
+      setPassphraseSignupShown(true)
+    }
+  }
+
+  async function handleSignupWithPassphrase(name: string) {
+    const passphrase = await passphraseAuth.signUp(name)
+    setGeneratedPassphrase(passphrase)
+    await uploadProfileImage()
+    toast.success("Account created! Save your passphrase:", {
+      description: passphrase,
+      duration: 10000,
+    })
   }
 
   const signupForm = useForm<
@@ -167,6 +187,39 @@ export function Auth() {
               {isSubmitting ? <Spinner variant="pinwheel" /> : "Sign up"}
             </Button>
           </div>
+          {passphraseSignupShown && (
+            <div className="mt-2">
+              <Button
+                type="button"
+                variant="secondary"
+                className="w-full text-base"
+                disabled={isSubmitting}
+                onClick={signupForm.handleSubmit(
+                  async values => await handleSignupWithPassphrase(values.name),
+                )}
+              >
+                {isSubmitting ? (
+                  <Spinner variant="pinwheel" />
+                ) : (
+                  "Sign up with Passphrase"
+                )}
+              </Button>
+            </div>
+          )}
+          {generatedPassphrase && (
+            <div className="mt-4 rounded-md bg-muted p-3">
+              <p className="mb-2 text-sm font-medium">Your Passphrase:</p>
+              <Input
+                value={generatedPassphrase}
+                readOnly
+                className="font-mono text-xs"
+                onClick={(e) => (e.target as HTMLInputElement).select()}
+              />
+              <p className="mt-2 text-xs text-muted-foreground">
+                Save this passphrase securely. You'll need it to log in.
+              </p>
+            </div>
+          )}
         </Form>
       </Dialog>
     )
