@@ -23,8 +23,8 @@ function ItineraryPage() {
         isSameDay(day, act.date),
       )
 
-      const relevantTransportation = transportation.filter(t =>
-        dayIsBetween(day, getDepartureDateTime(t), getArrivalDateTime(t)),
+      const relevantTransportation = transportation.filter(
+        t => dayIsBetween(day, getDepartureDateTime(t), getArrivalDateTime(t)), // TODO: this causes errors sometimes
       )
 
       const relevantAccommodation = trip.accommodation.find(
