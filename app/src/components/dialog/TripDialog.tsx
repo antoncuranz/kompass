@@ -91,6 +91,7 @@ function TripDialogContent({
         activities: [],
         accommodation: [],
         transportation: [],
+        notes: "",
       })
     }
     onClose()

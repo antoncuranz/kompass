@@ -147,11 +147,19 @@ export const Trip = co
     activities: co.list(Activity),
     accommodation: co.list(Accommodation),
     transportation: co.list(Transportation),
+    notes: co.richText(),
+  })
+  .withMigration(trip => {
+    if (!trip.$jazz.has("notes")) {
+      const notes = co.richText().create("", { owner: trip.$jazz.owner })
+      trip.$jazz.set("notes", notes)
+    }
   })
   .resolved({
     activities: { $each: Activity.resolveQuery },
     accommodation: { $each: Accommodation.resolveQuery },
     transportation: { $each: true },
+    notes: true,
   })
 
 // COLLABORATION
