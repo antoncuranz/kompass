@@ -99,6 +99,37 @@ export function Auth() {
         <DialogHeader>
           <DialogTitle>Welcome to kompass!</DialogTitle>
         </DialogHeader>
+        <Form
+          form={signupForm}
+          onSubmit={signupForm.handleSubmit(
+            async values => await handleSignup(values.name),
+          )}
+        >
+          <div className="px-4">
+            <ImageUpload onFileSelect={setProfileImage} />
+          </div>
+          <FormField
+            control={signupForm.control}
+            name="name"
+            label="Name"
+            render={({ field }) => (
+              <Input data-1p-ignore placeholder="" {...field} />
+            )}
+          />
+          <div className="mt-4">
+            <Button
+              type="submit"
+              className="w-full text-base"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? <Spinner variant="pinwheel" /> : "Sign up"}
+            </Button>
+          </div>
+        </Form>
+        <Separator />
+        <h3 className="mx-4 text-lg font-semibold leading-none tracking-tight">
+          Already have an account?
+        </h3>
         <div className="px-4 pt-4">
           <Button
             className="w-full text-base"
@@ -137,37 +168,6 @@ export function Auth() {
             )}
           </Button>
         </div>
-        <Separator />
-        <Form
-          form={signupForm}
-          onSubmit={signupForm.handleSubmit(
-            async values => await handleSignup(values.name),
-          )}
-        >
-          <h3 className="mx-4 text-lg font-semibold leading-none tracking-tight">
-            Don't have an account yet?
-          </h3>
-          <div className="px-4">
-            <ImageUpload onFileSelect={setProfileImage} />
-          </div>
-          <FormField
-            control={signupForm.control}
-            name="name"
-            label="Name"
-            render={({ field }) => (
-              <Input data-1p-ignore placeholder="" {...field} />
-            )}
-          />
-          <div className="mt-4">
-            <Button
-              type="submit"
-              className="w-full text-base"
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? <Spinner variant="pinwheel" /> : "Sign up"}
-            </Button>
-          </div>
-        </Form>
       </Dialog>
     )
   )

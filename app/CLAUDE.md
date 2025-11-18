@@ -18,7 +18,7 @@ npm run format:check     # Check formatting
 
 ### Jazz-tools State Management
 
-**Ref**: https://jazz.tools/llms-full.txt
+When in doubt, **please** consult the docs: https://jazz.tools/llms-full.txt
 
 - CoValue schema in `src/schema.ts` defines all models
 - No store.ts - state fully managed by Jazz
