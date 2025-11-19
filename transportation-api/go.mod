@@ -17,7 +17,7 @@ require (
 	github.com/go-faster/jx v1.2.0
 	github.com/go-playground/validator/v10 v10.28.0
 	github.com/goccy/go-json v0.10.5
-	github.com/gofiber/fiber/v2 v2.52.9
+	github.com/gofiber/fiber/v2 v2.52.10
 	github.com/ogen-go/ogen v1.16.0
 	github.com/paulmach/orb v0.12.0
 	github.com/rs/zerolog v1.34.0
