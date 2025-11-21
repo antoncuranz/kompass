@@ -1,4 +1,4 @@
-# CLAUDE.md
+# AGENTS.md
 
 ## Project Overview
 
@@ -7,18 +7,16 @@ Local-first travel planning PWA using Jazz-tools for state management and collab
 ## Commands
 
 ```bash
-npm run dev              # Dev server with Turbopack
-npm run build            # Production build
-npm start                # Serve built app (npx serve)
-npm run format           # Format with Prettier
-npm run format:check     # Check formatting
+npm run dev    # Dev server with Turbopack
+npm run build  # Production build
+npm run lint   # Run eslint => Always run when finished and fix errors!
 ```
 
 ## Architecture
 
 ### Jazz-tools State Management
 
-When in doubt, **please** consult the docs: https://jazz.tools/llms-full.txt
+In Jazz-specific implementation tasks, **always** consult the documentation in ./jazz-llms.txt
 
 - CoValue schema in `src/schema.ts` defines all models
 - No store.ts - state fully managed by Jazz
