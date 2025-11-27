@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dialog.tsx"
 import { Field, FieldLabel } from "@/components/ui/field.tsx"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group.tsx"
-import { formatDateShort } from "@/components/util.ts"
+import { formatDateShort, formatTimePadded } from "@/components/util.ts"
 import { Dialog } from "@/components/dialog/Dialog"
 
 export default function AmbiguousFlightDialog({
@@ -72,11 +72,6 @@ function AmbiguousFlightDialogContent({
     leg => selectedChoices.get(leg.legIdx) !== undefined,
   )
 
-  const formatDateTime = (dateTime: string) => {
-    const formatted = new Date(dateTime).toLocaleString()
-    return formatted.substring(0, formatted.length - 3) // remove seconds
-  }
-
   return (
     <>
       <DialogHeader>
@@ -125,7 +120,7 @@ function AmbiguousFlightDialogContent({
                               {choice.originIata} → {choice.destinationIata}
                             </span>
                             <span className="text-sm text-muted-foreground">
-                              {formatDateTime(choice.departureDateTime)}
+                              {formatTimePadded(choice.departureDateTime)}
                             </span>
                           </div>
                         </div>

@@ -9,6 +9,7 @@ import NewTripCard from "@/components/card/NewTripCard"
 import TripCard from "@/components/card/TripCard"
 import TripDialog from "@/components/dialog/TripDialog"
 import { Carousel } from "@/components/ui/cards-carousel"
+import { dateFromString } from "@/components/util.ts"
 
 export const Route = createFileRoute("/")({
   component: App,
@@ -35,8 +36,8 @@ function App() {
     return Object.values(loaded.root.tripMap).sort(
       (a: co.loaded<typeof SharedTrip>, b: co.loaded<typeof SharedTrip>) => {
         return (
-          new Date(b.trip.startDate).getTime() -
-          new Date(a.trip.startDate).getTime()
+          dateFromString(b.trip.startDate).getTime() -
+          dateFromString(a.trip.startDate).getTime()
         )
       },
     )
