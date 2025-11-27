@@ -2,7 +2,7 @@ import { Link, createFileRoute } from "@tanstack/react-router"
 import { useState } from "react"
 import { useAccount } from "jazz-tools/react"
 import type { co } from "jazz-tools"
-import type { Trip } from "@/schema"
+import type { SharedTrip, Trip } from "@/schema"
 import { UserAccount } from "@/schema"
 import { ProfileMenu } from "@/components/navigation/ProfileMenu"
 import NewTripCard from "@/components/card/NewTripCard"
@@ -31,7 +31,18 @@ function App() {
   const cardClasses =
     "aspect-3/5 min-h-[20rem] sm:min-h-[26rem] h-[calc(100vh-20rem)] md:h-[calc(100vh-26rem)] max-h-160"
 
-  const cards = account.root.trips.map((sharedTrip, idx) => (
+  function sortedTrips(loaded: co.loaded<typeof UserAccount>) {
+    return Object.values(loaded.root.tripMap).sort(
+      (a: co.loaded<typeof SharedTrip>, b: co.loaded<typeof SharedTrip>) => {
+        return (
+          new Date(b.trip.startDate).getTime() -
+          new Date(a.trip.startDate).getTime()
+        )
+      },
+    )
+  }
+
+  const cards = sortedTrips(account).map((sharedTrip: any, idx) => (
     <Link
       key={sharedTrip.$jazz.id}
       to={"/" + sharedTrip.$jazz.id + "/itinerary"}
