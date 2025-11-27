@@ -4,19 +4,24 @@
 
 Local-first travel planning PWA using Jazz-tools for state management and collaboration. Transportation microservice in `../transportation-api` provides flight/train lookup and geocoding.
 
+## Guidelines
+
+- never use @ts-ignore comments, fix the real problem
+- make sure there are no eslint errors when done with implementation
+
 ## Commands
 
 ```bash
 npm run dev    # Dev server with Turbopack
 npm run build  # Production build
-npm run lint   # Run eslint => Always run when finished and fix errors!
+npm run lint   # Run eslint
 ```
 
 ## Architecture
 
 ### Jazz-tools State Management
 
-In Jazz-specific implementation tasks, **always** consult the documentation in ./jazz-llms.txt
+In Jazz-specific implementation tasks, make sure to consult the jazz-tools documentation using context7 mcp.
 
 - CoValue schema in `src/schema.ts` defines all models
 - No store.ts - state fully managed by Jazz
@@ -36,7 +41,6 @@ In Jazz-specific implementation tasks, **always** consult the documentation in .
 
 - Forms: react-hook-form + Zod schemas
 - UI: basecn components (shadcn based on BaseUI) + Tailwind 4 (PostCSS-based)
-  - **Ref**: https://basecn.dev/llms.txt
 - Maps: Mapbox/MapLibre GL
 
 ### Transportation Model
