@@ -8,13 +8,15 @@ Local-first travel planning PWA using Jazz-tools for state management and collab
 
 - never use @ts-ignore comments, fix the real problem
 - make sure there are no eslint errors when done with implementation
+- never use 'any'
 
 ## Commands
 
 ```bash
-npm run dev    # Dev server with Turbopack
-npm run build  # Production build
-npm run lint   # Run eslint
+npm run dev         # Dev server with Turbopack
+npm run build       # Production build
+npm run lint        # Run eslint
+npx playwright test # Run tests
 ```
 
 ## Architecture

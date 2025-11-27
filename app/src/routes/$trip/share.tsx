@@ -15,6 +15,7 @@ import {
   SelectValue,
 } from "@/components/ui/select.tsx"
 import { approveJoinRequest, rejectJoinRequest } from "@/lib/collaboration.ts"
+import { formatDateShort } from "@/components/util.ts"
 import ShareButton from "@/components/buttons/ShareButton"
 import { useSharedTrip } from "@/components/provider/TripProvider"
 
@@ -117,7 +118,7 @@ function RequestRow({
             : "Unknown"}
         </p>
         <p className="text-xs text-muted-foreground">
-          Requested {new Date(request.requestedAt).toLocaleDateString()}
+          Requested {formatDateShort(request.requestedAt)}
         </p>
       </div>
       <div className="flex items-center gap-2">

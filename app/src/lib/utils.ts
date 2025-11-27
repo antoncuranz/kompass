@@ -50,7 +50,7 @@ export function createNewTrip(
     publicGroup,
   )
 
-  account.root.trips.$jazz.push(sharedTrip)
+  account.root.tripMap.$jazz.set(sharedTrip.$jazz.id, sharedTrip)
 }
 
 export async function loadTransportation(
@@ -86,7 +86,9 @@ async function exportTrip(sharedTrip: co.loaded<typeof SharedTrip>) {
 }
 
 export async function exportUserData(account: co.loaded<typeof UserAccount>) {
-  const trips = await Promise.all(account.root.trips.map(exportTrip))
+  const trips = await Promise.all(
+    Object.values(account.root.tripMap).map(exportTrip),
+  )
 
   return {
     type: "kompass",

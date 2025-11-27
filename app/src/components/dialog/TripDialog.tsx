@@ -102,7 +102,7 @@ function TripDialogContent({
       return
     }
 
-    account.root.trips.$jazz.remove(st => st.trip.$jazz.id == trip.$jazz.id)
+    account.root.tripMap.$jazz.delete(trip.$jazz.id)
     // TODO: think about revoking access
     onClose()
   }

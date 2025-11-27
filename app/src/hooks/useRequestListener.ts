@@ -8,7 +8,7 @@ export function useRequestListener() {
     resolve: {
       root: {
         requests: { $each: true },
-        trips: true,
+        tripMap: true,
       },
     },
   })
@@ -17,7 +17,7 @@ export function useRequestListener() {
     if (!account.$isLoaded) return
 
     const requests = account.root.requests
-    const trips = account.root.trips
+    const tripMap = account.root.tripMap
 
     async function processRequests() {
       for (const [sharedTripId, request] of Object.entries(requests)) {
@@ -28,12 +28,8 @@ export function useRequestListener() {
 
           if (!sharedTrip.$isLoaded) continue
 
-          const alreadyAdded = trips.some(
-            trip => trip.$jazz.id === sharedTripId,
-          )
-
-          if (!alreadyAdded) {
-            trips.$jazz.push(sharedTrip)
+          if (!(sharedTripId in tripMap)) {
+            tripMap.$jazz.set(sharedTripId, sharedTrip)
             toast.success(`"${sharedTrip.trip.name}" added to your trips`)
           }
 
