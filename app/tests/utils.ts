@@ -16,7 +16,7 @@ export async function signUpWithPasskey(page: Page, name: string) {
   await expect(welcomeDialog).toBeVisible()
 
   await page.getByRole("textbox", { name: "Name" }).fill(name)
-  await page.getByRole("button", { name: "Sign up" }).click()
+  await page.getByRole("button", { name: "Sign up", exact: true }).click()
 
   await expect(welcomeDialog).toBeHidden()
 }
