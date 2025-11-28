@@ -128,3 +128,20 @@ export function getArrivalDateTime(transportation: Transportation): string {
       return transportation.arrivalDateTime
   }
 }
+
+export function getTransportationName(transportation: Transportation): string {
+  switch (transportation.type) {
+    case "flight": {
+      const firstLeg = transportation.legs[0]
+      const lastLeg = transportation.legs[transportation.legs.length - 1]
+      return `Flight ${firstLeg.flightNumber} from ${firstLeg.origin.municipality} to ${lastLeg.destination.municipality}${transportation.legs.length > 1 ? ` (+${transportation.legs.length - 1})` : ""}`
+    }
+    case "train": {
+      const firstLeg = transportation.legs[0]
+      const lastLeg = transportation.legs[transportation.legs.length - 1]
+      return `Train ${firstLeg.lineName} from ${firstLeg.origin.name} to ${lastLeg.destination.name}${transportation.legs.length > 1 ? ` (+${transportation.legs.length - 1})` : ""}`
+    }
+    case "generic":
+      return transportation.name
+  }
+}

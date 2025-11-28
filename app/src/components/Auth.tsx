@@ -41,8 +41,7 @@ export function Auth() {
   const [passphraseFormShown, setPassphraseFormShown] = useState<boolean>(false)
   const [profileImage, setProfileImage] = useState<File | null>(null)
 
-  async function handleSignup(name: string) {
-    await passkeyAuth.signUp(name)
+  async function uploadProfileImage() {
     if (profileImage && account.$isLoaded) {
       try {
         await account.profile.$jazz.set(
@@ -57,6 +56,16 @@ export function Auth() {
         toast.error("Failed to upload profile picture")
       }
     }
+  }
+
+  async function handleSignup(name: string) {
+    await passkeyAuth.signUp(name)
+    await uploadProfileImage()
+  }
+
+  async function handlePassphraseSignup(name: string) {
+    await passphraseAuth.signUp(name)
+    await uploadProfileImage()
   }
 
   const signupForm = useForm<
@@ -124,6 +133,23 @@ export function Auth() {
             >
               {isSubmitting ? <Spinner variant="pinwheel" /> : "Sign up"}
             </Button>
+            {import.meta.env.DEV && (
+              <Button
+                type="button"
+                variant="secondary"
+                className="w-full text-base mt-2"
+                disabled={isSubmitting}
+                onClick={signupForm.handleSubmit(async values =>
+                  handlePassphraseSignup(values.name),
+                )}
+              >
+                {isSubmitting ? (
+                  <Spinner variant="pinwheel" />
+                ) : (
+                  "Sign up with Passphrase"
+                )}
+              </Button>
+            )}
           </div>
         </Form>
         <Separator />

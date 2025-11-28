@@ -16,6 +16,7 @@ import { Route as TripShareRouteImport } from './routes/$trip/share'
 import { Route as TripNotesRouteImport } from './routes/$trip/notes'
 import { Route as TripMapRouteImport } from './routes/$trip/map'
 import { Route as TripItineraryRouteImport } from './routes/$trip/itinerary'
+import { Route as TripCostRouteImport } from './routes/$trip/cost'
 
 const TripRoute = TripRouteImport.update({
   id: '/$trip',
@@ -52,10 +53,16 @@ const TripItineraryRoute = TripItineraryRouteImport.update({
   path: '/itinerary',
   getParentRoute: () => TripRoute,
 } as any)
+const TripCostRoute = TripCostRouteImport.update({
+  id: '/cost',
+  path: '/cost',
+  getParentRoute: () => TripRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$trip': typeof TripRouteWithChildren
+  '/$trip/cost': typeof TripCostRoute
   '/$trip/itinerary': typeof TripItineraryRoute
   '/$trip/map': typeof TripMapRoute
   '/$trip/notes': typeof TripNotesRoute
@@ -64,6 +71,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/$trip/cost': typeof TripCostRoute
   '/$trip/itinerary': typeof TripItineraryRoute
   '/$trip/map': typeof TripMapRoute
   '/$trip/notes': typeof TripNotesRoute
@@ -74,6 +82,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/$trip': typeof TripRouteWithChildren
+  '/$trip/cost': typeof TripCostRoute
   '/$trip/itinerary': typeof TripItineraryRoute
   '/$trip/map': typeof TripMapRoute
   '/$trip/notes': typeof TripNotesRoute
@@ -85,6 +94,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/$trip'
+    | '/$trip/cost'
     | '/$trip/itinerary'
     | '/$trip/map'
     | '/$trip/notes'
@@ -93,6 +103,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/$trip/cost'
     | '/$trip/itinerary'
     | '/$trip/map'
     | '/$trip/notes'
@@ -102,6 +113,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/$trip'
+    | '/$trip/cost'
     | '/$trip/itinerary'
     | '/$trip/map'
     | '/$trip/notes'
@@ -165,10 +177,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TripItineraryRouteImport
       parentRoute: typeof TripRoute
     }
+    '/$trip/cost': {
+      id: '/$trip/cost'
+      path: '/cost'
+      fullPath: '/$trip/cost'
+      preLoaderRoute: typeof TripCostRouteImport
+      parentRoute: typeof TripRoute
+    }
   }
 }
 
 interface TripRouteChildren {
+  TripCostRoute: typeof TripCostRoute
   TripItineraryRoute: typeof TripItineraryRoute
   TripMapRoute: typeof TripMapRoute
   TripNotesRoute: typeof TripNotesRoute
@@ -177,6 +197,7 @@ interface TripRouteChildren {
 }
 
 const TripRouteChildren: TripRouteChildren = {
+  TripCostRoute: TripCostRoute,
   TripItineraryRoute: TripItineraryRoute,
   TripMapRoute: TripMapRoute,
   TripNotesRoute: TripNotesRoute,
