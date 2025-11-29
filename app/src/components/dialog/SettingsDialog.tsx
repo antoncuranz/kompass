@@ -124,10 +124,7 @@ function SettingsDialogContent({
       <Form form={form} onSubmit={form.handleSubmit(handleUpdateProfile)}>
         <ImageUpload
           onFileSelect={setProfileImage}
-          currentImageId={
-            profileImage === null ? undefined : account.profile.avatar?.$jazz.id
-          }
-          currentImageName={account.profile.name}
+          accountId={account.$jazz.id}
         />
 
         <FormField

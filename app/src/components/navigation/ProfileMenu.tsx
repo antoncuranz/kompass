@@ -14,7 +14,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Avatar } from "@/components/ui/avatar"
+import { Avatar } from "@/components/Avatar"
 import { titleCase } from "@/components/util"
 import { cn } from "@/lib/utils"
 
@@ -48,10 +48,7 @@ export function ProfileMenu({ className }: { className?: string }) {
         }
         className={className}
       >
-        <Avatar
-          imageId={account.profile.avatar?.$jazz.id}
-          name={account.profile.name}
-        />
+        <Avatar accountId={account.$jazz.id} />
         <span className="sr-only">Open profile menu</span>
       </DropdownMenuTrigger>
       <DropdownMenuPositioner align="end">

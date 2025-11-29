@@ -1,15 +1,23 @@
-import { Image } from "jazz-tools/react"
+import { Image, useCoState } from "jazz-tools/react"
+import { UserAccount } from "@/schema"
 import { cn } from "@/lib/utils"
 
 export function Avatar({
-  imageId,
-  name,
+  accountId,
   className,
 }: {
-  imageId?: string
-  name?: string
+  accountId?: string
   className?: string
 }) {
+  const account = useCoState(UserAccount, accountId, {
+    resolve: { profile: true },
+  })
+
+  if (!account.$isLoaded) return null
+
+  const imageId = account.profile.avatar?.$jazz.id
+  const name = account.profile.name
+
   const getInitials = (name?: string) => {
     if (!name) return "?"
     const parts = name.trim().split(/\s+/)
