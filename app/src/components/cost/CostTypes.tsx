@@ -1,12 +1,7 @@
-import type {
-  Accommodation,
-  Activity,
-  Transportation,
-  Trip,
-} from "@/schema.ts"
+import type { Accommodation, Activity, Transportation, Trip } from "@/schema.ts"
 import type { co } from "jazz-tools"
 import { getDepartureDateTime, getTransportationName } from "@/lib/utils"
-import { formatDateShort, dateFromString } from "@/components/util.ts"
+import { dateFromString, formatDateShort } from "@/components/util.ts"
 
 type ActivityWithPrice = {
   type: "activity"
@@ -37,13 +32,15 @@ export type CostItem =
   | AccommodationWithPrice
   | TransportationWithPrice
 
-
-export function createCostItems(trip: co.loaded<typeof Trip>, transportation: Transportation[]): {
-  activities: CostItem[]
-  accommodations: CostItem[]
-  transportations: CostItem[]
+export function createCostItems(
+  trip: co.loaded<typeof Trip>,
+  transportation: Array<Transportation>,
+): {
+  activities: Array<CostItem>
+  accommodations: Array<CostItem>
+  transportations: Array<CostItem>
 } {
-  const activities: CostItem[] = trip.activities.map(activity => ({
+  const activities: Array<CostItem> = trip.activities.map(activity => ({
     type: "activity",
     item: activity,
     name: activity.name,
@@ -51,7 +48,7 @@ export function createCostItems(trip: co.loaded<typeof Trip>, transportation: Tr
     price: activity.price,
   }))
 
-  const accommodations: CostItem[] = trip.accommodation.map(acc => {
+  const accommodations: Array<CostItem> = trip.accommodation.map(acc => {
     const nights = Math.round(
       (dateFromString(acc.departureDate).getTime() -
         dateFromString(acc.arrivalDate).getTime()) /
@@ -66,7 +63,7 @@ export function createCostItems(trip: co.loaded<typeof Trip>, transportation: Tr
     }
   })
 
-  const transportations: CostItem[] = transportation.map(t => ({
+  const transportations: Array<CostItem> = transportation.map(t => ({
     type: "transportation",
     item: t,
     name: getTransportationName(t),
@@ -78,16 +75,17 @@ export function createCostItems(trip: co.loaded<typeof Trip>, transportation: Tr
 }
 
 export function calculateTotals(
-  activities: CostItem[],
-  accommodations: CostItem[],
-  transportations: CostItem[]
+  activities: Array<CostItem>,
+  accommodations: Array<CostItem>,
+  transportations: Array<CostItem>,
 ): {
   activities: number
   accommodations: number
   transportations: number
   grandTotal: number
 } {
-  const sum = (items: CostItem[]) => items.reduce((s, i) => s + (i.price ?? 0), 0)
+  const sum = (items: Array<CostItem>) =>
+    items.reduce((s, i) => s + (i.price ?? 0), 0)
   const activitiesTotal = sum(activities)
   const accommodationsTotal = sum(accommodations)
   const transportationsTotal = sum(transportations)
@@ -100,14 +98,16 @@ export function calculateTotals(
   }
 }
 
-export function sortCostItems(items: CostItem[]): CostItem[] {
+export function sortCostItems(items: Array<CostItem>): Array<CostItem> {
   return items.sort((a, b) => {
     if (a.type === "activity" && b.type === "activity") {
       return a.date.localeCompare(b.date)
     } else if (a.type === "accommodation" && b.type === "accommodation") {
       return a.item.arrivalDate.localeCompare(b.item.arrivalDate)
     } else if (a.type === "transportation" && b.type === "transportation") {
-      return getDepartureDateTime(a.item).localeCompare(getDepartureDateTime(b.item))
+      return getDepartureDateTime(a.item).localeCompare(
+        getDepartureDateTime(b.item),
+      )
     }
     return 0
   })

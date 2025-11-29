@@ -1,43 +1,44 @@
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableRow,
-} from "@/components/ui/table"
-import { formatAmount } from "@/components/util.ts"
 import type { CostItem } from "./CostTypes.tsx"
+import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table"
+import { formatAmount } from "@/components/util.ts"
 
 interface CostTableProps {
   title: string
-  items: CostItem[]
+  items: Array<CostItem>
   onItemClick: (item: CostItem) => void
   total: number
 }
 
-export default function CostTable({ title, items, onItemClick, total }: CostTableProps) {
+export default function CostTable({
+  title,
+  items,
+  onItemClick,
+  total,
+}: CostTableProps) {
   const hasItems = items.length > 0
 
   if (!hasItems) return null
 
   return (
-    <div className="mb-2 last:mb-0">
-      <h2 className="text-lg font-semibold mb-2 mx-2 mt-2">{title}</h2>
+    <div>
+      <h2 className="text-lg font-semibold m-2">{title}</h2>
       <Table className="table-fixed">
         <TableBody>
           {items.map((item, idx) => (
             <TableRow
-              key={`${item.type}-${idx}`}
-              className={`cursor-pointer hover:bg-muted/50${idx === 0 ? " border-t" : ""}`}
+              key={idx}
+              className="cursor-pointer"
               onClick={() => onItemClick(item)}
             >
               <TableCell className="w-32">{item.date}</TableCell>
-              <TableCell className="min-w-0 flex-1 truncate">{item.name}</TableCell>
-              <TableCell className="text-right w-32">
+              <TableCell className="flex-1 truncate">{item.name}</TableCell>
+              <TableCell className="text-right w-24">
                 {item.price !== undefined ? formatAmount(item.price) : "—"}
               </TableCell>
             </TableRow>
           ))}
-          <TableRow className="font-semibold border-t border-b-0 hover:bg-transparent">
+          <TableRow className="font-semibold hover:bg-transparent">
+            {/* TODO: disable hover without bg-transparent */}
             <TableCell colSpan={2} className="align-top"></TableCell>
             <TableCell className="text-right w-32 align-top">
               {formatAmount(total)}

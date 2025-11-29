@@ -2,20 +2,18 @@ import { useRef, useState } from "react"
 import { toast } from "sonner"
 import { Camera, X } from "lucide-react"
 import type { ChangeEvent } from "react"
-import { Avatar } from "@/components/ui/avatar"
+import { Avatar } from "@/components/Avatar"
 import { cn } from "@/lib/utils"
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024 // 5MB
 
 export function ImageUpload({
   onFileSelect,
-  currentImageId,
-  currentImageName,
+  accountId,
   className,
 }: {
   onFileSelect: (file: File | null) => void
-  currentImageId?: string
-  currentImageName?: string
+  accountId?: string
   className?: string
 }) {
   const inputRef = useRef<HTMLInputElement>(null)
@@ -57,7 +55,7 @@ export function ImageUpload({
     onFileSelect(null)
   }
 
-  const hasImage = previewUrl || currentImageId
+  const hasImage = !!previewUrl
 
   return (
     <div className={cn("flex flex-col items-center gap-2", className)}>
@@ -70,11 +68,7 @@ export function ImageUpload({
               className="h-full w-full object-cover"
             />
           ) : (
-            <Avatar
-              imageId={currentImageId}
-              name={currentImageName}
-              className="h-24 w-24 text-2xl"
-            />
+            <Avatar accountId={accountId} className="h-24 w-24 text-2xl" />
           )}
         </div>
         <div
