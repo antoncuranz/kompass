@@ -4,6 +4,7 @@ import { useCoState } from "jazz-tools/react-core"
 import { ButtonGroup } from "../ui/button-group"
 import { SharedTrip } from "@/schema.ts"
 import { ProfileMenu } from "@/components/navigation/ProfileMenu.tsx"
+import { SyncIndicator } from "@/components/navigation/SyncIndicator.tsx"
 import { Button } from "@/components/ui/button.tsx"
 import { cn } from "@/lib/utils.ts"
 
@@ -43,7 +44,10 @@ export default function Navigation({ sharedTripId }: { sharedTripId: string }) {
                 : sharedTrip.$jazz.loadingState}
             </Button>
           </ButtonGroup>
-          <ProfileMenu className="sm:hidden" />
+          <div className="flex items-center justify-center gap-2 sm:hidden">
+            <SyncIndicator />
+            <ProfileMenu />
+          </div>
         </div>
         <div
           className="flex gap-6 lg:gap-8 overflow-x-auto w-full no-scrollbar items-center pl-5 md:pl-6 pr-10"
@@ -76,7 +80,8 @@ export default function Navigation({ sharedTripId }: { sharedTripId: string }) {
             </Link>
           )}
         </div>
-        <div className="hidden sm:flex gap-2">
+        <div className="hidden sm:flex items-center justify-center gap-2">
+          <SyncIndicator />
           <ProfileMenu />
         </div>
       </nav>
