@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router"
+import { PlaneTakeoff, Plus } from "lucide-react"
 import type { DayRenderData } from "@/types.ts"
 import AddSomethingDropdown from "@/components/buttons/AddSomethingDropdown.tsx"
+import { Button } from "@/components/ui/button.tsx"
 import Card from "@/components/card/Card.tsx"
 import Itinerary from "@/components/itinerary/Itinerary.tsx"
 import { dayIsBetween, getDaysBetween, isSameDay } from "@/components/util.ts"
@@ -55,12 +57,36 @@ function ItineraryPage() {
   }
 
   return (
-    <Card
-      title="Trip Itinerary"
-      headerSlot={<AddSomethingDropdown trip={trip} />}
-      testId="itinerary-card"
-    >
-      <Itinerary trip={trip} dataByDays={processDataAndGroupByDays()} />
-    </Card>
+    <>
+      <Card
+        title="Trip Itinerary"
+        headerSlot={
+          <AddSomethingDropdown
+            trip={trip}
+            trigger={
+              <Button size="sm" className="h-8 gap-1 mt-0 ml-1 self-end">
+                <PlaneTakeoff className="h-3.5 w-3.5" />
+                <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                  Add Entry
+                </span>
+              </Button>
+            }
+          />
+        }
+        testId="itinerary-card"
+      >
+        <Itinerary trip={trip} dataByDays={processDataAndGroupByDays()} />
+      </Card>
+      <div className="fixed bottom-6 right-6 z-50 sm:hidden">
+        <AddSomethingDropdown
+          trip={trip}
+          trigger={
+            <Button size="icon" className="rounded-full h-12 w-12 shadow-lg">
+              <Plus className="size-6" />
+            </Button>
+          }
+        />
+      </div>
+    </>
   )
 }
