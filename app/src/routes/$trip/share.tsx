@@ -1,6 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router"
-import type { co } from "jazz-tools"
-import type { SharedTrip } from "@/schema.ts"
 import Card from "@/components/card/Card.tsx"
 import ShareButton from "@/components/buttons/ShareButton"
 import MemberTable from "@/components/collaboration/MemberTable.tsx"
@@ -51,5 +49,3 @@ function SharePage() {
     </Card>
   )
 }
-
-
