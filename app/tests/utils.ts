@@ -51,7 +51,7 @@ export async function createFlight(page: Page) {
     await route.fulfill({ json: flightResponse })
   })
 
-  const addBtn = page.getByRole("button", { name: /Add Something/ })
+  const addBtn = page.getByRole("button", { name: /Add Entry/ })
   await expect(addBtn).toBeVisible()
   await addBtn.click()
 
@@ -87,7 +87,7 @@ export async function createActivity(page: Page) {
     await route.fulfill({ json: locationTubResponse })
   })
 
-  const addBtn = page.getByRole("button", { name: /Add Something/ })
+  const addBtn = page.getByRole("button", { name: /Add Entry/ })
   await expect(addBtn).toBeVisible()
   await addBtn.click()
 
@@ -127,7 +127,7 @@ export async function createAccommodation(page: Page) {
     await route.fulfill({ json: locationTubResponse })
   })
 
-  const addBtn = page.getByRole("button", { name: /Add Something/ })
+  const addBtn = page.getByRole("button", { name: /Add Entry/ })
   await expect(addBtn).toBeVisible()
   await addBtn.click()
 
@@ -184,7 +184,7 @@ export async function createGenericTransportation(page: Page) {
     await route.fulfill({ json: directionsTubFernsehturmResponse })
   })
 
-  const addBtn = page.getByRole("button", { name: /Add Something/ })
+  const addBtn = page.getByRole("button", { name: /Add Entry/ })
   await expect(addBtn).toBeVisible()
   await addBtn.click()
 
@@ -248,7 +248,7 @@ export async function createTrain(page: Page) {
     await route.fulfill({ json: trainBerlinMunichResponse })
   })
 
-  const addBtn = page.getByRole("button", { name: /Add Something/ })
+  const addBtn = page.getByRole("button", { name: /Add Entry/ })
   await expect(addBtn).toBeVisible()
   await addBtn.click()
 
