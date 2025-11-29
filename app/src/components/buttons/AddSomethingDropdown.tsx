@@ -1,4 +1,3 @@
-import { PlaneTakeoff } from "lucide-react"
 import { useState } from "react"
 import type { Trip } from "@/schema"
 import type { co } from "jazz-tools"
@@ -7,7 +6,6 @@ import ActivityDialog from "@/components/dialog/ActivityDialog"
 import FlightDialog from "@/components/dialog/FlightDialog"
 import TrainDialog from "@/components/dialog/TrainDialog"
 import TransportationDialog from "@/components/dialog/TransportationDialog"
-import { Button } from "@/components/ui/button.tsx"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,8 +16,13 @@ import {
 
 export default function AddSomethingDropdown({
   trip,
+  trigger,
 }: {
   trip: co.loaded<typeof Trip>
+  trigger: React.ReactElement<
+    Record<string, unknown>,
+    string | React.JSXElementConstructor<any>
+  >
 }) {
   const [activityDialogOpen, setActivityDialogOpen] = useState(false)
   const [accommodationDialogOpen, setAccommodationDialogOpen] = useState(false)
@@ -31,14 +34,7 @@ export default function AddSomethingDropdown({
   return (
     <div>
       <DropdownMenu>
-        <DropdownMenuTrigger
-          render={<Button size="sm" className="h-8 gap-1 mt-0 ml-1 self-end" />}
-        >
-          <PlaneTakeoff className="h-3.5 w-3.5" />
-          <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-            Add Something
-          </span>
-        </DropdownMenuTrigger>
+        <DropdownMenuTrigger render={trigger} />
         <DropdownMenuPositioner align="end">
           <DropdownMenuContent>
             <DropdownMenuItem onClick={() => setActivityDialogOpen(true)}>
