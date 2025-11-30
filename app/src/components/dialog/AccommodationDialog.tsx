@@ -4,6 +4,10 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import type { Accommodation, Trip } from "@/schema.ts"
 import type { co } from "jazz-tools"
+import { dateFromString } from "@/components/util.ts"
+import { dateRange, optionalLocation, optionalString } from "@/formschema.ts"
+
+import { calculateDisabledDateRanges } from "@/lib/accommodation-utils.ts"
 import { Dialog, useDialogContext } from "@/components/dialog/Dialog.tsx"
 import AddressInput from "@/components/dialog/input/AddressInput.tsx"
 import AmountInput from "@/components/dialog/input/AmountInput.tsx"
@@ -19,8 +23,6 @@ import { Form, FormField } from "@/components/ui/form"
 import { Input } from "@/components/ui/input.tsx"
 import { Spinner } from "@/components/ui/shadcn-io/spinner"
 import { Textarea } from "@/components/ui/textarea.tsx"
-import { dateFromString } from "@/components/util.ts"
-import { dateRange, optionalLocation, optionalString } from "@/formschema.ts"
 
 const formSchema = z.object({
   name: z.string().nonempty("Required"),
@@ -82,6 +84,11 @@ function AccommodationDialogContent({
   })
   const { isSubmitting } = form.formState
 
+  const disabledRanges = calculateDisabledDateRanges(
+    trip,
+    accommodation?.$jazz.id,
+  )
+
   function onSubmit(values: z.infer<typeof formSchema>) {
     if (accommodation) {
       accommodation.$jazz.applyDiff({
@@ -140,6 +147,7 @@ function AccommodationDialogContent({
               startDate={trip.startDate}
               endDate={trip.endDate}
               min={1}
+              disabledRanges={disabledRanges}
               {...field}
             />
           )}

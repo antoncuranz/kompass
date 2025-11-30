@@ -25,27 +25,29 @@ export default function DateInput({
   endDate,
   mode = "single",
   min,
+  disabledRanges,
 }: ControllerRenderProps<FieldValues, string> & {
   startDate?: string | null
   excludeStartDate?: boolean | null
   endDate?: string | null
   mode?: "single" | "range"
   min?: number
+  disabledRanges?: Array<DateRange>
 }) {
-  function getMatcher(): Matcher | undefined {
+  function getMatchers(): Matcher | Array<Matcher> | undefined {
+    const matchers: Array<Matcher> = []
     const adjustedStartDate = getAdjustedStartDate()
 
-    if (adjustedStartDate && endDate) {
-      return {
-        before: dateFromString(adjustedStartDate),
-        after: dateFromString(endDate),
-      }
-    } else if (adjustedStartDate) {
-      return { before: dateFromString(adjustedStartDate) }
-    } else if (endDate) {
-      return { after: dateFromString(endDate) }
+    if (adjustedStartDate) {
+      matchers.push({ before: dateFromString(adjustedStartDate) })
     }
-    return undefined
+    if (endDate) {
+      matchers.push({ after: dateFromString(endDate) })
+    }
+    if (disabledRanges) {
+      matchers.push(...disabledRanges)
+    }
+    return matchers.length > 0 ? matchers : undefined
   }
 
   function getAdjustedStartDate() {
@@ -102,7 +104,7 @@ export default function DateInput({
               startDate ? dateFromString(getAdjustedStartDate()!) : undefined
             }
             endMonth={endDate ? dateFromString(endDate) : undefined}
-            disabled={getMatcher()}
+            disabled={getMatchers()}
             required={true}
             min={min}
           />

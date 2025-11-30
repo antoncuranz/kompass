@@ -14,6 +14,26 @@ export function dateToString(date: Date) {
   return offsetDate.toISOString().split("T")[0]
 }
 
+export function isSameDayDate(dateA: Date, dateB: Date): boolean {
+  return dateA.getTime() === dateB.getTime()
+}
+
+export function isSameDay(timestampA: string, timestampB: string): boolean {
+  return timestampA.substring(0, 10) == timestampB.substring(0, 10)
+}
+
+export function addDays(date: Date, days: number): Date {
+  const newDate = new Date(date)
+  newDate.setDate(newDate.getDate() + days)
+  return newDate
+}
+
+export function subDays(date: Date, days: number): Date {
+  const newDate = new Date(date)
+  newDate.setDate(newDate.getDate() - days)
+  return newDate
+}
+
 export function getDaysBetween(startDateStr: string, endDateStr: string) {
   const startDate = dateFromString(startDateStr)
   const endDate = dateFromString(endDateStr)
@@ -37,10 +57,6 @@ export function getNextDay(date: string) {
   const nextDay = dateFromString(date)
   nextDay.setDate(nextDay.getDate() + 1)
   return dateToString(nextDay)
-}
-
-export function isSameDay(timestampA: string, timestampB: string) {
-  return timestampA.substring(0, 10) == timestampB.substring(0, 10)
 }
 
 export function dayIsBetween(
