@@ -23,7 +23,7 @@ function NotesEditor({ richText }: { richText: CoRichText }) {
         <div className="relative flex-1">
           <div
             ref={editor.mount}
-            className="ProseMirror pl-6 min-h-[400px] flex-1 overflow-y-auto rounded-md p-4 focus:outline-none"
+            className="ProseMirror min-h-[400px] flex-1 overflow-y-auto rounded-md p-3 focus:outline-none"
             spellCheck={false}
           />
           {!readOnly && (
