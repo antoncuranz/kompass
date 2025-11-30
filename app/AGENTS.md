@@ -16,7 +16,7 @@ Local-first travel planning PWA using Jazz-tools for state management and collab
 npm run dev         # Dev server with Turbopack
 npm run build       # Production build
 npm run lint        # Run eslint
-npx playwright test # Run tests
+npx playwright test # Run E2E tests (only when asked!)
 ```
 
 ## Architecture
