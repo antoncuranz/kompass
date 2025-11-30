@@ -19,6 +19,21 @@ function SharePage() {
   const admins = sharedTrip.admins.getDirectMembers()
   const members = sharedTrip.members.getDirectMembers()
 
+  const allMembers = [
+    ...admins.map(admin => ({
+      id: admin.id,
+      account: admin.account,
+      role: "Admin" as const,
+    })),
+    ...members
+      .filter(member => !admins.some(admin => admin.id === member.id))
+      .map(member => ({
+        id: member.id,
+        account: member.account,
+        role: member.role,
+      })),
+  ]
+
   return (
     <Card
       title="Share Trip"
@@ -30,22 +45,8 @@ function SharePage() {
         requests={pendingRequests}
         sharedTrip={sharedTrip}
       />
-      <MemberTable
-        title="Admins"
-        members={admins.map(admin => ({
-          id: admin.id,
-          account: admin.account,
-          role: admin.role,
-        }))}
-      />
-      <MemberTable
-        title="Members"
-        members={members.map(member => ({
-          id: member.id,
-          account: member.account,
-          role: member.role,
-        }))}
-      />
+
+      <MemberTable title="Members" members={allMembers} />
     </Card>
   )
 }
