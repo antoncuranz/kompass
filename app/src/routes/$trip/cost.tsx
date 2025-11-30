@@ -128,9 +128,9 @@ function CostPage() {
                 totals.transportations > 0) && (
                 <Table className="table-fixed">
                   <TableBody>
-                    <TableRow className="font-bold border-t-2 border-b-0 hover:bg-transparent px-3">
-                      <TableCell colSpan={2} className="align-top">Total</TableCell>
-                      <TableCell className="text-right w-32 align-top">
+                    <TableRow className="font-bold border-t-2 border-b-0 hover:bg-transparent">
+                      <TableCell colSpan={2} className="align-top pl-3">Total</TableCell>
+                      <TableCell className="text-right w-32 align-top pr-3">
                         {formatAmount(totals.grandTotal)}
                       </TableCell>
                     </TableRow>
