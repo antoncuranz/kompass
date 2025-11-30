@@ -33,7 +33,7 @@ export default function RequestTable({
 
   return (
     <div>
-      <h2 className="text-lg font-semibold m-2">{title}</h2>
+      <h2 className="text-lg font-semibold mx-3 my-2">{title}</h2>
       <Table className="table-fixed">
         <TableBody>
           {requests.map(request => (
@@ -80,7 +80,7 @@ function RequestRow({
   return (
     <TableRow className="hover:bg-transparent">
       {/* TODO: disable hover without bg-transparent */}
-      <TableCell className="flex-1 truncate">
+      <TableCell className="flex-1 truncate px-3">
         <div className="flex items-center gap-2">
           <Avatar accountId={request.account.$jazz.id} />
           <div className="flex-1 min-w-0">
@@ -95,7 +95,7 @@ function RequestRow({
           </div>
         </div>
       </TableCell>
-      <TableCell>
+      <TableCell className="px-3">
         <div className="flex justify-end items-center gap-2">
           <Select
             value={selectedRole}
