@@ -6,9 +6,9 @@ import { GripVerticalIcon } from "lucide-react"
 
 export function BlockHandle() {
   return (
-    <BlockHandlePopover className="flex items-center gap-1">
-      <BlockHandleDraggable className="p-1 rounded cursor-grab active:cursor-grabbing">
-        <GripVerticalIcon className="w-4 h-4" />
+    <BlockHandlePopover className="flex items-center gap-1 ml-2">
+      <BlockHandleDraggable className="rounded cursor-grab active:cursor-grabbing">
+        <GripVerticalIcon className="w-4 h-4 text-muted-foreground" />
       </BlockHandleDraggable>
     </BlockHandlePopover>
   )
