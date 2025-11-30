@@ -19,8 +19,8 @@ export default function MemberTable({ title, members }: MemberTableProps) {
       <Table className="table-fixed">
         <TableBody>
           {members.map(member => (
-            <TableRow key={member.id} className="cursor-pointer">
-              <TableCell className="flex-1 truncate px-3">
+            <TableRow key={member.id} className="cursor-pointer px-3">
+              <TableCell className="flex-1 truncate">
                 <div className="flex items-center gap-2">
                   <Avatar accountId={member.account.$jazz.id} />
                   <span className="truncate">
@@ -30,7 +30,7 @@ export default function MemberTable({ title, members }: MemberTableProps) {
                   </span>
                 </div>
               </TableCell>
-              <TableCell className="text-right w-20 px-3">
+              <TableCell className="text-right w-20">
                 {titleCase(member.role)}
               </TableCell>
             </TableRow>

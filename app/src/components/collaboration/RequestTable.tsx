@@ -78,9 +78,9 @@ function RequestRow({
   }
 
   return (
-    <TableRow className="hover:bg-transparent">
+    <TableRow className="hover:bg-transparent px-3">
       {/* TODO: disable hover without bg-transparent */}
-      <TableCell className="flex-1 truncate px-3">
+      <TableCell className="flex-1 truncate">
         <div className="flex items-center gap-2">
           <Avatar accountId={request.account.$jazz.id} />
           <div className="flex-1 min-w-0">
@@ -95,7 +95,7 @@ function RequestRow({
           </div>
         </div>
       </TableCell>
-      <TableCell className="px-3">
+      <TableCell>
         <div className="flex justify-end items-center gap-2">
           <Select
             value={selectedRole}

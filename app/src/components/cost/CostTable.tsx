@@ -27,20 +27,20 @@ export default function CostTable({
           {items.map((item, idx) => (
             <TableRow
               key={idx}
-              className="cursor-pointer"
+              className="cursor-pointer px-3"
               onClick={() => onItemClick(item)}
             >
-              <TableCell className="w-32 px-3">{item.date}</TableCell>
-              <TableCell className="flex-1 truncate px-3">{item.name}</TableCell>
-              <TableCell className="text-right w-24 px-3">
+              <TableCell className="w-32">{item.date}</TableCell>
+              <TableCell className="flex-1 truncate">{item.name}</TableCell>
+              <TableCell className="text-right w-24">
                 {item.price !== undefined ? formatAmount(item.price) : "—"}
               </TableCell>
             </TableRow>
           ))}
-          <TableRow className="font-semibold hover:bg-transparent">
+          <TableRow className="font-semibold hover:bg-transparent px-3">
             {/* TODO: disable hover without bg-transparent */}
-            <TableCell colSpan={2} className="align-top px-3"></TableCell>
-            <TableCell className="text-right w-32 align-top px-3">
+            <TableCell colSpan={2} className="align-top"></TableCell>
+            <TableCell className="text-right w-32 align-top">
               {formatAmount(total)}
             </TableCell>
           </TableRow>
