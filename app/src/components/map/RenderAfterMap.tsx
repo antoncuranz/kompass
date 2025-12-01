@@ -10,7 +10,10 @@ export default function RenderAfterMap({
   const [canRender, setCanRender] = useState(false)
 
   useEffect(() => {
-    map.current?.on("load", () => setCanRender(true))
+    map.current?.on("load", () => {
+      setCanRender(true)
+      console.log("map loaded")
+    })
   }, [map])
 
   return <>{canRender && children}</>

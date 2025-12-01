@@ -6,7 +6,7 @@ import directionsTubFernsehturmResponse from "./responses/directions-tub-fernseh
 import trainStationBerlinResponse from "./responses/train-station-berlin.json" with { type: "json" }
 import trainStationMunichResponse from "./responses/train-station-munich.json" with { type: "json" }
 import trainBerlinMunichResponse from "./responses/train-berlin-munich.json" with { type: "json" }
-import type { Browser, BrowserContext, Page } from "@playwright/test"
+import type { Browser, Page } from "@playwright/test"
 
 export async function signUpWithPasskey(page: Page, name: string) {
   const welcomeDialog = page.getByRole("dialog", {
@@ -351,4 +351,8 @@ export async function approveAccessRequest(page: Page, guestName: string) {
 
   const approveButton = page.getByRole("button", { name: "Approve" })
   await approveButton.click()
+}
+
+export async function waitForMapLoaded(page: Page) {
+  await page.waitForEvent("console", msg => msg.text() === "map loaded")
 }
