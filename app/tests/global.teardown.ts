@@ -1,6 +1,6 @@
 import { unlink } from "node:fs"
-import { test as teardown } from "@playwright/test"
 import { storageState } from "playwright.config"
+import { test as teardown } from "./fixtures"
 
 teardown("cleanup storageState", () => {
   unlink(storageState, function (err) {

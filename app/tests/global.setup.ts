@@ -1,6 +1,7 @@
-import { expect, test as setup } from "@playwright/test"
+import { expect } from "@playwright/test"
 import { storageState } from "playwright.config"
 import { signUpWithPasskey } from "./utils"
+import { test as setup } from "./fixtures"
 
 setup("signup with passkey", async ({ page, context }) => {
   const cdpClient = await context.newCDPSession(page)
