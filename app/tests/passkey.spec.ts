@@ -1,6 +1,5 @@
-import { expect } from "@playwright/test"
+import { test as baseTest, expect } from "@playwright/test"
 import { signUpWithPasskey } from "./utils"
-import { test as baseTest } from "@playwright/test"
 
 const test = baseTest.extend({
   page: async ({ page }, use) => {
@@ -35,7 +34,9 @@ test("signup with passkey", async ({ page, context }) => {
   await page.goto("/")
   await signUpWithPasskey(page, "Playwright")
 
-  await expect(page.getByRole("heading", { name: /Hello Playwright!/ })).toBeVisible()
+  await expect(
+    page.getByRole("heading", { name: /Hello Playwright!/ }),
+  ).toBeVisible()
 
   await expect
     .poll(() => wsCount, {

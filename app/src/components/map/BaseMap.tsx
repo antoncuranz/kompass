@@ -27,7 +27,9 @@ export default function BaseMap({
       }}
       style={{ background: "#04162a" }}
       onIdle={() => {
-        console.log("map idle")
+        if (import.meta.env.MODE !== "production") {
+          console.log("map idle")
+        }
       }}
       {...props}
     >

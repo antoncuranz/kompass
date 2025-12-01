@@ -353,6 +353,11 @@ export async function approveAccessRequest(page: Page, guestName: string) {
   await approveButton.click()
 }
 
-export async function waitForMapIdle(page: Page) {
-  await page.waitForEvent("console", msg => msg.text() === "map idle")
+export async function ensureMapLoaded(page: Page) {
+  const consolePromise = page.waitForEvent(
+    "console",
+    msg => msg.text() === "map idle",
+  )
+  await page.getByRole("region", { name: "Map" }).click()
+  await consolePromise
 }

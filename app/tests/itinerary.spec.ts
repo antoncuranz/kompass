@@ -7,6 +7,7 @@ import {
   createGenericTransportation,
   createTrain,
   createTrip,
+  ensureMapLoaded,
 } from "./utils"
 
 test.describe("Itinerary", () => {
@@ -18,30 +19,35 @@ test.describe("Itinerary", () => {
 
   test("should create flight", async ({ page }) => {
     await createFlight(page)
+    await ensureMapLoaded(page)
 
     await expect(page).toHaveScreenshot()
   })
 
   test("should create activity", async ({ page }) => {
     await createActivity(page)
+    await ensureMapLoaded(page)
 
     await expect(page).toHaveScreenshot()
   })
 
   test("should create accommodation", async ({ page }) => {
     await createAccommodation(page)
+    await ensureMapLoaded(page)
 
     await expect(page).toHaveScreenshot()
   })
 
   test("should create generic transportation", async ({ page }) => {
     await createGenericTransportation(page)
+    await ensureMapLoaded(page)
 
     await expect(page).toHaveScreenshot()
   })
 
   test("should create train", async ({ page }) => {
     await createTrain(page)
+    await ensureMapLoaded(page)
 
     await expect(page).toHaveScreenshot()
   })
