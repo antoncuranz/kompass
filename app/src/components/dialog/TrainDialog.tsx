@@ -68,6 +68,7 @@ function TrainDialogContent({
   train?: co.loaded<typeof Train>
 }) {
   const [edit, setEdit] = useState<boolean>(train == null)
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const { onClose } = useDialogContext()
 
   const form = useForm<
@@ -162,8 +163,12 @@ function TrainDialogContent({
       return
     }
 
-    trip.transportation.$jazz.remove(t => t.$jazz.id == train.$jazz.id)
-    onClose()
+    if (showDeleteConfirm) {
+      trip.transportation.$jazz.remove(t => t.$jazz.id == train.$jazz.id)
+      onClose()
+    } else {
+      setShowDeleteConfirm(true)
+    }
   }
 
   function addLeg() {
@@ -276,11 +281,11 @@ function TrainDialogContent({
         ) : (
           <>
             <Button
-              variant="destructive"
+              variant={showDeleteConfirm ? "destructive" : "secondary"}
               className="w-full"
               onClick={onDeleteButtonClick}
             >
-              Delete
+              {showDeleteConfirm ? "Confirm Delete" : "Delete"}
             </Button>
             <Button
               variant="secondary"

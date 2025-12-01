@@ -59,6 +59,7 @@ function AccommodationDialogContent({
   accommodation?: co.loaded<typeof Accommodation>
 }) {
   const [edit, setEdit] = useState<boolean>(accommodation == null)
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const { onClose } = useDialogContext()
 
   const form = useForm<
@@ -114,8 +115,12 @@ function AccommodationDialogContent({
       return
     }
 
-    trip.accommodation.$jazz.remove(a => a.$jazz.id == accommodation.$jazz.id)
-    onClose()
+    if (showDeleteConfirm) {
+      trip.accommodation.$jazz.remove(a => a.$jazz.id == accommodation.$jazz.id)
+      onClose()
+    } else {
+      setShowDeleteConfirm(true)
+    }
   }
 
   return (
@@ -195,11 +200,11 @@ function AccommodationDialogContent({
         ) : (
           <>
             <Button
-              variant="destructive"
+              variant={showDeleteConfirm ? "destructive" : "secondary"}
               className="w-full"
               onClick={onDeleteButtonClick}
             >
-              Delete
+              {showDeleteConfirm ? "Confirm Delete" : "Delete"}
             </Button>
             <Button
               variant="secondary"

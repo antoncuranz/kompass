@@ -8,7 +8,8 @@
     "serve": "vite preview",
     "lint": "eslint",
     "format": "prettier",
-    "check": "prettier --write . && eslint --fix"
+    "check": "prettier --write . && eslint --fix",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@base-ui-components/react": "^1.0.0-beta.4",
