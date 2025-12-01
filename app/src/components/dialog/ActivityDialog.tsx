@@ -62,6 +62,7 @@ function ActivityDialogContent({
   activity?: co.loaded<typeof Activity>
 }) {
   const [edit, setEdit] = useState<boolean>(activity == null)
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const { onClose } = useDialogContext()
 
   const form = useForm<
@@ -99,8 +100,12 @@ function ActivityDialogContent({
       return
     }
 
-    trip.activities.$jazz.remove(a => a.$jazz.id == activity.$jazz.id)
-    onClose()
+    if (showDeleteConfirm) {
+      trip.activities.$jazz.remove(a => a.$jazz.id == activity.$jazz.id)
+      onClose()
+    } else {
+      setShowDeleteConfirm(true)
+    }
   }
 
   return (
@@ -180,11 +185,11 @@ function ActivityDialogContent({
         ) : (
           <>
             <Button
-              variant="destructive"
+              variant={showDeleteConfirm ? "destructive" : "secondary"}
               className="w-full"
               onClick={onDeleteButtonClick}
             >
-              Delete
+              {showDeleteConfirm ? "Confirm Delete" : "Delete"}
             </Button>
             <Button
               variant="secondary"

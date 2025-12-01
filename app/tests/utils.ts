@@ -6,7 +6,7 @@ import directionsTubFernsehturmResponse from "./responses/directions-tub-fernseh
 import trainStationBerlinResponse from "./responses/train-station-berlin.json" with { type: "json" }
 import trainStationMunichResponse from "./responses/train-station-munich.json" with { type: "json" }
 import trainBerlinMunichResponse from "./responses/train-berlin-munich.json" with { type: "json" }
-import type { Browser, BrowserContext, Page } from "@playwright/test"
+import type { Browser, Page } from "@playwright/test"
 
 export async function signUpWithPasskey(page: Page, name: string) {
   const welcomeDialog = page.getByRole("dialog", {
@@ -17,6 +17,19 @@ export async function signUpWithPasskey(page: Page, name: string) {
 
   await page.getByRole("textbox", { name: "Name" }).fill(name)
   await page.getByRole("button", { name: "Sign up", exact: true }).click()
+
+  await expect(welcomeDialog).toBeHidden()
+}
+
+export async function signUpWithPassphrase(page: Page, name: string) {
+  const welcomeDialog = page.getByRole("dialog", {
+    name: /Welcome to kompass/,
+  })
+
+  await expect(welcomeDialog).toBeVisible()
+
+  await page.getByRole("textbox", { name: "Name" }).fill(name)
+  await page.getByRole("button", { name: "Sign up with Passphrase" }).click()
 
   await expect(welcomeDialog).toBeHidden()
 }
@@ -286,21 +299,6 @@ export async function createTrain(page: Page) {
   return trainEntry
 }
 
-async function setupVirtualAuthenticator(context: BrowserContext, page: Page) {
-  const cdp = await context.newCDPSession(page)
-  await cdp.send("WebAuthn.enable")
-  await cdp.send("WebAuthn.addVirtualAuthenticator", {
-    options: {
-      protocol: "ctap2",
-      transport: "internal",
-      hasResidentKey: true,
-      hasUserVerification: true,
-      isUserVerified: true,
-    },
-  })
-  return cdp
-}
-
 export async function createBrowserContextWithAuth(
   browser: Browser,
   userName: string,
@@ -312,12 +310,8 @@ export async function createBrowserContextWithAuth(
   })
   const page = await context.newPage()
 
-  const cdp = await setupVirtualAuthenticator(context, page)
-
   await page.goto("/")
-  await signUpWithPasskey(page, userName)
-
-  await cdp.detach()
+  await signUpWithPassphrase(page, userName)
 
   return { context, page }
 }
@@ -357,4 +351,13 @@ export async function approveAccessRequest(page: Page, guestName: string) {
 
   const approveButton = page.getByRole("button", { name: "Approve" })
   await approveButton.click()
+}
+
+export async function ensureMapLoaded(page: Page) {
+  const consolePromise = page.waitForEvent(
+    "console",
+    msg => msg.text() === "map idle",
+  )
+  await page.getByRole("region", { name: "Map" }).click()
+  await consolePromise
 }

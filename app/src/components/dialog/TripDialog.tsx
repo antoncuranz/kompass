@@ -53,6 +53,7 @@ function TripDialogContent({
   trip?: co.loaded<typeof Trip>
 }) {
   const [edit, setEdit] = useState<boolean>(trip == undefined)
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const { onClose } = useDialogContext()
 
   const form = useForm<
@@ -102,9 +103,13 @@ function TripDialogContent({
       return
     }
 
-    account.root.tripMap.$jazz.delete(trip.$jazz.id)
-    // TODO: think about revoking access
-    onClose()
+    if (showDeleteConfirm) {
+      account.root.tripMap.$jazz.delete(trip.$jazz.id)
+      // TODO: think about revoking access
+      onClose()
+    } else {
+      setShowDeleteConfirm(true)
+    }
   }
 
   return (
@@ -155,11 +160,11 @@ function TripDialogContent({
         ) : (
           <>
             <Button
-              variant="destructive"
+              variant={showDeleteConfirm ? "destructive" : "secondary"}
               className="w-full"
               onClick={onDeleteButtonClick}
             >
-              Delete
+              {showDeleteConfirm ? "Confirm Delete" : "Delete"}
             </Button>
             <Button
               variant="secondary"

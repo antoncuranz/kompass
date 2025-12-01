@@ -1,9 +1,4 @@
-import path, { dirname } from "node:path"
-import { fileURLToPath } from "node:url"
 import { defineConfig, devices } from "@playwright/test"
-
-const currentDir = dirname(fileURLToPath(import.meta.url))
-export const storageState = path.join(currentDir, "tests/.storageState.json")
 
 export default defineConfig({
   testDir: "./tests",
@@ -21,38 +16,19 @@ export default defineConfig({
 
   projects: [
     {
-      name: "setup",
-      testMatch: /global.setup\.ts/,
-      teardown: "teardown",
-    },
-    {
-      name: "teardown",
-      testMatch: /global.teardown\.ts/,
-    },
-    {
       name: "desktop",
       testIgnore: /mobile\.spec\.ts|collaboration\.spec\.ts/,
-      use: {
-        ...devices["Desktop Chrome"],
-        storageState,
-      },
-      dependencies: ["setup"],
+      use: { ...devices["Desktop Chrome"] },
     },
     {
       name: "mobile",
       testMatch: /mobile\.spec\.ts/,
-      use: {
-        ...devices["iPhone 13"],
-        storageState,
-      },
-      dependencies: ["setup"],
+      use: { ...devices["iPhone 13"] },
     },
     {
       name: "collaboration",
       testMatch: /collaboration\.spec\.ts/,
-      use: {
-        ...devices["Desktop Chrome"],
-      },
+      use: { ...devices["Desktop Chrome"] },
     },
   ],
 

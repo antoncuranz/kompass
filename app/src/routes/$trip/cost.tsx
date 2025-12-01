@@ -8,28 +8,20 @@ import type {
   Train,
 } from "@/schema.ts"
 import type { co } from "jazz-tools"
+import type { CostItem } from "@/components/cost/CostTypes.tsx"
 import AccommodationDialog from "@/components/dialog/AccommodationDialog.tsx"
 import ActivityDialog from "@/components/dialog/ActivityDialog.tsx"
 import FlightDialog from "@/components/dialog/FlightDialog.tsx"
 import TrainDialog from "@/components/dialog/TrainDialog.tsx"
 import TransportationDialog from "@/components/dialog/TransportationDialog.tsx"
 import Card from "@/components/card/Card.tsx"
-import {
-  useTransportation,
-  useTrip,
-} from "@/components/provider/TripProvider"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableRow,
-} from "@/components/ui/table"
+import { useTransportation, useTrip } from "@/components/provider/TripProvider"
+import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table"
 import { formatAmount } from "@/components/util.ts"
 import CostTable from "@/components/cost/CostTable.tsx"
 import {
-  type CostItem,
-  createCostItems,
   calculateTotals,
+  createCostItems,
   sortCostItems,
 } from "@/components/cost/CostTypes.tsx"
 
@@ -42,27 +34,28 @@ interface EmptyStateProps {
 }
 
 function EmptyState({ message = "No cost items yet" }: EmptyStateProps) {
-  return (
-    <div className="text-center text-muted-foreground py-8">
-      {message}
-    </div>
-  )
+  return <div className="text-center text-muted-foreground py-8">{message}</div>
 }
 
 function CostPage() {
   const trip = useTrip()
   const transportation = useTransportation()
 
-  const [activityDialog, setActivityDialog] =
-    useState<co.loaded<typeof Activity> | undefined>(undefined)
-  const [accommodationDialog, setAccommodationDialog] =
-    useState<co.loaded<typeof Accommodation> | undefined>(undefined)
-  const [flightDialog, setFlightDialog] =
-    useState<co.loaded<typeof Flight> | undefined>(undefined)
-  const [trainDialog, setTrainDialog] =
-    useState<co.loaded<typeof Train> | undefined>(undefined)
-  const [transportationDialog, setTransportationDialog] =
-    useState<co.loaded<typeof GenericTransportation> | undefined>(undefined)
+  const [activityDialog, setActivityDialog] = useState<
+    co.loaded<typeof Activity> | undefined
+  >(undefined)
+  const [accommodationDialog, setAccommodationDialog] = useState<
+    co.loaded<typeof Accommodation> | undefined
+  >(undefined)
+  const [flightDialog, setFlightDialog] = useState<
+    co.loaded<typeof Flight> | undefined
+  >(undefined)
+  const [trainDialog, setTrainDialog] = useState<
+    co.loaded<typeof Train> | undefined
+  >(undefined)
+  const [transportationDialog, setTransportationDialog] = useState<
+    co.loaded<typeof GenericTransportation> | undefined
+  >(undefined)
 
   const { activities, accommodations, transportations } = createCostItems(
     trip,
@@ -129,7 +122,9 @@ function CostPage() {
                 <Table className="table-fixed">
                   <TableBody>
                     <TableRow className="font-bold border-t-2 border-b-0 hover:bg-transparent">
-                      <TableCell colSpan={2} className="align-top pl-3">Total</TableCell>
+                      <TableCell colSpan={2} className="align-top pl-3">
+                        Total
+                      </TableCell>
                       <TableCell className="text-right w-32 align-top pr-3">
                         {formatAmount(totals.grandTotal)}
                       </TableCell>

@@ -77,6 +77,7 @@ function TransportationDialogContent({
   transportation?: co.loaded<typeof GenericTransportation>
 }) {
   const [edit, setEdit] = useState<boolean>(transportation == null)
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const { onClose } = useDialogContext()
 
   const form = useForm<
@@ -159,8 +160,12 @@ function TransportationDialogContent({
       return
     }
 
-    trip.transportation.$jazz.remove(a => a.$jazz.id == transportation.$jazz.id)
-    onClose()
+    if (showDeleteConfirm) {
+      trip.transportation.$jazz.remove(a => a.$jazz.id == transportation.$jazz.id)
+      onClose()
+    } else {
+      setShowDeleteConfirm(true)
+    }
   }
 
   return (
@@ -320,11 +325,11 @@ function TransportationDialogContent({
         ) : (
           <>
             <Button
-              variant="destructive"
+              variant={showDeleteConfirm ? "destructive" : "secondary"}
               className="w-full"
               onClick={onDeleteButtonClick}
             >
-              Delete
+              {showDeleteConfirm ? "Confirm Delete" : "Delete"}
             </Button>
             <Button
               variant="secondary"

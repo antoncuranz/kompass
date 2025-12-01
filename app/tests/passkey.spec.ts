@@ -1,8 +1,14 @@
-import { expect, test as setup } from "@playwright/test"
-import { storageState } from "playwright.config"
+import { test as baseTest, expect } from "@playwright/test"
 import { signUpWithPasskey } from "./utils"
 
-setup("signup with passkey", async ({ page, context }) => {
+const test = baseTest.extend({
+  page: async ({ page }, use) => {
+    await page.clock.setFixedTime(new Date("2025-11-01T10:00:00"))
+    await use(page)
+  },
+})
+
+test("signup with passkey", async ({ page, context }) => {
   const cdpClient = await context.newCDPSession(page)
   await cdpClient.send("WebAuthn.enable")
 
@@ -28,14 +34,16 @@ setup("signup with passkey", async ({ page, context }) => {
   await page.goto("/")
   await signUpWithPasskey(page, "Playwright")
 
+  await expect(
+    page.getByRole("heading", { name: /Hello Playwright!/ }),
+  ).toBeVisible()
+
   await expect
     .poll(() => wsCount, {
       message: "make sure state is pushed to sync-server",
       timeout: 5000,
     })
     .toBeGreaterThanOrEqual(3)
-
-  await context.storageState({ path: storageState })
 
   await cdpClient.send("WebAuthn.removeVirtualAuthenticator", {
     authenticatorId: cdpResponse.authenticatorId,
