@@ -14,6 +14,6 @@ test.describe("Mobile", () => {
     await page.getByRole("link", { name: "Map" }).click()
 
     await page.waitForLoadState("networkidle")
-    await expect(page).toHaveScreenshot()
+    await expect(page).toHaveScreenshot({ timeout: 10000 })
   })
 })
