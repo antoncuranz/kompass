@@ -353,6 +353,6 @@ export async function approveAccessRequest(page: Page, guestName: string) {
   await approveButton.click()
 }
 
-export async function waitForMapLoaded(page: Page) {
-  await page.waitForEvent("console", msg => msg.text() === "map loaded")
+export async function waitForMapIdle(page: Page) {
+  await page.waitForEvent("console", msg => msg.text() === "map idle")
 }

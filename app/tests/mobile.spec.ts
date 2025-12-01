@@ -1,6 +1,6 @@
 import { expect } from "@playwright/test"
 import { test } from "./fixtures"
-import { createTrip, waitForMapLoaded } from "./utils"
+import { createTrip, waitForMapIdle } from "./utils"
 
 test.describe("Mobile", () => {
   test("should navigate to map view", async ({ page }) => {
@@ -13,7 +13,7 @@ test.describe("Mobile", () => {
 
     await page.getByRole("link", { name: "Map" }).click()
 
-    await waitForMapLoaded(page)
+    await waitForMapIdle(page)
     await expect(page).toHaveScreenshot()
   })
 })

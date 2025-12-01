@@ -26,6 +26,9 @@ export default function BaseMap({
         zoom: 10,
       }}
       style={{ background: "#04162a" }}
+      onIdle={() => {
+        console.log("map idle")
+      }}
       {...props}
     >
       <RenderAfterMap>{children}</RenderAfterMap>
