@@ -18,7 +18,7 @@ require (
 	github.com/go-playground/validator/v10 v10.28.0
 	github.com/goccy/go-json v0.10.5
 	github.com/gofiber/fiber/v2 v2.52.10
-	github.com/ogen-go/ogen v1.17.0
+	github.com/ogen-go/ogen v1.18.0
 	github.com/paulmach/orb v0.12.0
 	github.com/rs/zerolog v1.34.0
 	github.com/stretchr/testify v1.11.1
