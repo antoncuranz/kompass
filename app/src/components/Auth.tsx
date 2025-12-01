@@ -133,7 +133,7 @@ export function Auth() {
             >
               {isSubmitting ? <Spinner variant="pinwheel" /> : "Sign up"}
             </Button>
-            {import.meta.env.MODE === "development" && (
+            {import.meta.env.MODE !== "production" && (
               <Button
                 type="button"
                 variant="secondary"

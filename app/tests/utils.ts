@@ -21,6 +21,19 @@ export async function signUpWithPasskey(page: Page, name: string) {
   await expect(welcomeDialog).toBeHidden()
 }
 
+export async function signUpWithPassphrase(page: Page, name: string) {
+  const welcomeDialog = page.getByRole("dialog", {
+    name: /Welcome to kompass/,
+  })
+
+  await expect(welcomeDialog).toBeVisible()
+
+  await page.getByRole("textbox", { name: "Name" }).fill(name)
+  await page.getByRole("button", { name: "Sign up with Passphrase" }).click()
+
+  await expect(welcomeDialog).toBeHidden()
+}
+
 export async function createTrip(page: Page, name: string) {
   const newTripCard = page.getByTestId("new-trip-card")
   await expect(newTripCard).toBeVisible()
@@ -286,21 +299,6 @@ export async function createTrain(page: Page) {
   return trainEntry
 }
 
-async function setupVirtualAuthenticator(context: BrowserContext, page: Page) {
-  const cdp = await context.newCDPSession(page)
-  await cdp.send("WebAuthn.enable")
-  await cdp.send("WebAuthn.addVirtualAuthenticator", {
-    options: {
-      protocol: "ctap2",
-      transport: "internal",
-      hasResidentKey: true,
-      hasUserVerification: true,
-      isUserVerified: true,
-    },
-  })
-  return cdp
-}
-
 export async function createBrowserContextWithAuth(
   browser: Browser,
   userName: string,
@@ -312,12 +310,8 @@ export async function createBrowserContextWithAuth(
   })
   const page = await context.newPage()
 
-  const cdp = await setupVirtualAuthenticator(context, page)
-
   await page.goto("/")
-  await signUpWithPasskey(page, userName)
-
-  await cdp.detach()
+  await signUpWithPassphrase(page, userName)
 
   return { context, page }
 }
