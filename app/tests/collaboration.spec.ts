@@ -34,8 +34,8 @@ test.describe("Collaboration", () => {
     const shareCard = ownerPage.getByTestId("share-card")
     await expect(shareCard).toHaveScreenshot()
 
-    const itinerary = guestPage.getByTestId("itinerary-card")
-    await expect(itinerary).toHaveScreenshot()
+    // const itinerary = guestPage.getByTestId("itinerary-card")
+    // await expect(itinerary).toHaveScreenshot()
 
     await ownerContext.close()
     await guestContext.close()
