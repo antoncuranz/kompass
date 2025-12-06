@@ -161,7 +161,9 @@ function TransportationDialogContent({
     }
 
     if (showDeleteConfirm) {
-      trip.transportation.$jazz.remove(a => a.$jazz.id == transportation.$jazz.id)
+      trip.transportation.$jazz.remove(
+        a => a.$jazz.id == transportation.$jazz.id,
+      )
       onClose()
     } else {
       setShowDeleteConfirm(true)

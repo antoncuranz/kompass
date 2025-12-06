@@ -9,7 +9,9 @@ export default function SkeletonCard({
   className?: string
 }) {
   return (
-    <Skeleton className={cn("w-full sm:rounded-3xl sm:border", className)}>
+    <Skeleton
+      className={cn("h-full w-full sm:rounded-3xl sm:border", className)}
+    >
       <div className="flex flex-col h-full sm:p-2 rounded-2xl sm:rounded-3xl">
         {title && (
           <div className="flex flex-row p-3 sm:pb-5">
