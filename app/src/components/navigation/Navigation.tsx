@@ -56,12 +56,12 @@ export default function Navigation({ sharedTripId }: { sharedTripId: string }) {
               "linear-gradient(to right, transparent .0em, black 1em calc(100% - 3em), transparent calc(100% - .0em))",
           }}
         >
-          {["Itinerary", "Notes", "Cost", "Map"].map(page => (
+          {["Itinerary", "Notes", "Cost", "Files", "Map"].map(page => (
             <Link
               key={page.toLowerCase()}
               to={"/" + sharedTripId + "/" + page.toLowerCase()}
               className={
-                pathname.endsWith("/" + page.toLowerCase())
+                pathname.includes("/" + page.toLowerCase())
                   ? activeStyle
                   : inactiveStyle
               }

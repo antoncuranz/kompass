@@ -1,11 +1,34 @@
 import { useEffect, useState } from "react"
 import { createCoValueSubscriptionContext } from "jazz-tools/react"
+import type { ReactNode } from "react"
 import type { Transportation } from "@/schema"
 import { SharedTrip } from "@/schema"
 import { loadTransportation } from "@/lib/utils"
 
-export const { Provider: TripProvider, useSelector: useSharedTrip } =
+const { Provider: JazzTripProvider, useSelector: useSharedTrip } =
   createCoValueSubscriptionContext(SharedTrip, SharedTrip.resolveQuery)
+
+export { useSharedTrip }
+
+export function TripProvider({
+  id,
+  fallback,
+  children,
+}: {
+  id: string
+  fallback: (props: { reason: "loading" | "unavailable" }) => ReactNode
+  children: ReactNode
+}) {
+  return (
+    <JazzTripProvider
+      id={id}
+      loadingFallback={fallback({ reason: "loading" })}
+      unavailableFallback={fallback({ reason: "unavailable" })}
+    >
+      {children}
+    </JazzTripProvider>
+  )
+}
 
 export const useTrip = () => {
   return useSharedTrip({ select: st => st.trip })
