@@ -19,6 +19,10 @@ function RouteComponent() {
     select: location => /\/files\/.+/.test(location.pathname),
   })
 
+  const isMapRoute = useLocation({
+    select: location => location.pathname.endsWith("/map"),
+  })
+
   return (
     <>
       <Navigation sharedTripId={sharedTripId} />
@@ -36,7 +40,11 @@ function RouteComponent() {
             {shouldHideMap ? (
               <Outlet />
             ) : (
-              <TwoCardLayout leftCard={<Outlet />} rightCard={<MapCard />} />
+              <TwoCardLayout
+                leftCard={<Outlet />}
+                rightCard={<MapCard />}
+                primaryCard={isMapRoute ? "right" : "left"}
+              />
             )}
           </TripProvider>
         </MapProvider>

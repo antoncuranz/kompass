@@ -16,14 +16,14 @@ export default function TwoCardLayout({
     <div className="flex h-full gap-4 [&>*]:empty:hidden">
       <div
         className={cn(
-          "flex-1 lg:max-w-3xl lg:min-w-152",
+          "flex-1 lg:max-w-3xl lg:min-w-152 min-w-0",
           primaryCard === "right" && hiddenClasses,
         )}
       >
         {leftCard}
       </div>
 
-      <div className={cn("flex-1", primaryCard === "left" && hiddenClasses)}>
+      <div className={cn("flex-1 min-w-0", primaryCard === "left" && hiddenClasses)}>
         {rightCard}
       </div>
     </div>
