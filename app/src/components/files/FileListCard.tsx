@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router"
 import { Route } from "@/routes/$trip/files"
 import { co } from "jazz-tools"
-import { File as FileIcon, Plus, Upload } from "lucide-react"
+import { File as FileIcon, Link as LinkIcon, Plus, Upload } from "lucide-react"
 import { useRef } from "react"
 import { toast } from "sonner"
 import Card from "@/components/card/Card.tsx"
@@ -91,7 +91,13 @@ export default function FileListCard() {
                       className="flex items-center gap-3 w-full"
                     >
                       <FileIcon className="h-5 w-5 text-muted-foreground shrink-0" />
-                      <span className="truncate">{file.name}</span>
+                      <span className="truncate flex-1">{file.name}</span>
+                      {file.references.length > 0 && (
+                        <span className="flex items-center gap-1 text-xs text-muted-foreground shrink-0">
+                          <LinkIcon className="h-3 w-3" />
+                          {file.references.length}
+                        </span>
+                      )}
                     </Link>
                   </TableCell>
                 </TableRow>

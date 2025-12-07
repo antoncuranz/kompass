@@ -18,6 +18,15 @@ export function cn(...inputs: Array<ClassValue>) {
   return twMerge(clsx(inputs))
 }
 
+export function downloadBlob(blobUrl: string, fileName: string) {
+  const a = document.createElement("a")
+  a.href = blobUrl
+  a.download = fileName
+  document.body.appendChild(a)
+  a.click()
+  document.body.removeChild(a)
+}
+
 export function isLoaded<T extends CoValue>(item: MaybeLoaded<T>): item is T {
   return item.$isLoaded === true
 }
@@ -140,6 +149,25 @@ export function getTransportationName(transportation: Transportation): string {
       const firstLeg = transportation.legs[0]
       const lastLeg = transportation.legs[transportation.legs.length - 1]
       return `Train ${firstLeg.lineName} from ${firstLeg.origin.name} to ${lastLeg.destination.name}${transportation.legs.length > 1 ? ` (+${transportation.legs.length - 1})` : ""}`
+    }
+    case "generic":
+      return transportation.name
+  }
+}
+
+export function getTransportationShortName(
+  transportation: Transportation,
+): string {
+  switch (transportation.type) {
+    case "flight": {
+      const firstLeg = transportation.legs[0]
+      const lastLeg = transportation.legs[transportation.legs.length - 1]
+      return `${firstLeg.origin.iata} → ${lastLeg.destination.iata}`
+    }
+    case "train": {
+      const firstLeg = transportation.legs[0]
+      const lastLeg = transportation.legs[transportation.legs.length - 1]
+      return `${firstLeg.origin.name} → ${lastLeg.destination.name}`
     }
     case "generic":
       return transportation.name
