@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router"
 import { co } from "jazz-tools"
 import { useCoState } from "jazz-tools/react"
-import { useState, useEffect } from "react"
+import { useEffect, useState } from "react"
 import Card from "@/components/card/Card.tsx"
 import FileViewer from "@/components/files/FileViewer"
 import { FileAttachment } from "@/schema"

@@ -1,6 +1,6 @@
 import { useResizeObserver } from "@wojtekmaj/react-hooks"
-import { FileText, Download, ChevronLeft, ChevronRight } from "lucide-react"
-import { useState, useCallback, useEffect } from "react"
+import { ChevronLeft, ChevronRight, Download, FileText } from "lucide-react"
+import { useCallback, useEffect, useState } from "react"
 import { Document, Page, pdfjs } from "react-pdf"
 import "react-pdf/dist/Page/AnnotationLayer.css"
 import "react-pdf/dist/Page/TextLayer.css"
@@ -11,7 +11,15 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   import.meta.url,
 ).toString()
 
-export default function FileViewer({ fileUrl, fileName, onDownload }: { fileUrl: string | null; fileName: string; onDownload?: () => void }) {
+export default function FileViewer({
+  fileUrl,
+  fileName,
+  onDownload,
+}: {
+  fileUrl: string | null
+  fileName: string
+  onDownload?: () => void
+}) {
   const [numPages, setNumPages] = useState<number>(0)
   const [pageNumber, setPageNumber] = useState(1)
   const [containerRef, setContainerRef] = useState<HTMLElement | null>(null)
@@ -24,7 +32,7 @@ export default function FileViewer({ fileUrl, fileName, onDownload }: { fileUrl:
     }
   }, [])
 
-  const onResize = useCallback<ResizeObserverCallback>((entries) => {
+  const onResize = useCallback<ResizeObserverCallback>(entries => {
     const [entry] = entries
     if (entry) {
       setContainerWidth(entry.contentRect.width)
@@ -65,7 +73,7 @@ export default function FileViewer({ fileUrl, fileName, onDownload }: { fileUrl:
             <Button
               variant="secondary"
               size="sm"
-              onClick={() => setPageNumber((p) => Math.max(1, p - 1))}
+              onClick={() => setPageNumber(p => Math.max(1, p - 1))}
               disabled={pageNumber <= 1}
             >
               <ChevronLeft className="h-4 w-4" />
@@ -76,7 +84,7 @@ export default function FileViewer({ fileUrl, fileName, onDownload }: { fileUrl:
             <Button
               variant="secondary"
               size="sm"
-              onClick={() => setPageNumber((p) => Math.min(numPages, p + 1))}
+              onClick={() => setPageNumber(p => Math.min(numPages, p + 1))}
               disabled={pageNumber >= numPages}
             >
               <ChevronRight className="h-4 w-4" />

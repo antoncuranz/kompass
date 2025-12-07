@@ -1,4 +1,5 @@
-import { Link, useParams } from "@tanstack/react-router"
+import { Link } from "@tanstack/react-router"
+import { Route } from "@/routes/$trip/files"
 import { co } from "jazz-tools"
 import { File as FileIcon, Plus, Upload } from "lucide-react"
 import { useRef } from "react"
@@ -10,7 +11,7 @@ import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table"
 import { FileAttachment } from "@/schema"
 
 export default function FileListCard() {
-  const { trip: tripId } = useParams({ strict: false })
+  const sharedTripId = Route.useParams().trip
   const trip = useTrip()
   const fileInputRef = useRef<HTMLInputElement>(null)
 
@@ -85,7 +86,8 @@ export default function FileListCard() {
                 <TableRow key={file.$jazz.id} className="cursor-pointer">
                   <TableCell className="pl-3">
                     <Link
-                      to={`/${tripId}/files/${file.$jazz.id}`}
+                      to="/$trip/files/$fileId"
+                      params={{ trip: sharedTripId, fileId: file.$jazz.id }}
                       className="flex items-center gap-3 w-full"
                     >
                       <FileIcon className="h-5 w-5 text-muted-foreground shrink-0" />
