@@ -50,7 +50,7 @@ function FileDetailPage() {
       }
     }
 
-    loadFile()
+    void loadFile()
 
     return () => {
       if (blobUrl) {

@@ -35,7 +35,7 @@ function DynamicTitle() {
       }
     }
 
-    updateTitle()
+    void updateTitle()
   }, [tripId])
 
   return null

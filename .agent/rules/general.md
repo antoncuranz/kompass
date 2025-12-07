@@ -1,3 +1,7 @@
+---
+trigger: always_on
+---
+
 # AGENTS.md
 
 ## Project Overview
@@ -8,7 +12,8 @@ Local-first travel planning PWA using Jazz-tools for state management and collab
 
 - never use @ts-ignore comments, fix the real problem
 - make sure there are no linter errors when done with implementation
-- never use 'any'
+- Use `Array<T>` syntax, not `T[]`
+- never use 'any' or 'as Type'
 
 ## Commands
 
@@ -31,6 +36,11 @@ In Jazz-specific implementation tasks, make sure to consult the jazz-tools docum
 - Account root contains trips list
 - Real-time sync via WebSocket peer: `ws://127.0.0.1:4200`
 - Auth: Jazz passkey + passphrase only (no guest mode)
+
+- Always check `$isLoaded` for `MaybeLoaded<T>` types before accessing properties
+- Use `$jazz.ensureLoaded({ resolve: {...} })` to load nested data
+- Use `loadTransportation(t)` from `@/lib/utils` to resolve transportation discriminated unions
+- Use `useTransportation()` hook for already-loaded transportation array
 
 ### Transportation-API Integration
 

@@ -195,7 +195,7 @@ function FlightDialogContent({
       form.setValue(`legs.${legId}.originAirport`, flight.originIata)
     }
 
-    form.handleSubmit(onSubmit)()
+    void form.handleSubmit(onSubmit)()
   }
 
   function onDeleteButtonClick() {

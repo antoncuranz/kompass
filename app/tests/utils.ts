@@ -37,7 +37,7 @@ export async function signUpWithPassphrase(page: Page, name: string) {
 export async function createTrip(page: Page, name: string) {
   const newTripCard = page.getByTestId("new-trip-card")
   await expect(newTripCard).toBeVisible()
-  newTripCard.click()
+  await newTripCard.click()
 
   const tripDialog = page.getByRole("dialog", {
     name: /New Trip/,
