@@ -12,7 +12,7 @@ export default function ShareButton({
     e.stopPropagation()
 
     const url = `${window.location.origin}/${sharedTripId}`
-    navigator.clipboard.writeText(url)
+    void navigator.clipboard.writeText(url)
     toast.success("Link copied to clipboard")
   }
 

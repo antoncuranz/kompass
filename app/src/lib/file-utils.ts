@@ -66,7 +66,7 @@ export function useReferencedItem(
   const [item, setItem] = useState<ResolvedReference | null>(null)
 
   useEffect(() => {
-    resolveReference(trip, refId).then(setItem)
+    void resolveReference(trip, refId).then(setItem)
   }, [trip, refId])
 
   return item

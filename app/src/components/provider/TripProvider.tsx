@@ -46,7 +46,7 @@ export const useTransportation = () => {
       setLoaded(result)
     }
 
-    loadAll()
+    void loadAll()
   }, [transportation])
 
   return loaded

@@ -44,7 +44,7 @@ export function Auth() {
   async function uploadProfileImage() {
     if (profileImage && account.$isLoaded) {
       try {
-        await account.profile.$jazz.set(
+        account.profile.$jazz.set(
           "avatar",
           await createImage(profileImage, {
             owner: account.profile.$jazz.owner,
@@ -52,7 +52,7 @@ export function Auth() {
             placeholder: "blur",
           }),
         )
-      } catch (error) {
+      } catch {
         toast.error("Failed to upload profile picture")
       }
     }
