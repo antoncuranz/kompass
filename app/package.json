@@ -6,9 +6,9 @@
     "dev": "vite --port 3000",
     "build": "vite build && tsc",
     "serve": "vite preview",
-    "lint": "eslint",
-    "format": "prettier",
-    "check": "prettier --write . && eslint --fix",
+    "lint": "oxlint --type-aware",
+    "format": "oxfmt",
+    "check": "oxfmt && oxlint --type-aware --fix",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
@@ -44,7 +44,6 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.56.1",
-    "@tanstack/eslint-config": "^0.3.0",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/react": "^16.2.0",
     "@types/node": "^24.0.0",
@@ -53,7 +52,9 @@
     "@typescript/native-preview": "^7.0.0-dev.20251101.1",
     "@vitejs/plugin-react": "^5.0.4",
     "jsdom": "^27.0.0",
-    "prettier": "^3.5.3",
+    "oxfmt": "^0.16.0",
+    "oxlint": "^1.31.0",
+    "oxlint-tsgolint": "^0.8.3",
     "vite": "^7.1.7",
     "web-vitals": "^5.1.0"
   }

@@ -23,7 +23,12 @@ export default function TwoCardLayout({
         {leftCard}
       </div>
 
-      <div className={cn("flex-1 min-w-0", primaryCard === "left" && hiddenClasses)}>
+      <div
+        className={cn(
+          "flex-1 min-w-0",
+          primaryCard === "left" && hiddenClasses,
+        )}
+      >
         {rightCard}
       </div>
     </div>
