@@ -137,11 +137,15 @@ export type Transportation =
   | co.loaded<typeof Train>
   | co.loaded<typeof GenericTransportation>
 
-export const FileAttachment = co.map({
-  name: z.string(),
-  file: co.fileStream(),
-  references: co.list(z.string()),
-})
+export const FileAttachment = co
+  .map({
+    name: z.string(),
+    file: co.fileStream(),
+    references: co.list(z.string()),
+  })
+  .resolved({
+    references: true,
+  })
 
 export const Trip = co
   .map({
@@ -173,7 +177,7 @@ export const Trip = co
     accommodation: { $each: Accommodation.resolveQuery },
     transportation: { $each: true },
     notes: true,
-    files: { $each: true },
+    files: { $each: FileAttachment.resolveQuery },
   })
 
 // COLLABORATION
