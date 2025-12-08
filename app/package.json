@@ -27,7 +27,7 @@
     "lucide-react": "^0.556.0",
     "maplibre-gl": "^5.10.0",
     "motion": "^12.23.24",
-    "prosekit": "^0.16.2",
+    "prosekit": "^0.17.0",
     "react": "^19.2.0",
     "react-day-picker": "^9.11.1",
     "react-dom": "^19.2.0",
