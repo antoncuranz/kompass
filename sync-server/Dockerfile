@@ -23,7 +23,7 @@ RUN \
         catatonit
 
 RUN \
-    NODE_AUTH_TOKEN=${NODE_AUTH_TOKEN} npm install @antoncuranz/jazz-run@${JAZZ_VERSION} --registry=https://npm.pkg.github.com && \
+    npm install @antoncuranz/jazz-run@${JAZZ_VERSION} --registry=https://npm.pkg.github.com --//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN} && \
     npm cache clean --force && \
     chown -R root:root /app && chmod -R 755 /app
 
