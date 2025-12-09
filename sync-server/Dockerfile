@@ -23,7 +23,7 @@ RUN \
         catatonit
 
 RUN echo "@antoncuranz:registry=https://npm.pkg.github.com" > .npmrc && \
-    echo "//npm.pkg.github.com/:_authToken=${NPM_TOKEN}" >> .npmrc
+    echo "//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}" >> .npmrc
 
 RUN \
     npm install @antoncuranz/jazz-run@${JAZZ_VERSION} && \
