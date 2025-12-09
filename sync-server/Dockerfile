@@ -21,9 +21,12 @@ RUN \
         make \
         python3 \
         catatonit
+
+RUN echo "@antoncuranz:registry=https://npm.pkg.github.com" > .npmrc && \
+    echo "//npm.pkg.github.com/:_authToken=${NPM_TOKEN}" >> .npmrc
+
 RUN \
-    npm config set @antoncuranz:registry=https://npm.pkg.github.com && \
-    NODE_AUTH_TOKEN=$NODE_AUTH_TOKEN npm install @antoncuranz/jazz-run@${JAZZ_VERSION} && \
+    npm install @antoncuranz/jazz-run@${JAZZ_VERSION} && \
     npm cache clean --force && \
     chown -R root:root /app && chmod -R 755 /app
 
