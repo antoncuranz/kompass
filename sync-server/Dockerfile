@@ -3,7 +3,7 @@
 # renovate: datasource=npm depName=jazz-run
 ARG JAZZ_VERSION="0.19.11"
 
-FROM node:22.21.1-alpine
+FROM node:24.11.1-alpine
 
 ENV \
     NODE_ENV=production
@@ -22,7 +22,7 @@ RUN \
         catatonit
 
 RUN \
-    npm install jazz-run@${JAZZ_VERSION} && \
+    npm install @antoncuranz/jazz-run@${JAZZ_VERSION} --registry=https://npm.pkg.github.com && \
     npm cache clean --force && \
     chown -R root:root /app && chmod -R 755 /app
 
