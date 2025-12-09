@@ -2,7 +2,6 @@
 
 # renovate: datasource=npm depName=jazz-run
 ARG JAZZ_VERSION="0.19.11"
-ARG NODE_AUTH_TOKEN
 
 FROM node:24.11.1-alpine
 
@@ -22,11 +21,11 @@ RUN \
         python3 \
         catatonit
 
-RUN echo "@antoncuranz:registry=https://npm.pkg.github.com" > ~/.npmrc && \
-    echo "//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}" >> ~/.npmrc
-
-RUN \
+RUN --mount=type=secret,id=github_token \
+    echo "@antoncuranz:registry=https://npm.pkg.github.com" > ~/.npmrc && \
+    echo "//npm.pkg.github.com/:_authToken=$(cat /run/secrets/github_token)" >> ~/.npmrc && \
     npm install @antoncuranz/jazz-run@${JAZZ_VERSION} && \
+    rm ~/.npmrc && \
     npm cache clean --force && \
     chown -R root:root /app && chmod -R 755 /app
 
