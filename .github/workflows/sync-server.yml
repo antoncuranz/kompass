@@ -39,5 +39,3 @@ jobs:
           tags: |
             ghcr.io/antoncuranz/kompass/sync-server:latest
             ghcr.io/antoncuranz/kompass/sync-server:${{ steps.jazz_version.outputs.version }}
-          secrets: |
-            github_token=${{ secrets.GITHUB_TOKEN }}
