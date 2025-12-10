@@ -36,14 +36,21 @@ function FileDetailPage() {
   const [blobUrl, setBlobUrl] = useState<string | null>(null)
   const [showEntitySelector, setShowEntitySelector] = useState(false)
 
+  const hasLinkableItems =
+    trip.activities.length > 0 ||
+    trip.accommodation.length > 0 ||
+    trip.transportation.length > 0
+
   useEffect(() => {
+    let currentBlobUrl: string | null = null
+
     async function loadFile() {
       if (!file?.$isLoaded) return
       try {
         const blob = await co.fileStream().loadAsBlob(file.file.$jazz.id)
         if (blob) {
-          const url = URL.createObjectURL(blob)
-          setBlobUrl(url)
+          currentBlobUrl = URL.createObjectURL(blob)
+          setBlobUrl(currentBlobUrl)
         }
       } catch (error) {
         console.error("Failed to load file:", error)
@@ -53,8 +60,8 @@ function FileDetailPage() {
     void loadFile()
 
     return () => {
-      if (blobUrl) {
-        URL.revokeObjectURL(blobUrl)
+      if (currentBlobUrl) {
+        URL.revokeObjectURL(currentBlobUrl)
       }
     }
   }, [file.$isLoaded, file.$isLoaded ? file.file.$jazz.id : null])
@@ -108,12 +115,14 @@ function FileDetailPage() {
                   No linked items
                 </span>
               )}
-              <button
-                onClick={() => setShowEntitySelector(true)}
-                className="p-1.5 rounded-full text-muted-foreground hover:bg-muted transition-colors cursor-pointer"
-              >
-                <Plus className="w-4 h-4" />
-              </button>
+              {hasLinkableItems && (
+                <button
+                  onClick={() => setShowEntitySelector(true)}
+                  className="p-1.5 rounded-full text-muted-foreground hover:bg-muted transition-colors cursor-pointer"
+                >
+                  <Plus className="w-4 h-4" />
+                </button>
+              )}
             </div>
           </div>
         </div>

@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import type { Accommodation, Trip } from "@/schema.ts"
 import type { co } from "jazz-tools"
+import { deleteAccommodation } from "@/lib/entity-utils"
 import { dateFromString } from "@/components/util.ts"
 import { dateRange, optionalLocation, optionalString } from "@/formschema.ts"
 
@@ -116,7 +117,7 @@ function AccommodationDialogContent({
     }
 
     if (showDeleteConfirm) {
-      trip.accommodation.$jazz.remove(a => a.$jazz.id == accommodation.$jazz.id)
+      deleteAccommodation(trip, accommodation.$jazz.id)
       onClose()
     } else {
       setShowDeleteConfirm(true)

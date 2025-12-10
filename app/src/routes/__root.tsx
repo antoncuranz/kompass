@@ -15,6 +15,8 @@ function DynamicTitle() {
   const tripId = useParams({ strict: false }).trip
 
   useEffect(() => {
+    let cancelled = false
+
     async function updateTitle() {
       if (!tripId) {
         document.title = "kompass"
@@ -25,17 +27,24 @@ function DynamicTitle() {
         const sharedTrip = await SharedTrip.load(tripId, {
           resolve: { trip: true },
         })
+        if (cancelled) return
         if (sharedTrip.$isLoaded) {
           document.title = `${sharedTrip.trip.name} | kompass`
         } else {
           document.title = `${titleCase(sharedTrip.$jazz.loadingState)} | kompass`
         }
       } catch {
-        document.title = "Error | kompass"
+        if (!cancelled) {
+          document.title = "Error | kompass"
+        }
       }
     }
 
     void updateTitle()
+
+    return () => {
+      cancelled = true
+    }
   }, [tripId])
 
   return null

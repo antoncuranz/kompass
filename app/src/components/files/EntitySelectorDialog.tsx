@@ -44,6 +44,16 @@ function EntitySelectorContent({
 
   const existingRefs = new Set(file.references)
 
+  const hasActivities = trip.activities.length > 0
+  const hasAccommodation = trip.accommodation.length > 0
+  const hasTransportation = transportation.length > 0
+
+  const defaultTab = hasActivities
+    ? "activity"
+    : hasAccommodation
+      ? "accommodation"
+      : "transportation"
+
   function handleSelect(entityId: string) {
     if (!existingRefs.has(entityId)) {
       file.references.$jazz.push(entityId)
@@ -57,44 +67,56 @@ function EntitySelectorContent({
         <DialogTitle>Link to...</DialogTitle>
       </DialogHeader>
 
-      <Tabs defaultValue="activity" className="px-4">
+      <Tabs defaultValue={defaultTab} className="px-4">
         <TabsList className="w-full">
-          <TabsTrigger value="activity">
-            <MapPin className="w-4 h-4" />
-            <span className="hidden sm:inline">Activities</span>
-          </TabsTrigger>
-          <TabsTrigger value="accommodation">
-            <Building2 className="w-4 h-4" />
-            <span className="hidden sm:inline">Accommodation</span>
-          </TabsTrigger>
-          <TabsTrigger value="transportation">
-            <Plane className="w-4 h-4" />
-            <span className="hidden sm:inline">Transport</span>
-          </TabsTrigger>
+          {hasActivities && (
+            <TabsTrigger value="activity">
+              <MapPin className="w-4 h-4" />
+              <span className="hidden sm:inline">Activities</span>
+            </TabsTrigger>
+          )}
+          {hasAccommodation && (
+            <TabsTrigger value="accommodation">
+              <Building2 className="w-4 h-4" />
+              <span className="hidden sm:inline">Accommodation</span>
+            </TabsTrigger>
+          )}
+          {hasTransportation && (
+            <TabsTrigger value="transportation">
+              <Plane className="w-4 h-4" />
+              <span className="hidden sm:inline">Transport</span>
+            </TabsTrigger>
+          )}
         </TabsList>
 
         <div className="overflow-y-auto min-h-[200px] max-h-[300px] py-2">
-          <TabsContent value="activity">
-            <ActivityList
-              activities={trip.activities}
-              existingRefs={existingRefs}
-              onSelect={handleSelect}
-            />
-          </TabsContent>
-          <TabsContent value="accommodation">
-            <AccommodationList
-              accommodation={trip.accommodation}
-              existingRefs={existingRefs}
-              onSelect={handleSelect}
-            />
-          </TabsContent>
-          <TabsContent value="transportation">
-            <TransportationList
-              transportation={transportation}
-              existingRefs={existingRefs}
-              onSelect={handleSelect}
-            />
-          </TabsContent>
+          {hasActivities && (
+            <TabsContent value="activity">
+              <ActivityList
+                activities={trip.activities}
+                existingRefs={existingRefs}
+                onSelect={handleSelect}
+              />
+            </TabsContent>
+          )}
+          {hasAccommodation && (
+            <TabsContent value="accommodation">
+              <AccommodationList
+                accommodation={trip.accommodation}
+                existingRefs={existingRefs}
+                onSelect={handleSelect}
+              />
+            </TabsContent>
+          )}
+          {hasTransportation && (
+            <TabsContent value="transportation">
+              <TransportationList
+                transportation={transportation}
+                existingRefs={existingRefs}
+                onSelect={handleSelect}
+              />
+            </TabsContent>
+          )}
         </div>
       </Tabs>
 

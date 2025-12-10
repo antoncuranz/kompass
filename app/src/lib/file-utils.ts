@@ -66,7 +66,13 @@ export function useReferencedItem(
   const [item, setItem] = useState<ResolvedReference | null>(null)
 
   useEffect(() => {
-    void resolveReference(trip, refId).then(setItem)
+    let cancelled = false
+    void resolveReference(trip, refId).then((result) => {
+      if (!cancelled) setItem(result)
+    })
+    return () => {
+      cancelled = true
+    }
   }, [trip, refId])
 
   return item

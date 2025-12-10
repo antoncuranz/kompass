@@ -6,6 +6,7 @@ import { toast } from "sonner"
 import { z } from "zod"
 import type { Train, TrainLeg, Trip } from "@/schema.ts"
 import type { co } from "jazz-tools"
+import { deleteTransportation } from "@/lib/entity-utils"
 import {
   Dialog,
   RowContainer,
@@ -164,7 +165,7 @@ function TrainDialogContent({
     }
 
     if (showDeleteConfirm) {
-      trip.transportation.$jazz.remove(t => t.$jazz.id == train.$jazz.id)
+      deleteTransportation(trip, train.$jazz.id)
       onClose()
     } else {
       setShowDeleteConfirm(true)

@@ -39,14 +39,22 @@ export const useTransportation = () => {
   const [loaded, setLoaded] = useState<Array<Transportation>>([])
 
   useEffect(() => {
+    let cancelled = false
+
     async function loadAll() {
       const result = await Promise.all(
         transportation.map(async t => await loadTransportation(t)),
       )
-      setLoaded(result)
+      if (!cancelled) {
+        setLoaded(result)
+      }
     }
 
     void loadAll()
+
+    return () => {
+      cancelled = true
+    }
   }, [transportation])
 
   return loaded

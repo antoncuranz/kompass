@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import type { Activity, Trip } from "@/schema"
 import type { co } from "jazz-tools"
+import { deleteActivity } from "@/lib/entity-utils"
 import { Button } from "@/components/ui/button.tsx"
 import {
   DialogFooter,
@@ -101,7 +102,7 @@ function ActivityDialogContent({
     }
 
     if (showDeleteConfirm) {
-      trip.activities.$jazz.remove(a => a.$jazz.id == activity.$jazz.id)
+      deleteActivity(trip, activity.$jazz.id)
       onClose()
     } else {
       setShowDeleteConfirm(true)
