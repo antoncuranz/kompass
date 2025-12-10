@@ -84,11 +84,11 @@ export default function FileListCard() {
             <TableBody>
               {trip.files.map(file => (
                 <TableRow key={file.$jazz.id} className="cursor-pointer">
-                  <TableCell className="pl-3">
+                  <TableCell className="p-0">
                     <Link
                       to="/$trip/files/$fileId"
                       params={{ trip: sharedTripId, fileId: file.$jazz.id }}
-                      className="flex items-center gap-3 w-full"
+                      className="flex items-center gap-3 w-full py-2 pl-3 pr-4"
                     >
                       <FileIcon className="h-5 w-5 text-muted-foreground shrink-0" />
                       <span className="truncate flex-1">{file.name}</span>

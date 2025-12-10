@@ -12,7 +12,7 @@ import {
 } from "lucide-react"
 import { useEffect, useState } from "react"
 import Card from "@/components/card/Card.tsx"
-import EntitySelectorDialog from "@/components/files/EntitySelectorDialog"
+import LinkDialog from "@/components/files/LinkDialog"
 import FileViewer from "@/components/files/FileViewer"
 import { useTrip } from "@/components/provider/TripProvider"
 import { formatDateShort } from "@/components/util"
@@ -128,7 +128,7 @@ function FileDetailPage() {
         </div>
       </Card>
 
-      <EntitySelectorDialog
+      <LinkDialog
         trip={trip}
         file={file}
         open={showEntitySelector}

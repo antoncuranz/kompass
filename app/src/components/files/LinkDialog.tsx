@@ -14,7 +14,7 @@ import { getDepartureDateTime, getTransportationShortName } from "@/lib/utils"
 import type { FileAttachment, Transportation, Trip } from "@/schema"
 import { getTransportationTypeEmoji } from "@/types"
 
-export default function EntitySelectorDialog({
+export default function LinkDialog({
   trip,
   file,
   open,
@@ -27,12 +27,12 @@ export default function EntitySelectorDialog({
 }) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <EntitySelectorContent trip={trip} file={file} />
+      <LinkDialogContent trip={trip} file={file} />
     </Dialog>
   )
 }
 
-function EntitySelectorContent({
+function LinkDialogContent({
   trip,
   file,
 }: {
