@@ -1,5 +1,5 @@
-import type { co } from "jazz-tools"
 import { useEffect, useState } from "react"
+import type { co } from "jazz-tools"
 import type { Trip } from "@/schema"
 import {
   getDepartureDateTime,
@@ -67,7 +67,7 @@ export function useReferencedItem(
 
   useEffect(() => {
     let cancelled = false
-    void resolveReference(trip, refId).then((result) => {
+    void resolveReference(trip, refId).then(result => {
       if (!cancelled) setItem(result)
     })
     return () => {

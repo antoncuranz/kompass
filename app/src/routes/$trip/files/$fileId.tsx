@@ -11,15 +11,15 @@ import {
   X,
 } from "lucide-react"
 import { useEffect, useState } from "react"
+import type { ResolvedReference } from "@/lib/file-utils"
+import type { Trip } from "@/schema"
 import Card from "@/components/card/Card.tsx"
 import LinkDialog from "@/components/files/LinkDialog"
 import FileViewer from "@/components/files/FileViewer"
 import { useTrip } from "@/components/provider/TripProvider"
 import { formatDateShort } from "@/components/util"
-import type { ResolvedReference } from "@/lib/file-utils"
 import { useReferencedItem } from "@/lib/file-utils"
 import { downloadBlob } from "@/lib/utils"
-import type { Trip } from "@/schema"
 import { FileAttachment } from "@/schema"
 import { getTransportationTypeEmoji } from "@/types"
 
@@ -45,7 +45,7 @@ function FileDetailPage() {
     let currentBlobUrl: string | null = null
 
     async function loadFile() {
-      if (!file?.$isLoaded) return
+      if (!file.$isLoaded) return
       try {
         const blob = await co.fileStream().loadAsBlob(file.file.$jazz.id)
         if (blob) {
@@ -72,7 +72,7 @@ function FileDetailPage() {
     }
   }
 
-  if (!file?.$isLoaded) {
+  if (!file.$isLoaded) {
     return (
       <Card title="Loading..." testId="file-detail-card">
         <div className="text-center text-muted-foreground py-8">
@@ -83,7 +83,7 @@ function FileDetailPage() {
   }
 
   function handleRemoveLink(refId: string) {
-    if (file.$isLoaded && file.references.$isLoaded) {
+    if (file.$isLoaded) {
       file.references.$jazz.remove(ref => ref === refId)
     }
   }

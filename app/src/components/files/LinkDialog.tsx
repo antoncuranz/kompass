@@ -1,5 +1,6 @@
-import type { co } from "jazz-tools"
 import { Building2, Link as LinkIcon, MapPin, Plane, Train } from "lucide-react"
+import type { co } from "jazz-tools"
+import type { FileAttachment, Transportation, Trip } from "@/schema"
 import { Dialog, useDialogContext } from "@/components/dialog/Dialog.tsx"
 import { useTransportation } from "@/components/provider/TripProvider"
 import { Button } from "@/components/ui/button.tsx"
@@ -11,7 +12,6 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { formatDateShort } from "@/components/util.ts"
 import { getDepartureDateTime, getTransportationShortName } from "@/lib/utils"
-import type { FileAttachment, Transportation, Trip } from "@/schema"
 import { getTransportationTypeEmoji } from "@/types"
 
 export default function LinkDialog({

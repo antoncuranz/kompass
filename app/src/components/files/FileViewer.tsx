@@ -33,9 +33,7 @@ export default function FileViewer({
 
   const onResize = useCallback<ResizeObserverCallback>(entries => {
     const [entry] = entries
-    if (entry) {
-      setContainerWidth(entry.contentRect.width)
-    }
+    setContainerWidth(entry.contentRect.width)
   }, [])
 
   useResizeObserver(containerRef, {}, onResize)
@@ -65,7 +63,11 @@ export default function FileViewer({
           >
             <div className="flex flex-col gap-4">
               {Array.from({ length: numPages }, (_, index) => (
-                <Page key={index + 1} pageNumber={index + 1} width={containerWidth} />
+                <Page
+                  key={index + 1}
+                  pageNumber={index + 1}
+                  width={containerWidth}
+                />
               ))}
             </div>
           </Document>

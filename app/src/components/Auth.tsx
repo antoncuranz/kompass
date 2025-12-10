@@ -6,7 +6,7 @@ import {
   usePasskeyAuth,
   usePassphraseAuth,
 } from "jazz-tools/react"
-import { useState } from "react"
+import { useState, useTransition } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
@@ -59,8 +59,12 @@ export function Auth() {
   }
 
   async function handleSignup(name: string) {
-    await passkeyAuth.signUp(name)
-    await uploadProfileImage()
+    try {
+      await passkeyAuth.signUp(name)
+      await uploadProfileImage()
+    } catch {
+      toast.error("Failed to sign up")
+    }
   }
 
   async function handlePassphraseSignup(name: string) {
@@ -90,16 +94,18 @@ export function Auth() {
     },
   })
 
-  const isSubmitting = false
+  const [isPending, startTransition] = useTransition()
 
-  async function onLoginWithPassphraseClick() {
+  function onLoginWithPassphraseClick() {
     if (!passphraseFormShown) {
       setPassphraseFormShown(true)
       return
     }
-    await loginForm.handleSubmit(
-      async values => await passphraseAuth.logIn(values.passphrase),
-    )()
+    startTransition(async () => {
+      await loginForm.handleSubmit(
+        async values => await passphraseAuth.logIn(values.passphrase),
+      )()
+    })
   }
 
   return (
@@ -110,9 +116,14 @@ export function Auth() {
         </DialogHeader>
         <Form
           form={signupForm}
-          onSubmit={signupForm.handleSubmit(
-            async values => await handleSignup(values.name),
-          )}
+          onSubmit={e => {
+            e.preventDefault()
+            startTransition(async () => {
+              await signupForm.handleSubmit(
+                async values => await handleSignup(values.name),
+              )()
+            })
+          }}
         >
           <div className="px-4">
             <ImageUpload onFileSelect={setProfileImage} />
@@ -129,25 +140,25 @@ export function Auth() {
             <Button
               type="submit"
               className="w-full text-base"
-              disabled={isSubmitting}
+              disabled={isPending}
             >
-              {isSubmitting ? <Spinner variant="pinwheel" /> : "Sign up"}
+              {isPending ? <Spinner variant="pinwheel" /> : "Sign up"}
             </Button>
             {import.meta.env.MODE !== "production" && (
               <Button
                 type="button"
                 variant="secondary"
                 className="w-full text-base mt-2"
-                disabled={isSubmitting}
-                onClick={signupForm.handleSubmit(async values =>
-                  handlePassphraseSignup(values.name),
-                )}
+                disabled={isPending}
+                onClick={() =>
+                  startTransition(async () => {
+                    await signupForm.handleSubmit(async values =>
+                      handlePassphraseSignup(values.name),
+                    )()
+                  })
+                }
               >
-                {isSubmitting ? (
-                  <Spinner variant="pinwheel" />
-                ) : (
-                  "Sign up with Passphrase"
-                )}
+                Sign up with Passphrase
               </Button>
             )}
           </div>
@@ -159,10 +170,18 @@ export function Auth() {
         <div className="px-4 pt-4">
           <Button
             className="w-full text-base"
-            disabled={isSubmitting}
-            onClick={() => passkeyAuth.logIn()}
+            disabled={isPending}
+            onClick={() =>
+              startTransition(async () => {
+                try {
+                  await passkeyAuth.logIn()
+                } catch {
+                  toast.error("Failed to log in")
+                }
+              })
+            }
           >
-            {isSubmitting ? <Spinner variant="pinwheel" /> : "Log in"}
+            {isPending ? <Spinner variant="pinwheel" /> : "Log in"}
           </Button>
         </div>
         <Form
@@ -184,14 +203,10 @@ export function Auth() {
             type="submit"
             variant="secondary"
             className="w-full text-base"
-            disabled={isSubmitting}
+            disabled={isPending}
             onClick={onLoginWithPassphraseClick}
           >
-            {isSubmitting ? (
-              <Spinner variant="pinwheel" />
-            ) : (
-              "Log in with Passphrase"
-            )}
+            Log in with Passphrase
           </Button>
         </div>
       </Dialog>
