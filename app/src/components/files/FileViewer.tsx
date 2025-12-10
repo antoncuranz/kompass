@@ -1,5 +1,5 @@
 import { useResizeObserver } from "@wojtekmaj/react-hooks"
-import { ChevronLeft, ChevronRight, Download, FileText } from "lucide-react"
+import { Download, FileText } from "lucide-react"
 import { useCallback, useEffect, useState } from "react"
 import { Document, Page, pdfjs } from "react-pdf"
 import "react-pdf/dist/Page/AnnotationLayer.css"
@@ -21,7 +21,6 @@ export default function FileViewer({
   onDownload?: () => void
 }) {
   const [numPages, setNumPages] = useState<number>(0)
-  const [pageNumber, setPageNumber] = useState(1)
   const [containerRef, setContainerRef] = useState<HTMLElement | null>(null)
   const [containerWidth, setContainerWidth] = useState<number>()
 
@@ -42,7 +41,6 @@ export default function FileViewer({
   useResizeObserver(containerRef, {}, onResize)
 
   useEffect(() => {
-    setPageNumber(1)
     setNumPages(0)
   }, [fileUrl])
 
@@ -65,32 +63,13 @@ export default function FileViewer({
             file={fileUrl}
             onLoadSuccess={({ numPages }) => setNumPages(numPages)}
           >
-            <Page pageNumber={pageNumber} width={containerWidth} />
+            <div className="flex flex-col gap-4">
+              {Array.from({ length: numPages }, (_, index) => (
+                <Page key={index + 1} pageNumber={index + 1} width={containerWidth} />
+              ))}
+            </div>
           </Document>
         </div>
-        {numPages > 1 && (
-          <div className="flex items-center justify-center gap-4 py-3 border-t shrink-0">
-            <Button
-              variant="secondary"
-              size="sm"
-              onClick={() => setPageNumber(p => Math.max(1, p - 1))}
-              disabled={pageNumber <= 1}
-            >
-              <ChevronLeft className="h-4 w-4" />
-            </Button>
-            <span className="text-sm text-muted-foreground">
-              Page {pageNumber} of {numPages}
-            </span>
-            <Button
-              variant="secondary"
-              size="sm"
-              onClick={() => setPageNumber(p => Math.min(numPages, p + 1))}
-              disabled={pageNumber >= numPages}
-            >
-              <ChevronRight className="h-4 w-4" />
-            </Button>
-          </div>
-        )}
       </div>
     )
   }
