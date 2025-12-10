@@ -16,7 +16,9 @@ import { Route as TripShareRouteImport } from './routes/$trip/share'
 import { Route as TripNotesRouteImport } from './routes/$trip/notes'
 import { Route as TripMapRouteImport } from './routes/$trip/map'
 import { Route as TripItineraryRouteImport } from './routes/$trip/itinerary'
+import { Route as TripFilesRouteImport } from './routes/$trip/files'
 import { Route as TripCostRouteImport } from './routes/$trip/cost'
+import { Route as TripFilesFileIdRouteImport } from './routes/$trip/files/$fileId'
 
 const TripRoute = TripRouteImport.update({
   id: '/$trip',
@@ -53,41 +55,57 @@ const TripItineraryRoute = TripItineraryRouteImport.update({
   path: '/itinerary',
   getParentRoute: () => TripRoute,
 } as any)
+const TripFilesRoute = TripFilesRouteImport.update({
+  id: '/files',
+  path: '/files',
+  getParentRoute: () => TripRoute,
+} as any)
 const TripCostRoute = TripCostRouteImport.update({
   id: '/cost',
   path: '/cost',
   getParentRoute: () => TripRoute,
+} as any)
+const TripFilesFileIdRoute = TripFilesFileIdRouteImport.update({
+  id: '/$fileId',
+  path: '/$fileId',
+  getParentRoute: () => TripFilesRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$trip': typeof TripRouteWithChildren
   '/$trip/cost': typeof TripCostRoute
+  '/$trip/files': typeof TripFilesRouteWithChildren
   '/$trip/itinerary': typeof TripItineraryRoute
   '/$trip/map': typeof TripMapRoute
   '/$trip/notes': typeof TripNotesRoute
   '/$trip/share': typeof TripShareRoute
   '/$trip/': typeof TripIndexRoute
+  '/$trip/files/$fileId': typeof TripFilesFileIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$trip/cost': typeof TripCostRoute
+  '/$trip/files': typeof TripFilesRouteWithChildren
   '/$trip/itinerary': typeof TripItineraryRoute
   '/$trip/map': typeof TripMapRoute
   '/$trip/notes': typeof TripNotesRoute
   '/$trip/share': typeof TripShareRoute
   '/$trip': typeof TripIndexRoute
+  '/$trip/files/$fileId': typeof TripFilesFileIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/$trip': typeof TripRouteWithChildren
   '/$trip/cost': typeof TripCostRoute
+  '/$trip/files': typeof TripFilesRouteWithChildren
   '/$trip/itinerary': typeof TripItineraryRoute
   '/$trip/map': typeof TripMapRoute
   '/$trip/notes': typeof TripNotesRoute
   '/$trip/share': typeof TripShareRoute
   '/$trip/': typeof TripIndexRoute
+  '/$trip/files/$fileId': typeof TripFilesFileIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -95,30 +113,36 @@ export interface FileRouteTypes {
     | '/'
     | '/$trip'
     | '/$trip/cost'
+    | '/$trip/files'
     | '/$trip/itinerary'
     | '/$trip/map'
     | '/$trip/notes'
     | '/$trip/share'
     | '/$trip/'
+    | '/$trip/files/$fileId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/$trip/cost'
+    | '/$trip/files'
     | '/$trip/itinerary'
     | '/$trip/map'
     | '/$trip/notes'
     | '/$trip/share'
     | '/$trip'
+    | '/$trip/files/$fileId'
   id:
     | '__root__'
     | '/'
     | '/$trip'
     | '/$trip/cost'
+    | '/$trip/files'
     | '/$trip/itinerary'
     | '/$trip/map'
     | '/$trip/notes'
     | '/$trip/share'
     | '/$trip/'
+    | '/$trip/files/$fileId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -177,6 +201,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TripItineraryRouteImport
       parentRoute: typeof TripRoute
     }
+    '/$trip/files': {
+      id: '/$trip/files'
+      path: '/files'
+      fullPath: '/$trip/files'
+      preLoaderRoute: typeof TripFilesRouteImport
+      parentRoute: typeof TripRoute
+    }
     '/$trip/cost': {
       id: '/$trip/cost'
       path: '/cost'
@@ -184,11 +215,31 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TripCostRouteImport
       parentRoute: typeof TripRoute
     }
+    '/$trip/files/$fileId': {
+      id: '/$trip/files/$fileId'
+      path: '/$fileId'
+      fullPath: '/$trip/files/$fileId'
+      preLoaderRoute: typeof TripFilesFileIdRouteImport
+      parentRoute: typeof TripFilesRoute
+    }
   }
 }
 
+interface TripFilesRouteChildren {
+  TripFilesFileIdRoute: typeof TripFilesFileIdRoute
+}
+
+const TripFilesRouteChildren: TripFilesRouteChildren = {
+  TripFilesFileIdRoute: TripFilesFileIdRoute,
+}
+
+const TripFilesRouteWithChildren = TripFilesRoute._addFileChildren(
+  TripFilesRouteChildren,
+)
+
 interface TripRouteChildren {
   TripCostRoute: typeof TripCostRoute
+  TripFilesRoute: typeof TripFilesRouteWithChildren
   TripItineraryRoute: typeof TripItineraryRoute
   TripMapRoute: typeof TripMapRoute
   TripNotesRoute: typeof TripNotesRoute
@@ -198,6 +249,7 @@ interface TripRouteChildren {
 
 const TripRouteChildren: TripRouteChildren = {
   TripCostRoute: TripCostRoute,
+  TripFilesRoute: TripFilesRouteWithChildren,
   TripItineraryRoute: TripItineraryRoute,
   TripMapRoute: TripMapRoute,
   TripNotesRoute: TripNotesRoute,

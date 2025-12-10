@@ -137,6 +137,16 @@ export type Transportation =
   | co.loaded<typeof Train>
   | co.loaded<typeof GenericTransportation>
 
+export const FileAttachment = co
+  .map({
+    name: z.string(),
+    file: co.fileStream(),
+    references: co.list(z.string()),
+  })
+  .resolved({
+    references: true,
+  })
+
 export const Trip = co
   .map({
     name: z.string(),
@@ -148,11 +158,18 @@ export const Trip = co
     accommodation: co.list(Accommodation),
     transportation: co.list(Transportation),
     notes: co.richText(),
+    files: co.list(FileAttachment),
   })
   .withMigration(trip => {
     if (!trip.$jazz.has("notes")) {
       const notes = co.richText().create("", { owner: trip.$jazz.owner })
       trip.$jazz.set("notes", notes)
+    }
+    if (!trip.$jazz.has("files")) {
+      const files = co
+        .list(FileAttachment)
+        .create([], { owner: trip.$jazz.owner })
+      trip.$jazz.set("files", files)
     }
   })
   .resolved({
@@ -160,6 +177,7 @@ export const Trip = co
     accommodation: { $each: Accommodation.resolveQuery },
     transportation: { $each: true },
     notes: true,
+    files: { $each: FileAttachment.resolveQuery },
   })
 
 // COLLABORATION

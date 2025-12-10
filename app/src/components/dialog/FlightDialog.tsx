@@ -7,6 +7,7 @@ import { z } from "zod"
 import type { co } from "jazz-tools"
 import type { Flight, FlightLeg, PNR, Trip } from "@/schema.ts"
 import type { AmbiguousFlightChoice } from "@/types"
+import { deleteTransportation } from "@/lib/entity-utils"
 import AmbiguousFlightDialog from "@/components/dialog/AmbiguousFlightDialog"
 import {
   Dialog,
@@ -195,7 +196,7 @@ function FlightDialogContent({
       form.setValue(`legs.${legId}.originAirport`, flight.originIata)
     }
 
-    form.handleSubmit(onSubmit)()
+    void form.handleSubmit(onSubmit)()
   }
 
   function onDeleteButtonClick() {
@@ -203,7 +204,7 @@ function FlightDialogContent({
       return
     }
 
-    trip.transportation.$jazz.remove(t => t.$jazz.id == flight.$jazz.id)
+    deleteTransportation(trip, flight.$jazz.id)
     onClose()
   }
 

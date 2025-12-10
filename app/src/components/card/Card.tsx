@@ -54,7 +54,8 @@ export default function Card({
         )}
         <div
           className={cn(
-            "h-full rounded-2xl no-scrollbar overflow-hidden overflow-y-scroll",
+            "h-full no-scrollbar overflow-hidden overflow-y-scroll",
+            title || headerSlot ? "rounded-b-2xl" : "rounded-2xl",
             !onSmallDevices && "not-sm:rounded-none",
           )}
         >

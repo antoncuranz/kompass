@@ -66,12 +66,12 @@ function SettingsDialogContent({
 
   function handleUpdateProfile(values: z.output<typeof formSchema>) {
     startTransition(async () => {
-      await account.profile.$jazz.set("name", values.name)
+      account.profile.$jazz.set("name", values.name)
 
       if (profileImage === null) {
-        await account.profile.$jazz.set("avatar", undefined)
+        account.profile.$jazz.set("avatar", undefined)
       } else if (profileImage) {
-        await account.profile.$jazz.set(
+        account.profile.$jazz.set(
           "avatar",
           await createImage(profileImage, {
             owner: account.profile.$jazz.owner,

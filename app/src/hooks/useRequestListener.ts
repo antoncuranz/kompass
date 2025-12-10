@@ -40,7 +40,7 @@ export function useRequestListener() {
       }
     }
 
-    processRequests()
+    void processRequests()
   }, [account])
 
   return null

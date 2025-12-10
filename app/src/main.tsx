@@ -9,7 +9,7 @@ import { ThemeProvider } from "./components/provider/ThemeProvider.tsx"
 import { PrivacyProvider } from "./components/provider/PrivacyProvider.tsx"
 
 if (import.meta.env.MODE === "staging") {
-  import("./styles.staging.css")
+  await import("./styles.staging.css")
 }
 
 // Create a new router instance
