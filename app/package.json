@@ -8,6 +8,7 @@
     "serve": "vite preview",
     "lint": "oxlint --type-aware && eslint",
     "oxlint": "oxlint --type-aware",
+    "eslint": "eslint",
     "format": "oxfmt",
     "check": "oxfmt && oxlint --type-aware --fix && eslint --fix",
     "typecheck": "tsgo --noEmit"
@@ -43,7 +44,7 @@
     "zod": "^4.1.12"
   },
   "devDependencies": {
-    "@playwright/test": "^1.56.1",
+    "@playwright/test": "1.56.1",
     "@tanstack/eslint-config": "^0.3.4",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/react": "^16.2.0",
