@@ -24,7 +24,7 @@ jobs:
           lfs: "true"
 
       - name: Install dependencies
-        run: npm ci
+        run: npm i
         working-directory: ./app
 
       - name: Run Playwright tests
