@@ -13,7 +13,7 @@ import {
 import { useEffect, useState } from "react"
 import type { ResolvedReference } from "@/lib/file-utils"
 import type { Trip } from "@/schema"
-import Card from "@/components/card/Card.tsx"
+import Pane from "@/components/Pane.tsx"
 import LinkDialog from "@/components/files/LinkDialog"
 import FileViewer from "@/components/files/FileViewer"
 import { useTrip } from "@/components/provider/TripProvider"
@@ -74,11 +74,11 @@ function FileDetailPage() {
 
   if (!file.$isLoaded) {
     return (
-      <Card title="Loading..." testId="file-detail-card">
+      <Pane title="Loading..." testId="file-detail-card">
         <div className="text-center text-muted-foreground py-8">
           Loading file...
         </div>
-      </Card>
+      </Pane>
     )
   }
 
@@ -90,7 +90,7 @@ function FileDetailPage() {
 
   return (
     <>
-      <Card title={file.name} testId="file-detail-card">
+      <Pane title={file.name} testId="file-detail-card">
         <div className="h-full flex flex-col overflow-hidden">
           <FileViewer
             fileUrl={blobUrl}
@@ -126,7 +126,7 @@ function FileDetailPage() {
             </div>
           </div>
         </div>
-      </Card>
+      </Pane>
 
       <LinkDialog
         trip={trip}

@@ -17,7 +17,6 @@ export default function NewTripCard({
         className,
       )}
       onClick={onClick}
-      onSmallDevices
     >
       <div className="h-full w-full rounded-2xl no-scrollbar overflow-hidden overflow-y-scroll flex items-center justify-center">
         <CirclePlus className="w-14 h-14 text-gray-400" />

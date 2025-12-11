@@ -4,13 +4,13 @@ import { File as FileIcon, Link as LinkIcon, Plus, Upload } from "lucide-react"
 import { useRef } from "react"
 import { toast } from "sonner"
 import { Route } from "@/routes/$trip/files"
-import Card from "@/components/card/Card.tsx"
+import Pane from "@/components/Pane.tsx"
 import { useTrip } from "@/components/provider/TripProvider"
 import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table"
 import { FileAttachment } from "@/schema"
 
-export default function FileListCard() {
+export default function FileListPane() {
   const sharedTripId = Route.useParams().trip
   const trip = useTrip()
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -56,7 +56,7 @@ export default function FileListCard() {
 
   return (
     <>
-      <Card
+      <Pane
         title="Trip Files"
         testId="files-card"
         headerSlot={
@@ -109,7 +109,7 @@ export default function FileListCard() {
             No files attached to this trip
           </div>
         )}
-      </Card>
+      </Pane>
       <div className="fixed bottom-6 right-6 z-50 sm:hidden">
         <Button
           size="icon"
