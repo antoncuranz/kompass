@@ -17,7 +17,7 @@ export default function TripCard({
   onEdit: () => void
 }) {
   return (
-    <Card className={cn("relative group/trip-card", className)} onSmallDevices>
+    <Card className={cn("relative group/trip-card", className)}>
       <div className="relative h-full w-full">
         {trip.imageUrl && (
           <div className="pointer-events-none absolute inset-x-0 top-0 z-30 h-full bg-linear-to-b from-black/50 via-transparent to-transparent" />

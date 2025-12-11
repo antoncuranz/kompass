@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router"
-import Card from "@/components/card/Card.tsx"
+import Pane from "@/components/Pane.tsx"
 import ShareButton from "@/components/buttons/ShareButton"
 import MemberTable from "@/components/collaboration/MemberTable.tsx"
 import RequestTable from "@/components/collaboration/RequestTable.tsx"
@@ -35,7 +35,7 @@ function SharePage() {
   ]
 
   return (
-    <Card
+    <Pane
       title="Share Trip"
       headerSlot={<ShareButton sharedTripId={sharedTrip.$jazz.id} />}
       testId="share-card"
@@ -47,6 +47,6 @@ function SharePage() {
       />
 
       <MemberTable title="Members" members={allMembers} />
-    </Card>
+    </Pane>
   )
 }

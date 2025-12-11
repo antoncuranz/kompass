@@ -18,7 +18,7 @@ import { Route as TripMapRouteImport } from './routes/$trip/map'
 import { Route as TripItineraryRouteImport } from './routes/$trip/itinerary'
 import { Route as TripFilesRouteImport } from './routes/$trip/files'
 import { Route as TripCostRouteImport } from './routes/$trip/cost'
-import { Route as TripFilesFileIdRouteImport } from './routes/$trip/files/$fileId'
+import { Route as TripFilesFileIdRouteImport } from './routes/$trip/files.$fileId'
 
 const TripRoute = TripRouteImport.update({
   id: '/$trip',
