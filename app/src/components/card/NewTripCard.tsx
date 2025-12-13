@@ -1,6 +1,6 @@
 import { CirclePlus } from "lucide-react"
 import Card from "@/components/card/Card.tsx"
-import { cn } from "@/lib/utils.ts"
+import { cn } from "@/lib/utils"
 
 export default function NewTripCard({
   className,

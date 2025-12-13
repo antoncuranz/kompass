@@ -5,7 +5,7 @@ import type { ControllerRenderProps, FieldValues } from "react-hook-form"
 import { RowContainer } from "@/components/dialog/Dialog.tsx"
 import DateInput from "@/components/dialog/input/DateInput.tsx"
 import { Input } from "@/components/ui/input.tsx"
-import { formatTimePadded } from "@/components/util.ts"
+import { formatTimePadded } from "@/lib/datetime-utils"
 
 export default function DateTimeInput({
   onChange,

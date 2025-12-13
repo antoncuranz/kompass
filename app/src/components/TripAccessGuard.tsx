@@ -2,7 +2,7 @@ import { useAccount, useCoState, useIsAuthenticated } from "jazz-tools/react"
 import { DialogFooter, DialogHeader, DialogTitle } from "./ui/dialog"
 import { Dialog } from "./dialog/Dialog"
 import { SharedTrip, UserAccount } from "@/schema.ts"
-import { sendJoinRequest } from "@/lib/collaboration.ts"
+import { sendJoinRequest } from "@/lib/collaboration-utils"
 import { Button } from "@/components/ui/button.tsx"
 
 export default function TripAccessGuard({

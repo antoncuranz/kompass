@@ -6,8 +6,11 @@ import {
   dateFromString,
   isSameDayDate,
   subDays,
-} from "@/components/util.ts"
-import { getArrivalDateTime, getDepartureDateTime } from "@/lib/utils.ts"
+} from "@/lib/datetime-utils"
+import {
+  getArrivalDateTime,
+  getDepartureDateTime,
+} from "@/lib/transportation-utils"
 
 type Interval = { start: Date; end: Date }
 

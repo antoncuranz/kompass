@@ -5,8 +5,11 @@ import AddItemDropdown from "@/components/buttons/AddItemDropdown.tsx"
 import { Button } from "@/components/ui/button.tsx"
 import Pane from "@/components/Pane.tsx"
 import Itinerary from "@/components/itinerary/Itinerary.tsx"
-import { dayIsBetween, getDaysBetween, isSameDay } from "@/components/util.ts"
-import { getArrivalDateTime, getDepartureDateTime } from "@/lib/utils"
+import { dayIsBetween, getDaysBetween, isSameDay } from "@/lib/datetime-utils"
+import {
+  getArrivalDateTime,
+  getDepartureDateTime,
+} from "@/lib/transportation-utils"
 import { useTransportation, useTrip } from "@/components/provider/TripProvider"
 
 export const Route = createFileRoute("/$trip/itinerary")({

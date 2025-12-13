@@ -1,6 +1,6 @@
 import type { CostItem } from "./CostTypes.tsx"
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table"
-import { formatAmount } from "@/components/util.ts"
+import { formatAmount } from "@/lib/misc-utils"
 
 interface CostTableProps {
   title: string

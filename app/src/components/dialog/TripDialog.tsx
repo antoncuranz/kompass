@@ -16,9 +16,9 @@ import { Form, FormField } from "@/components/ui/form.tsx"
 import { Input } from "@/components/ui/input.tsx"
 import { Spinner } from "@/components/ui/shadcn-io/spinner"
 import { Textarea } from "@/components/ui/textarea.tsx"
-import { dateFromString } from "@/components/util.ts"
-import { dateRange, optionalString } from "@/formschema.ts"
-import { createNewTrip } from "@/lib/utils"
+import { dateFromString } from "@/lib/datetime-utils"
+import { dateRange, optionalString } from "@/lib/formschema-utils"
+import { createNewTrip } from "@/lib/trip-utils"
 
 const formSchema = z.object({
   name: z.string().nonempty("Required"),

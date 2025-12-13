@@ -4,7 +4,7 @@ import { Toaster } from "@/components/ui/sonner"
 import { Auth } from "@/components/Auth"
 import { useRequestListener } from "@/hooks/useRequestListener"
 import { SharedTrip } from "@/schema"
-import { titleCase } from "@/components/util"
+import { titleCase } from "@/lib/misc-utils"
 
 const JazzInspector =
   import.meta.env.MODE === "development"

@@ -1,5 +1,5 @@
 import React from "react"
-import { cn } from "@/lib/utils.ts"
+import { cn } from "@/lib/utils"
 
 export default function Pane({
   title,

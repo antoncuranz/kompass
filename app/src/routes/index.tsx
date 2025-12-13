@@ -9,7 +9,7 @@ import NewTripCard from "@/components/card/NewTripCard"
 import TripCard from "@/components/card/TripCard"
 import TripDialog from "@/components/dialog/TripDialog"
 import { Carousel } from "@/components/ui/cards-carousel"
-import { dateFromString } from "@/components/util.ts"
+import { dateFromString } from "@/lib/datetime-utils"
 
 export const Route = createFileRoute("/")({
   component: App,

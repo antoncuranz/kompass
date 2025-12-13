@@ -3,7 +3,7 @@ import { createCoValueSubscriptionContext } from "jazz-tools/react"
 import type { ReactNode } from "react"
 import type { Transportation } from "@/schema"
 import { SharedTrip } from "@/schema"
-import { loadTransportation } from "@/lib/utils"
+import { loadTransportation } from "@/lib/transportation-utils"
 
 const { Provider: JazzTripProvider, useSelector: useSharedTrip } =
   createCoValueSubscriptionContext(SharedTrip, SharedTrip.resolveQuery)

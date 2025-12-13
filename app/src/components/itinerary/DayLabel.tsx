@@ -1,4 +1,4 @@
-import { formatDateLong } from "@/components/util.ts"
+import { formatDateLong } from "@/lib/datetime-utils"
 
 export default function DayLabel({
   date,

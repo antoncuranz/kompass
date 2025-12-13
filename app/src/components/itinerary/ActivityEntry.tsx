@@ -1,9 +1,9 @@
 import { ChevronRight } from "lucide-react"
 import { useMap } from "react-map-gl/maplibre"
-import { formatTime } from "../util"
 import type { MouseEvent, MouseEventHandler } from "react"
 import type { Activity } from "@/schema"
 import type { co } from "jazz-tools"
+import { formatTime } from "@/lib/datetime-utils"
 
 export default function ActivityEntry({
   activity,

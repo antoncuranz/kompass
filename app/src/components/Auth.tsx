@@ -20,7 +20,7 @@ import { Form, FormField } from "@/components/ui/form.tsx"
 import { Input } from "@/components/ui/input.tsx"
 import { Separator } from "@/components/ui/separator.tsx"
 import { Spinner } from "@/components/ui/shadcn-io/spinner"
-import { cn } from "@/lib/utils.ts"
+import { cn } from "@/lib/utils"
 
 const signupFormSchema = z.object({
   name: z.string().nonempty("Required"),

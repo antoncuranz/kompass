@@ -2,7 +2,7 @@ import { Pencil } from "lucide-react"
 import type { Trip } from "@/schema.ts"
 import type { co } from "jazz-tools"
 import Card from "@/components/card/Card.tsx"
-import { cn } from "@/lib/utils.ts"
+import { cn } from "@/lib/utils"
 
 export default function TripCard({
   trip,
@@ -17,8 +17,8 @@ export default function TripCard({
   onEdit: () => void
 }) {
   return (
-    <Card className={cn("relative group/trip-card", className)}>
-      <div className="relative h-full w-full">
+    <Card className={cn("relative group/trip-card p-2", className)}>
+      <div className="relative h-full w-full rounded-2xl overflow-hidden">
         {trip.imageUrl && (
           <div className="pointer-events-none absolute inset-x-0 top-0 z-30 h-full bg-linear-to-b from-black/50 via-transparent to-transparent" />
         )}

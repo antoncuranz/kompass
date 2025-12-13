@@ -5,7 +5,7 @@ import type { Coordinates } from "@/types.ts"
 import MapDialog from "@/components/dialog/MapDialog"
 import { Button } from "@/components/ui/button.tsx"
 import { Input } from "@/components/ui/input.tsx"
-import { cn } from "@/lib/utils.ts"
+import { cn } from "@/lib/utils"
 
 export default function LocationInput({
   onChange,

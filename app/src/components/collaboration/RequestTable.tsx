@@ -12,8 +12,12 @@ import {
   SelectTrigger,
 } from "@/components/ui/select.tsx"
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table"
-import { approveJoinRequest, rejectJoinRequest } from "@/lib/collaboration.ts"
-import { formatDateShort, titleCase } from "@/components/util.ts"
+import {
+  approveJoinRequest,
+  rejectJoinRequest,
+} from "@/lib/collaboration-utils"
+import { formatDateShort } from "@/lib/datetime-utils"
+import { titleCase } from "@/lib/misc-utils"
 import { Avatar } from "@/components/Avatar"
 
 interface RequestTableProps {

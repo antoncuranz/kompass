@@ -24,9 +24,9 @@ import {
 import { Form, FormField } from "@/components/ui/form"
 import { Input } from "@/components/ui/input.tsx"
 import { Spinner } from "@/components/ui/shadcn-io/spinner"
-import { dateFromString } from "@/components/util.ts"
-import { isoDate, trainStation } from "@/formschema"
-import { isLoaded } from "@/lib/utils"
+import { dateFromString } from "@/lib/datetime-utils"
+import { isoDate, trainStation } from "@/lib/formschema-utils"
+import { isLoaded } from "@/lib/misc-utils"
 
 const formSchema = z.object({
   departureDate: isoDate("Required"),

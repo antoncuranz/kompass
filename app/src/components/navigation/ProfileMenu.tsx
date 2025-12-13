@@ -15,8 +15,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Avatar } from "@/components/Avatar"
-import { titleCase } from "@/components/util"
 import { cn } from "@/lib/utils"
+import { titleCase } from "@/lib/misc-utils"
 
 const themeIcons = {
   light: Sun,

@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dialog.tsx"
 import { Field, FieldLabel } from "@/components/ui/field.tsx"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group.tsx"
-import { formatDateShort, formatTimePadded } from "@/components/util.ts"
+import { formatDateShort, formatTimePadded } from "@/lib/datetime-utils"
 import { Dialog } from "@/components/dialog/Dialog"
 
 export default function AmbiguousFlightDialog({
