@@ -1,6 +1,6 @@
 import React from "react"
 import type { CSSProperties, MouseEventHandler } from "react"
-import { cn } from "@/lib/utils.ts"
+import { cn } from "@/lib/utils"
 import { usePrivacy } from "@/components/provider/PrivacyProvider.tsx"
 
 export default function PrivacyFilter({

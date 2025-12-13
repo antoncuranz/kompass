@@ -5,7 +5,7 @@ import {
   getDepartureDateTime,
   getTransportationShortName,
   loadTransportation,
-} from "@/lib/utils"
+} from "@/lib/transportation-utils"
 
 export type EntityType = "activity" | "accommodation" | "transportation"
 

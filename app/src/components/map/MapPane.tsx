@@ -1,7 +1,8 @@
 import { useTrip } from "../provider/TripProvider"
 import Pane from "@/components/Pane.tsx"
 import HeroMap from "@/components/map/HeroMap.tsx"
-import { cn, isLoaded } from "@/lib/utils"
+import { cn } from "@/lib/utils"
+import { isLoaded } from "@/lib/misc-utils"
 
 export default function MapPane({ className }: { className?: string }) {
   const trip = useTrip()

@@ -1,9 +1,9 @@
 import { ChevronRight } from "lucide-react"
 import { useMap } from "react-map-gl/maplibre"
-import { formatTime } from "../util"
 import type { MouseEvent, MouseEventHandler } from "react"
 import type { GenericTransportation } from "@/schema.ts"
 import type { co } from "jazz-tools"
+import { formatTime } from "@/lib/datetime-utils"
 import { getTransportationTypeEmoji } from "@/types.ts"
 
 export default function TransportationEntry({

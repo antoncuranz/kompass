@@ -10,8 +10,8 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible"
-import { formatDurationMinutes, formatTime } from "@/components/util.ts"
-import { cn } from "@/lib/utils.ts"
+import { formatDurationMinutes, formatTime } from "@/lib/datetime-utils"
+import { cn } from "@/lib/utils"
 
 export default function TrainEntry({
   trainLeg,

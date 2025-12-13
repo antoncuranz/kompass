@@ -2,7 +2,7 @@ import { Layer, Source } from "react-map-gl/maplibre"
 import type { Feature, FeatureCollection } from "geojson"
 import type { co } from "jazz-tools"
 import type { Activity } from "@/schema"
-import { formatDateShort, formatTime } from "@/components/util.ts"
+import { formatDateShort, formatTime } from "@/lib/datetime-utils"
 import { useSharedTrip } from "@/components/provider/TripProvider"
 
 export default function ActivityLayer() {

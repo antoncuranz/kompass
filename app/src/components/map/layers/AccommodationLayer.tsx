@@ -2,7 +2,7 @@ import { Layer, Source } from "react-map-gl/maplibre"
 import type { Feature, FeatureCollection } from "geojson"
 import type { co } from "jazz-tools"
 import type { Accommodation } from "@/schema.ts"
-import { formatDateShort } from "@/components/util.ts"
+import { formatDateShort } from "@/lib/datetime-utils"
 import { useSharedTrip } from "@/components/provider/TripProvider"
 
 export default function AccommodationLayer() {

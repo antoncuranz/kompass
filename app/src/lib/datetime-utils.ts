@@ -38,7 +38,7 @@ export function getDaysBetween(startDateStr: string, endDateStr: string) {
   const startDate = dateFromString(startDateStr)
   const endDate = dateFromString(endDateStr)
 
-  const dates = []
+  const dates: Array<Date> = []
   const currentDate = new Date(startDate)
 
   if (endDate < startDate) {
@@ -108,28 +108,4 @@ export function formatTimePadded(
     ":" +
     date.getMinutes().toString().padStart(2, "0")
   )
-}
-
-export function formatAmount(
-  amount: number | null | undefined,
-  decimals = 2,
-): string {
-  if (amount == null) return ""
-  const sign = amount < 0 ? "-" : ""
-  let result =
-    sign +
-    Math.abs((amount / Math.pow(10, decimals)) >> 0)
-      .toString()
-      .padStart(1, "0")
-  if (decimals != 0)
-    result +=
-      "," +
-      Math.abs(amount % Math.pow(10, decimals))
-        .toString()
-        .padStart(decimals, "0")
-  return result
-}
-
-export function titleCase(value: string) {
-  return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()
 }

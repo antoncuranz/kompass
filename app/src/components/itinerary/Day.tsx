@@ -15,7 +15,7 @@ import FlightEntry from "@/components/itinerary/FlightEntry.tsx"
 import TrainEntry from "@/components/itinerary/TrainEntry.tsx"
 import TransportationEntry from "@/components/itinerary/TransportationEntry.tsx"
 import { Separator } from "@/components/ui/separator.tsx"
-import { formatDuration, getDaysBetween, isSameDay } from "@/components/util.ts"
+import { formatDuration, getDaysBetween, isSameDay } from "@/lib/datetime-utils"
 
 export default function Day({
   dayData,

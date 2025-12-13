@@ -25,8 +25,12 @@ import DateInput from "@/components/dialog/input/DateInput.tsx"
 import LocationInput from "@/components/dialog/input/LocationInput.tsx"
 import { Form, FormField } from "@/components/ui/form"
 import { Spinner } from "@/components/ui/shadcn-io/spinner"
-import { dateFromString } from "@/components/util.ts"
-import { isoDate, optionalLocation, optionalString } from "@/formschema"
+import { dateFromString } from "@/lib/datetime-utils"
+import {
+  isoDate,
+  optionalLocation,
+  optionalString,
+} from "@/lib/formschema-utils"
 
 const formSchema = z.object({
   name: z.string().nonempty("Required"),

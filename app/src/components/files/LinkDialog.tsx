@@ -10,8 +10,11 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog.tsx"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { formatDateShort } from "@/components/util.ts"
-import { getDepartureDateTime, getTransportationShortName } from "@/lib/utils"
+import { formatDateShort } from "@/lib/datetime-utils"
+import {
+  getDepartureDateTime,
+  getTransportationShortName,
+} from "@/lib/transportation-utils"
 import { getTransportationTypeEmoji } from "@/types"
 
 export default function LinkDialog({

@@ -1,7 +1,10 @@
 import type { Accommodation, Activity, Transportation, Trip } from "@/schema.ts"
 import type { co } from "jazz-tools"
-import { getDepartureDateTime, getTransportationName } from "@/lib/utils"
-import { dateFromString, formatDateShort } from "@/components/util.ts"
+import {
+  getDepartureDateTime,
+  getTransportationName,
+} from "@/lib/transportation-utils"
+import { dateFromString, formatDateShort } from "@/lib/datetime-utils"
 
 type ActivityWithPrice = {
   type: "activity"

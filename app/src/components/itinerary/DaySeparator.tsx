@@ -1,7 +1,7 @@
 import type { Accommodation } from "@/schema.ts"
 import type { co } from "jazz-tools"
 import { Separator } from "@/components/ui/separator.tsx"
-import { cn } from "@/lib/utils.ts"
+import { cn } from "@/lib/utils"
 
 export default function DaySeparator({
   collapsedDays,

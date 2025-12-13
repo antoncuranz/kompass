@@ -1,5 +1,5 @@
 import { Skeleton } from "@/components/ui/skeleton.tsx"
-import { cn } from "@/lib/utils.ts"
+import { cn } from "@/lib/utils"
 
 export default function SkeletonCard({
   title,

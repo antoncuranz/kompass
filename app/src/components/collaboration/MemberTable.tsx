@@ -1,5 +1,5 @@
-import { titleCase } from "../util"
 import type { Account } from "jazz-tools"
+import { titleCase } from "@/lib/misc-utils"
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table"
 import { Avatar } from "@/components/Avatar"
 

@@ -5,7 +5,7 @@ import type { ControllerRenderProps, FieldValues } from "react-hook-form"
 import { Button } from "@/components/ui/button.tsx"
 import { Input } from "@/components/ui/input.tsx"
 import { Spinner } from "@/components/ui/shadcn-io/spinner"
-import { cn } from "@/lib/utils.ts"
+import { cn } from "@/lib/utils"
 
 export default function TrainStationInput({
   id,

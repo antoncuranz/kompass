@@ -1,14 +1,14 @@
 import { Outlet, createFileRoute, useLocation } from "@tanstack/react-router"
 import { MapProvider } from "react-map-gl/maplibre"
+import { Allotment } from "allotment"
 import Navigation from "@/components/navigation/Navigation"
 import MapPane from "@/components/map/MapPane"
 import { TripProvider } from "@/components/provider/TripProvider"
 import SkeletonCard from "@/components/card/SkeletonCard"
 import TripAccessGuard from "@/components/TripAccessGuard"
-import { titleCase } from "@/components/util"
-import { Allotment } from "allotment"
+import { titleCase } from "@/lib/misc-utils"
 import Card from "@/components/card/Card"
-import { BreakPointHooks, breakpointsTailwind } from "@react-hooks-library/core"
+import { useIsMobile, useIsTwoColumn } from "@/hooks/useResponsive"
 import "allotment/dist/style.css"
 
 export const Route = createFileRoute("/$trip")({
@@ -18,20 +18,22 @@ export const Route = createFileRoute("/$trip")({
 function RouteComponent() {
   const sharedTripId = Route.useParams().trip
 
-  const shouldHideMap = useLocation({
-    select: location => /\/files\/.+/.test(location.pathname),
-  })
-
   const isMapRoute = useLocation({
     select: location => location.pathname.endsWith("/map"),
   })
 
-  const showMap = BreakPointHooks(breakpointsTailwind).useGreater("lg")
+  const isMobile = useIsMobile()
+  const isTwoColumn = useIsTwoColumn()
+
+  const shouldHideMap =
+    useLocation({
+      select: location => /\/files\/.+/.test(location.pathname),
+    }) || !isTwoColumn
 
   return (
     <>
       <Navigation sharedTripId={sharedTripId} />
-      <main className="w-full sm:px-4 md:px-6 md:gap-2 relative z-1 h-[calc(100dvh-5.5rem)] sm:h-[calc(100dvh-4.5rem)]">
+      <main className="w-full sm:px-4 md:px-6 md:gap-2 relative z-1 sm:h-[calc(100dvh-4.5rem)]">
         <MapProvider>
           <TripProvider
             id={sharedTripId}
@@ -39,24 +41,24 @@ function RouteComponent() {
               <SkeletonCard title={titleCase(reason)} />
             )}
           >
-            <Card>
-              {shouldHideMap ? (
-                <Outlet />
-              ) : (
+            {isMobile ? (
+              <Outlet />
+            ) : (
+              <Card>
                 <Allotment proportionalLayout={false}>
                   {!isMapRoute && (
                     <Allotment.Pane minSize={300} preferredSize={600}>
                       <Outlet />
                     </Allotment.Pane>
                   )}
-                  {(isMapRoute || showMap) && (
+                  {(!shouldHideMap || isMapRoute) && (
                     <Allotment.Pane minSize={300} snap>
                       <MapPane />
                     </Allotment.Pane>
                   )}
                 </Allotment>
-              )}
-            </Card>
+              </Card>
+            )}
           </TripProvider>
         </MapProvider>
         <TripAccessGuard sharedTripId={sharedTripId} />

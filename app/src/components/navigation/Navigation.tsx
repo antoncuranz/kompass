@@ -6,7 +6,7 @@ import { SharedTrip } from "@/schema.ts"
 import { ProfileMenu } from "@/components/navigation/ProfileMenu.tsx"
 import { SyncIndicator } from "@/components/navigation/SyncIndicator.tsx"
 import { Button } from "@/components/ui/button.tsx"
-import { cn } from "@/lib/utils.ts"
+import { cn } from "@/lib/utils"
 
 export default function Navigation({ sharedTripId }: { sharedTripId: string }) {
   const sharedTrip = useCoState(SharedTrip, sharedTripId, {

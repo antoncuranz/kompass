@@ -3,8 +3,8 @@ import { toast } from "sonner"
 import type { FocusEvent } from "react"
 import type { ControllerRenderProps, FieldValues } from "react-hook-form"
 import { Input } from "@/components/ui/input.tsx"
-import { formatAmount } from "@/components/util.ts"
-import { cn } from "@/lib/utils.ts"
+import { cn } from "@/lib/utils"
+import { formatAmount } from "@/lib/misc-utils"
 
 export default function AmountInput({
   id,

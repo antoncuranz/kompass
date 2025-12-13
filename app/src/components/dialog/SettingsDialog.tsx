@@ -17,7 +17,7 @@ import { Form, FormField } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
 import { Spinner } from "@/components/ui/shadcn-io/spinner"
-import { exportUserData } from "@/lib/utils"
+import { exportUserData } from "@/lib/trip-utils"
 
 const formSchema = z.object({
   name: z.string().nonempty("Required"),

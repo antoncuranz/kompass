@@ -10,8 +10,8 @@ import {
   PopoverPositioner,
   PopoverTrigger,
 } from "@/components/ui/popover.tsx"
-import { dateFromString, getNextDay } from "@/components/util.ts"
-import { cn } from "@/lib/utils.ts"
+import { dateFromString, getNextDay } from "@/lib/datetime-utils"
+import { cn } from "@/lib/utils"
 
 export default function DateInput({
   onChange,

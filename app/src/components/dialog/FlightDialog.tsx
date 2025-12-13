@@ -25,9 +25,9 @@ import {
 import { Form, FormField } from "@/components/ui/form.tsx"
 import { Input } from "@/components/ui/input.tsx"
 import { Spinner } from "@/components/ui/shadcn-io/spinner"
-import { dateFromString } from "@/components/util.ts"
-import { isoDate, optionalString } from "@/formschema.ts"
-import { isLoaded } from "@/lib/utils"
+import { dateFromString } from "@/lib/datetime-utils"
+import { isoDate, optionalString } from "@/lib/formschema-utils"
+import { isLoaded } from "@/lib/misc-utils"
 
 const formSchema = z.object({
   legs: z.array(

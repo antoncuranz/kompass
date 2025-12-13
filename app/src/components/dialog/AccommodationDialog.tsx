@@ -5,8 +5,12 @@ import { z } from "zod"
 import type { Accommodation, Trip } from "@/schema.ts"
 import type { co } from "jazz-tools"
 import { deleteAccommodation } from "@/lib/entity-utils"
-import { dateFromString } from "@/components/util.ts"
-import { dateRange, optionalLocation, optionalString } from "@/formschema.ts"
+import { dateFromString } from "@/lib/datetime-utils"
+import {
+  dateRange,
+  optionalLocation,
+  optionalString,
+} from "@/lib/formschema-utils"
 
 import { calculateDisabledDateRanges } from "@/lib/accommodation-utils.ts"
 import { Dialog, useDialogContext } from "@/components/dialog/Dialog.tsx"
