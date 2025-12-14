@@ -1,7 +1,6 @@
 import { GalleryHorizontalEnd } from "lucide-react"
 import { Link, useLocation } from "@tanstack/react-router"
 import { useCoState } from "jazz-tools/react-core"
-import { ButtonGroup } from "../ui/button-group"
 import { SharedTrip } from "@/schema.ts"
 import { ProfileMenu } from "@/components/navigation/ProfileMenu.tsx"
 import { SyncIndicator } from "@/components/navigation/SyncIndicator.tsx"
