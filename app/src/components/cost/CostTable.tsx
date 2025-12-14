@@ -32,7 +32,7 @@ export default function CostTable({
             >
               <TableCell className="w-24 pl-3">{item.date}</TableCell>
               <TableCell className="flex-1 truncate">{item.name}</TableCell>
-              <TableCell className="text-right w-20">
+              <TableCell className="text-right w-20 pr-3">
                 {item.price !== undefined ? formatAmount(item.price) : "—"}
               </TableCell>
             </TableRow>
@@ -40,7 +40,9 @@ export default function CostTable({
           <TableRow className="font-semibold hover:bg-transparent">
             {/* TODO: disable hover without bg-transparent */}
             <TableCell colSpan={2} />
-            <TableCell className="text-right">{formatAmount(total)}</TableCell>
+            <TableCell className="text-right pr-3">
+              {formatAmount(total)}
+            </TableCell>
           </TableRow>
         </TableBody>
       </Table>
