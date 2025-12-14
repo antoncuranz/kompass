@@ -80,30 +80,38 @@ export default function FlightEntry({
             <div className="h-10 w-0.5 bg-gray-300" />
             <div className="w-1.5 h-1.5 rounded-lg bg-gray-300" />
           </div>
-          <div>
-            <p>
-              {formatTime(flightLeg.departureDateTime)} {flightLeg.origin.name}{" "}
-              ({flightLeg.origin.iata})
+          <div className="min-w-0">
+            <p className="flex">
+              <span className="truncate">
+                {formatTime(flightLeg.departureDateTime)}{" "}
+                {flightLeg.origin.name}
+              </span>
+              <span className="shrink-0 ml-1">({flightLeg.origin.iata})</span>
             </p>
             <p className="text-sm text-muted-foreground">
               Duration: {formatDurationMinutes(flightLeg.durationInMinutes)}
             </p>
-            <p>
-              {formatTime(flightLeg.arrivalDateTime)}{" "}
-              {flightLeg.destination.name} ({flightLeg.destination.iata})
+            <p className="flex">
+              <span className="truncate">
+                {formatTime(flightLeg.arrivalDateTime)}{" "}
+                {flightLeg.destination.name}
+              </span>
+              <span className="shrink-0 ml-1">
+                ({flightLeg.destination.iata})
+              </span>
             </p>
           </div>
           <img
             src={"https://seats.aero/static/carriersng/" + iata + ".png"}
             className="h-4 mt-0 m-auto relative top-1"
-            alt="LH"
+            alt={iata}
           />
-          <div>
-            <span className="text-sm text-muted-foreground">
+          <div className="flex flex-wrap items-center min-w-0">
+            <span className="text-sm text-muted-foreground min-h-6 truncate">
               {flightLeg.airline} - {flightLeg.flightNumber} -{" "}
               {flightLeg.aircraft}
             </span>
-            <div className="flex float-right">
+            <div className="flex ml-auto">
               {flight.pnrs.$isLoaded &&
                 flight.pnrs.map(pnr => (
                   <PrivacyFilter

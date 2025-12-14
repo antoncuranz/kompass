@@ -88,29 +88,27 @@ export default function TrainEntry({
             <div className="h-10 w-0.5 bg-gray-300" />
             <div className="w-1.5 h-1.5 rounded-lg bg-gray-300" />
           </div>
-          <div>
-            <p>
+          <div className="min-w-0">
+            <p className="truncate">
               {formatTime(trainLeg.departureDateTime)} {trainLeg.origin.name}
             </p>
             <p className="text-sm text-muted-foreground">
               Duration: {formatDurationMinutes(trainLeg.durationInMinutes)}
             </p>
-            <p>
+            <p className="truncate">
               {formatTime(trainLeg.arrivalDateTime)} {trainLeg.destination.name}
             </p>
           </div>
-          <div className="flex items-center">
-            <img
-              src={logoFromOperatorName(trainLeg.operatorName)}
-              className="h-auto w-full"
-              alt=""
-            />
-          </div>
-          <div>
-            <span className="text-sm text-muted-foreground">
+          <img
+            src={logoFromOperatorName(trainLeg.operatorName)}
+            className="h-4 mt-0 m-auto relative top-[0.125rem]"
+            alt={trainLeg.operatorName}
+          />
+          <div className="flex flex-wrap items-center min-w-0">
+            <span className="text-sm text-muted-foreground min-h-6 truncate">
               {trainLeg.operatorName} - {trainLeg.lineName}
             </span>
-            <div className="flex float-right">
+            <div className="flex ml-auto">
               <Button
                 variant="secondary"
                 className="ml-2 p-2 h-6"
