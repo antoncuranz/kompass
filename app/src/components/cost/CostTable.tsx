@@ -30,19 +30,17 @@ export default function CostTable({
               className="cursor-pointer"
               onClick={() => onItemClick(item)}
             >
-              <TableCell className="w-32 pl-3">{item.date}</TableCell>
+              <TableCell className="w-24 pl-3">{item.date}</TableCell>
               <TableCell className="flex-1 truncate">{item.name}</TableCell>
-              <TableCell className="text-right w-24 pr-3">
+              <TableCell className="text-right w-20">
                 {item.price !== undefined ? formatAmount(item.price) : "—"}
               </TableCell>
             </TableRow>
           ))}
           <TableRow className="font-semibold hover:bg-transparent">
             {/* TODO: disable hover without bg-transparent */}
-            <TableCell colSpan={2} className="align-top pl-3"></TableCell>
-            <TableCell className="text-right w-32 align-top pr-3">
-              {formatAmount(total)}
-            </TableCell>
+            <TableCell colSpan={2} />
+            <TableCell className="text-right">{formatAmount(total)}</TableCell>
           </TableRow>
         </TableBody>
       </Table>

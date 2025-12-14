@@ -61,7 +61,7 @@ export function createCostItems(
       type: "accommodation",
       item: acc,
       name: acc.name,
-      date: `${formatDateShort(acc.arrivalDate)} (+${nights})`,
+      date: `${formatDateShort(acc.arrivalDate)} +${nights}`,
       price: acc.price,
     }
   })
