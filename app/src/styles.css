@@ -79,7 +79,6 @@
   color utility to any element that depends on these defaults.
 */
 @layer base {
-
   *,
   ::after,
   ::before,
@@ -125,7 +124,6 @@
 
     --separator-border: hsl(var(--border)) !important;
   }
-
 
   .dark {
     --background: 240 10% 3.9%;
@@ -225,23 +223,27 @@
 }
 
 .glow-container:before {
-  background: radial-gradient(700px circle at var(--x) var(--y),
-      #dd7bbb 0,
-      #d79f1e 10%,
-      #5a922c 25%,
-      #4c7894 35%,
-      rgb(0 0 0 / 0.1) 80%);
+  background: radial-gradient(
+    700px circle at var(--x) var(--y),
+    #dd7bbb 0,
+    #d79f1e 10%,
+    #5a922c 25%,
+    #4c7894 35%,
+    rgb(0 0 0 / 0.1) 80%
+  );
   content: "";
   inset: -1px;
 }
 
 .dark .glow-container:before {
-  background: radial-gradient(700px circle at var(--x) var(--y),
-      #dd7bbb 0,
-      #d79f1e 10%,
-      #5a922c 25%,
-      #4c7894 35%,
-      rgb(255 255 255 / 0.2) 80%);
+  background: radial-gradient(
+    700px circle at var(--x) var(--y),
+    #dd7bbb 0,
+    #d79f1e 10%,
+    #5a922c 25%,
+    #4c7894 35%,
+    rgb(255 255 255 / 0.2) 80%
+  );
 }
 
 /**:not(input, textarea) {*/
