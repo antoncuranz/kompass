@@ -6,7 +6,6 @@ import AuthScreen from "../screens/AuthScreen"
 import HomeScreen from "../screens/HomeScreen"
 import TripTabNavigator from "./TripTabNavigator"
 import wordlist from "~/lib/wordlist"
-import { PassphraseAuth } from "jazz-tools"
 
 export type RootStackParamList = {
   Auth: undefined
@@ -26,6 +25,7 @@ export default function RootNavigator() {
       <Stack.Navigator
         screenOptions={{
           headerShown: false,
+          animation: "slide_from_right",
         }}
       >
         {!isAuthenticated ? (

@@ -1,5 +1,5 @@
 import React from "react"
-import { View, Text, SectionList, SafeAreaView } from "react-native"
+import { View, Text, SectionList, TouchableOpacity } from "react-native"
 import { useCoState } from "jazz-tools/expo"
 import { SharedTrip, Activity, Trip } from "../schema"
 import type { co } from "jazz-tools"
@@ -20,7 +20,19 @@ function formatDate(dateStr: string): string {
     weekday: "long",
     month: "long",
     day: "numeric",
+    year: "numeric",
   })
+}
+
+function formatTime(time: string, showPeriod = true): string {
+  const [hours, minutes] = time.split(":")
+  const h = parseInt(hours, 10)
+  const period = h >= 12 ? "PM" : "AM"
+  const h12 = h % 12 || 12
+  if (showPeriod) {
+    return `${h12}:${minutes} ${period}`
+  }
+  return `${h12}:${minutes}`
 }
 
 function getDaysBetween(startDate: string, endDate: string): Array<string> {
@@ -37,52 +49,29 @@ function getDaysBetween(startDate: string, endDate: string): Array<string> {
   return days
 }
 
-function ActivityCard({ activity }: { activity: co.loaded<typeof Activity> }) {
+function ActivityEntry({ activity }: { activity: co.loaded<typeof Activity> }) {
   return (
-    <View className="bg-white rounded-xl p-4 mb-3 shadow-sm border border-border">
-      <View className="flex-row items-start justify-between">
-        <View className="flex-1">
-          <Text className="text-lg font-semibold text-foreground">
-            {activity.name}
+    <TouchableOpacity
+      className="rounded-xl border border-dashed border-border my-2 mx-3 py-2 px-4 bg-background"
+      activeOpacity={0.7}
+    >
+      <View className="flex-row justify-between items-center">
+        <Text className="text-foreground font-medium flex-1" numberOfLines={1}>
+          {activity.name}
+        </Text>
+        {activity.time && (
+          <Text className="text-muted-foreground text-sm ml-2">
+            {formatTime(activity.time)}
           </Text>
-          {activity.time && (
-            <Text className="text-sm text-muted-foreground mt-1">
-              ⏰ {activity.time}
-            </Text>
-          )}
-          {activity.address && (
-            <Text
-              className="text-sm text-muted-foreground mt-1"
-              numberOfLines={2}
-            >
-              📍 {activity.address}
-            </Text>
-          )}
-          {activity.description && (
-            <Text
-              className="text-sm text-muted-foreground mt-2"
-              numberOfLines={3}
-            >
-              {activity.description}
-            </Text>
-          )}
-        </View>
-        {activity.price !== undefined && activity.price > 0 && (
-          <View className="bg-primary/10 px-2 py-1 rounded-lg ml-2">
-            <Text className="text-primary font-semibold">
-              ${activity.price}
-            </Text>
-          </View>
         )}
       </View>
-    </View>
+    </TouchableOpacity>
   )
 }
 
-function DayHeader({ title, date }: { title: string; date: string }) {
+function DayHeader({ date }: { date: string }) {
   return (
-    <View className="bg-muted px-4 py-3 mb-3">
-      <Text className="text-lg font-bold text-foreground">{title}</Text>
+    <View className="px-3 pt-4 pb-2">
       <Text className="text-sm text-muted-foreground">{formatDate(date)}</Text>
     </View>
   )
@@ -97,41 +86,35 @@ export default function ItineraryScreen({ tripId }: ItineraryScreenProps) {
 
   if (!sharedTrip?.$isLoaded || !sharedTrip.trip?.$isLoaded) {
     return (
-      <SafeAreaView className="flex-1 bg-muted">
+      <View className="flex-1 bg-background">
         <View className="flex-1 items-center justify-center">
           <Text className="text-lg text-muted-foreground">
             Loading itinerary...
           </Text>
         </View>
-      </SafeAreaView>
+      </View>
     )
   }
 
   const trip = sharedTrip.trip
   const days = getDaysBetween(trip.startDate, trip.endDate)
 
-  const sections: Array<DaySection> = days.map((day, index) => {
+  const sections: Array<DaySection> = days.map(day => {
     const activitiesForDay = trip.activities.filter(act => act.date === day)
     return {
-      title: `Day ${index + 1}`,
+      title: formatDate(day),
       date: day,
       data: activitiesForDay,
     }
   })
 
   return (
-    <SafeAreaView className="flex-1 bg-muted">
+    <View className="flex-1 bg-background">
       <SectionList
         sections={sections}
         keyExtractor={item => item.$jazz.id}
-        renderItem={({ item }) => (
-          <View className="px-4">
-            <ActivityCard activity={item} />
-          </View>
-        )}
-        renderSectionHeader={({ section }) => (
-          <DayHeader title={section.title} date={section.date} />
-        )}
+        renderItem={({ item }) => <ActivityEntry activity={item} />}
+        renderSectionHeader={({ section }) => <DayHeader date={section.date} />}
         ListEmptyComponent={() => (
           <View className="flex-1 items-center justify-center py-20">
             <Text className="text-5xl mb-4">📅</Text>
@@ -143,19 +126,9 @@ export default function ItineraryScreen({ tripId }: ItineraryScreenProps) {
             </Text>
           </View>
         )}
-        ListHeaderComponent={() => (
-          <View className="p-4 pb-0">
-            <Text className="text-2xl font-bold text-foreground mb-2">
-              {trip.name}
-            </Text>
-            <Text className="text-muted-foreground mb-4">
-              {formatDate(trip.startDate)} - {formatDate(trip.endDate)}
-            </Text>
-          </View>
-        )}
         stickySectionHeadersEnabled={false}
         contentContainerStyle={{ paddingBottom: 100 }}
       />
-    </SafeAreaView>
+    </View>
   )
 }
