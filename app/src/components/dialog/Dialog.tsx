@@ -1,4 +1,4 @@
-import { Dialog as BaseDialog } from "@base-ui-components/react/dialog"
+import { Dialog as BaseDialog } from "@base-ui/react/dialog"
 import React, { createContext, useContext } from "react"
 import type { ReactNode } from "react"
 import { DialogContent } from "@/components/ui/dialog.tsx"

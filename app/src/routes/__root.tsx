@@ -1,15 +1,12 @@
 import { Outlet, createRootRoute, useParams } from "@tanstack/react-router"
+import { JazzInspector } from "jazz-tools/inspector"
 import { useEffect } from "react"
 import { Toaster } from "@/components/ui/sonner"
 import { Auth } from "@/components/Auth"
 import { useRequestListener } from "@/hooks/useRequestListener"
 import { SharedTrip } from "@/schema"
 import { titleCase } from "@/lib/misc-utils"
-
-const JazzInspector =
-  import.meta.env.MODE === "development"
-    ? (await import("jazz-tools/inspector")).JazzInspector
-    : () => null
+import { useInspector } from "@/components/provider/InspectorProvider"
 
 function DynamicTitle() {
   const tripId = useParams({ strict: false }).trip
@@ -53,6 +50,7 @@ function DynamicTitle() {
 export const Route = createRootRoute({
   component: () => {
     useRequestListener()
+    const { showInspector } = useInspector()
 
     return (
       <div className="root">
@@ -60,7 +58,7 @@ export const Route = createRootRoute({
         <Outlet />
         <Auth />
         <Toaster />
-        <JazzInspector />
+        {showInspector && <JazzInspector />}
       </div>
     )
   },

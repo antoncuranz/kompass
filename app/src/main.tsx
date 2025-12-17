@@ -7,6 +7,7 @@ import reportWebVitals from "./reportWebVitals.ts"
 import { JazzProvider } from "./components/provider/JazzProvider.tsx"
 import { ThemeProvider } from "./components/provider/ThemeProvider.tsx"
 import { PrivacyProvider } from "./components/provider/PrivacyProvider.tsx"
+import { InspectorProvider } from "./components/provider/InspectorProvider.tsx"
 
 if (import.meta.env.MODE === "staging") {
   await import("./styles.staging.css")
@@ -37,7 +38,9 @@ if (rootElement && !rootElement.innerHTML) {
       <JazzProvider>
         <ThemeProvider defaultTheme="system">
           <PrivacyProvider>
-            <RouterProvider router={router} />
+            <InspectorProvider>
+              <RouterProvider router={router} />
+            </InspectorProvider>
           </PrivacyProvider>
         </ThemeProvider>
       </JazzProvider>

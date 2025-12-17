@@ -18,6 +18,8 @@ import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
 import { Spinner } from "@/components/ui/shadcn-io/spinner"
 import { exportUserData } from "@/lib/trip-utils"
+import { useInspector } from "@/components/provider/InspectorProvider"
+import { Switch } from "@/components/ui/switch"
 
 const formSchema = z.object({
   name: z.string().nonempty("Required"),
@@ -47,6 +49,7 @@ function SettingsDialogContent({
   const { onClose } = useDialogContext()
   const logOut = useLogOut()
   const passphraseAuth = usePassphraseAuth({ wordlist })
+  const { showInspector, toggleInspector } = useInspector()
 
   const [profileImage, setProfileImage] = useState<File | null | undefined>()
   const [showPassphrase, setShowPassphrase] = useState(false)
@@ -167,6 +170,11 @@ function SettingsDialogContent({
               <Eye className="h-4 w-4" />
             )}
           </Button>
+        </div>
+
+        <div className="flex items-center justify-between">
+          <label className="text-sm font-medium">Show Jazz Inspector</label>
+          <Switch checked={showInspector} onCheckedChange={toggleInspector} />
         </div>
 
         <Button
