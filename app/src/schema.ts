@@ -160,18 +160,17 @@ export const Trip = co
     notes: co.richText(),
     files: co.list(FileAttachment),
   })
-  .withMigration(trip => {
-    if (!trip.$jazz.has("notes")) {
-      const notes = co.richText().create("", { owner: trip.$jazz.owner })
-      trip.$jazz.set("notes", notes)
-    }
-    if (!trip.$jazz.has("files")) {
-      const files = co
-        .list(FileAttachment)
-        .create([], { owner: trip.$jazz.owner })
-      trip.$jazz.set("files", files)
-    }
-  })
+  // .withMigration(trip => {
+  //   // consider making new attributes optional to prevent errors for users w/o write permissions
+  //   if (!trip.$jazz.has("files")) {
+  //     const files = co.list(FileAttachment).create([], {
+  //       owner: trip.$jazz.owner,
+  //       // IMPORTANT: prevents new attributes being overwritten during migrations of other clients
+  //       unique: `files_${trip.$jazz.id}`,
+  //     })
+  //     trip.$jazz.set("files", files)
+  //   }
+  // })
   .resolved({
     activities: { $each: Activity.resolveQuery },
     accommodation: { $each: Accommodation.resolveQuery },
