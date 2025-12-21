@@ -1,11 +1,18 @@
 import { createFileRoute } from "@tanstack/react-router"
-import { PlaneTakeoff, Plus } from "lucide-react"
+import { Plus } from "lucide-react"
+import { HugeiconsIcon } from "@hugeicons/react"
+import { Add01Icon, FilterMailIcon } from "@hugeicons/core-free-icons"
 import type { DayRenderData } from "@/types.ts"
 import AddItemDropdown from "@/components/buttons/AddItemDropdown.tsx"
 import { Button } from "@/components/ui/button.tsx"
 import Pane from "@/components/Pane.tsx"
 import Itinerary from "@/components/itinerary/Itinerary.tsx"
-import { dayIsBetween, getDaysBetween, isSameDay } from "@/lib/datetime-utils"
+import {
+  dayIsBetween,
+  formatDateMedium,
+  getDaysBetween,
+  isSameDay,
+} from "@/lib/datetime-utils"
 import {
   getArrivalDateTime,
   getDepartureDateTime,
@@ -62,16 +69,18 @@ function ItineraryPage() {
   return (
     <>
       <Pane
-        title="Trip Itinerary"
-        headerSlot={
+        leftSlot={
+          <Button variant="secondary" size="icon-round">
+            <HugeiconsIcon icon={FilterMailIcon} />
+          </Button>
+        }
+        title={`${formatDateMedium(trip.startDate)} - ${formatDateMedium(trip.endDate)}`}
+        rightSlot={
           <AddItemDropdown
             trip={trip}
             trigger={
-              <Button size="sm" className="h-8 gap-1 mt-0 ml-1 self-end">
-                <PlaneTakeoff className="h-3.5 w-3.5" />
-                <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                  Add Entry
-                </span>
+              <Button variant="secondary" size="icon-round">
+                <HugeiconsIcon icon={Add01Icon} />
               </Button>
             }
           />

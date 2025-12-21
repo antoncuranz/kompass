@@ -101,48 +101,50 @@ function CostPage() {
 
   return (
     <>
-      <Pane title="Trip Costs" testId="cost-card">
-        {!hasAnyItems ? (
-          <EmptyState />
-        ) : (
-          <>
-            <CostTable
-              title="Activities"
-              items={sortedActivities}
-              onItemClick={handleItemClick}
-              total={totals.activities}
-            />
-            <CostTable
-              title="Transportation"
-              items={sortedTransportations}
-              onItemClick={handleItemClick}
-              total={totals.transportations}
-            />
-            <CostTable
-              title="Accommodation"
-              items={sortedAccommodations}
-              onItemClick={handleItemClick}
-              total={totals.accommodations}
-            />
+      <Pane testId="cost-card">
+        <div className="my-5">
+          {!hasAnyItems ? (
+            <EmptyState />
+          ) : (
+            <>
+              <CostTable
+                title="Activities"
+                items={sortedActivities}
+                onItemClick={handleItemClick}
+                total={totals.activities}
+              />
+              <CostTable
+                title="Transportation"
+                items={sortedTransportations}
+                onItemClick={handleItemClick}
+                total={totals.transportations}
+              />
+              <CostTable
+                title="Accommodation"
+                items={sortedAccommodations}
+                onItemClick={handleItemClick}
+                total={totals.accommodations}
+              />
 
-            {(totals.activities > 0 ||
-              totals.accommodations > 0 ||
-              totals.transportations > 0) && (
-              <Table className="table-fixed">
-                <TableBody>
-                  <TableRow className="font-bold border-t-2 border-b-0 hover:bg-transparent">
-                    <TableCell colSpan={2} className="align-top pl-3">
-                      Total
-                    </TableCell>
-                    <TableCell className="text-right w-32 align-top pr-3">
-                      {formatAmount(totals.grandTotal)}
-                    </TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            )}
-          </>
-        )}
+              {(totals.activities > 0 ||
+                totals.accommodations > 0 ||
+                totals.transportations > 0) && (
+                <Table className="table-fixed">
+                  <TableBody>
+                    <TableRow className="font-bold border-t-2 border-b-0 hover:bg-transparent">
+                      <TableCell colSpan={2} className="align-top pl-5">
+                        Total
+                      </TableCell>
+                      <TableCell className="text-right w-32 align-top pr-5">
+                        {formatAmount(totals.grandTotal)}
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              )}
+            </>
+          )}
+        </div>
       </Pane>
 
       <ActivityDialog

@@ -65,12 +65,13 @@ export default function DateInput({
 
   return (
     <Popover>
-      <div className="h-15">
+      <div className="h-10">
         <PopoverTrigger
           render={
             <Button
               ref={ref}
               name={name}
+              size="base"
               variant="secondary"
               className={cn(
                 //     "col-span-3 justify-start text-left font-normal w-full focus:ring-2 disabled:opacity-100 disabled:cursor-not-allowed disabled:pointer-events-auto",

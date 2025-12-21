@@ -1,3 +1,5 @@
+import { HugeiconsIcon } from "@hugeicons/react"
+import { Alert02Icon, Hotel01Icon } from "@hugeicons/core-free-icons"
 import type { Accommodation } from "@/schema.ts"
 import type { co } from "jazz-tools"
 import { Separator } from "@/components/ui/separator.tsx"
@@ -18,12 +20,16 @@ export default function DaySeparator({
 }) {
   return (
     <>
-      <div className={cn("mx-3 mt-2 text-sm text-muted-foreground", className)}>
+      <div className={cn("mx-5 mt-2 text-sm text-muted-foreground", className)}>
         <span
           className="hover:underline hover:cursor-pointer"
           onClick={() => onAccommodationClick(accomodation)}
         >
-          {accomodation ? `🛏️ ${accomodation.name}` : "⚠️ missing accomodation"}
+          <HugeiconsIcon
+            icon={accomodation ? Hotel01Icon : Alert02Icon}
+            className="size-4 mr-1 inline"
+          />
+          {accomodation ? accomodation.name : "️missing accomodation"}
         </span>
         {collapsedDays > 0 && (
           <span>

@@ -360,6 +360,7 @@ function FlightDialogContent({
           <Button
             form="flight-form"
             type="submit"
+            size="round"
             className="w-full"
             disabled={isSubmitting}
           >
@@ -369,6 +370,7 @@ function FlightDialogContent({
           <>
             <Button
               variant="destructive"
+              size="round"
               className="w-full"
               onClick={onDeleteButtonClick}
             >
@@ -376,6 +378,7 @@ function FlightDialogContent({
             </Button>
             <Button
               variant="secondary"
+              size="round"
               className="w-full"
               onClick={() => setEdit(true)}
             >

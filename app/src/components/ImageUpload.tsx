@@ -72,7 +72,7 @@ export function ImageUpload({
           )}
         </div>
         <div
-          className="absolute bottom-0 right-0 bg-background rounded-full p-2 cursor-pointer flex items-center justify-center shadow-lg shadow-black/2 dark:shadow-white/4"
+          className="absolute bottom-0 right-0 bg-card rounded-full p-2 cursor-pointer flex items-center justify-center shadow-lg shadow-black/2 dark:shadow-white/4"
           onClick={hasImage ? handleDelete : handleClick}
         >
           {hasImage ? (

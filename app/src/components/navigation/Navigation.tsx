@@ -1,6 +1,7 @@
-import { GalleryHorizontalEnd } from "lucide-react"
 import { Link, useLocation } from "@tanstack/react-router"
 import { useCoState } from "jazz-tools/react-core"
+import { HugeiconsIcon } from "@hugeicons/react"
+import { CarouselHorizontal02Icon } from "@hugeicons/core-free-icons"
 import { SharedTrip } from "@/schema.ts"
 import { ProfileMenu } from "@/components/navigation/ProfileMenu.tsx"
 import { SyncIndicator } from "@/components/navigation/SyncIndicator.tsx"
@@ -16,7 +17,7 @@ export default function Navigation({ sharedTripId }: { sharedTripId: string }) {
   })
 
   const commonStyle =
-    "inline-block h-10 sm:h-14 leading-9 sm:leading-14 border-[chocolate]"
+    "inline-block h-10 sm:h-14 leading-9 sm:leading-14 border-accent"
   const activeStyle = cn(commonStyle, "text-foreground border-b-3")
   const inactiveStyle = cn(
     commonStyle,
@@ -28,26 +29,22 @@ export default function Navigation({ sharedTripId }: { sharedTripId: string }) {
       <nav className="font-medium flex flex-col sm:flex-row justify-between items-start sm:items-center sm:gap-2 text-sm w-full h-full">
         <div className="px-3 sm:px-0 flex flex-row not-sm:w-full">
           <Link to="/">
-            <Button
-              size="sm"
-              variant="outline"
-              className="rounded-xl bg-transparent"
-            >
-              <GalleryHorizontalEnd />
+            <Button size="icon-lg" variant="secondary">
+              <HugeiconsIcon icon={CarouselHorizontal02Icon} />
             </Button>
           </Link>
-          <div className="h-9 leading-9 ml-2 grow sm:max-w-30 truncate">
+          <h1 className="text-2xl font-semibold leading-10 ml-2 grow sm:max-w-50 truncate">
             {sharedTrip.$isLoaded
               ? sharedTrip.trip.name
               : sharedTrip.$jazz.loadingState}
-          </div>
+          </h1>
           <div className="flex items-center justify-center gap-2 sm:hidden">
             <SyncIndicator />
             <ProfileMenu />
           </div>
         </div>
         <div
-          className="flex gap-6 lg:gap-8 overflow-x-auto w-full no-scrollbar items-center pl-5 md:pl-6 pr-10"
+          className="text-base font-normal flex gap-6 lg:gap-8 overflow-x-auto w-full no-scrollbar items-center pl-5 md:pl-6 pr-10"
           style={{
             maskImage:
               "linear-gradient(to right, transparent .0em, black 1em calc(100% - 3em), transparent calc(100% - .0em))",

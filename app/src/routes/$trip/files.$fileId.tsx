@@ -165,7 +165,7 @@ function LinkedItemChip({
           </span>
           <button
             onClick={onRemove}
-            className="ml-0.5 p-0.5 rounded-full hover:bg-background transition-colors cursor-pointer"
+            className="ml-0.5 p-0.5 rounded-full hover:bg-card transition-colors cursor-pointer"
           >
             <X className="w-3 h-3 text-muted-foreground" />
           </button>

@@ -53,7 +53,7 @@ export default function TrainEntry({
       open={open}
       onOpenChange={setOpen}
       className={cn(
-        "rounded-xl border mx-3 p-2 pl-4 pr-4 grid bg-background z-10 relative group/flyto",
+        "rounded-xl border mx-5 p-2 pl-4 pr-4 grid bg-card z-10 relative group/flyto",
         className,
       )}
     >
@@ -73,7 +73,7 @@ export default function TrainEntry({
         </div>
         {heroMap && (
           <ChevronRight
-            className="text-muted-foreground absolute top-2 -right-3 bg-background rounded-xl border hidden group-hover/flyto:block"
+            className="text-muted-foreground absolute top-2 -right-3 bg-card rounded-xl border hidden group-hover/flyto:block"
             onClick={onChevronClick}
           />
         )}

@@ -2,36 +2,42 @@ import React from "react"
 import { cn } from "@/lib/utils"
 
 export default function Pane({
-  title,
-  subtitle,
   children,
-  headerSlot,
+  leftSlot,
+  title,
+  rightSlot,
   className,
   testId,
 }: {
-  title?: string
-  subtitle?: string
   children: React.ReactNode
-  headerSlot?: React.ReactNode
+  leftSlot?: React.ReactNode
+  title?: string
+  rightSlot?: React.ReactNode
   className?: string
   testId?: string
 }) {
   return (
     <div
       data-testid={testId}
-      className={cn("h-full w-full sm:p-2 bg-background", className)}
+      className={cn("h-full w-full bg-card", className)}
     >
-      <div className="flex flex-col h-full">
-        {(title || headerSlot) && (
-          <div className="flex flex-row p-3 pb-4 border-b not-sm:hidden">
-            <div className="grow text-xl/[2rem] sm:text-2xl">
-              <span className="mr-2">{title}</span>
-              <span>{subtitle}</span>
+      <div className="relative flex flex-col h-full">
+        {(leftSlot || title || rightSlot) && (
+          <div className="absolute top-0 left-0 right-0 z-20 not-sm:hidden">
+            <div className="pane-header-blur" />
+            <div className="relative flex flex-row p-2 gap-2">
+              {leftSlot}
+              <h2 className="grow text-lg font-semibold leading-10">{title}</h2>
+              {rightSlot}
             </div>
-            {headerSlot}
           </div>
         )}
-        <div className="h-full no-scrollbar overflow-hidden overflow-y-scroll">
+        <div
+          className={cn(
+            "h-full no-scrollbar overflow-hidden overflow-y-scroll",
+            (leftSlot || title || rightSlot) && "sm:pt-14",
+          )}
+        >
           {children}
         </div>
       </div>

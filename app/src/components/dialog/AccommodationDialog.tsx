@@ -197,6 +197,7 @@ function AccommodationDialogContent({
           <Button
             form="accommodation-form"
             type="submit"
+            size="round"
             className="w-full"
             disabled={isSubmitting}
           >
@@ -205,7 +206,8 @@ function AccommodationDialogContent({
         ) : (
           <>
             <Button
-              variant={showDeleteConfirm ? "destructive" : "secondary"}
+              variant="destructive"
+              size="round"
               className="w-full"
               onClick={onDeleteButtonClick}
             >
@@ -213,6 +215,7 @@ function AccommodationDialogContent({
             </Button>
             <Button
               variant="secondary"
+              size="round"
               className="w-full"
               onClick={() => setEdit(true)}
             >

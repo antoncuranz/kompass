@@ -44,7 +44,7 @@ export default function TripCard({
       </div>
       <div className="absolute bottom-4 right-4 z-50 flex gap-2 hidden group-hover/trip-card:flex not-sm:flex">
         <div
-          className="bg-background rounded-full p-2 cursor-pointer flex items-center justify-center"
+          className="bg-card rounded-full p-2 cursor-pointer flex items-center justify-center"
           onClick={e => {
             e.preventDefault()
             onEdit()

@@ -105,7 +105,7 @@ export default function Day({
           onInfoBtnClick={() => onFlightClick(flight)}
         />
         {filteredLegs.length > idx + 1 && (
-          <span className="mx-3 text-sm text-muted-foreground">
+          <span className="mx-5 text-sm text-muted-foreground">
             {formatDuration(
               leg.arrivalDateTime,
               filteredLegs[idx + 1].departureDateTime,
@@ -126,7 +126,7 @@ export default function Day({
       <div key={idx}>
         <TrainEntry trainLeg={leg} onInfoBtnClick={() => onTrainClick(train)} />
         {filteredLegs.length > idx + 1 && (
-          <span className="mx-3 text-sm text-muted-foreground">
+          <span className="mx-5 text-sm text-muted-foreground">
             {formatDuration(
               leg.arrivalDateTime,
               filteredLegs[idx + 1].departureDateTime,

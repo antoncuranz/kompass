@@ -7,6 +7,12 @@
 @import "@prosekit/basic/style.css";
 @import "@prosekit/basic/typography.css";
 
+@import "../fonts/index.css" layer(base);
+
+* {
+  font-family: "Open Runde";
+}
+
 .ProseMirror h2,
 .ProseMirror h3,
 .ProseMirror h4 {
@@ -34,40 +40,50 @@
 }
 
 @theme {
-  --color-border: hsl(var(--border));
+  --color-border: var(--border);
   --color-input: hsl(var(--input));
   --color-ring: hsl(var(--ring));
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
 
-  --color-primary: hsl(var(--primary));
-  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-border: var(--primary-border);
 
-  --color-secondary: hsl(var(--secondary));
-  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-secondary: var(--secondary);
+  --color-secondary-hover: var(--secondary-hover);
+  --color-secondary-foreground: var(--secondary-foreground);
 
-  --color-destructive: hsl(var(--destructive));
-  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-destructive: var(--destructive);
+  --color-destructive-hover: var(--destructive-hover);
+  --color-destructive-foreground: var(--destructive-foreground);
 
   --color-muted: hsl(var(--muted));
-  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-muted-foreground: var(--muted-foreground);
 
-  --color-accent: hsl(var(--accent));
-  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
 
   --color-popover: hsl(var(--popover));
   --color-popover-foreground: hsl(var(--popover-foreground));
 
-  --color-card: hsl(var(--card));
+  --color-card: var(--card);
   --color-card-foreground: hsl(var(--card-foreground));
 
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
 
+  --radius-2xl: 1.25rem;
+  --radius-3xl: 1.75rem;
+
   --shadow-input:
     0px 2px 3px -1px rgba(0, 0, 0, 0.1), 0px 1px 0px 0px rgba(25, 28, 33, 0.02),
     0px 0px 0px 1px rgba(25, 28, 33, 0.08);
+
+  --shadow-sm: 0 2px 2px 0 rgba(0, 0, 0, 0.04);
+  --shadow-xs: 0 1px 1px 0 rgba(0, 0, 0, 0.02);
 }
 
 /*
@@ -79,6 +95,7 @@
   color utility to any element that depends on these defaults.
 */
 @layer base {
+
   *,
   ::after,
   ::before,
@@ -90,39 +107,44 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --background: 210 29 97;
     --foreground: 240 10% 3.9%;
 
-    --card: 0 0% 100%;
+    --card: var(--color-white);
     --card-foreground: 240 10% 3.9%;
 
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
 
-    --primary: 240 5.9% 10%;
-    --primary-foreground: 0 0% 98%;
+    --primary: var(--color-zinc-900);
+    --primary-hover: var(--color-zinc-800);
+    --primary-foreground: var(--color-white);
+    --primary-border: var(--color-zinc-600);
 
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
+    --secondary: var(--color-white);
+    --secondary-hover: var(--color-zinc-50);
+    --secondary-foreground: var(--color-black);
+
+    --destructive: var(--color-white);
+    --destructive-hover: var(--color-zinc-50);
+    --destructive-foreground: var(--color-red-600);
 
     --muted: 210, 28.57%, 97.25%;
-    --muted-foreground: 240 3.8% 46.1%;
+    --muted-foreground: var(--color-zinc-500);
 
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
+    --accent: var(--color-sky-600);
+    --accent-foreground: var(--color-background);
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-
-    --border: 240 5.9% 90%;
+    --border: var(--color-zinc-200);
     --input: 240 5.9% 90%;
     --ring: 240 10% 3.9%;
 
-    --radius: 0.5rem;
+    --radius: 0.875rem;
 
     --nested-dialogs: 1;
 
-    --separator-border: hsl(var(--border)) !important;
+    --separator-border: var(--border) !important;
+    --focus-border: var(--accent) !important;
   }
 
   .dark {
@@ -144,13 +166,10 @@
     --muted: 240 3.7% 15.9%;
     --muted-foreground: 240 5% 64.9%;
 
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 240 3.7% 15.9%;
+    --border: 240 5 34;
     --input: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;
   }
@@ -180,80 +199,22 @@
   scrollbar-width: none;
 }
 
-.mapboxgl-popup-tip,
 .maplibregl-popup-tip {
   display: none;
 }
 
-.mapboxgl-popup,
-.mapboxgl-popup-content,
 .maplibregl-popup,
 .maplibregl-popup-content {
   border-radius: 1rem !important;
 }
 
-.mapboxgl-popup-content,
 .maplibregl-popup-content {
   padding: 1rem !important;
   background: none !important;
 }
 
-.glow-container:before {
-  pointer-events: none;
-  position: absolute;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  user-select: none;
-  border-radius: 1rem;
-  opacity: 0;
-  transition-property: opacity;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 0.3s;
-  animation-duration: 0.3s;
-}
-
-@media (min-width: 640px) {
-  .glow-container:before {
-    border-radius: 1.5rem;
-  }
-}
-
-.glow-container:hover:before {
-  opacity: 1;
-}
-
-.glow-container:before {
-  background: radial-gradient(
-    700px circle at var(--x) var(--y),
-    #dd7bbb 0,
-    #d79f1e 10%,
-    #5a922c 25%,
-    #4c7894 35%,
-    rgb(0 0 0 / 0.1) 80%
-  );
-  content: "";
-  inset: -1px;
-}
-
-.dark .glow-container:before {
-  background: radial-gradient(
-    700px circle at var(--x) var(--y),
-    #dd7bbb 0,
-    #d79f1e 10%,
-    #5a922c 25%,
-    #4c7894 35%,
-    rgb(255 255 255 / 0.2) 80%
-  );
-}
-
-/**:not(input, textarea) {*/
-/*  -webkit-user-select: none;*/
-/*  -moz-user-select: none;*/
-/*  -ms-user-select: none;*/
-/*  user-select: none;*/
-/*}*/
-
 /* base-ui */
+
 .root {
   isolation: isolate;
 }
@@ -263,3 +224,18 @@ body {
 }
 
 /* /base-ui */
+
+/* Pane header progressive blur */
+.pane-header-blur {
+  position: absolute;
+  inset: 0;
+  bottom: -2rem;
+  backdrop-filter: blur(8px);
+  mask-image: linear-gradient(to bottom, black, black, transparent);
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.8) 0%, transparent 100%);
+  pointer-events: none;
+}
+
+.dark .pane-header-blur {
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 0%, transparent 100%);
+}

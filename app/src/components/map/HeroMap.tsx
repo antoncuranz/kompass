@@ -92,7 +92,7 @@ export default function HeroMap({
           longitude={popupInfo.lngLat.lng}
           latitude={popupInfo.lngLat.lat}
           maxWidth={undefined}
-          className="shadow-xl bg-background"
+          className="shadow-xl bg-card"
         >
           {popupInfo.children}
         </Popup>

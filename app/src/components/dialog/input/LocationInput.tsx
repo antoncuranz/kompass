@@ -37,8 +37,12 @@ export default function LocationInput({
           placeholder="Latitude"
         />
         {!disabled && (
-          <Button variant="secondary" onClick={() => setMapDialogOpen(true)}>
-            <Map className="h-4 w-4" />
+          <Button
+            variant="secondary"
+            size="icon"
+            onClick={() => setMapDialogOpen(true)}
+          >
+            <Map />
           </Button>
         )}
       </div>

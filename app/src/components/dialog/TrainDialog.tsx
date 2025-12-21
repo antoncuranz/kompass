@@ -274,6 +274,7 @@ function TrainDialogContent({
           <Button
             form="train-form"
             type="submit"
+            size="round"
             className="w-full"
             disabled={isSubmitting}
           >
@@ -282,7 +283,8 @@ function TrainDialogContent({
         ) : (
           <>
             <Button
-              variant={showDeleteConfirm ? "destructive" : "secondary"}
+              variant="destructive"
+              size="round"
               className="w-full"
               onClick={onDeleteButtonClick}
             >
@@ -290,6 +292,7 @@ function TrainDialogContent({
             </Button>
             <Button
               variant="secondary"
+              size="round"
               className="w-full"
               onClick={() => setEdit(true)}
             >

@@ -1,6 +1,8 @@
-import { ChevronDown, ChevronRight, ChevronUp, SquarePen } from "lucide-react"
+import { ChevronRight, SquarePen } from "lucide-react"
 import { useState } from "react"
 import { useMap } from "react-map-gl/maplibre"
+import { HugeiconsIcon } from "@hugeicons/react"
+import { ArrowDown01Icon, ArrowUp01Icon } from "@hugeicons/core-free-icons"
 import type { MouseEvent, MouseEventHandler } from "react"
 import type { Flight, FlightLeg } from "@/schema.ts"
 import type { co } from "jazz-tools"
@@ -45,7 +47,8 @@ export default function FlightEntry({
       open={open}
       onOpenChange={setOpen}
       className={cn(
-        "rounded-xl border mx-3 p-2 pl-4 pr-4 grid bg-background z-10 relative group/flyto",
+        "rounded-lg border mx-5 p-2 pl-4 pr-4 grid bg-card z-10 relative group/flyto",
+        "shadow-sm active:shadow-xs transition-all",
         className,
       )}
     >
@@ -58,14 +61,14 @@ export default function FlightEntry({
               : `${formatTime(flightLeg.departureDateTime)}-${formatTime(flightLeg.arrivalDateTime)} Flight ${flightLeg.flightNumber} from ${flightLeg.origin.municipality} to ${flightLeg.destination.municipality}`}
           </span>
           {open ? (
-            <ChevronUp className="float-right text-muted-foreground" />
+            <HugeiconsIcon icon={ArrowUp01Icon} />
           ) : (
-            <ChevronDown className="float-right text-muted-foreground" />
+            <HugeiconsIcon icon={ArrowDown01Icon} />
           )}
         </div>
         {heroMap && (
           <ChevronRight
-            className="text-muted-foreground absolute top-2 -right-3 bg-background rounded-xl border hidden group-hover/flyto:block"
+            className="text-muted-foreground absolute top-2 -right-3 bg-card rounded-xl border hidden group-hover/flyto:block"
             onClick={onChevronClick}
           />
         )}
@@ -119,11 +122,7 @@ export default function FlightEntry({
                     className="flex"
                     mode="hide"
                   >
-                    <Button
-                      size="sm"
-                      variant="secondary"
-                      className="ml-2 p-2 h-6"
-                    >
+                    <Button variant="secondary" className="ml-2 p-2 h-6">
                       {pnr.airline} {pnr.pnr}
                     </Button>
                   </PrivacyFilter>

@@ -17,7 +17,7 @@ export default function Card({
     <div
       data-testid={testId}
       className={cn(
-        "h-full w-full bg-background rounded-3xl shadow-xl shadow-black/10 dark:shadow-white/5 border no-scrollbar overflow-hidden overflow-y-scroll",
+        "h-full w-full bg-card rounded-3xl shadow-xl shadow-black/10 dark:shadow-white/5 border no-scrollbar overflow-hidden overflow-y-scroll",
         className,
       )}
       onClick={onClick}

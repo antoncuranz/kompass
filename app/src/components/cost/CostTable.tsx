@@ -21,7 +21,7 @@ export default function CostTable({
 
   return (
     <div>
-      <h2 className="text-lg font-semibold mx-3 my-2">{title}</h2>
+      <h2 className="text-lg font-semibold mx-5 my-2">{title}</h2>
       <Table className="table-fixed">
         <TableBody>
           {items.map((item, idx) => (
@@ -30,9 +30,9 @@ export default function CostTable({
               className="cursor-pointer"
               onClick={() => onItemClick(item)}
             >
-              <TableCell className="w-24 pl-3">{item.date}</TableCell>
+              <TableCell className="w-24 pl-5">{item.date}</TableCell>
               <TableCell className="flex-1 truncate">{item.name}</TableCell>
-              <TableCell className="text-right w-20 pr-3">
+              <TableCell className="text-right w-20 pr-5">
                 {item.price !== undefined ? formatAmount(item.price) : "—"}
               </TableCell>
             </TableRow>
@@ -40,7 +40,7 @@ export default function CostTable({
           <TableRow className="font-semibold hover:bg-transparent">
             {/* TODO: disable hover without bg-transparent */}
             <TableCell colSpan={2} />
-            <TableCell className="text-right pr-3">
+            <TableCell className="text-right pr-5">
               {formatAmount(total)}
             </TableCell>
           </TableRow>

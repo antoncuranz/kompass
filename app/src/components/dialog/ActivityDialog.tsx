@@ -182,6 +182,7 @@ function ActivityDialogContent({
           <Button
             form="activity-form"
             type="submit"
+            size="round"
             className="w-full"
             disabled={isSubmitting}
           >
@@ -190,7 +191,7 @@ function ActivityDialogContent({
         ) : (
           <>
             <Button
-              variant={showDeleteConfirm ? "destructive" : "secondary"}
+              variant="destructive"
               className="w-full"
               onClick={onDeleteButtonClick}
             >

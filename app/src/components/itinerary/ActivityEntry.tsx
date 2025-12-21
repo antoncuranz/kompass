@@ -23,7 +23,7 @@ export default function ActivityEntry({
 
   return (
     <div
-      className="rounded-xl border border-dashed my-4 mx-3 py-2 px-4 hover:border-solid hover:cursor-pointer relative group/flyto"
+      className="rounded-lg border border-dashed my-4 mx-5 py-2 px-4 hover:border-solid hover:shadow-sm active:shadow-xs cursor-pointer relative group/flyto"
       onClick={onClick}
     >
       {activity.name}
@@ -32,7 +32,7 @@ export default function ActivityEntry({
       </span>
       {activity.location && heroMap && (
         <ChevronRight
-          className="text-muted-foreground absolute top-2 -right-3 bg-background rounded-xl border hidden group-hover/flyto:block"
+          className="text-muted-foreground absolute top-2 -right-3 bg-card rounded-lg border hidden group-hover/flyto:block"
           onClick={onChevronClick}
         />
       )}

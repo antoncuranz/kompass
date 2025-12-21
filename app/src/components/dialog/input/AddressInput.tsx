@@ -59,15 +59,12 @@ export default function AddressInput({
         {!disabled && (
           <Button
             variant="secondary"
+            size="icon"
             onClick={onClick}
             disabled={isLoading}
             aria-label="Lookup Address"
           >
-            {isLoading ? (
-              <Spinner className="h-4 w-4" variant="pinwheel" />
-            ) : (
-              <Search className="h-4 w-4" />
-            )}
+            {isLoading ? <Spinner variant="pinwheel" /> : <Search />}
           </Button>
         )}
       </div>

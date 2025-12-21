@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { Separator } from "../ui/separator"
 import type {
   Accommodation,
   Activity,
@@ -79,7 +80,8 @@ export default function Itinerary({
   }
 
   return (
-    <div className="mb-4">
+    <div className="mb-5">
+      {/* <Separator /> */}
       {dataByDays.map((dayData, idx) => (
         <Day
           key={dayData.day}
