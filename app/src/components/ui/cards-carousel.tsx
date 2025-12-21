@@ -1,4 +1,5 @@
-import { ChevronLeft, ChevronRight } from "lucide-react"
+import { HugeiconsIcon } from "@hugeicons/react"
+import { ArrowLeft01Icon, ArrowRight01Icon } from "@hugeicons/core-free-icons"
 import { motion } from "motion/react"
 import React, { createContext, useEffect, useState } from "react"
 import type { JSX } from "react"
@@ -119,14 +120,14 @@ export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
             onClick={scrollLeft}
             disabled={!canScrollLeft}
           >
-            <ChevronLeft className="h-6 w-6 text-gray-500" />
+            <HugeiconsIcon icon={ArrowLeft01Icon} size={24} className="text-gray-500" />
           </button>
           <button
             className="relative z-40 flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 disabled:opacity-50"
             onClick={scrollRight}
             disabled={!canScrollRight}
           >
-            <ChevronRight className="h-6 w-6 text-gray-500" />
+            <HugeiconsIcon icon={ArrowRight01Icon} size={24} className="text-gray-500" />
           </button>
         </div>
       </div>

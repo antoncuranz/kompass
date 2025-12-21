@@ -1,6 +1,7 @@
 import { useRef, useState } from "react"
 import { toast } from "sonner"
-import { Camera, X } from "lucide-react"
+import { HugeiconsIcon } from "@hugeicons/react"
+import { Camera01Icon, Cancel01Icon } from "@hugeicons/core-free-icons"
 import type { ChangeEvent } from "react"
 import { Avatar } from "@/components/Avatar"
 import { cn } from "@/lib/utils"
@@ -76,9 +77,9 @@ export function ImageUpload({
           onClick={hasImage ? handleDelete : handleClick}
         >
           {hasImage ? (
-            <X className="h-4 w-4" />
+            <HugeiconsIcon icon={Cancel01Icon} />
           ) : (
-            <Camera className="h-4 w-4" />
+            <HugeiconsIcon icon={Camera01Icon} />
           )}
         </div>
       </div>

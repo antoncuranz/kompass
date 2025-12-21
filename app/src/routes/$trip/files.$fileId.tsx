@@ -1,15 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router"
 import { co } from "jazz-tools"
 import { useCoState } from "jazz-tools/react"
+import { HugeiconsIcon } from "@hugeicons/react"
 import {
-  Building2,
-  Link as LinkIcon,
-  MapPin,
-  Plane,
-  Plus,
-  Train,
-  X,
-} from "lucide-react"
+  Add01Icon,
+  AirplaneTakeOff01Icon,
+  Building03Icon,
+  Cancel01Icon,
+  Link01Icon,
+  Location01Icon,
+  Train01Icon,
+} from "@hugeicons/core-free-icons"
 import { useEffect, useState } from "react"
 import type { ResolvedReference } from "@/lib/file-utils"
 import type { Trip } from "@/schema"
@@ -100,7 +101,7 @@ function FileDetailPage() {
 
           <div className="border-t pt-3 px-4 pb-4 sm:px-1 sm:pb-1">
             <div className="flex items-center gap-2 flex-wrap">
-              <LinkIcon className="w-4 h-4 text-muted-foreground" />
+              <HugeiconsIcon icon={Link01Icon} className="text-muted-foreground" />
               {file.references.length > 0 ? (
                 file.references.map((refId, idx) => (
                   <LinkedItemChip
@@ -120,7 +121,7 @@ function FileDetailPage() {
                   onClick={() => setShowEntitySelector(true)}
                   className="p-1.5 rounded-full text-muted-foreground hover:bg-muted transition-colors cursor-pointer"
                 >
-                  <Plus className="w-4 h-4" />
+                  <HugeiconsIcon icon={Add01Icon} />
                 </button>
               )}
             </div>
@@ -167,7 +168,7 @@ function LinkedItemChip({
             onClick={onRemove}
             className="ml-0.5 p-0.5 rounded-full hover:bg-card transition-colors cursor-pointer"
           >
-            <X className="w-3 h-3 text-muted-foreground" />
+            <HugeiconsIcon icon={Cancel01Icon} size={12} className="text-muted-foreground" />
           </button>
         </>
       )}
@@ -186,15 +187,15 @@ export function TransportationIcon({
 }) {
   switch (type) {
     case "activity":
-      return <MapPin className={className} />
+      return <HugeiconsIcon icon={Location01Icon} className={className} />
     case "accommodation":
-      return <Building2 className={className} />
+      return <HugeiconsIcon icon={Building03Icon} className={className} />
     case "transportation": {
       if (transportationType === "flight") {
-        return <Plane className={className} />
+        return <HugeiconsIcon icon={AirplaneTakeOff01Icon} className={className} />
       }
       if (transportationType === "train") {
-        return <Train className={className} />
+        return <HugeiconsIcon icon={Train01Icon} className={className} />
       }
       if (transportationType) {
         return (
@@ -203,7 +204,7 @@ export function TransportationIcon({
           </span>
         )
       }
-      return <Plane className={className} />
+      return <HugeiconsIcon icon={AirplaneTakeOff01Icon} className={className} />
     }
   }
 }

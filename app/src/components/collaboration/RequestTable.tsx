@@ -1,4 +1,5 @@
-import { Check, X } from "lucide-react"
+import { HugeiconsIcon } from "@hugeicons/react"
+import { Cancel01Icon, Tick02Icon } from "@hugeicons/core-free-icons"
 import { useState, useTransition } from "react"
 import { toast } from "sonner"
 import type { co } from "jazz-tools"
@@ -123,7 +124,7 @@ function RequestRow({
             aria-label="Approve"
             className="shrink-0 h-10 w-10"
           >
-            <Check className="h-4 w-4" />
+            <HugeiconsIcon icon={Tick02Icon} />
           </Button>
           <Button
             size="icon"
@@ -133,7 +134,7 @@ function RequestRow({
             aria-label="Reject"
             className="shrink-0 h-10 w-10"
           >
-            <X className="h-4 w-4" />
+            <HugeiconsIcon icon={Cancel01Icon} />
           </Button>
         </div>
       </TableCell>

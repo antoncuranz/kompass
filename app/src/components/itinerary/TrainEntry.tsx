@@ -1,4 +1,10 @@
-import { ChevronDown, ChevronRight, ChevronUp, SquarePen } from "lucide-react"
+import { HugeiconsIcon } from "@hugeicons/react"
+import {
+  ArrowDown01Icon,
+  ArrowRight01Icon,
+  ArrowUp01Icon,
+  PencilEdit01Icon,
+} from "@hugeicons/core-free-icons"
 import { useState } from "react"
 import { useMap } from "react-map-gl/maplibre"
 import type { MouseEvent, MouseEventHandler } from "react"
@@ -66,13 +72,14 @@ export default function TrainEntry({
               : `${formatTime(trainLeg.departureDateTime)}-${formatTime(trainLeg.arrivalDateTime)} ${trainLeg.lineName} from ${trainLeg.origin.name} to ${trainLeg.destination.name}`}
           </span>
           {open ? (
-            <ChevronUp className="float-right text-muted-foreground" />
+            <HugeiconsIcon icon={ArrowUp01Icon} className="float-right text-muted-foreground" />
           ) : (
-            <ChevronDown className="float-right text-muted-foreground" />
+            <HugeiconsIcon icon={ArrowDown01Icon} className="float-right text-muted-foreground" />
           )}
         </div>
         {heroMap && (
-          <ChevronRight
+          <HugeiconsIcon
+            icon={ArrowRight01Icon}
             className="text-muted-foreground absolute top-2 -right-3 bg-card rounded-xl border hidden group-hover/flyto:block"
             onClick={onChevronClick}
           />
@@ -114,7 +121,7 @@ export default function TrainEntry({
                 className="ml-2 p-2 h-6"
                 onClick={onInfoBtnClick}
               >
-                <SquarePen className="w-3.5 h-3.5" />
+                <HugeiconsIcon icon={PencilEdit01Icon} size={14} />
               </Button>
             </div>
           </div>

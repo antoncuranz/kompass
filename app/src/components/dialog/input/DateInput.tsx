@@ -1,5 +1,6 @@
 import { format } from "date-fns"
-import { CalendarIcon } from "lucide-react"
+import { HugeiconsIcon } from "@hugeicons/react"
+import { Calendar03Icon } from "@hugeicons/core-free-icons"
 import type { DateRange, Matcher } from "react-day-picker"
 import type { ControllerRenderProps, FieldValues } from "react-hook-form"
 import { Button } from "@/components/ui/button.tsx"
@@ -82,7 +83,7 @@ export default function DateInput({
             />
           }
         >
-          <CalendarIcon className="mr-2 h-4 w-4" />
+          <HugeiconsIcon icon={Calendar03Icon} className="mr-2" />
           {mode === "range" ? (
             value?.to ? (
               `${format(value.from, "MMM dd")} - ${format(value.to, "MMM dd, yyyy")}`

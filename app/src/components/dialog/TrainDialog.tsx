@@ -1,5 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Minus, Plus } from "lucide-react"
+import { HugeiconsIcon } from "@hugeicons/react"
+import { Add01Icon, MinusSignIcon } from "@hugeicons/core-free-icons"
 import { useState } from "react"
 import { useFieldArray, useForm } from "react-hook-form"
 import { toast } from "sonner"
@@ -243,7 +244,7 @@ function TrainDialogContent({
                   className="p-2 h-auto rounded-full"
                   onClick={() => deleteLeg()}
                 >
-                  <Minus className="h-4 w-4" />
+                  <HugeiconsIcon icon={MinusSignIcon} />
                 </Button>
               ) : (
                 <div />
@@ -253,7 +254,7 @@ function TrainDialogContent({
                 className="p-2 h-auto rounded-full"
                 onClick={() => addLeg()}
               >
-                <Plus className="w-4 h-4" />
+                <HugeiconsIcon icon={Add01Icon} />
               </Button>
             </div>
           )}

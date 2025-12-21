@@ -1,4 +1,11 @@
-import { Check, Monitor, Moon, Settings, Sun } from "lucide-react"
+import { HugeiconsIcon } from "@hugeicons/react"
+import {
+  ComputerIcon,
+  Moon02Icon,
+  Settings01Icon,
+  SunIcon,
+  Tick02Icon,
+} from "@hugeicons/core-free-icons"
 import { useAccount } from "jazz-tools/react"
 import { useState } from "react"
 import { usePrivacy } from "../provider/PrivacyProvider"
@@ -19,9 +26,9 @@ import { cn } from "@/lib/utils"
 import { titleCase } from "@/lib/misc-utils"
 
 const themeIcons = {
-  light: Sun,
-  dark: Moon,
-  system: Monitor,
+  light: SunIcon,
+  dark: Moon02Icon,
+  system: ComputerIcon,
 }
 
 export function ProfileMenu({ className }: { className?: string }) {
@@ -57,19 +64,19 @@ export function ProfileMenu({ className }: { className?: string }) {
             const Icon = themeIcons[t]
             return (
               <DropdownMenuItem key={t} onClick={() => setTheme(t)}>
-                <Icon className="mr-2 h-4 w-4" />
+                <HugeiconsIcon icon={Icon} className="mr-2" />
                 {titleCase(t)}
               </DropdownMenuItem>
             )
           })}
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={() => togglePrivacyMode()}>
-            <Check className={cn("mr-2 h-4 w-4", privacyMode && "invisible")} />
+            <HugeiconsIcon icon={Tick02Icon} className={cn("mr-2", privacyMode && "invisible")} />
             Privacy Mode
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={() => setSettingsOpen(true)}>
-            <Settings className="mr-2 h-4 w-4" />
+            <HugeiconsIcon icon={Settings01Icon} className="mr-2" />
             Settings
           </DropdownMenuItem>
         </DropdownMenuContent>

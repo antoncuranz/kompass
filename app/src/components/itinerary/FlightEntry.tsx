@@ -1,8 +1,12 @@
-import { ChevronRight, SquarePen } from "lucide-react"
+import { HugeiconsIcon } from "@hugeicons/react"
+import {
+  ArrowDown01Icon,
+  ArrowRight01Icon,
+  ArrowUp01Icon,
+  PencilEdit01Icon,
+} from "@hugeicons/core-free-icons"
 import { useState } from "react"
 import { useMap } from "react-map-gl/maplibre"
-import { HugeiconsIcon } from "@hugeicons/react"
-import { ArrowDown01Icon, ArrowUp01Icon } from "@hugeicons/core-free-icons"
 import type { MouseEvent, MouseEventHandler } from "react"
 import type { Flight, FlightLeg } from "@/schema.ts"
 import type { co } from "jazz-tools"
@@ -67,7 +71,8 @@ export default function FlightEntry({
           )}
         </div>
         {heroMap && (
-          <ChevronRight
+          <HugeiconsIcon
+            icon={ArrowRight01Icon}
             className="text-muted-foreground absolute top-2 -right-3 bg-card rounded-xl border hidden group-hover/flyto:block"
             onClick={onChevronClick}
           />
@@ -132,7 +137,7 @@ export default function FlightEntry({
                 className="ml-2 p-2 h-6"
                 onClick={onInfoBtnClick}
               >
-                <SquarePen className="w-3.5 h-3.5" />
+                <HugeiconsIcon icon={PencilEdit01Icon} size={14} />
               </Button>
             </div>
           </div>

@@ -1,4 +1,5 @@
-import { Pencil } from "lucide-react"
+import { HugeiconsIcon } from "@hugeicons/react"
+import { PencilEdit02Icon } from "@hugeicons/core-free-icons"
 import type { Trip } from "@/schema.ts"
 import type { co } from "jazz-tools"
 import Card from "@/components/card/Card.tsx"
@@ -50,7 +51,7 @@ export default function TripCard({
             onEdit()
           }}
         >
-          <Pencil className="h-4 w-4" />
+          <HugeiconsIcon icon={PencilEdit02Icon} />
         </div>
       </div>
     </Card>

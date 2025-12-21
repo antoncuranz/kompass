@@ -2,13 +2,14 @@ import {
   BlockHandleDraggable,
   BlockHandlePopover,
 } from "@prosekit/react/block-handle"
-import { GripVerticalIcon } from "lucide-react"
+import { HugeiconsIcon } from "@hugeicons/react"
+import { DragDropVerticalIcon } from "@hugeicons/core-free-icons"
 
 export function BlockHandle() {
   return (
     <BlockHandlePopover className="flex items-center gap-1 ml-1">
       <BlockHandleDraggable className="rounded cursor-grab active:cursor-grabbing">
-        <GripVerticalIcon className="w-4 h-4 text-muted-foreground" />
+        <HugeiconsIcon icon={DragDropVerticalIcon} className="text-muted-foreground" />
       </BlockHandleDraggable>
     </BlockHandlePopover>
   )

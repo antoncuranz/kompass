@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router"
-import { Plus } from "lucide-react"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { Add01Icon, FilterMailIcon } from "@hugeicons/core-free-icons"
 import type { DayRenderData } from "@/types.ts"
@@ -94,7 +93,7 @@ function ItineraryPage() {
           trip={trip}
           trigger={
             <Button size="icon" className="rounded-full h-12 w-12 shadow-lg">
-              <Plus className="size-6" />
+              <HugeiconsIcon icon={Add01Icon} size={24} />
             </Button>
           }
         />

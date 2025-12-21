@@ -1,5 +1,6 @@
 import { useResizeObserver } from "@wojtekmaj/react-hooks"
-import { Download, FileText } from "lucide-react"
+import { HugeiconsIcon } from "@hugeicons/react"
+import { Download01Icon, FileAttachmentIcon } from "@hugeicons/core-free-icons"
 import { useCallback, useEffect, useState } from "react"
 import { Document, Page, pdfjs } from "react-pdf"
 import "react-pdf/dist/Page/AnnotationLayer.css"
@@ -90,13 +91,13 @@ export default function FileViewer({
 
   return (
     <div className="flex flex-col items-center justify-center h-full gap-4 py-8">
-      <FileText className="h-16 w-16 text-muted-foreground" />
+      <HugeiconsIcon icon={FileAttachmentIcon} size={64} className="text-muted-foreground" />
       <p className="text-muted-foreground">
         Preview not available for this file type
       </p>
       {onDownload && (
         <Button onClick={onDownload}>
-          <Download className="h-4 w-4 mr-2" />
+          <HugeiconsIcon icon={Download01Icon} className="mr-2" />
           Download {fileName}
         </Button>
       )}

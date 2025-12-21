@@ -1,12 +1,13 @@
 import { useEditor } from "prosekit/react"
 import { InlinePopover } from "prosekit/react/inline-popover"
+import { HugeiconsIcon } from "@hugeicons/react"
 import {
-  BoldIcon,
-  CodeIcon,
-  ItalicIcon,
-  StrikethroughIcon,
-  UnderlineIcon,
-} from "lucide-react"
+  SourceCodeIcon,
+  TextBoldIcon,
+  TextItalicIcon,
+  TextStrikethroughIcon,
+  TextUnderlineIcon,
+} from "@hugeicons/core-free-icons"
 import type { EditorExtension } from "./extension"
 
 export function InlineMenu() {
@@ -31,35 +32,35 @@ export function InlineMenu() {
         className={`p-2 rounded cursor-pointer hover:bg-muted hover:text-muted-foreground ${isBold ? "bg-accent text-accent-foreground" : ""}`}
         aria-label="Bold"
       >
-        <BoldIcon className="w-4 h-4" />
+        <HugeiconsIcon icon={TextBoldIcon} />
       </button>
       <button
         onClick={toggleItalic}
         className={`p-2 rounded cursor-pointer hover:bg-muted hover:text-muted-foreground ${isItalic ? "bg-accent text-accent-foreground" : ""}`}
         aria-label="Italic"
       >
-        <ItalicIcon className="w-4 h-4" />
+        <HugeiconsIcon icon={TextItalicIcon} />
       </button>
       <button
         onClick={toggleUnderline}
         className={`p-2 rounded cursor-pointer hover:bg-muted hover:text-muted-foreground ${isUnderline ? "bg-accent text-accent-foreground" : ""}`}
         aria-label="Underline"
       >
-        <UnderlineIcon className="w-4 h-4" />
+        <HugeiconsIcon icon={TextUnderlineIcon} />
       </button>
       <button
         onClick={toggleStrike}
         className={`p-2 rounded cursor-pointer hover:bg-muted hover:text-muted-foreground ${isStrike ? "bg-accent text-accent-foreground" : ""}`}
         aria-label="Strikethrough"
       >
-        <StrikethroughIcon className="w-4 h-4" />
+        <HugeiconsIcon icon={TextStrikethroughIcon} />
       </button>
       <button
         onClick={toggleCode}
         className={`p-2 rounded cursor-pointer hover:bg-muted hover:text-muted-foreground ${isCode ? "bg-accent text-accent-foreground" : ""}`}
         aria-label="Code"
       >
-        <CodeIcon className="w-4 h-4" />
+        <HugeiconsIcon icon={SourceCodeIcon} />
       </button>
     </InlinePopover>
   )
