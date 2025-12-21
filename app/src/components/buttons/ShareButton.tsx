@@ -18,12 +18,8 @@ export default function ShareButton({
   }
 
   return (
-    <Button
-      size="sm"
-      className="h-8 gap-1 mt-0 ml-1 self-end"
-      onClick={handleShare}
-    >
-      <HugeiconsIcon icon={Share01Icon} size={14} /> Copy Link
+    <Button variant="secondary" size="icon-round" onClick={handleShare}>
+      <HugeiconsIcon icon={Share01Icon} />
     </Button>
   )
 }

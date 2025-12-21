@@ -192,14 +192,16 @@ function ActivityDialogContent({
           <>
             <Button
               variant="destructive"
-              className="w-full"
+              size="round"
+              className="w-full shrink-1"
               onClick={onDeleteButtonClick}
             >
               {showDeleteConfirm ? "Confirm Delete" : "Delete"}
             </Button>
             <Button
               variant="secondary"
-              className="w-full"
+              size="round"
+              className="w-full shrink-1"
               onClick={() => setEdit(true)}
             >
               Edit

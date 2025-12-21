@@ -26,41 +26,41 @@ export function InlineMenu() {
   const isCode = editor.marks.code.isActive()
 
   return (
-    <InlinePopover className="flex items-center gap-1 p-1 bg-popover text-popover-foreground rounded-md border-0 dark:border shadow-lg shadow-black/10 dark:shadow-white/5">
+    <InlinePopover className="flex items-center gap-1 p-1 bg-popover text-popover-foreground rounded-md border shadow-lg shadow-black/10 dark:shadow-white/5">
       <button
         onClick={toggleBold}
         className={`p-2 rounded cursor-pointer hover:bg-muted hover:text-muted-foreground ${isBold ? "bg-accent text-accent-foreground" : ""}`}
         aria-label="Bold"
       >
-        <HugeiconsIcon icon={TextBoldIcon} />
+        <HugeiconsIcon icon={TextBoldIcon} size={16} />
       </button>
       <button
         onClick={toggleItalic}
         className={`p-2 rounded cursor-pointer hover:bg-muted hover:text-muted-foreground ${isItalic ? "bg-accent text-accent-foreground" : ""}`}
         aria-label="Italic"
       >
-        <HugeiconsIcon icon={TextItalicIcon} />
+        <HugeiconsIcon icon={TextItalicIcon} size={16} />
       </button>
       <button
         onClick={toggleUnderline}
         className={`p-2 rounded cursor-pointer hover:bg-muted hover:text-muted-foreground ${isUnderline ? "bg-accent text-accent-foreground" : ""}`}
         aria-label="Underline"
       >
-        <HugeiconsIcon icon={TextUnderlineIcon} />
+        <HugeiconsIcon icon={TextUnderlineIcon} size={16} />
       </button>
       <button
         onClick={toggleStrike}
         className={`p-2 rounded cursor-pointer hover:bg-muted hover:text-muted-foreground ${isStrike ? "bg-accent text-accent-foreground" : ""}`}
         aria-label="Strikethrough"
       >
-        <HugeiconsIcon icon={TextStrikethroughIcon} />
+        <HugeiconsIcon icon={TextStrikethroughIcon} size={16} />
       </button>
       <button
         onClick={toggleCode}
         className={`p-2 rounded cursor-pointer hover:bg-muted hover:text-muted-foreground ${isCode ? "bg-accent text-accent-foreground" : ""}`}
         aria-label="Code"
       >
-        <HugeiconsIcon icon={SourceCodeIcon} />
+        <HugeiconsIcon icon={SourceCodeIcon} size={16} />
       </button>
     </InlinePopover>
   )

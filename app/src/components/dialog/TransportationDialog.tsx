@@ -330,7 +330,7 @@ function TransportationDialogContent({
             <Button
               variant="destructive"
               size="round"
-              className="w-full"
+              className="w-full shrink-1"
               onClick={onDeleteButtonClick}
             >
               {showDeleteConfirm ? "Confirm Delete" : "Delete"}
@@ -338,7 +338,7 @@ function TransportationDialogContent({
             <Button
               variant="secondary"
               size="round"
-              className="w-full"
+              className="w-full shrink-1"
               onClick={() => setEdit(true)}
             >
               Edit

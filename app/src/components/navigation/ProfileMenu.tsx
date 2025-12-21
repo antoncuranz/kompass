@@ -47,15 +47,14 @@ export function ProfileMenu({ className }: { className?: string }) {
     <DropdownMenu>
       <DropdownMenuTrigger
         render={
-          <Button
-            variant="ghost"
-            size="icon"
-            className="shrink-0 rounded-full"
-          />
+          <Button variant="secondary" size="icon-round" className="p-0" />
         }
         className={className}
       >
-        <Avatar accountId={account.$jazz.id} />
+        <Avatar
+          accountId={account.$jazz.id}
+          className="h-full w-full border-0"
+        />
         <span className="sr-only">Open profile menu</span>
       </DropdownMenuTrigger>
       <DropdownMenuPositioner align="end">
@@ -71,7 +70,10 @@ export function ProfileMenu({ className }: { className?: string }) {
           })}
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={() => togglePrivacyMode()}>
-            <HugeiconsIcon icon={Tick02Icon} className={cn("mr-2", privacyMode && "invisible")} />
+            <HugeiconsIcon
+              icon={Tick02Icon}
+              className={cn("mr-2", privacyMode && "invisible")}
+            />
             Privacy Mode
           </DropdownMenuItem>
           <DropdownMenuSeparator />

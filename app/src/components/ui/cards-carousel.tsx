@@ -4,6 +4,7 @@ import { motion } from "motion/react"
 import React, { createContext, useEffect, useState } from "react"
 import type { JSX } from "react"
 import { cn } from "@/lib/utils"
+import { Button } from "./button"
 
 interface CarouselProps {
   items: Array<JSX.Element>
@@ -115,20 +116,22 @@ export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
           </div>
         </div>
         <div className="mr-10 flex justify-end gap-2">
-          <button
-            className="relative z-40 flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 disabled:opacity-50"
+          <Button
+            variant="secondary"
+            size="icon-round"
             onClick={scrollLeft}
             disabled={!canScrollLeft}
           >
-            <HugeiconsIcon icon={ArrowLeft01Icon} size={24} className="text-gray-500" />
-          </button>
-          <button
-            className="relative z-40 flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 disabled:opacity-50"
+            <HugeiconsIcon icon={ArrowLeft01Icon} />
+          </Button>
+          <Button
+            variant="secondary"
+            size="icon-round"
             onClick={scrollRight}
             disabled={!canScrollRight}
           >
-            <HugeiconsIcon icon={ArrowRight01Icon} size={24} className="text-gray-500" />
-          </button>
+            <HugeiconsIcon icon={ArrowRight01Icon} />
+          </Button>
         </div>
       </div>
     </CarouselContext.Provider>

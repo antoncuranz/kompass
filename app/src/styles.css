@@ -65,7 +65,7 @@
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
 
-  --color-popover: hsl(var(--popover));
+  --color-popover: var(--popover);
   --color-popover-foreground: hsl(var(--popover-foreground));
 
   --color-card: var(--card);
@@ -111,29 +111,29 @@
     --foreground: 240 10% 3.9%;
 
     --card: var(--color-white);
-    --card-foreground: 240 10% 3.9%;
+    --card-foreground: var(--color-foreground);
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
+    --popover: var(--color-card);
+    --popover-foreground: var(--color-foreground);
 
     --primary: var(--color-zinc-900);
     --primary-hover: var(--color-zinc-800);
-    --primary-foreground: var(--color-white);
+    --primary-foreground: var(--color-card);
     --primary-border: var(--color-zinc-600);
 
-    --secondary: var(--color-white);
+    --secondary: var(--color-card);
     --secondary-hover: var(--color-zinc-50);
-    --secondary-foreground: var(--color-black);
+    --secondary-foreground: var(--color-foreground);
 
-    --destructive: var(--color-white);
-    --destructive-hover: var(--color-zinc-50);
+    --destructive: var(--color-card);
+    --destructive-hover: var(--color-secondary-hover);
     --destructive-foreground: var(--color-red-600);
 
     --muted: 210, 28.57%, 97.25%;
     --muted-foreground: var(--color-zinc-500);
 
     --accent: var(--color-sky-600);
-    --accent-foreground: var(--color-background);
+    --accent-foreground: var(--color-card);
 
     --border: var(--color-zinc-200);
     --input: 240 5.9% 90%;
@@ -151,25 +151,21 @@
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
 
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
+    --card: var(--color-black);
+    /* --card-foreground: 0 0% 98%; */
 
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
+    /* --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%; */
 
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
+    --primary: var(--color-zinc-100);
+    --primary-hover: var(--color-zinc-300);
 
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary-hover: var(--color-zinc-900);
+    /* --secondary-foreground: var(--color-white); */
 
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
+    --muted-foreground: var(--color-zinc-400);
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-
-    --border: 240 5 34;
+    --border: var(--color-zinc-800);
     --input: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;
   }

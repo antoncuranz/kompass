@@ -27,7 +27,14 @@ export default function Pane({
             <div className="pane-header-blur" />
             <div className="relative flex flex-row p-2 gap-2">
               {leftSlot}
-              <h2 className="grow text-lg font-semibold leading-10">{title}</h2>
+              <h2
+                className={cn(
+                  "grow text-lg font-semibold leading-10 truncate",
+                  !leftSlot && "ml-3",
+                )}
+              >
+                {title}
+              </h2>
               {rightSlot}
             </div>
           </div>

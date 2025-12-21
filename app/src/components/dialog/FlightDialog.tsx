@@ -300,7 +300,7 @@ function FlightDialogContent({
                       className="p-2 h-auto rounded-full"
                       onClick={() => deletePnr()}
                     >
-                  <HugeiconsIcon icon={MinusSignIcon} />
+                      <HugeiconsIcon icon={MinusSignIcon} />
                     </Button>
                   ) : (
                     <div />
@@ -311,7 +311,7 @@ function FlightDialogContent({
                     className="p-2 h-auto rounded-full"
                     onClick={() => addPnr()}
                   >
-                <HugeiconsIcon icon={Add01Icon} />
+                    <HugeiconsIcon icon={Add01Icon} />
                   </Button>
                 </div>
               )}
@@ -372,7 +372,7 @@ function FlightDialogContent({
             <Button
               variant="destructive"
               size="round"
-              className="w-full"
+              className="w-full shrink-1"
               onClick={onDeleteButtonClick}
             >
               Delete
@@ -380,7 +380,7 @@ function FlightDialogContent({
             <Button
               variant="secondary"
               size="round"
-              className="w-full"
+              className="w-full shrink-1"
               onClick={() => setEdit(true)}
             >
               Edit

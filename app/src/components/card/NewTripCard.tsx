@@ -14,7 +14,7 @@ export default function NewTripCard({
     <Card
       testId="new-trip-card"
       className={cn(
-        "shadow-none hover:shadow-xl hover:cursor-pointer",
+        "shadow-none hover:shadow-xl hover:cursor-pointer transition-all",
         className,
       )}
       onClick={onClick}
