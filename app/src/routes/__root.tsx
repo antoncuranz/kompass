@@ -53,7 +53,7 @@ export const Route = createRootRoute({
     const { showInspector } = useInspector()
 
     return (
-      <div className="root bg-background">
+      <div className="root">
         <DynamicTitle />
         <Outlet />
         <Auth />

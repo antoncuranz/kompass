@@ -17,7 +17,7 @@ export default function Navigation({ sharedTripId }: { sharedTripId: string }) {
   })
 
   const commonStyle =
-    "inline-block h-10 sm:h-14 leading-9 sm:leading-14 border-accent"
+    "inline-block h-full sm:h-14 leading-9 sm:leading-14 border-accent"
   const activeStyle = cn(commonStyle, "text-foreground border-b-3")
   const inactiveStyle = cn(
     commonStyle,
