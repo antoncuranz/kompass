@@ -59,7 +59,8 @@ export default function TrainEntry({
       open={open}
       onOpenChange={setOpen}
       className={cn(
-        "rounded-xl border mx-5 p-2 pl-4 pr-4 grid bg-card z-10 relative group/flyto",
+        "rounded-lg border mx-5 p-2 pl-4 pr-4 grid bg-card z-10 relative group/flyto",
+        "shadow-sm active:shadow-xs transition-all",
         className,
       )}
     >
@@ -72,15 +73,21 @@ export default function TrainEntry({
               : `${formatTime(trainLeg.departureDateTime)}-${formatTime(trainLeg.arrivalDateTime)} ${trainLeg.lineName} from ${trainLeg.origin.name} to ${trainLeg.destination.name}`}
           </span>
           {open ? (
-            <HugeiconsIcon icon={ArrowUp01Icon} className="float-right text-muted-foreground" />
+            <HugeiconsIcon
+              icon={ArrowUp01Icon}
+              className="float-right text-muted-foreground"
+            />
           ) : (
-            <HugeiconsIcon icon={ArrowDown01Icon} className="float-right text-muted-foreground" />
+            <HugeiconsIcon
+              icon={ArrowDown01Icon}
+              className="float-right text-muted-foreground"
+            />
           )}
         </div>
         {heroMap && (
           <HugeiconsIcon
             icon={ArrowRight01Icon}
-            className="text-muted-foreground absolute top-2 -right-3 bg-card rounded-xl border hidden group-hover/flyto:block"
+            className="absolute top-2 -right-3 bg-card rounded-full border hidden group-hover/flyto:block"
             onClick={onChevronClick}
           />
         )}

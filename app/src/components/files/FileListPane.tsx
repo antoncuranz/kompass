@@ -63,18 +63,15 @@ export default function FileListPane() {
   return (
     <>
       <Pane
-        title="Trip Files"
+        title="File Attachments"
         testId="files-card"
-        headerSlot={
+        rightSlot={
           <Button
-            size="sm"
-            className="h-8 gap-1 mt-0 ml-1 self-end"
+            variant="secondary"
+            size="icon-round"
             onClick={triggerFileUpload}
           >
             <HugeiconsIcon icon={Upload01Icon} size={14} />
-            <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-              Upload File
-            </span>
           </Button>
         }
       >
@@ -96,7 +93,11 @@ export default function FileListPane() {
                       params={{ trip: sharedTripId, fileId: file.$jazz.id }}
                       className="flex items-center gap-3 w-full py-2 pl-3 pr-4"
                     >
-                      <HugeiconsIcon icon={File01Icon} size={20} className="text-muted-foreground shrink-0" />
+                      <HugeiconsIcon
+                        icon={File01Icon}
+                        size={20}
+                        className="text-muted-foreground shrink-0"
+                      />
                       <span className="truncate flex-1">{file.name}</span>
                       {file.references.length > 0 && (
                         <span className="flex items-center gap-1 text-xs text-muted-foreground shrink-0">

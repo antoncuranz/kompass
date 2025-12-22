@@ -25,7 +25,7 @@ export default function TransportationEntry({
 
   return (
     <div
-      className="cursor-pointer rounded-xl border mx-5 p-2 pl-4 pr-4 grid bg-card z-10 relative group/flyto"
+      className="cursor-pointer rounded-lg shadow-sm active:shadow-xs transition-all border mx-5 p-2 pl-4 pr-4 grid bg-card z-10 relative group/flyto"
       onClick={onClick}
     >
       <div className="grid grid-cols-[1.5rem_1fr] gap-2">
@@ -41,7 +41,7 @@ export default function TransportationEntry({
         {heroMap && (
           <HugeiconsIcon
             icon={ArrowRight01Icon}
-            className="text-muted-foreground absolute top-2 -right-3 bg-card rounded-xl border hidden group-hover/flyto:block"
+            className="absolute top-2 -right-3 bg-card rounded-full border hidden group-hover/flyto:block"
             onClick={onChevronClick}
           />
         )}

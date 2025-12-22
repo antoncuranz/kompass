@@ -34,7 +34,7 @@ export default function ActivityEntry({
       {activity.location && heroMap && (
         <HugeiconsIcon
           icon={ArrowRight01Icon}
-          className="text-muted-foreground absolute top-2 -right-3 bg-card rounded-lg border hidden group-hover/flyto:block"
+          className="absolute top-2 -right-3 bg-card rounded-full border hidden group-hover/flyto:block"
           onClick={onChevronClick}
         />
       )}

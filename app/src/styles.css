@@ -41,7 +41,7 @@
 
 @theme {
   --color-border: var(--border);
-  --color-input: hsl(var(--input));
+  --color-input: var(--input);
   --color-ring: hsl(var(--ring));
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
@@ -59,7 +59,7 @@
   --color-destructive-hover: var(--destructive-hover);
   --color-destructive-foreground: var(--destructive-foreground);
 
-  --color-muted: hsl(var(--muted));
+  --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
 
   --color-accent: var(--accent);
@@ -71,19 +71,23 @@
   --color-card: var(--card);
   --color-card-foreground: hsl(var(--card-foreground));
 
-  --radius-lg: var(--radius);
-  --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: 1.25rem;
+  --radius-2xl: 1.75rem;
 
-  --radius-2xl: 1.25rem;
-  --radius-3xl: 1.75rem;
+  --color-shadow-xs: color-mix(in oklab, var(--shadow) var(--alpha-shadow-xs), transparent);
+  --color-shadow-sm: color-mix(in oklab, var(--shadow) var(--alpha-shadow-sm), transparent);
+  --color-shadow-md: color-mix(in oklab, var(--shadow) var(--alpha-shadow-md), transparent);
+  --color-shadow-lg: color-mix(in oklab, var(--shadow) var(--alpha-shadow-lg), transparent);
+  --color-shadow-xl: color-mix(in oklab, var(--shadow) var(--alpha-shadow-xl), transparent);
 
-  --shadow-input:
-    0px 2px 3px -1px rgba(0, 0, 0, 0.1), 0px 1px 0px 0px rgba(25, 28, 33, 0.02),
-    0px 0px 0px 1px rgba(25, 28, 33, 0.08);
-
-  --shadow-sm: 0 2px 2px 0 rgba(0, 0, 0, 0.04);
-  --shadow-xs: 0 1px 1px 0 rgba(0, 0, 0, 0.02);
+  --shadow-xs: 0 1px 1px 0 var(--color-shadow-xs);
+  --shadow-sm: 0 2px 2px 0 var(--color-shadow-sm);
+  --shadow-md: 0 4px 6px -1px var(--color-shadow-md), 0 2px 4px -2px var(--color-shadow-md);
+  --shadow-lg: 0 10px 15px -3px var(--color-shadow-lg), 0 4px 6px -4px var(--color-shadow-lg);
+  --shadow-xl: 0 20px 25px -5px var(--color-shadow-xl), 0 8px 10px -6px var(--color-shadow-xl);
 }
 
 /*
@@ -129,14 +133,21 @@
     --destructive-hover: var(--color-secondary-hover);
     --destructive-foreground: var(--color-red-600);
 
-    --muted: 210, 28.57%, 97.25%;
+    --muted: var(--color-zinc-100);
     --muted-foreground: var(--color-zinc-500);
 
     --accent: var(--color-sky-600);
     --accent-foreground: var(--color-card);
 
+    --shadow: var(--color-black);
+    --alpha-shadow-xs: 2%;
+    --alpha-shadow-sm: 4%;
+    --alpha-shadow-md: 10%;
+    --alpha-shadow-lg: 10%;
+    --alpha-shadow-xl: 10%;
+
     --border: var(--color-zinc-200);
-    --input: 240 5.9% 90%;
+    --input: var(--color-zinc-50);
     --ring: 240 10% 3.9%;
 
     --radius: 0.875rem;
@@ -152,18 +163,21 @@
     --foreground: 0 0% 98%;
 
     --card: var(--color-black);
-    /* --card-foreground: 0 0% 98%; */
-
-    /* --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%; */
 
     --primary: var(--color-zinc-100);
     --primary-hover: var(--color-zinc-300);
 
     --secondary-hover: var(--color-zinc-900);
-    /* --secondary-foreground: var(--color-white); */
 
+    --muted: var(--color-zinc-800);
     --muted-foreground: var(--color-zinc-400);
+
+    --shadow: var(--color-white);
+    --alpha-shadow-xs: 5%;
+    --alpha-shadow-sm: 8%;
+    --alpha-shadow-md: 5%;
+    --alpha-shadow-lg: 5%;
+    --alpha-shadow-xl: 5%;
 
     --border: var(--color-zinc-800);
     --input: 240 3.7% 15.9%;

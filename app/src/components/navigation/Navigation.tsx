@@ -25,7 +25,7 @@ export default function Navigation({ sharedTripId }: { sharedTripId: string }) {
   )
 
   return (
-    <header className="sticky top-0 pt-2 sm:pt-0 z-10 sm:z-0 h-22 sm:h-14 border-b sm:border-0 not-sm:not-dark:bg-muted bg-background sm:px-4 md:px-6 shadow-lg sm:shadow-none shadow-black/2 dark:shadow-white/4">
+    <header className="sticky top-0 pt-2 sm:pt-0 z-10 sm:z-0 h-22 sm:h-14 border-b sm:border-0 bg-background sm:px-4 md:px-6 shadow-sm sm:shadow-none">
       <nav className="font-medium flex flex-col sm:flex-row justify-between items-start sm:items-center sm:gap-2 text-sm w-full h-full">
         <div className="px-3 sm:px-0 flex flex-row not-sm:w-full">
           <Link to="/">

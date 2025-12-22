@@ -19,7 +19,7 @@ export default function TripCard({
 }) {
   return (
     <Card className={cn("relative group/trip-card p-2", className)}>
-      <div className="relative h-full w-full rounded-2xl overflow-hidden">
+      <div className="relative h-full w-full rounded-xl overflow-hidden">
         {trip.imageUrl && (
           <div className="pointer-events-none absolute inset-x-0 top-0 z-30 h-full bg-linear-to-b from-black/50 via-transparent to-transparent" />
         )}

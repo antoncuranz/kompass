@@ -99,9 +99,12 @@ function FileDetailPage() {
             onDownload={handleDownload}
           />
 
-          <div className="border-t pt-3 px-4 pb-4 sm:px-1 sm:pb-1">
+          <div className="border-t p-2">
             <div className="flex items-center gap-2 flex-wrap">
-              <HugeiconsIcon icon={Link01Icon} className="text-muted-foreground" />
+              <HugeiconsIcon
+                icon={Link01Icon}
+                className="text-muted-foreground"
+              />
               {file.references.length > 0 ? (
                 file.references.map((refId, idx) => (
                   <LinkedItemChip
@@ -168,7 +171,11 @@ function LinkedItemChip({
             onClick={onRemove}
             className="ml-0.5 p-0.5 rounded-full hover:bg-card transition-colors cursor-pointer"
           >
-            <HugeiconsIcon icon={Cancel01Icon} size={12} className="text-muted-foreground" />
+            <HugeiconsIcon
+              icon={Cancel01Icon}
+              size={12}
+              className="text-muted-foreground"
+            />
           </button>
         </>
       )}
@@ -192,7 +199,9 @@ export function TransportationIcon({
       return <HugeiconsIcon icon={Building03Icon} className={className} />
     case "transportation": {
       if (transportationType === "flight") {
-        return <HugeiconsIcon icon={AirplaneTakeOff01Icon} className={className} />
+        return (
+          <HugeiconsIcon icon={AirplaneTakeOff01Icon} className={className} />
+        )
       }
       if (transportationType === "train") {
         return <HugeiconsIcon icon={Train01Icon} className={className} />
@@ -204,7 +213,9 @@ export function TransportationIcon({
           </span>
         )
       }
-      return <HugeiconsIcon icon={AirplaneTakeOff01Icon} className={className} />
+      return (
+        <HugeiconsIcon icon={AirplaneTakeOff01Icon} className={className} />
+      )
     }
   }
 }

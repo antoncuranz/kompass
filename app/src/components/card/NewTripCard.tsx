@@ -19,7 +19,7 @@ export default function NewTripCard({
       )}
       onClick={onClick}
     >
-      <div className="h-full w-full rounded-2xl no-scrollbar overflow-hidden overflow-y-scroll flex items-center justify-center">
+      <div className="h-full w-full rounded-xl no-scrollbar overflow-hidden overflow-y-scroll flex items-center justify-center">
         <HugeiconsIcon
           icon={AddCircleIcon}
           className="w-14 h-14 text-gray-400"

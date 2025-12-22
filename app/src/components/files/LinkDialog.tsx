@@ -77,7 +77,7 @@ function LinkDialogContent({
         <DialogTitle>Link to...</DialogTitle>
       </DialogHeader>
 
-      <Tabs defaultValue={defaultTab} className="px-4">
+      <Tabs defaultValue={defaultTab} className="px-3">
         <TabsList className="w-full">
           {hasActivities && (
             <TabsTrigger value="activity">
@@ -133,6 +133,7 @@ function LinkDialogContent({
       <DialogFooter>
         <Button
           variant="secondary"
+          size="round"
           className="w-full"
           onClick={() => onClose()}
         >
@@ -307,7 +308,9 @@ function EntityRow({
       <span className="text-muted-foreground">{icon}</span>
       <span className="flex-1 truncate">{name}</span>
       <span className="text-sm text-muted-foreground shrink-0">{date}</span>
-      {isLinked && <HugeiconsIcon icon={Link01Icon} className="text-muted-foreground" />}
+      {isLinked && (
+        <HugeiconsIcon icon={Link01Icon} className="text-muted-foreground" />
+      )}
     </button>
   )
 }

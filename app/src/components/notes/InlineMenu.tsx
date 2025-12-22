@@ -26,7 +26,7 @@ export function InlineMenu() {
   const isCode = editor.marks.code.isActive()
 
   return (
-    <InlinePopover className="flex items-center gap-1 p-1 bg-popover text-popover-foreground rounded-md border shadow-lg shadow-black/10 dark:shadow-white/5">
+    <InlinePopover className="flex items-center gap-1 p-1 bg-popover text-popover-foreground rounded-md border shadow-lg">
       <button
         onClick={toggleBold}
         className={`p-2 rounded cursor-pointer hover:bg-muted hover:text-muted-foreground ${isBold ? "bg-accent text-accent-foreground" : ""}`}
