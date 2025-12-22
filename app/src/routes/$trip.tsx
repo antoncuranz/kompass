@@ -33,7 +33,7 @@ function RouteComponent() {
   return (
     <>
       <Navigation sharedTripId={sharedTripId} />
-      <main className="w-full sm:px-4 md:px-6 md:gap-2 relative z-1 not-sm:min-h-[calc(100dvh-5.5rem)] sm:h-[calc(100dvh-4.5rem)]">
+      <main className="w-full sm:px-4 md:px-6 md:gap-2 relative z-1 sm:h-[calc(100dvh-4.5rem)]">
         <MapProvider>
           <TripProvider
             id={sharedTripId}
