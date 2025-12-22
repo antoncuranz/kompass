@@ -35,10 +35,12 @@ export function Dialog({
   children,
   open = true,
   onOpenChange: setOpen = () => {},
+  className,
 }: {
   children: React.ReactNode | Array<React.ReactNode>
   open?: boolean
   onOpenChange?: (needsUpdate: boolean) => void
+  className?: string
 }) {
   function onClose() {
     setOpen(false)
@@ -46,7 +48,7 @@ export function Dialog({
 
   return (
     <BaseDialog.Root open={open} onOpenChange={open => open || onClose()}>
-      <DialogContent>
+      <DialogContent className={className}>
         <DialogContextProvider onClose={onClose}>
           {children}
         </DialogContextProvider>

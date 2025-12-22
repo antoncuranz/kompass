@@ -1,11 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router"
-import { PlaneTakeoff, Plus } from "lucide-react"
+import { HugeiconsIcon } from "@hugeicons/react"
+import { Add01Icon, FilterMailIcon } from "@hugeicons/core-free-icons"
 import type { DayRenderData } from "@/types.ts"
-import AddItemDropdown from "@/components/buttons/AddItemDropdown.tsx"
+import AddEntryDropdown from "@/components/buttons/AddEntryDropdown.tsx"
 import { Button } from "@/components/ui/button.tsx"
 import Pane from "@/components/Pane.tsx"
 import Itinerary from "@/components/itinerary/Itinerary.tsx"
-import { dayIsBetween, getDaysBetween, isSameDay } from "@/lib/datetime-utils"
+import {
+  dayIsBetween,
+  formatDateMedium,
+  getDaysBetween,
+  isSameDay,
+} from "@/lib/datetime-utils"
 import {
   getArrivalDateTime,
   getDepartureDateTime,
@@ -62,16 +68,22 @@ function ItineraryPage() {
   return (
     <>
       <Pane
-        title="Trip Itinerary"
-        headerSlot={
-          <AddItemDropdown
+        leftSlot={
+          <Button variant="secondary" size="icon-round" disabled>
+            <HugeiconsIcon icon={FilterMailIcon} />
+          </Button>
+        }
+        title={`${formatDateMedium(trip.startDate)} - ${formatDateMedium(trip.endDate)}`}
+        rightSlot={
+          <AddEntryDropdown
             trip={trip}
             trigger={
-              <Button size="sm" className="h-8 gap-1 mt-0 ml-1 self-end">
-                <PlaneTakeoff className="h-3.5 w-3.5" />
-                <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                  Add Entry
-                </span>
+              <Button
+                variant="secondary"
+                size="icon-round"
+                aria-label="Add Entry"
+              >
+                <HugeiconsIcon icon={Add01Icon} />
               </Button>
             }
           />
@@ -81,13 +93,14 @@ function ItineraryPage() {
         <Itinerary trip={trip} dataByDays={processDataAndGroupByDays()} />
       </Pane>
       <div className="fixed bottom-6 right-6 z-50 sm:hidden">
-        <AddItemDropdown
+        <AddEntryDropdown
           trip={trip}
           trigger={
             <Button size="icon" className="rounded-full h-12 w-12 shadow-lg">
-              <Plus className="size-6" />
+              <HugeiconsIcon icon={Add01Icon} size={24} />
             </Button>
           }
+          aria-label="Add Entry"
         />
       </div>
     </>

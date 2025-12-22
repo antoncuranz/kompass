@@ -1,4 +1,5 @@
-import { ChevronRight } from "lucide-react"
+import { HugeiconsIcon } from "@hugeicons/react"
+import { ArrowRight01Icon } from "@hugeicons/core-free-icons"
 import { useMap } from "react-map-gl/maplibre"
 import type { MouseEvent, MouseEventHandler } from "react"
 import type { Activity } from "@/schema"
@@ -23,7 +24,7 @@ export default function ActivityEntry({
 
   return (
     <div
-      className="rounded-xl border border-dashed my-4 mx-3 py-2 px-4 hover:border-solid hover:cursor-pointer relative group/flyto"
+      className="rounded-lg border border-dashed my-4 mx-5 p-2 px-3 hover:border-solid hover:shadow-sm active:shadow-xs cursor-pointer relative group/flyto"
       onClick={onClick}
     >
       {activity.name}
@@ -31,8 +32,9 @@ export default function ActivityEntry({
         {activity.time && formatTime(activity.time, true)}
       </span>
       {activity.location && heroMap && (
-        <ChevronRight
-          className="text-muted-foreground absolute top-2 -right-3 bg-background rounded-xl border hidden group-hover/flyto:block"
+        <HugeiconsIcon
+          icon={ArrowRight01Icon}
+          className="absolute top-2 -right-3 bg-card rounded-full border hidden group-hover/flyto:block"
           onClick={onChevronClick}
         />
       )}

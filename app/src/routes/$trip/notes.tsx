@@ -19,7 +19,7 @@ function NotesPage() {
   }, [trip.notes.$jazz.id, account.$jazz.id])
 
   return (
-    <Pane title="Trip Notes" testId="notes-card">
+    <Pane testId="notes-card">
       <NotesEditor richText={memoRichText} />
     </Pane>
   )

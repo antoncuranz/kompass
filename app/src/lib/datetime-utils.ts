@@ -87,6 +87,12 @@ export function formatDateLong(date: string) {
   }).format(dateFromString(date))
 }
 
+export function formatDateMedium(date: string) {
+  return new Intl.DateTimeFormat(undefined, {
+    dateStyle: "medium",
+  }).format(dateFromString(date))
+}
+
 export function formatDateShort(date: string) {
   return new Intl.DateTimeFormat("de-DE", {
     dateStyle: "short",

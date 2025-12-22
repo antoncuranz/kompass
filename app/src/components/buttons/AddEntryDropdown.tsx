@@ -14,7 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu.tsx"
 
-export default function AddItemDropdown({
+export default function AddEntryDropdown({
   trip,
   trigger,
 }: {

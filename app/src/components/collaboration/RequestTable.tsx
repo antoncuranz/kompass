@@ -1,4 +1,5 @@
-import { Check, X } from "lucide-react"
+import { HugeiconsIcon } from "@hugeicons/react"
+import { Cancel01Icon, Tick02Icon } from "@hugeicons/core-free-icons"
 import { useState, useTransition } from "react"
 import { toast } from "sonner"
 import type { co } from "jazz-tools"
@@ -37,7 +38,7 @@ export default function RequestTable({
 
   return (
     <div>
-      <h2 className="text-lg font-semibold mx-3 my-2">{title}</h2>
+      <h2 className="text-lg font-semibold mx-5 my-2">{title}</h2>
       <Table className="table-fixed">
         <TableBody>
           {requests.map(request => (
@@ -84,7 +85,7 @@ function RequestRow({
   return (
     <TableRow className="hover:bg-transparent">
       {/* TODO: disable hover without bg-transparent */}
-      <TableCell className="flex-1 truncate pl-3">
+      <TableCell className="flex-1 truncate pl-5">
         <div className="flex items-center gap-2">
           <Avatar accountId={request.account.$jazz.id} />
           <div className="flex-1 min-w-0">
@@ -99,7 +100,7 @@ function RequestRow({
           </div>
         </div>
       </TableCell>
-      <TableCell className="pr-3">
+      <TableCell className="pr-5">
         <div className="flex justify-end items-center gap-2">
           <Select
             value={selectedRole}
@@ -123,7 +124,7 @@ function RequestRow({
             aria-label="Approve"
             className="shrink-0 h-10 w-10"
           >
-            <Check className="h-4 w-4" />
+            <HugeiconsIcon icon={Tick02Icon} />
           </Button>
           <Button
             size="icon"
@@ -133,7 +134,7 @@ function RequestRow({
             aria-label="Reject"
             className="shrink-0 h-10 w-10"
           >
-            <X className="h-4 w-4" />
+            <HugeiconsIcon icon={Cancel01Icon} />
           </Button>
         </div>
       </TableCell>

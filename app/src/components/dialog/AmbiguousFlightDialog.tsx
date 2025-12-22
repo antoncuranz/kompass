@@ -136,6 +136,7 @@ function AmbiguousFlightDialogContent({
 
       <DialogFooter>
         <Button
+          size="round"
           className="w-full text-base"
           onClick={handleConfirm}
           disabled={!canConfirm}

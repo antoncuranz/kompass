@@ -28,7 +28,7 @@ export function Avatar({
   return (
     <div
       className={cn(
-        "relative inline-flex items-center justify-center rounded-full bg-muted overflow-hidden h-8 w-8 text-xs border",
+        "relative inline-flex items-center justify-center rounded-full bg-background overflow-hidden h-8 w-8 text-xs border",
         className,
       )}
     >

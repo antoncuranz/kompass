@@ -37,7 +37,7 @@ function SharePage() {
   return (
     <Pane
       title="Share Trip"
-      headerSlot={<ShareButton sharedTripId={sharedTrip.$jazz.id} />}
+      rightSlot={<ShareButton sharedTripId={sharedTrip.$jazz.id} />}
       testId="share-card"
     >
       <RequestTable
@@ -45,7 +45,6 @@ function SharePage() {
         requests={pendingRequests}
         sharedTrip={sharedTrip}
       />
-
       <MemberTable title="Members" members={allMembers} />
     </Pane>
   )

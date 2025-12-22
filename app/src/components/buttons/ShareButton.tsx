@@ -1,4 +1,5 @@
-import { Share2 } from "lucide-react"
+import { HugeiconsIcon } from "@hugeicons/react"
+import { Share01Icon } from "@hugeicons/core-free-icons"
 import { toast } from "sonner"
 import { Button } from "@/components/ui/button.tsx"
 
@@ -18,11 +19,12 @@ export default function ShareButton({
 
   return (
     <Button
-      size="sm"
-      className="h-8 gap-1 mt-0 ml-1 self-end"
+      variant="secondary"
+      size="icon-round"
       onClick={handleShare}
+      aria-label="Copy Link"
     >
-      <Share2 size="sm" className="h-3.5 w-3.5" /> Copy Link
+      <HugeiconsIcon icon={Share01Icon} />
     </Button>
   )
 }

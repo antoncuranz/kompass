@@ -1,6 +1,12 @@
 import { Link } from "@tanstack/react-router"
 import { co } from "jazz-tools"
-import { File as FileIcon, Link as LinkIcon, Plus, Upload } from "lucide-react"
+import { HugeiconsIcon } from "@hugeicons/react"
+import {
+  Add01Icon,
+  File01Icon,
+  Link01Icon,
+  Upload01Icon,
+} from "@hugeicons/core-free-icons"
 import { useRef } from "react"
 import { toast } from "sonner"
 import { Route } from "@/routes/$trip/files"
@@ -57,18 +63,15 @@ export default function FileListPane() {
   return (
     <>
       <Pane
-        title="Trip Files"
+        title="File Attachments"
         testId="files-card"
-        headerSlot={
+        rightSlot={
           <Button
-            size="sm"
-            className="h-8 gap-1 mt-0 ml-1 self-end"
+            variant="secondary"
+            size="icon-round"
             onClick={triggerFileUpload}
           >
-            <Upload className="h-3.5 w-3.5" />
-            <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-              Upload File
-            </span>
+            <HugeiconsIcon icon={Upload01Icon} size={14} />
           </Button>
         }
       >
@@ -90,11 +93,15 @@ export default function FileListPane() {
                       params={{ trip: sharedTripId, fileId: file.$jazz.id }}
                       className="flex items-center gap-3 w-full py-2 pl-3 pr-4"
                     >
-                      <FileIcon className="h-5 w-5 text-muted-foreground shrink-0" />
+                      <HugeiconsIcon
+                        icon={File01Icon}
+                        size={20}
+                        className="text-muted-foreground shrink-0"
+                      />
                       <span className="truncate flex-1">{file.name}</span>
                       {file.references.length > 0 && (
                         <span className="flex items-center gap-1 text-xs text-muted-foreground shrink-0">
-                          <LinkIcon className="h-3 w-3" />
+                          <HugeiconsIcon icon={Link01Icon} size={12} />
                           {file.references.length}
                         </span>
                       )}
@@ -116,7 +123,7 @@ export default function FileListPane() {
           className="rounded-full h-12 w-12 shadow-lg"
           onClick={triggerFileUpload}
         >
-          <Plus className="size-6" />
+          <HugeiconsIcon icon={Add01Icon} size={24} />
         </Button>
       </div>
     </>

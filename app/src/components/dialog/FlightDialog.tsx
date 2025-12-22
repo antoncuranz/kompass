@@ -1,5 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Minus, Plus } from "lucide-react"
+import { HugeiconsIcon } from "@hugeicons/react"
+import { Add01Icon, MinusSignIcon } from "@hugeicons/core-free-icons"
 import { useState } from "react"
 import { useFieldArray, useForm } from "react-hook-form"
 import { toast } from "sonner"
@@ -245,7 +246,7 @@ function FlightDialogContent({
                   className="p-2 h-auto rounded-full"
                   onClick={() => deleteLeg()}
                 >
-                  <Minus className="h-4 w-4" />
+                  <HugeiconsIcon icon={MinusSignIcon} />
                 </Button>
               ) : (
                 <div />
@@ -255,7 +256,7 @@ function FlightDialogContent({
                 className="p-2 h-auto rounded-full"
                 onClick={() => addLeg()}
               >
-                <Plus className="w-4 h-4" />
+                <HugeiconsIcon icon={Add01Icon} />
               </Button>
             </div>
           )}
@@ -299,7 +300,7 @@ function FlightDialogContent({
                       className="p-2 h-auto rounded-full"
                       onClick={() => deletePnr()}
                     >
-                      <Minus className="h-4 w-4" />
+                      <HugeiconsIcon icon={MinusSignIcon} />
                     </Button>
                   ) : (
                     <div />
@@ -310,7 +311,7 @@ function FlightDialogContent({
                     className="p-2 h-auto rounded-full"
                     onClick={() => addPnr()}
                   >
-                    <Plus className="w-4 h-4" />
+                    <HugeiconsIcon icon={Add01Icon} />
                   </Button>
                 </div>
               )}
@@ -360,6 +361,7 @@ function FlightDialogContent({
           <Button
             form="flight-form"
             type="submit"
+            size="round"
             className="w-full"
             disabled={isSubmitting}
           >
@@ -369,14 +371,16 @@ function FlightDialogContent({
           <>
             <Button
               variant="destructive"
-              className="w-full"
+              size="round"
+              className="w-full shrink-1"
               onClick={onDeleteButtonClick}
             >
               Delete
             </Button>
             <Button
               variant="secondary"
-              className="w-full"
+              size="round"
+              className="w-full shrink-1"
               onClick={() => setEdit(true)}
             >
               Edit

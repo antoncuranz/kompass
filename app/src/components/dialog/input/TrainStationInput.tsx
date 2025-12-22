@@ -1,4 +1,5 @@
-import { Pencil, Search } from "lucide-react"
+import { HugeiconsIcon } from "@hugeicons/react"
+import { PencilEdit02Icon, Search01Icon } from "@hugeicons/core-free-icons"
 import { useState, useTransition } from "react"
 import { toast } from "sonner"
 import type { ControllerRenderProps, FieldValues } from "react-hook-form"
@@ -65,15 +66,16 @@ export default function TrainStationInput({
         {!disabled && (
           <Button
             variant="secondary"
+            size="icon"
             onClick={onButtonClick}
             disabled={isLoading}
           >
             {isLoading ? (
-              <Spinner className="h-4 w-4" variant="pinwheel" />
+              <Spinner variant="pinwheel" />
             ) : edit ? (
-              <Search className="h-4 w-4" />
+              <HugeiconsIcon icon={Search01Icon} />
             ) : (
-              <Pencil className="h-4 w-4" />
+              <HugeiconsIcon icon={PencilEdit02Icon} />
             )}
           </Button>
         )}

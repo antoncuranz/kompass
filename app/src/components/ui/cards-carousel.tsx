@@ -1,6 +1,8 @@
-import { ChevronLeft, ChevronRight } from "lucide-react"
+import { HugeiconsIcon } from "@hugeicons/react"
+import { ArrowLeft01Icon, ArrowRight01Icon } from "@hugeicons/core-free-icons"
 import { motion } from "motion/react"
 import React, { createContext, useEffect, useState } from "react"
+import { Button } from "./button"
 import type { JSX } from "react"
 import { cn } from "@/lib/utils"
 
@@ -106,7 +108,7 @@ export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
                   },
                 }}
                 key={"card" + index}
-                className="rounded-3xl last:pr-[5%] md:last:pr-[33%]"
+                className="rounded-2xl last:pr-[5%] md:last:pr-[33%]"
               >
                 {item}
               </motion.div>
@@ -114,20 +116,22 @@ export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
           </div>
         </div>
         <div className="mr-10 flex justify-end gap-2">
-          <button
-            className="relative z-40 flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 disabled:opacity-50"
+          <Button
+            variant="secondary"
+            size="icon-round"
             onClick={scrollLeft}
             disabled={!canScrollLeft}
           >
-            <ChevronLeft className="h-6 w-6 text-gray-500" />
-          </button>
-          <button
-            className="relative z-40 flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 disabled:opacity-50"
+            <HugeiconsIcon icon={ArrowLeft01Icon} />
+          </Button>
+          <Button
+            variant="secondary"
+            size="icon-round"
             onClick={scrollRight}
             disabled={!canScrollRight}
           >
-            <ChevronRight className="h-6 w-6 text-gray-500" />
-          </button>
+            <HugeiconsIcon icon={ArrowRight01Icon} />
+          </Button>
         </div>
       </div>
     </CarouselContext.Provider>

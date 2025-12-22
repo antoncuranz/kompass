@@ -1,4 +1,5 @@
-import { Search } from "lucide-react"
+import { HugeiconsIcon } from "@hugeicons/react"
+import { Search01Icon } from "@hugeicons/core-free-icons"
 import { useTransition } from "react"
 import { toast } from "sonner"
 import type { ControllerRenderProps, FieldValues } from "react-hook-form"
@@ -59,14 +60,15 @@ export default function AddressInput({
         {!disabled && (
           <Button
             variant="secondary"
+            size="icon"
             onClick={onClick}
             disabled={isLoading}
             aria-label="Lookup Address"
           >
             {isLoading ? (
-              <Spinner className="h-4 w-4" variant="pinwheel" />
+              <Spinner variant="pinwheel" />
             ) : (
-              <Search className="h-4 w-4" />
+              <HugeiconsIcon icon={Search01Icon} />
             )}
           </Button>
         )}

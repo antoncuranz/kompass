@@ -319,6 +319,7 @@ function TransportationDialogContent({
           <Button
             form="transportation-form"
             type="submit"
+            size="round"
             className="w-full"
             disabled={isSubmitting}
           >
@@ -327,15 +328,17 @@ function TransportationDialogContent({
         ) : (
           <>
             <Button
-              variant={showDeleteConfirm ? "destructive" : "secondary"}
-              className="w-full"
+              variant="destructive"
+              size="round"
+              className="w-full shrink-1"
               onClick={onDeleteButtonClick}
             >
               {showDeleteConfirm ? "Confirm Delete" : "Delete"}
             </Button>
             <Button
               variant="secondary"
-              className="w-full"
+              size="round"
+              className="w-full shrink-1"
               onClick={() => setEdit(true)}
             >
               Edit

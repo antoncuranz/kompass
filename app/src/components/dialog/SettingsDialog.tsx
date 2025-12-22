@@ -1,11 +1,17 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { createImage } from "jazz-tools/media"
 import { useLogOut, usePassphraseAuth } from "jazz-tools/react"
-import { Download, Eye, EyeOff, LogOut } from "lucide-react"
 import { useState, useTransition } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
+import { HugeiconsIcon } from "@hugeicons/react"
+import {
+  Download01Icon,
+  Logout05Icon,
+  ViewIcon,
+  ViewOffSlashIcon,
+} from "@hugeicons/core-free-icons"
 import type { co } from "jazz-tools"
 import type { UserAccount } from "@/schema"
 import wordlist from "@/lib/wordlist"
@@ -150,7 +156,7 @@ function SettingsDialogContent({
 
       <Separator />
 
-      <div className="px-4 py-4 space-y-4">
+      <div className="px-3 py-3 space-y-3">
         <label className="text-sm font-medium block mb-2">Passphrase</label>
         <div className="flex gap-2">
           <Input
@@ -161,13 +167,14 @@ function SettingsDialogContent({
           />
           <Button
             variant="secondary"
+            size="icon"
             onClick={() => setShowPassphrase(!showPassphrase)}
             aria-label="Show Passphrase"
           >
             {showPassphrase ? (
-              <EyeOff className="h-4 w-4" />
+              <HugeiconsIcon icon={ViewIcon} />
             ) : (
-              <Eye className="h-4 w-4" />
+              <HugeiconsIcon icon={ViewOffSlashIcon} />
             )}
           </Button>
         </div>
@@ -182,7 +189,7 @@ function SettingsDialogContent({
           className="w-full"
           onClick={handleExportData}
         >
-          <Download className="h-4 w-4" />
+          <HugeiconsIcon icon={Download01Icon} />
           Export Data
         </Button>
 
@@ -191,7 +198,7 @@ function SettingsDialogContent({
           className="w-full"
           onClick={handleLogout}
         >
-          <LogOut className="h-4 w-4" />
+          <HugeiconsIcon icon={Logout05Icon} />
           {showLogoutConfirm ? "Confirm Logout" : "Logout"}
         </Button>
       </div>

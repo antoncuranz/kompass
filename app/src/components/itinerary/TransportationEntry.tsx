@@ -1,4 +1,5 @@
-import { ChevronRight } from "lucide-react"
+import { HugeiconsIcon } from "@hugeicons/react"
+import { ArrowRight01Icon } from "@hugeicons/core-free-icons"
 import { useMap } from "react-map-gl/maplibre"
 import type { MouseEvent, MouseEventHandler } from "react"
 import type { GenericTransportation } from "@/schema.ts"
@@ -24,7 +25,7 @@ export default function TransportationEntry({
 
   return (
     <div
-      className="cursor-pointer rounded-xl border mx-3 p-2 pl-4 pr-4 grid bg-background z-10 relative group/flyto"
+      className="cursor-pointer rounded-lg shadow-sm active:shadow-xs transition-all border mx-5 p-2 px-3 grid bg-card z-10 relative group/flyto"
       onClick={onClick}
     >
       <div className="grid grid-cols-[1.5rem_1fr] gap-2">
@@ -38,8 +39,9 @@ export default function TransportationEntry({
           </span>
         </div>
         {heroMap && (
-          <ChevronRight
-            className="text-muted-foreground absolute top-2 -right-3 bg-background rounded-xl border hidden group-hover/flyto:block"
+          <HugeiconsIcon
+            icon={ArrowRight01Icon}
+            className="text-muted-foreground absolute top-2 -right-6 bg-ard rounded-full borer hidden group-hover/flyto:block"
             onClick={onChevronClick}
           />
         )}

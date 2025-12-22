@@ -41,7 +41,7 @@ const Form = <
       <form
         id={id}
         onSubmit={onSubmit}
-        className={cn("py-4 overflow-y-auto space-y-4 [&>div]:px-4", className)}
+        className={cn("py-2 overflow-y-auto space-y-3 [&>div]:px-3", className)}
       >
         {children}
       </form>
@@ -141,7 +141,7 @@ function FormLabel({
     <Label
       data-slot="form-label"
       data-error={!!error}
-      className={cn("data-[error=true]:text-destructive", className)}
+      className={cn("data-[error=true]:text-destructive-foreground", className)}
       htmlFor={formItemId}
       {...props}
     />
@@ -193,7 +193,7 @@ function FormMessage({ className, ...props }: React.ComponentProps<"p">) {
     <p
       data-slot="form-message"
       id={formMessageId}
-      className={cn("text-destructive text-sm", className)}
+      className={cn("text-destructive-foreground text-sm", className)}
       {...props}
     >
       {body}

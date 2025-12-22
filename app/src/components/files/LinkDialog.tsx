@@ -1,4 +1,11 @@
-import { Building2, Link as LinkIcon, MapPin, Plane, Train } from "lucide-react"
+import { HugeiconsIcon } from "@hugeicons/react"
+import {
+  AirplaneTakeOff01Icon,
+  Building03Icon,
+  Link01Icon,
+  Location01Icon,
+  Train01Icon,
+} from "@hugeicons/core-free-icons"
 import type { co } from "jazz-tools"
 import type { FileAttachment, Transportation, Trip } from "@/schema"
 import { Dialog, useDialogContext } from "@/components/dialog/Dialog.tsx"
@@ -70,23 +77,23 @@ function LinkDialogContent({
         <DialogTitle>Link to...</DialogTitle>
       </DialogHeader>
 
-      <Tabs defaultValue={defaultTab} className="px-4">
+      <Tabs defaultValue={defaultTab} className="px-3">
         <TabsList className="w-full">
           {hasActivities && (
             <TabsTrigger value="activity">
-              <MapPin className="w-4 h-4" />
+              <HugeiconsIcon icon={Location01Icon} />
               <span className="hidden sm:inline">Activities</span>
             </TabsTrigger>
           )}
           {hasAccommodation && (
             <TabsTrigger value="accommodation">
-              <Building2 className="w-4 h-4" />
+              <HugeiconsIcon icon={Building03Icon} />
               <span className="hidden sm:inline">Accommodation</span>
             </TabsTrigger>
           )}
           {hasTransportation && (
             <TabsTrigger value="transportation">
-              <Plane className="w-4 h-4" />
+              <HugeiconsIcon icon={AirplaneTakeOff01Icon} />
               <span className="hidden sm:inline">Transport</span>
             </TabsTrigger>
           )}
@@ -126,6 +133,7 @@ function LinkDialogContent({
       <DialogFooter>
         <Button
           variant="secondary"
+          size="round"
           className="w-full"
           onClick={() => onClose()}
         >
@@ -164,7 +172,7 @@ function ActivityList({
         return (
           <EntityRow
             key={activity.$jazz.id}
-            icon={<MapPin className="w-4 h-4" />}
+            icon={<HugeiconsIcon icon={Location01Icon} />}
             name={activity.name}
             date={formatDateShort(activity.date)}
             isLinked={isLinked}
@@ -205,7 +213,7 @@ function AccommodationList({
         return (
           <EntityRow
             key={acc.$jazz.id}
-            icon={<Building2 className="w-4 h-4" />}
+            icon={<HugeiconsIcon icon={Building03Icon} />}
             name={acc.name}
             date={`${formatDateShort(acc.arrivalDate)} - ${formatDateShort(acc.departureDate)}`}
             isLinked={isLinked}
@@ -229,9 +237,9 @@ function TransportationList({
   const getIcon = (t: Transportation) => {
     switch (t.type) {
       case "flight":
-        return <Plane className="w-4 h-4" />
+        return <HugeiconsIcon icon={AirplaneTakeOff01Icon} />
       case "train":
-        return <Train className="w-4 h-4" />
+        return <HugeiconsIcon icon={Train01Icon} />
       case "generic":
         return (
           <span className="text-sm">
@@ -300,7 +308,9 @@ function EntityRow({
       <span className="text-muted-foreground">{icon}</span>
       <span className="flex-1 truncate">{name}</span>
       <span className="text-sm text-muted-foreground shrink-0">{date}</span>
-      {isLinked && <LinkIcon className="w-4 h-4 text-muted-foreground" />}
+      {isLinked && (
+        <HugeiconsIcon icon={Link01Icon} className="text-muted-foreground" />
+      )}
     </button>
   )
 }
