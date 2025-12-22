@@ -65,7 +65,11 @@ export default function AddressInput({
             disabled={isLoading}
             aria-label="Lookup Address"
           >
-            {isLoading ? <Spinner variant="pinwheel" /> : <HugeiconsIcon icon={Search01Icon} />}
+            {isLoading ? (
+              <Spinner variant="pinwheel" />
+            ) : (
+              <HugeiconsIcon icon={Search01Icon} />
+            )}
           </Button>
         )}
       </div>

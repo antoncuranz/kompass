@@ -3,8 +3,8 @@ import { HugeiconsIcon } from "@hugeicons/react"
 import { Cancel01Icon } from "@hugeicons/core-free-icons"
 import * as React from "react"
 
-import { cn } from "@/lib/utils"
 import { Button } from "./button"
+import { cn } from "@/lib/utils"
 
 function Dialog({
   ...props

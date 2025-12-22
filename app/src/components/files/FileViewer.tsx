@@ -91,7 +91,11 @@ export default function FileViewer({
 
   return (
     <div className="flex flex-col items-center justify-center h-full gap-4 py-8">
-      <HugeiconsIcon icon={FileAttachmentIcon} size={64} className="text-muted-foreground" />
+      <HugeiconsIcon
+        icon={FileAttachmentIcon}
+        size={64}
+        className="text-muted-foreground"
+      />
       <p className="text-muted-foreground">
         Preview not available for this file type
       </p>

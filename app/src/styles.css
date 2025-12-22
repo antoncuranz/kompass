@@ -77,17 +77,42 @@
   --radius-xl: 1.25rem;
   --radius-2xl: 1.75rem;
 
-  --color-shadow-xs: color-mix(in oklab, var(--shadow) var(--alpha-shadow-xs), transparent);
-  --color-shadow-sm: color-mix(in oklab, var(--shadow) var(--alpha-shadow-sm), transparent);
-  --color-shadow-md: color-mix(in oklab, var(--shadow) var(--alpha-shadow-md), transparent);
-  --color-shadow-lg: color-mix(in oklab, var(--shadow) var(--alpha-shadow-lg), transparent);
-  --color-shadow-xl: color-mix(in oklab, var(--shadow) var(--alpha-shadow-xl), transparent);
+  --color-shadow-xs: color-mix(
+    in oklab,
+    var(--shadow) var(--alpha-shadow-xs),
+    transparent
+  );
+  --color-shadow-sm: color-mix(
+    in oklab,
+    var(--shadow) var(--alpha-shadow-sm),
+    transparent
+  );
+  --color-shadow-md: color-mix(
+    in oklab,
+    var(--shadow) var(--alpha-shadow-md),
+    transparent
+  );
+  --color-shadow-lg: color-mix(
+    in oklab,
+    var(--shadow) var(--alpha-shadow-lg),
+    transparent
+  );
+  --color-shadow-xl: color-mix(
+    in oklab,
+    var(--shadow) var(--alpha-shadow-xl),
+    transparent
+  );
 
   --shadow-xs: 0 1px 1px 0 var(--color-shadow-xs);
   --shadow-sm: 0 2px 2px 0 var(--color-shadow-sm);
-  --shadow-md: 0 4px 6px -1px var(--color-shadow-md), 0 2px 4px -2px var(--color-shadow-md);
-  --shadow-lg: 0 10px 15px -3px var(--color-shadow-lg), 0 4px 6px -4px var(--color-shadow-lg);
-  --shadow-xl: 0 20px 25px -5px var(--color-shadow-xl), 0 8px 10px -6px var(--color-shadow-xl);
+  --shadow-md:
+    0 4px 6px -1px var(--color-shadow-md), 0 2px 4px -2px var(--color-shadow-md);
+  --shadow-lg:
+    0 10px 15px -3px var(--color-shadow-lg),
+    0 4px 6px -4px var(--color-shadow-lg);
+  --shadow-xl:
+    0 20px 25px -5px var(--color-shadow-xl),
+    0 8px 10px -6px var(--color-shadow-xl);
 }
 
 /*
@@ -99,7 +124,6 @@
   color utility to any element that depends on these defaults.
 */
 @layer base {
-
   *,
   ::after,
   ::before,
@@ -242,10 +266,18 @@ body {
   bottom: -2rem;
   backdrop-filter: blur(8px);
   mask-image: linear-gradient(to bottom, black, black, transparent);
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.8) 0%, transparent 100%);
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.8) 0%,
+    transparent 100%
+  );
   pointer-events: none;
 }
 
 .dark .pane-header-blur {
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 0%, transparent 100%);
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.8) 0%,
+    transparent 100%
+  );
 }

@@ -1,5 +1,4 @@
 import { useState } from "react"
-import { Separator } from "../ui/separator"
 import type {
   Accommodation,
   Activity,

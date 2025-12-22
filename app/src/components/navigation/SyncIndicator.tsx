@@ -5,5 +5,11 @@ import { useSyncConnectionStatus } from "jazz-tools/react"
 export function SyncIndicator() {
   const connected = useSyncConnectionStatus()
 
-  return connected ? null : <HugeiconsIcon icon={WifiDisconnected01Icon} size={20} className="text-yellow-500" />
+  return connected ? null : (
+    <HugeiconsIcon
+      icon={WifiDisconnected01Icon}
+      size={20}
+      className="text-yellow-500"
+    />
+  )
 }

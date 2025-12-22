@@ -2,9 +2,9 @@ import { HugeiconsIcon } from "@hugeicons/react"
 import { ArrowLeft01Icon, ArrowRight01Icon } from "@hugeicons/core-free-icons"
 import { motion } from "motion/react"
 import React, { createContext, useEffect, useState } from "react"
+import { Button } from "./button"
 import type { JSX } from "react"
 import { cn } from "@/lib/utils"
-import { Button } from "./button"
 
 interface CarouselProps {
   items: Array<JSX.Element>
