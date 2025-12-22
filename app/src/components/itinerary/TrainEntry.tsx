@@ -59,7 +59,7 @@ export default function TrainEntry({
       open={open}
       onOpenChange={setOpen}
       className={cn(
-        "rounded-lg border mx-5 p-2 pl-4 pr-4 grid bg-card z-10 relative group/flyto",
+        "rounded-lg border mx-5 p-2 px-3 grid bg-card z-10 relative group/flyto",
         "shadow-sm active:shadow-xs transition-all",
         className,
       )}

@@ -72,8 +72,18 @@ function DialogContent({
           <DialogPrimitive.Close
             data-slot="dialog-close"
             className={cn(
-              "ring-offset-background focus:ring-ring data-[open]:bg-accent data-[open]:text-muted-foreground absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
-              "cursor-pointer", // customization
+              // "ring-offset-background focus:ring-ring data-[open]:bg-accent data-[open]:text-muted-foreground absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+              "absolute top-2 right-2",
+
+              // button
+              "focus-visible:ring-ring aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:aria-invalid:border-destructive/50 focus-visible:ring-[3px] aria-invalid:ring-[3px] ",
+              "[&_svg:not([class*='size-'])]:size-5 inline-flex items-center justify-center whitespace-nowrap disabled:opacity-50 shrink-0 [&_svg]:shrink-0 outline-none group/button select-none",
+              "cursor-pointer disabled:pointer-events-none [&_svg]:pointer-events-none",
+              "rounded-lg text-sm font-medium border shadow-sm active:shadow-xs transition-all active:scale-[0.98] disabled:shadow-none",
+              // secondary
+              "bg-secondary text-secondary-foreground not-disabled:hover:bg-secondary-hover",
+              // icon-round
+              "h-10 w-10 rounded-full",
             )}
           >
             <HugeiconsIcon icon={Cancel01Icon} />
@@ -90,8 +100,8 @@ function DialogHeader({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="dialog-header"
       className={cn(
-        "flex flex-col gap-2 text-center sm:text-left",
-        "pt-4 px-3", // customization
+        "flex flex-col gap-2",
+        "pt-3 px-3", // customization
         className,
       )}
       {...props}

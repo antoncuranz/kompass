@@ -102,7 +102,7 @@ function CostPage() {
   return (
     <>
       <Pane testId="cost-card">
-        <div className="my-5">
+        <div className="my-3">
           {!hasAnyItems ? (
             <EmptyState />
           ) : (

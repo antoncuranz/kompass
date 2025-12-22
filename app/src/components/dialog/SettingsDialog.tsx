@@ -156,7 +156,7 @@ function SettingsDialogContent({
 
       <Separator />
 
-      <div className="px-4 py-4 space-y-4">
+      <div className="px-3 py-3 space-y-3">
         <label className="text-sm font-medium block mb-2">Passphrase</label>
         <div className="flex gap-2">
           <Input

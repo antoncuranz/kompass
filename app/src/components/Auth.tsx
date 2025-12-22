@@ -125,7 +125,7 @@ export function Auth() {
             })
           }}
         >
-          <div className="px-4">
+          <div className="px-3">
             <ImageUpload onFileSelect={setProfileImage} />
           </div>
           <FormField
@@ -136,7 +136,7 @@ export function Auth() {
               <Input data-1p-ignore placeholder="" {...field} />
             )}
           />
-          <div className="mt-4">
+          <div>
             <Button
               type="submit"
               className="w-full text-base"
@@ -164,50 +164,52 @@ export function Auth() {
           </div>
         </Form>
         <Separator />
-        <h3 className="mx-4 text-lg font-semibold leading-none tracking-tight">
+        <h3 className="mx-3 text-lg font-semibold leading-none tracking-tight">
           Already have an account?
         </h3>
-        <div className="px-4 pt-4">
-          <Button
-            className="w-full text-base"
-            disabled={isPending}
-            onClick={() =>
-              startTransition(async () => {
-                try {
-                  await passkeyAuth.logIn()
-                } catch {
-                  toast.error("Failed to log in")
-                }
-              })
-            }
+        <div className="flex flex-col gap-2">
+          <div className="px-3">
+            <Button
+              className="w-full text-base"
+              disabled={isPending}
+              onClick={() =>
+                startTransition(async () => {
+                  try {
+                    await passkeyAuth.logIn()
+                  } catch {
+                    toast.error("Failed to log in")
+                  }
+                })
+              }
+            >
+              {isPending ? <Spinner variant="pinwheel" /> : "Log in"}
+            </Button>
+          </div>
+          <Form
+            className={cn("py-1", !passphraseFormShown && "hidden")}
+            form={loginForm}
+            onSubmit={() => {}}
           >
-            {isPending ? <Spinner variant="pinwheel" /> : "Log in"}
-          </Button>
-        </div>
-        <Form
-          className={cn("py-1", !passphraseFormShown && "hidden")}
-          form={loginForm}
-          onSubmit={() => {}}
-        >
-          <FormField
-            control={loginForm.control}
-            name="passphrase"
-            label="Passphrase"
-            render={({ field }) => (
-              <Input data-1p-ignore placeholder="" {...field} />
-            )}
-          />
-        </Form>
-        <div className="px-4 pb-4">
-          <Button
-            type="submit"
-            variant="secondary"
-            className="w-full text-base"
-            disabled={isPending}
-            onClick={onLoginWithPassphraseClick}
-          >
-            Log in with Passphrase
-          </Button>
+            <FormField
+              control={loginForm.control}
+              name="passphrase"
+              label="Passphrase"
+              render={({ field }) => (
+                <Input data-1p-ignore placeholder="" {...field} />
+              )}
+            />
+          </Form>
+          <div className="px-3 pb-3">
+            <Button
+              type="submit"
+              variant="secondary"
+              className="w-full text-base"
+              disabled={isPending}
+              onClick={onLoginWithPassphraseClick}
+            >
+              Log in with Passphrase
+            </Button>
+          </div>
         </div>
       </Dialog>
     )

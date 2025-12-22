@@ -66,6 +66,7 @@ export default function TrainStationInput({
         {!disabled && (
           <Button
             variant="secondary"
+            size="icon"
             onClick={onButtonClick}
             disabled={isLoading}
           >

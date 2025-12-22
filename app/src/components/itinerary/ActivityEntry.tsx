@@ -24,7 +24,7 @@ export default function ActivityEntry({
 
   return (
     <div
-      className="rounded-lg border border-dashed my-4 mx-5 py-2 px-4 hover:border-solid hover:shadow-sm active:shadow-xs cursor-pointer relative group/flyto"
+      className="rounded-lg border border-dashed my-4 mx-5 p-2 px-3 hover:border-solid hover:shadow-sm active:shadow-xs cursor-pointer relative group/flyto"
       onClick={onClick}
     >
       {activity.name}

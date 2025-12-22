@@ -29,35 +29,35 @@ export function InlineMenu() {
     <InlinePopover className="flex items-center gap-1 p-1 bg-popover text-popover-foreground rounded-md border shadow-lg">
       <button
         onClick={toggleBold}
-        className={`p-2 rounded cursor-pointer hover:bg-muted hover:text-muted-foreground ${isBold ? "bg-accent text-accent-foreground" : ""}`}
+        className={`p-2 rounded cursor-pointer ${isBold ? "bg-accent text-accent-foreground" : "hover:bg-muted hover:text-muted-foreground"}`}
         aria-label="Bold"
       >
         <HugeiconsIcon icon={TextBoldIcon} size={16} />
       </button>
       <button
         onClick={toggleItalic}
-        className={`p-2 rounded cursor-pointer hover:bg-muted hover:text-muted-foreground ${isItalic ? "bg-accent text-accent-foreground" : ""}`}
+        className={`p-2 rounded cursor-pointer ${isItalic ? "bg-accent text-accent-foreground" : "hover:bg-muted hover:text-muted-foreground"}`}
         aria-label="Italic"
       >
         <HugeiconsIcon icon={TextItalicIcon} size={16} />
       </button>
       <button
         onClick={toggleUnderline}
-        className={`p-2 rounded cursor-pointer hover:bg-muted hover:text-muted-foreground ${isUnderline ? "bg-accent text-accent-foreground" : ""}`}
+        className={`p-2 rounded cursor-pointer ${isUnderline ? "bg-accent text-accent-foreground" : "hover:bg-muted hover:text-muted-foreground"}`}
         aria-label="Underline"
       >
         <HugeiconsIcon icon={TextUnderlineIcon} size={16} />
       </button>
       <button
         onClick={toggleStrike}
-        className={`p-2 rounded cursor-pointer hover:bg-muted hover:text-muted-foreground ${isStrike ? "bg-accent text-accent-foreground" : ""}`}
+        className={`p-2 rounded cursor-pointer ${isStrike ? "bg-accent text-accent-foreground" : "hover:bg-muted hover:text-muted-foreground"}`}
         aria-label="Strikethrough"
       >
         <HugeiconsIcon icon={TextStrikethroughIcon} size={16} />
       </button>
       <button
         onClick={toggleCode}
-        className={`p-2 rounded cursor-pointer hover:bg-muted hover:text-muted-foreground ${isCode ? "bg-accent text-accent-foreground" : ""}`}
+        className={`p-2 rounded cursor-pointer ${isCode ? "bg-accent text-accent-foreground" : "hover:bg-muted hover:text-muted-foreground"}`}
         aria-label="Code"
       >
         <HugeiconsIcon icon={SourceCodeIcon} size={16} />

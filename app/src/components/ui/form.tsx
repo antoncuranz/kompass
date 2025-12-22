@@ -41,7 +41,7 @@ const Form = <
       <form
         id={id}
         onSubmit={onSubmit}
-        className={cn("py-4 overflow-y-auto space-y-4 [&>div]:px-3", className)}
+        className={cn("py-2 overflow-y-auto space-y-3 [&>div]:px-3", className)}
       >
         {children}
       </form>

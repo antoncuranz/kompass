@@ -69,7 +69,7 @@ function ItineraryPage() {
     <>
       <Pane
         leftSlot={
-          <Button variant="secondary" size="icon-round">
+          <Button variant="secondary" size="icon-round" disabled>
             <HugeiconsIcon icon={FilterMailIcon} />
           </Button>
         }
