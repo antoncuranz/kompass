@@ -17,7 +17,7 @@ export default function MapDialog({
   onOpenChange: (open: boolean) => void
 }) {
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={open} onOpenChange={onOpenChange} className="p-0">
       <MapDialogContent value={value} onChange={onChange} />
     </Dialog>
   )

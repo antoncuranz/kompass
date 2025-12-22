@@ -26,7 +26,7 @@ const buttonVariants = cva(
           "border-0 shadow-none active:shadow-none hover:bg-muted hover:text-muted-foreground dark:hover:bg-muted/50",
       },
       size: {
-        base: "",
+        base: "font-normal px-3",
         default: "px-6",
         round: "px-6 rounded-full",
         icon: "w-10",
