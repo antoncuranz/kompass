@@ -18,7 +18,12 @@ export default function ShareButton({
   }
 
   return (
-    <Button variant="secondary" size="icon-round" onClick={handleShare}>
+    <Button
+      variant="secondary"
+      size="icon-round"
+      onClick={handleShare}
+      aria-label="Copy Link"
+    >
       <HugeiconsIcon icon={Share01Icon} />
     </Button>
   )
