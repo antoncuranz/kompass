@@ -7,7 +7,7 @@ export const Route = createFileRoute("/$trip/map")({
 
 function MobileMapPage() {
   return (
-    <div className="h-full">
+    <div className="h-[calc(100dvh-5.5rem)]">
       <MapPane />
     </div>
   )
