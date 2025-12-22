@@ -19,7 +19,10 @@ export default function Pane({
   return (
     <div
       data-testid={testId}
-      className={cn("h-full w-full bg-card", className)}
+      className={cn(
+        "h-full w-full bg-card not-sm:min-h-[calc(100dvh-5.5rem)]",
+        className,
+      )}
     >
       <div className="relative flex flex-col h-full">
         {(leftSlot || title || rightSlot) && (

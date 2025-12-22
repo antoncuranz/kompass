@@ -215,7 +215,7 @@
   }
 
   body {
-    @apply bg-card text-foreground;
+    @apply bg-background text-foreground;
   }
 }
 
