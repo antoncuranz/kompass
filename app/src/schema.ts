@@ -245,30 +245,10 @@ export const UserAccount = co
     const { root } = await account.$jazz.ensureLoaded({
       resolve: { root: true },
     })
-    if (!root.$jazz.has("tripMap")) {
-      root.$jazz.set("tripMap", {})
-    }
 
-    // migrate trips to tripMap
+    // delete old trips list
     if (root.trips !== undefined) {
-      const {
-        root: { trips, tripMap },
-      } = await account.$jazz.ensureLoaded({
-        resolve: {
-          root: {
-            trips: true,
-            tripMap: true,
-          },
-        },
-      })
-
-      trips?.forEach(sharedTrip => {
-        const id = sharedTrip.$jazz.id
-        if (!(id in root.tripMap)) {
-          tripMap.$jazz.set(id, sharedTrip)
-          trips.$jazz.remove(st => st.$jazz.id == sharedTrip.$jazz.id)
-        }
-      })
+      root.$jazz.delete("trips")
     }
   })
   .resolved({
