@@ -21,7 +21,7 @@ export default defineConfig({
         enabled: true,
       },
       workbox: {
-        globPatterns: ["**/*.{js,css,html,woff2}"],
+        globPatterns: ["**/*.{js,mjs,css,html,woff2}"],
       },
       manifest: {
         name: "kompass",
