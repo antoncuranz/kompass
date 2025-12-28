@@ -20,7 +20,9 @@ export default defineConfig({
       devOptions: {
         enabled: true,
       },
-      includeAssets: ["favicon.ico", "apple-touch-icon.png", "mask-icon.svg"],
+      workbox: {
+        globPatterns: ["**/*.{js,css,html,woff2}"],
+      },
       manifest: {
         name: "kompass",
         short_name: "kompass",
