@@ -11,6 +11,7 @@ import { PushSubscription } from "./schema"
 export const ServerWorkerApi = HttpApi.make("ServerWorkerApi")
   .add(
     HttpApiGroup.make("Main")
+      .add(HttpApiEndpoint.get("health", "/health"))
       .add(
         HttpApiEndpoint.get("gen-vapid", "/gen-vapid").addSuccess(
           Schema.String,

@@ -130,6 +130,7 @@ export const MainImpl = HttpApiBuilder.group(
   "Main",
   handlers =>
     handlers
+      .handle("health", () => Effect.void)
       .handle("gen-vapid", () =>
         Effect.sync(() => JSON.stringify(webpush.generateVAPIDKeys())),
       )
