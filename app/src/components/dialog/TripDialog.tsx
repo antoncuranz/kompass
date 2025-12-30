@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { Alert02Icon } from "@hugeicons/core-free-icons"
+import { toast } from "sonner"
 import type { co } from "jazz-tools"
 import type { Trip, UserAccount } from "@/schema.ts"
 import { Dialog, useDialogContext } from "@/components/dialog/Dialog.tsx"
@@ -144,6 +145,9 @@ function TripDialogContent({
       })
 
       console.log("User is subscribed:", subscription)
+      toast.success("User is subscribed:", {
+        description: JSON.stringify(subscription),
+      })
       setIsNotificationsEnabled(true)
     } catch (err) {
       console.log("Failed to subscribe the user: ", err)
