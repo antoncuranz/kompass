@@ -6,7 +6,7 @@ import { co, z } from "jazz-tools"
 const PushSubscriptionJazz = co
   .map({
     endpoint: z.string(),
-    expirationTime: z.number().nullable(),
+    expirationTime: z.number().nullish(),
     keys: co.map({
       p256dh: z.string(),
       auth: z.string(),
@@ -42,7 +42,7 @@ export const ServerWorkerAccount = co
 
 export const PushSubscription = Schema.Struct({
   endpoint: Schema.String,
-  expirationTime: Schema.NullOr(Schema.Number),
+  expirationTime: Schema.NullishOr(Schema.Number),
   keys: Schema.Struct({
     p256dh: Schema.String,
     auth: Schema.String,
