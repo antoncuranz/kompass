@@ -9,7 +9,7 @@ import type { HttpServerRequest } from "@effect/platform/HttpServerRequest"
 import { Effect } from "effect"
 import type { Schema } from "effect"
 import type { Account } from "jazz-tools"
-import { generateAuthToken, parseAuthToken } from "jazz-tools"
+import { parseAuthToken } from "jazz-tools"
 import { startWorker } from "jazz-tools/worker"
 import webpush from "web-push"
 import { ServerWorkerApi } from "./api"
@@ -98,9 +98,7 @@ function persistSubscription(
 ) {
   return Effect.gen(function* () {
     const swAccount = yield* getSwAccount
-    yield* Effect.log(JSON.stringify(swAccount.root.pushSubscriptions))
     swAccount.root.pushSubscriptions.$jazz.set(account.$jazz.id, subscription)
-    yield* Effect.log(JSON.stringify(swAccount.root.pushSubscriptions))
   })
 }
 
@@ -131,25 +129,6 @@ export const MainImpl = HttpApiBuilder.group(
   handlers =>
     handlers
       .handle("health", () => Effect.void)
-      .handle("gen-vapid", () =>
-        Effect.sync(() => JSON.stringify(webpush.generateVAPIDKeys())),
-      )
-      .handle("get-token", () =>
-        withJazzWorker(() => Effect.sync(generateAuthToken)),
-      )
-      .handle("get-account", () =>
-        withJazzWorker(() =>
-          Effect.gen(function* () {
-            const acc = yield* getSwAccount
-            const data = {
-              pushSubscriptions: acc.root.pushSubscriptions.toJSON(),
-              transportationLists: acc.root.transportationLists.toJSON(),
-            }
-            yield* Effect.log(data)
-            return JSON.stringify(data)
-          }),
-        ),
-      )
       .handle("subscribe", ({ request, payload: subscription }) =>
         withJazzWorkerAndAuth(request, account =>
           persistSubscription(account, subscription),
@@ -171,6 +150,19 @@ export const MainImpl = HttpApiBuilder.group(
             }
             yield* sendNotification(subscription, notification)
             return undefined
+          }),
+        ),
+      )
+      .handle("get-account", () =>
+        withJazzWorker(() =>
+          Effect.gen(function* () {
+            const acc = yield* getSwAccount
+            const data = {
+              pushSubscriptions: acc.root.pushSubscriptions.toJSON(),
+              transportationLists: acc.root.transportationLists.toJSON(),
+            }
+            yield* Effect.log(data)
+            return JSON.stringify(data)
           }),
         ),
       ),

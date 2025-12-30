@@ -13,22 +13,6 @@ export const ServerWorkerApi = HttpApi.make("ServerWorkerApi")
     HttpApiGroup.make("Main")
       .add(HttpApiEndpoint.get("health", "/health"))
       .add(
-        HttpApiEndpoint.get("gen-vapid", "/gen-vapid").addSuccess(
-          Schema.String,
-        ),
-      )
-      .add(
-        HttpApiEndpoint.get("get-token", "/get-token").addSuccess(
-          Schema.String,
-        ),
-      )
-      .add(
-        HttpApiEndpoint.get("get-account", "/get-account")
-          .addSuccess(Schema.String)
-          .addError(Unauthorized)
-          .addError(BadRequest),
-      )
-      .add(
         HttpApiEndpoint.post("subscribe", "/subscribe")
           .setPayload(PushSubscription)
           .addError(Unauthorized)
@@ -44,6 +28,12 @@ export const ServerWorkerApi = HttpApi.make("ServerWorkerApi")
           .addError(Unauthorized)
           .addError(BadRequest)
           .addError(NotFound),
+      )
+      .add(
+        HttpApiEndpoint.get("get-account", "/internal/get-account")
+          .addSuccess(Schema.String)
+          .addError(Unauthorized)
+          .addError(BadRequest),
       ),
   )
   .addError(InternalServerError)

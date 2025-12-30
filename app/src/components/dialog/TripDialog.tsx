@@ -144,10 +144,6 @@ function TripDialogContent({
         applicationServerKey: config.VAPID_PUBLIC_KEY,
       })
 
-      console.log("User is subscribed:", JSON.stringify(subscription))
-      toast.success("User is subscribed:", {
-        description: JSON.stringify(subscription),
-      })
       const response = await fetch("/worker/subscribe", {
         method: "POST",
         headers: {
