@@ -1,0 +1,32 @@
+{
+  "name": "server-worker",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "bun src/Program.ts",
+    "image": "docker build -t server-worker:latest .",
+    "typecheck": "tsgo --noEmit",
+    "lint": "oxlint --type-aware",
+    "format": "oxfmt",
+    "fix": "oxfmt && oxlint --type-aware --fix"
+  },
+  "dependencies": {
+    "@effect/platform": "^0.94.0",
+    "@effect/platform-bun": "^0.87.0",
+    "dotenv": "^17.2.3",
+    "effect": "^3.19.13",
+    "jazz-tools": "^0.19.14",
+    "web-push": "^3.6.7"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/web-push": "^3.6.4",
+    "@typescript/native-preview": "^7.0.0-dev.20251230.1",
+    "oxfmt": "^0.21.0",
+    "oxlint": "^1.36.0",
+    "oxlint-tsgolint": "^0.10.0"
+  },
+  "overrides": {
+    "rfc6902": "5.1.2"
+  }
+}
