@@ -19,7 +19,7 @@ import { ServerWorkerAccount } from "./schema"
 
 const jazzWorkerOptions = {
   syncServer: config.JAZZ_SYNC_URL,
-  accountID: config.JAZZ_WORKER_ID,
+  accountID: config.JAZZ_WORKER_ACCOUNT,
   accountSecret: config.JAZZ_WORKER_SECRET,
   AccountSchema: ServerWorkerAccount,
 }
