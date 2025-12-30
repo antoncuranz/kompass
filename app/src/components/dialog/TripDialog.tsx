@@ -3,8 +3,9 @@ import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { HugeiconsIcon } from "@hugeicons/react"
-import { Alert02Icon } from "@hugeicons/core-free-icons"
+import { Alert02Icon, Notification01Icon } from "@hugeicons/core-free-icons"
 import { toast } from "sonner"
+import { generateAuthToken } from "jazz-tools"
 import type { co } from "jazz-tools"
 import type { Trip, UserAccount } from "@/schema.ts"
 import { Dialog, useDialogContext } from "@/components/dialog/Dialog.tsx"
@@ -130,7 +131,6 @@ function TripDialogContent({
       return
     }
 
-    // Request permission for notifications
     const permission = await Notification.requestPermission()
     if (permission !== "granted") {
       console.log("Permission not granted for Notification")
@@ -144,13 +144,36 @@ function TripDialogContent({
         applicationServerKey: config.VAPID_PUBLIC_KEY,
       })
 
-      console.log("User is subscribed:", subscription)
+      console.log("User is subscribed:", JSON.stringify(subscription))
       toast.success("User is subscribed:", {
         description: JSON.stringify(subscription),
       })
+      const response = await fetch("/worker/subscribe", {
+        method: "POST",
+        headers: {
+          Authorization: `Jazz ${generateAuthToken()}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(subscription),
+      })
+      if (!response.ok) {
+        toast.error("error posting subscription, status: " + response.status)
+      }
       setIsNotificationsEnabled(true)
     } catch (err) {
       console.log("Failed to subscribe the user: ", err)
+    }
+  }
+
+  async function sendTestNotification() {
+    const response = await fetch("/worker/send-notification", {
+      method: "POST",
+      headers: {
+        Authorization: `Jazz ${generateAuthToken()}`,
+      },
+    })
+    if (!response.ok) {
+      toast.error("error sending test notification, status: " + response.status)
     }
   }
 
@@ -191,18 +214,30 @@ function TripDialogContent({
         {trip && (
           <div className="flex items-center justify-between">
             <Label>Schedule Change Notifications</Label>
-            {canEnable ? (
-              <Switch
-                checked={isNotificationsEnabled}
-                onCheckedChange={handleNotificationToggle}
-                disabled={!edit}
-              />
-            ) : (
-              <div className="flex items-center gap-2 text-muted-foreground">
-                <HugeiconsIcon icon={Alert02Icon} size={16} />
-                <span className="text-sm">{blockedReason}</span>
-              </div>
-            )}
+            <div className="flex items-center gap-2 text-muted-foreground">
+              {canEnable ? (
+                <>
+                  <Switch
+                    checked={isNotificationsEnabled}
+                    onCheckedChange={handleNotificationToggle}
+                    disabled={!edit}
+                  />
+                  <Button
+                    variant="secondary"
+                    size="icon-round"
+                    disabled={!edit}
+                    onClick={sendTestNotification}
+                  >
+                    <HugeiconsIcon icon={Notification01Icon} />
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <HugeiconsIcon icon={Alert02Icon} size={16} />
+                  <span className="text-sm">{blockedReason}</span>
+                </>
+              )}
+            </div>
           </div>
         )}
       </Form>
