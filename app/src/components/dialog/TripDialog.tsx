@@ -157,7 +157,9 @@ function TripDialogContent({
         body: JSON.stringify(subscription),
       })
       if (!response.ok) {
-        toast.error("error posting subscription, status: " + response.status)
+        toast.error("error posting subscription", {
+          description: await response.text(),
+        })
       }
       setIsNotificationsEnabled(true)
     } catch (err) {
@@ -173,7 +175,9 @@ function TripDialogContent({
       },
     })
     if (!response.ok) {
-      toast.error("error sending test notification, status: " + response.status)
+      toast.error("error sending test notification", {
+        description: await response.text(),
+      })
     }
   }
 
