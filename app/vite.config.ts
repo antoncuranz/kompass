@@ -22,6 +22,7 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ["**/*.{js,mjs,css,html,woff2}"],
+        importScripts: ["/service-worker/push.js"],
       },
       manifest: {
         name: "kompass",

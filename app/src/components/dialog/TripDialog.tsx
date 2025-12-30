@@ -2,6 +2,8 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
+import { HugeiconsIcon } from "@hugeicons/react"
+import { Alert02Icon } from "@hugeicons/core-free-icons"
 import type { co } from "jazz-tools"
 import type { Trip, UserAccount } from "@/schema.ts"
 import { Dialog, useDialogContext } from "@/components/dialog/Dialog.tsx"
@@ -14,11 +16,15 @@ import {
 } from "@/components/ui/dialog.tsx"
 import { Form, FormField } from "@/components/ui/form.tsx"
 import { Input } from "@/components/ui/input.tsx"
+import { Label } from "@/components/ui/label.tsx"
 import { Spinner } from "@/components/ui/shadcn-io/spinner"
+import { Switch } from "@/components/ui/switch.tsx"
 import { Textarea } from "@/components/ui/textarea.tsx"
+import { usePushNotificationStatus } from "@/hooks/usePushNotificationStatus"
 import { dateFromString } from "@/lib/datetime-utils"
 import { dateRange, optionalString } from "@/lib/formschema-utils"
 import { createNewTrip } from "@/lib/trip-utils"
+import config from "@/config"
 
 const formSchema = z.object({
   name: z.string().nonempty("Required"),
@@ -54,7 +60,11 @@ function TripDialogContent({
 }) {
   const [edit, setEdit] = useState<boolean>(trip == undefined)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
+  const [isNotificationsEnabled, setIsNotificationsEnabled] = useState(false)
   const { onClose } = useDialogContext()
+
+  const isAdmin = trip?.$jazz.owner.myRole() === "admin"
+  const { canEnable, blockedReason } = usePushNotificationStatus(isAdmin)
 
   const form = useForm<
     z.input<typeof formSchema>,
@@ -113,6 +123,33 @@ function TripDialogContent({
     }
   }
 
+  async function handleNotificationToggle(checked: boolean) {
+    if (!checked) {
+      setIsNotificationsEnabled(false)
+      return
+    }
+
+    // Request permission for notifications
+    const permission = await Notification.requestPermission()
+    if (permission !== "granted") {
+      console.log("Permission not granted for Notification")
+      return
+    }
+
+    const registration = await navigator.serviceWorker.ready
+    try {
+      const subscription = await registration.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: config.VAPID_PUBLIC_KEY,
+      })
+
+      console.log("User is subscribed:", subscription)
+      setIsNotificationsEnabled(true)
+    } catch (err) {
+      console.log("Failed to subscribe the user: ", err)
+    }
+  }
+
   return (
     <>
       <DialogHeader>
@@ -147,6 +184,23 @@ function TripDialogContent({
           label="Image URL"
           render={({ field }) => <Input {...field} />}
         />
+        {trip && (
+          <div className="flex items-center justify-between">
+            <Label>Schedule Change Notifications</Label>
+            {canEnable ? (
+              <Switch
+                checked={isNotificationsEnabled}
+                onCheckedChange={handleNotificationToggle}
+                disabled={!edit}
+              />
+            ) : (
+              <div className="flex items-center gap-2 text-muted-foreground">
+                <HugeiconsIcon icon={Alert02Icon} size={16} />
+                <span className="text-sm">{blockedReason}</span>
+              </div>
+            )}
+          </div>
+        )}
       </Form>
       <DialogFooter>
         {edit ? (

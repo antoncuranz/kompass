@@ -13,9 +13,6 @@
     "check": "oxfmt && oxlint --type-aware --fix && eslint --fix",
     "typecheck": "tsgo --noEmit"
   },
-  "overrides": {
-    "rfc6902": "5.1.2"
-  },
   "dependencies": {
     "@base-ui/react": "^1.0.0",
     "@fontsource/inconsolata": "^5.2.8",
@@ -70,5 +67,8 @@
     "vite": "^7.1.7",
     "vite-plugin-pwa": "^1.2.0",
     "web-vitals": "^5.1.0"
+  },
+  "overrides": {
+    "rfc6902": "5.1.2"
   }
 }
