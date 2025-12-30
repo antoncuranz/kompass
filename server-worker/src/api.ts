@@ -40,7 +40,7 @@ export const ServerWorkerApi = HttpApi.make("ServerWorkerApi")
           .addError(BadRequest),
       )
       .add(
-        HttpApiEndpoint.get("send-notification", "/send-notification")
+        HttpApiEndpoint.post("send-notification", "/send-notification")
           .addError(Unauthorized)
           .addError(BadRequest)
           .addError(NotFound),
