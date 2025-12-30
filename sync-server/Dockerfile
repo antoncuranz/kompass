@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 # renovate: datasource=npm depName=jazz-run
-ARG JAZZ_VERSION="0.19.14"
+ARG JAZZ_VERSION="0.19.15"
 
 FROM node:24.12.0-alpine
 
