@@ -18,9 +18,9 @@ import type { PushNotification, PushSubscription } from "./schema"
 import { ServerWorkerAccount } from "./schema"
 
 const jazzWorkerOptions = {
-  syncServer: config.JAZZ_SYNC_SERVER,
-  accountID: config.JAZZ_ACCOUNT_ID,
-  accountSecret: config.JAZZ_ACCOUNT_SECRET,
+  syncServer: config.JAZZ_SYNC_URL,
+  accountID: config.JAZZ_WORKER_ID,
+  accountSecret: config.JAZZ_WORKER_SECRET,
   AccountSchema: ServerWorkerAccount,
 }
 
