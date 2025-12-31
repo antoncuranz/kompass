@@ -2,15 +2,16 @@ import { memo, useMemo } from "react"
 import { createEditor } from "prosekit/core"
 import { ProseKit } from "@prosekit/react"
 import { DropIndicator } from "@prosekit/react/drop-indicator"
-import { useAccount } from "jazz-tools/react"
+import { useRole } from "../provider/TripProvider"
 import { defineExtension } from "./extension"
 import { BlockHandle } from "./BlockHandle"
 import { InlineMenu } from "./InlineMenu"
 import type { CoRichText } from "jazz-tools"
+import { UserRole } from "@/lib/collaboration-utils"
 
 function NotesEditor({ richText }: { richText: CoRichText }) {
-  const account = useAccount()
-  const readOnly = !account.$isLoaded || !account.canWrite(richText)
+  const userRole = useRole()
+  const readOnly = userRole === UserRole.GUEST
 
   const editor = useMemo(() => {
     const extension = defineExtension({ richText, readOnly })

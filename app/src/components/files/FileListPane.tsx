@@ -1,5 +1,4 @@
 import { Link } from "@tanstack/react-router"
-import { co } from "jazz-tools"
 import { HugeiconsIcon } from "@hugeicons/react"
 import {
   Add01Icon,
@@ -14,14 +13,14 @@ import Pane from "@/components/Pane.tsx"
 import { useTrip } from "@/components/provider/TripProvider"
 import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table"
-import { FileAttachment } from "@/schema"
+import { addFile } from "@/lib/file-utils"
 
 export default function FileListPane() {
   const sharedTripId = Route.useParams().trip
   const trip = useTrip()
   const fileInputRef = useRef<HTMLInputElement>(null)
 
-  const hasFiles = trip.files.length > 0
+  const hasFiles = trip.files.$isLoaded && trip.files.length > 0
 
   async function handleFileUpload(event: React.ChangeEvent<HTMLInputElement>) {
     const files = event.target.files
@@ -29,20 +28,7 @@ export default function FileListPane() {
 
     for (const file of Array.from(files)) {
       try {
-        const fileStream = await co.fileStream().createFromBlob(file, {
-          owner: trip.$jazz.owner,
-        })
-
-        const attachment = FileAttachment.create(
-          {
-            name: file.name,
-            file: fileStream,
-            references: [],
-          },
-          trip.$jazz.owner,
-        )
-
-        trip.files.$jazz.push(attachment)
+        await addFile(trip, file)
         toast.success(`Uploaded "${file.name}"`)
       } catch (error) {
         toast.error(`Failed to upload "${file.name}"`)

@@ -64,7 +64,7 @@ export const Flight = co
   .map({
     type: z.literal("flight"),
     legs: co.list(FlightLeg),
-    pnrs: co.list(PNR),
+    pnrs: co.list(PNR).withPermissions({ onInlineCreate: "newGroup" }),
     price: z.number().optional(),
     geoJson: z.object().optional(),
   })
@@ -176,7 +176,7 @@ export const Trip = co
     accommodation: { $each: Accommodation.resolveQuery },
     transportation: { $each: true },
     notes: true,
-    files: { $each: FileAttachment.resolveQuery },
+    files: { $each: FileAttachment.resolveQuery, $onError: "catch" },
   })
 
 // COLLABORATION
@@ -204,8 +204,10 @@ export const SharedTrip = co
     trip: Trip,
     requests: JoinRequests,
     statuses: RequestStatuses,
-    members: Group,
-    admins: Group,
+    admins: Group, // write-access to SharedTrip
+    members: Group, // write-access to Trip
+    guests: Group, // read-access to less sensitive Trip data
+    workers: Group, // necessary access for server workers
   })
   .resolved({
     trip: Trip.resolveQuery,
@@ -213,6 +215,8 @@ export const SharedTrip = co
     statuses: { $onError: "catch" },
     admins: true,
     members: true,
+    guests: true,
+    workers: true,
   })
 
 export const AccountRoot = co

@@ -43,6 +43,7 @@ export function usePushNotificationStatus(
   } else if (permissionStatus === "denied") {
     blockedReason = "Notifications blocked"
   } else if (!isAdmin) {
+    // TODO: should also be possible if admin added worker already
     blockedReason = "Admin access required"
   }
 

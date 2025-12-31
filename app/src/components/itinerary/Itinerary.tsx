@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { useRole } from "../provider/TripProvider"
 import type {
   Accommodation,
   Activity,
@@ -15,6 +16,7 @@ import FlightDialog from "@/components/dialog/FlightDialog"
 import TrainDialog from "@/components/dialog/TrainDialog"
 import TransportationDialog from "@/components/dialog/TransportationDialog"
 import Day from "@/components/itinerary/Day.tsx"
+import { UserRole } from "@/lib/collaboration-utils"
 
 export default function Itinerary({
   trip,
@@ -23,6 +25,8 @@ export default function Itinerary({
   trip: co.loaded<typeof Trip>
   dataByDays: Array<DayRenderData>
 }) {
+  const userRole = useRole()
+
   const [activityDialogOpen, setActivityDialogOpen] = useState(false)
   const [dialogActivity, setDialogActivity] = useState<
     co.loaded<typeof Activity> | undefined
@@ -57,8 +61,10 @@ export default function Itinerary({
   function onAccommodationClick(
     accommodation: co.loaded<typeof Accommodation> | undefined,
   ) {
-    setDialogAccommodation(accommodation)
-    setAccommodationDialogOpen(true)
+    if (accommodation !== undefined || userRole !== UserRole.GUEST) {
+      setDialogAccommodation(accommodation)
+      setAccommodationDialogOpen(true)
+    }
   }
 
   function onFlightClick(flight: co.loaded<typeof Flight>) {
@@ -106,7 +112,6 @@ export default function Itinerary({
         onOpenChange={setAccommodationDialogOpen}
       />
       <FlightDialog
-        trip={trip}
         flight={dialogFlight}
         open={flightDialogOpen}
         onOpenChange={setFlightDialogOpen}

@@ -1,6 +1,36 @@
+import { Group } from "jazz-tools"
 import type { co } from "jazz-tools"
-import type { Transportation } from "@/schema"
+import type { SharedTrip, Transportation } from "@/schema"
 import { Flight, GenericTransportation, Train } from "@/schema"
+
+export function addFlight(
+  sharedTrip: co.loaded<typeof SharedTrip>,
+  values: Omit<co.input<typeof Flight>, "type">,
+) {
+  const transportation = sharedTrip.trip.transportation
+
+  const flightGroup = Group.create()
+  flightGroup.addMember(transportation.$jazz.owner)
+  flightGroup.addMember(sharedTrip.workers)
+
+  const flight = Flight.create(
+    {
+      type: "flight",
+      ...values,
+    },
+    flightGroup,
+  )
+  flight.pnrs.$jazz.owner.addMember(sharedTrip.members) // required because the PNR list has onInlineCreate: "newGroup"
+
+  transportation.$jazz.push(flight)
+}
+
+export function updateFlight(
+  flight: co.loaded<typeof Flight>,
+  values: Omit<co.input<typeof Flight>, "type">,
+) {
+  flight.$jazz.applyDiff(values)
+}
 
 export async function loadTransportation(
   transportation: co.loaded<typeof Transportation>,

@@ -7,7 +7,7 @@ import { Alert02Icon, Notification01Icon } from "@hugeicons/core-free-icons"
 import { toast } from "sonner"
 import { generateAuthToken } from "jazz-tools"
 import type { co } from "jazz-tools"
-import type { Trip, UserAccount } from "@/schema.ts"
+import type { SharedTrip, UserAccount } from "@/schema.ts"
 import { Dialog, useDialogContext } from "@/components/dialog/Dialog.tsx"
 import DateInput from "@/components/dialog/input/DateInput.tsx"
 import { Button } from "@/components/ui/button.tsx"
@@ -27,6 +27,7 @@ import { dateFromString } from "@/lib/datetime-utils"
 import { dateRange, optionalString } from "@/lib/formschema-utils"
 import { createNewTrip } from "@/lib/trip-utils"
 import config from "@/config"
+import { UserRole, userHasRole } from "@/lib/collaboration-utils"
 
 const formSchema = z.object({
   name: z.string().nonempty("Required"),
@@ -37,35 +38,36 @@ const formSchema = z.object({
 
 export default function TripDialog({
   account,
-  trip,
+  sharedTrip,
   open,
   onOpenChange,
 }: {
   account: co.loaded<typeof UserAccount>
-  trip?: co.loaded<typeof Trip>
+  sharedTrip?: co.loaded<typeof SharedTrip>
   open: boolean
   onOpenChange: (open: boolean) => void
 }) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <TripDialogContent trip={trip} account={account} />
+      <TripDialogContent sharedTrip={sharedTrip} account={account} />
     </Dialog>
   )
 }
 
 function TripDialogContent({
   account,
-  trip,
+  sharedTrip,
 }: {
   account: co.loaded<typeof UserAccount>
-  trip?: co.loaded<typeof Trip>
+  sharedTrip?: co.loaded<typeof SharedTrip>
 }) {
+  const trip = sharedTrip?.trip
   const [edit, setEdit] = useState<boolean>(trip == undefined)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const [isNotificationsEnabled, setIsNotificationsEnabled] = useState(false)
   const { onClose } = useDialogContext()
 
-  const isAdmin = trip?.$jazz.owner.myRole() === "admin"
+  const isAdmin = !!sharedTrip && userHasRole(sharedTrip, UserRole.ADMIN)
   const { canEnable, blockedReason } = usePushNotificationStatus(isAdmin)
 
   const form = useForm<
@@ -101,11 +103,6 @@ function TripDialogContent({
         ...values,
         startDate: values.dateRange.from,
         endDate: values.dateRange.to,
-        activities: [],
-        accommodation: [],
-        transportation: [],
-        files: [],
-        notes: "",
       })
     }
     onClose()

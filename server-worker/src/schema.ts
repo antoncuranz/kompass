@@ -17,7 +17,9 @@ const PushSubscriptionJazz = co
 export const ServerWorkerAccount = co
   .account({
     root: co.map({
-      pushSubscriptions: co.record(z.string(), PushSubscriptionJazz),
+      // hash(user.$jazz.id) => list(pushSubscription)
+      pushSubscriptions: co.record(z.string(), co.list(PushSubscriptionJazz)),
+      // transportationList.$jazz.id => list(hash(user.$jazz.id))
       transportationLists: co.record(z.string(), co.list(z.string())),
     }),
     profile: co.profile(),

@@ -160,7 +160,6 @@ function CostPage() {
         onOpenChange={open => !open && setAccommodationDialog(undefined)}
       />
       <FlightDialog
-        trip={trip}
         flight={flightDialog}
         open={flightDialog !== undefined}
         onOpenChange={open => !open && setFlightDialog(undefined)}

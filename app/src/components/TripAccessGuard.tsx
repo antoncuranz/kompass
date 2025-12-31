@@ -13,7 +13,7 @@ export default function TripAccessGuard({
   const account = useAccount(UserAccount)
   const isAuthenticated = useIsAuthenticated()
   const sharedTrip = useCoState(SharedTrip, sharedTripId, {
-    resolve: { members: true, admins: true, requests: true },
+    resolve: { admins: true, members: true, guests: true, requests: true },
   })
 
   if (!account.$isLoaded || !sharedTrip.$isLoaded) return null
@@ -35,7 +35,7 @@ export default function TripAccessGuard({
   }
 
   return (
-    !canRead(sharedTrip.members.myRole()) && (
+    !canRead(sharedTrip.guests.myRole()) && (
       <Dialog>
         <DialogHeader>
           <DialogTitle>Unauthorized</DialogTitle>
@@ -60,6 +60,7 @@ export default function TripAccessGuard({
             </p>
             <DialogFooter>
               <Button
+                size="round"
                 className="w-full"
                 onClick={() => sendJoinRequest(sharedTrip, account)}
               >
