@@ -24,7 +24,6 @@ import { usePushNotifications } from "@/hooks/usePushNotificationStatus"
 import { dateFromString } from "@/lib/datetime-utils"
 import { dateRange, optionalString } from "@/lib/formschema-utils"
 import { createNewTrip } from "@/lib/trip-utils"
-import { UserRole, userHasRole } from "@/lib/collaboration-utils"
 
 const formSchema = z.object({
   name: z.string().nonempty("Required"),
@@ -63,13 +62,12 @@ function TripDialogContent({
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const { onClose } = useDialogContext()
 
-  const isAdmin = !!sharedTrip && userHasRole(sharedTrip, UserRole.ADMIN)
   const {
     toggle: toggleNotifications,
     sendTestNotification,
     status: notificationStatus,
     blockedReason,
-  } = usePushNotifications(isAdmin, trip?.transportation.$jazz.id ?? "")
+  } = usePushNotifications(sharedTrip)
 
   const form = useForm<
     z.input<typeof formSchema>,

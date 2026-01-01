@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react"
-import { generateAuthToken } from "jazz-tools"
+import { co, generateAuthToken } from "jazz-tools"
 import { toast } from "sonner"
+import type { SharedTrip } from "@/schema"
 import config from "@/config"
+import { UserRole, userHasRole } from "@/lib/collaboration-utils"
 
 interface PushNotificationStatus {
   toggle: () => void
@@ -28,9 +30,19 @@ function usePushManager() {
 }
 
 export function usePushNotifications(
-  isAdmin: boolean,
-  coListId: string,
+  sharedTrip: co.loaded<typeof SharedTrip> | undefined,
 ): PushNotificationStatus {
+  if (!sharedTrip)
+    return {
+      toggle: () => {},
+      sendTestNotification: () => {},
+      status: "inactive",
+      blockedReason: null,
+    }
+
+  const isAdmin = userHasRole(sharedTrip, UserRole.ADMIN)
+  const coListId = sharedTrip.trip.transportation.$jazz.id
+
   const pushManager = usePushManager()
   const [isPwa, setIsPwa] = useState(false)
   const [permissionStatus, setPermissionStatus] = useState<
@@ -153,6 +165,10 @@ export function usePushNotifications(
         }
 
         if (!monitorState) {
+          const swAccount = await co.account().load(config.JAZZ_WORKER_ACCOUNT)
+          if (swAccount.$isLoaded) {
+            sharedTrip.workers.addMember(swAccount, "writer")
+          }
           const response = await fetch("/worker/monitor/" + coListId, {
             method: "POST",
             headers: {

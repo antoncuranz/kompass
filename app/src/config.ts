@@ -14,8 +14,8 @@ const config = {
   JAZZ_SYNC_URL: (window.JAZZ_SYNC_URL || "ws://127.0.0.1:4200") as
     | `wss://${string}`
     | `ws://${string}`,
-  JAZZ_WORKER_ACCOUNT: window.JAZZ_WORKER_ACCOUNT,
-  VAPID_PUBLIC_KEY: window.VAPID_PUBLIC_KEY,
+  JAZZ_WORKER_ACCOUNT: window.JAZZ_WORKER_ACCOUNT!,
+  VAPID_PUBLIC_KEY: window.VAPID_PUBLIC_KEY!,
 }
 
 export default config

@@ -10,7 +10,7 @@
     "oxlint": "oxlint --type-aware",
     "eslint": "eslint",
     "format": "oxfmt",
-    "check": "oxfmt && oxlint --type-aware --fix && eslint --fix",
+    "fix": "oxfmt && oxlint --type-aware --fix && eslint --fix",
     "typecheck": "tsgo --noEmit"
   },
   "dependencies": {
