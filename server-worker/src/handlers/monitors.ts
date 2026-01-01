@@ -15,25 +15,24 @@ import { getSwAccount, hash, withJazzWorkerAndAuth } from "../utils"
 function getMonitor(account: Account, coListId: string) {
   return Effect.gen(function* () {
     const swAccount = yield* getSwAccount
-    const hashedCoListId = hash(coListId)
     const hashedUserId = hash(account.$jazz.id)
     const transportationLists = swAccount.root.transportationLists
 
-    if (!(hashedCoListId in transportationLists)) {
+    if (!(coListId in transportationLists)) {
       return yield* new NotFound()
     }
 
-    const subscribers = transportationLists[hashedCoListId]
+    const subscribers = transportationLists[coListId]
     if (!subscribers || !(hashedUserId in subscribers)) {
       return yield* new NotFound()
     }
 
-    const colist = yield* Effect.tryPromise({
+    const coList = yield* Effect.tryPromise({
       try: () => co.list(co.map({})).load(coListId),
       catch: () => new InternalServerError(),
     })
 
-    if (!colist.$isLoaded) {
+    if (!coList.$isLoaded) {
       return yield* new Forbidden()
     }
   })
@@ -42,15 +41,14 @@ function getMonitor(account: Account, coListId: string) {
 function addMonitor(account: Account, coListId: string) {
   return Effect.gen(function* () {
     const swAccount = yield* getSwAccount
-    const hashedCoListId = hash(coListId)
     const hashedUserId = hash(account.$jazz.id)
     const transportationLists = swAccount.root.transportationLists
 
-    if (!(hashedCoListId in transportationLists)) {
-      transportationLists.$jazz.set(hashedCoListId, {})
+    if (!(coListId in transportationLists)) {
+      transportationLists.$jazz.set(coListId, {})
     }
 
-    const monitorSet = transportationLists[hashedCoListId]
+    const monitorSet = transportationLists[coListId]
     if (!monitorSet) {
       return yield* new InternalServerError()
     }
