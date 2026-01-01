@@ -113,7 +113,7 @@ function TripDialogContent({
     }
 
     if (showDeleteConfirm) {
-      account.root.tripMap.$jazz.delete(trip.$jazz.id)
+      account.root.trips.$jazz.delete(trip.$jazz.id)
       // TODO: think about revoking access
       onClose()
     } else {

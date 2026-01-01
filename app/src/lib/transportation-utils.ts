@@ -11,7 +11,6 @@ export function addFlight(
 
   const flightGroup = Group.create()
   flightGroup.addMember(transportation.$jazz.owner)
-  flightGroup.addMember(sharedTrip.workers)
 
   const flight = Flight.create(
     {

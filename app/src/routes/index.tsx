@@ -33,7 +33,7 @@ function App() {
     "aspect-3/5 min-h-[20rem] sm:min-h-[26rem] h-[calc(100vh-20rem)] md:h-[calc(100vh-26rem)] max-h-160"
 
   function sortedTrips(loaded: co.loaded<typeof UserAccount>) {
-    return Object.values(loaded.root.tripMap).sort(
+    return Object.values(loaded.root.trips).sort(
       (a: co.loaded<typeof SharedTrip>, b: co.loaded<typeof SharedTrip>) => {
         return (
           dateFromString(b.trip.startDate).getTime() -

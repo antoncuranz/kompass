@@ -221,12 +221,12 @@ export const SharedTrip = co
 
 export const AccountRoot = co
   .map({
-    trips: co.optional(co.list(SharedTrip)), // deprecated
-    tripMap: co.record(z.string(), SharedTrip),
+    trips: co.record(z.string(), SharedTrip),
+    tripMap: co.record(z.string(), SharedTrip), // deprecated
     requests: JoinRequests,
   })
   .resolved({
-    tripMap: { $each: SharedTrip.resolveQuery },
+    trips: { $each: SharedTrip.resolveQuery },
     requests: { $each: true },
   })
 
@@ -240,19 +240,44 @@ export const UserAccount = co
   .withMigration(async account => {
     if (!account.$jazz.has("root")) {
       account.$jazz.set("root", {
+        trips: {},
         tripMap: {},
         requests: {},
       })
       return
     }
 
+    // V0 Migration - Root
+
     const { root } = await account.$jazz.ensureLoaded({
       resolve: { root: true },
     })
 
-    // delete old trips list
-    if (root.trips !== undefined) {
-      root.$jazz.delete("trips")
+    // rename tripMap to trips
+    root.$jazz.set("trips", root.tripMap)
+
+    // V0 Migration - Trips
+
+    const {
+      root: { trips },
+    } = await account.$jazz.ensureLoaded({
+      resolve: {
+        root: { trips: { $each: { admins: true, members: true } } },
+      },
+    })
+
+    for (const sharedTrip of Object.values(trips)) {
+      if (!sharedTrip.$jazz.has("guests")) {
+        const guests = Group.create()
+        guests.addMember(sharedTrip.members)
+        sharedTrip.$jazz.set("guests", guests)
+      }
+
+      if (!sharedTrip.$jazz.has("workers")) {
+        const workers = Group.create()
+        workers.addMember(sharedTrip.admins)
+        sharedTrip.$jazz.set("workers", workers)
+      }
     }
   })
   .resolved({

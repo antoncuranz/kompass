@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Group, co } from "jazz-tools"
+import { co } from "jazz-tools"
 import type { Trip } from "@/schema"
 import {
   getDepartureDateTime,
@@ -9,12 +9,9 @@ import {
 
 export async function addFile(trip: co.loaded<typeof Trip>, file: File) {
   if (trip.files.$isLoaded) {
-    const group = Group.create()
-    group.addMember(trip.files.$jazz.owner)
-
     trip.files.$jazz.push({
       name: file.name,
-      file: await co.fileStream().createFromBlob(file, group),
+      file: await co.fileStream().createFromBlob(file),
       references: [],
     })
   }

@@ -41,12 +41,21 @@ export function createNewTrip(
   sharedTripGroup.addMember("everyone", "reader")
   sharedTripGroup.addMember(admins)
 
+  const tripGroup = Group.create()
+  tripGroup.addMember(admins)
+  tripGroup.addMember(members)
+  tripGroup.addMember(guests)
+
   const requestsGroup = Group.create()
   requestsGroup.addMember("everyone", "writeOnly")
   requestsGroup.addMember(admins)
 
   const transportationGroup = Group.create()
-  transportationGroup.addMember(guests)
+  transportationGroup.addMember(tripGroup)
+  transportationGroup.addMember(workers)
+
+  const filesGroup = Group.create()
+  filesGroup.addMember(members)
 
   const trip = Trip.create(
     {
@@ -55,9 +64,9 @@ export function createNewTrip(
       accommodation: [],
       notes: "",
       transportation: co.list(Transportation).create([], transportationGroup),
-      files: co.list(FileAttachment).create([], members),
+      files: co.list(FileAttachment).create([], filesGroup),
     },
-    guests,
+    tripGroup,
   )
 
   const sharedTrip = SharedTrip.create(
@@ -73,7 +82,7 @@ export function createNewTrip(
     sharedTripGroup,
   )
 
-  account.root.tripMap.$jazz.set(sharedTrip.$jazz.id, sharedTrip)
+  account.root.trips.$jazz.set(sharedTrip.$jazz.id, sharedTrip)
 }
 
 async function exportTrip(sharedTrip: co.loaded<typeof SharedTrip>) {
@@ -89,7 +98,7 @@ async function exportTrip(sharedTrip: co.loaded<typeof SharedTrip>) {
 
 export async function exportUserData(account: co.loaded<typeof UserAccount>) {
   const trips = await Promise.all(
-    Object.values(account.root.tripMap).map(exportTrip),
+    Object.values(account.root.trips).map(exportTrip),
   )
 
   return {
