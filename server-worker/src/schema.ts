@@ -3,7 +3,7 @@ import { co, z } from "jazz-tools"
 
 // Jazz CoValue Schemas
 
-const PushSubscriptionJazz = co
+const PushSubscriptionEntity = co
   .map({
     endpoint: z.string(),
     expirationTime: z.number().nullish(),
@@ -17,10 +17,16 @@ const PushSubscriptionJazz = co
 export const ServerWorkerAccount = co
   .account({
     root: co.map({
-      // hash(user.$jazz.id) => list(pushSubscription)
-      pushSubscriptions: co.record(z.string(), co.list(PushSubscriptionJazz)),
-      // transportationList.$jazz.id => list(hash(user.$jazz.id))
-      transportationLists: co.record(z.string(), co.list(z.string())),
+      // hash(user.$jazz.id) => set(pushSubscription) (key: endpoint)
+      pushSubscriptions: co.record(
+        z.string(),
+        co.record(z.string(), PushSubscriptionEntity),
+      ),
+      // transportationList.$jazz.id => set(hash(user.$jazz.id)) (value: isSubscribed, should always be true)
+      transportationLists: co.record(
+        z.string(),
+        co.record(z.string(), z.boolean()),
+      ),
     }),
     profile: co.profile(),
   })
@@ -35,15 +41,19 @@ export const ServerWorkerAccount = co
   .resolved({
     profile: true,
     root: {
-      pushSubscriptions: { $each: PushSubscriptionJazz.resolveQuery },
-      transportationLists: { $each: true },
+      pushSubscriptions: {
+        $each: { $each: PushSubscriptionEntity.resolveQuery },
+      },
+      transportationLists: { $each: { $each: true } },
     },
   })
 
 // Effect Schemas
 
+export const PushSubscriptionEndpoint = Schema.String
+
 export const PushSubscription = Schema.Struct({
-  endpoint: Schema.String,
+  endpoint: PushSubscriptionEndpoint,
   expirationTime: Schema.NullishOr(Schema.Number),
   keys: Schema.Struct({
     p256dh: Schema.String,

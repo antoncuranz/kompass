@@ -6,10 +6,14 @@ import {
 import { BunHttpServer, BunRuntime } from "@effect/platform-bun"
 import { Layer } from "effect"
 import { ServerWorkerApi } from "./api"
-import { MainImpl } from "./handlers"
+import { MonitorsImpl } from "./handlers/monitors"
+import { ServiceImpl } from "./handlers/service"
+import { SubscriptionsImpl } from "./handlers/subscriptions"
 
 const ServerWorkerImpl = HttpApiBuilder.api(ServerWorkerApi).pipe(
-  Layer.provide(MainImpl),
+  Layer.provide(ServiceImpl),
+  Layer.provide(SubscriptionsImpl),
+  Layer.provide(MonitorsImpl),
 )
 
 const Server = HttpApiBuilder.serve(HttpMiddleware.logger).pipe(
