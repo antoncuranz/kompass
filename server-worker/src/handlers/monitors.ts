@@ -12,24 +12,24 @@ import { getSwAccount, hash, withJazzWorkerAndAuth } from "../utils"
 
 // Monitor operations
 
-function getMonitor(account: Account, colistId: string) {
+function getMonitor(account: Account, coListId: string) {
   return Effect.gen(function* () {
     const swAccount = yield* getSwAccount
-    const hashedColistId = hash(colistId)
+    const hashedCoListId = hash(coListId)
     const hashedUserId = hash(account.$jazz.id)
     const transportationLists = swAccount.root.transportationLists
 
-    if (!(hashedColistId in transportationLists)) {
+    if (!(hashedCoListId in transportationLists)) {
       return yield* new NotFound()
     }
 
-    const subscribers = transportationLists[hashedColistId]
+    const subscribers = transportationLists[hashedCoListId]
     if (!subscribers || !(hashedUserId in subscribers)) {
       return yield* new NotFound()
     }
 
     const colist = yield* Effect.tryPromise({
-      try: () => co.list(co.map({})).load(colistId),
+      try: () => co.list(co.map({})).load(coListId),
       catch: () => new InternalServerError(),
     })
 
@@ -39,22 +39,23 @@ function getMonitor(account: Account, colistId: string) {
   })
 }
 
-function addMonitor(account: Account, transportationListId: string) {
+function addMonitor(account: Account, coListId: string) {
   return Effect.gen(function* () {
     const swAccount = yield* getSwAccount
-    const hashedId = hash(account.$jazz.id)
+    const hashedCoListId = hash(coListId)
+    const hashedUserId = hash(account.$jazz.id)
     const transportationLists = swAccount.root.transportationLists
 
-    if (!(transportationListId in transportationLists)) {
-      transportationLists.$jazz.set(transportationListId, {})
+    if (!(hashedCoListId in transportationLists)) {
+      transportationLists.$jazz.set(coListId, {})
     }
 
-    const monitorSet = transportationLists[transportationListId]
+    const monitorSet = transportationLists[hashedCoListId]
     if (!monitorSet) {
       return yield* new InternalServerError()
     }
 
-    monitorSet.$jazz.set(hashedId, true)
+    monitorSet.$jazz.set(hashedUserId, true)
   })
 }
 
