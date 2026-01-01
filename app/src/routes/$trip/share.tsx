@@ -17,21 +17,29 @@ function SharePage() {
   )
 
   const admins = sharedTrip.admins.getDirectMembers()
-  const members = sharedTrip.members.getDirectMembers()
+  const members = sharedTrip.members
+    .getDirectMembers()
+    .filter(member => member.role !== "admin")
+  const guests = sharedTrip.guests
+    .getDirectMembers()
+    .filter(member => member.role !== "admin")
 
   const allMembers = [
     ...admins.map(admin => ({
       id: admin.id,
       account: admin.account,
-      role: "Admin" as const,
+      role: "Admin",
     })),
-    ...members
-      .filter(member => !admins.some(admin => admin.id === member.id))
-      .map(member => ({
-        id: member.id,
-        account: member.account,
-        role: member.role,
-      })),
+    ...members.map(member => ({
+      id: member.id,
+      account: member.account,
+      role: "Member",
+    })),
+    ...guests.map(member => ({
+      id: member.id,
+      account: member.account,
+      role: "Guest",
+    })),
   ]
 
   return (

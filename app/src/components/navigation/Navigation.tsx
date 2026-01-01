@@ -7,10 +7,12 @@ import { ProfileMenu } from "@/components/navigation/ProfileMenu.tsx"
 import { SyncIndicator } from "@/components/navigation/SyncIndicator.tsx"
 import { Button } from "@/components/ui/button.tsx"
 import { cn } from "@/lib/utils"
+import { titleCase } from "@/lib/misc-utils"
+import { UserRole, userHasRole } from "@/lib/collaboration-utils"
 
 export default function Navigation({ sharedTripId }: { sharedTripId: string }) {
   const sharedTrip = useCoState(SharedTrip, sharedTripId, {
-    resolve: { admins: true, trip: true },
+    resolve: { admins: true, members: true, guests: true, trip: true },
   })
   const pathname = useLocation({
     select: location => location.pathname,
@@ -23,6 +25,22 @@ export default function Navigation({ sharedTripId }: { sharedTripId: string }) {
     commonStyle,
     "text-muted-foreground transition-colors hover:text-foreground",
   )
+
+  function getVisiblePages(): Array<
+    "itinerary" | "notes" | "cost" | "files" | "map" | "share"
+  > {
+    if (!sharedTrip.$isLoaded) return []
+
+    if (userHasRole(sharedTrip, UserRole.ADMIN)) {
+      return ["itinerary", "notes", "cost", "files", "map", "share"]
+    }
+
+    if (userHasRole(sharedTrip, UserRole.MEMBER)) {
+      return ["itinerary", "notes", "cost", "files", "map"]
+    }
+
+    return ["itinerary", "notes", "map"]
+  }
 
   return (
     <header className="sticky top-0 pt-2 sm:pt-0 z-10 sm:z-0 h-22 sm:h-14 border-b sm:border-0 bg-background sm:px-4 md:px-6 shadow-sm sm:shadow-none">
@@ -50,29 +68,17 @@ export default function Navigation({ sharedTripId }: { sharedTripId: string }) {
               "linear-gradient(to right, transparent .0em, black 1em calc(100% - 3em), transparent calc(100% - .0em))",
           }}
         >
-          {["Itinerary", "Notes", "Cost", "Files", "Map"].map(page => (
+          {getVisiblePages().map(page => (
             <Link
-              key={page.toLowerCase()}
-              to={"/" + sharedTripId + "/" + page.toLowerCase()}
+              key={page}
+              to={"/" + sharedTripId + "/" + page}
               className={
-                pathname.includes("/" + page.toLowerCase())
-                  ? activeStyle
-                  : inactiveStyle
+                pathname.includes("/" + page) ? activeStyle : inactiveStyle
               }
             >
-              {page}
+              {titleCase(page)}
             </Link>
           ))}
-          {sharedTrip.$isLoaded && sharedTrip.admins.myRole() === "admin" && (
-            <Link
-              to={"/" + sharedTripId + "/share"}
-              className={
-                pathname.endsWith("/share") ? activeStyle : inactiveStyle
-              }
-            >
-              Share
-            </Link>
-          )}
         </div>
         <div className="hidden sm:flex items-center justify-center gap-2">
           <SyncIndicator />

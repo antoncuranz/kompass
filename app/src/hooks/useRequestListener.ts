@@ -8,7 +8,7 @@ export function useRequestListener() {
     resolve: {
       root: {
         requests: { $each: true },
-        tripMap: true,
+        trips: true,
       },
     },
   })
@@ -17,7 +17,7 @@ export function useRequestListener() {
     if (!account.$isLoaded) return
 
     const requests = account.root.requests
-    const tripMap = account.root.tripMap
+    const tripMap = account.root.trips
 
     async function processRequests() {
       for (const [sharedTripId, request] of Object.entries(requests)) {

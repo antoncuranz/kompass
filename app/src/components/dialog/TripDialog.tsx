@@ -2,8 +2,10 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
+import { HugeiconsIcon } from "@hugeicons/react"
+import { Alert02Icon, Notification01Icon } from "@hugeicons/core-free-icons"
 import type { co } from "jazz-tools"
-import type { Trip, UserAccount } from "@/schema.ts"
+import type { SharedTrip, UserAccount } from "@/schema.ts"
 import { Dialog, useDialogContext } from "@/components/dialog/Dialog.tsx"
 import DateInput from "@/components/dialog/input/DateInput.tsx"
 import { Button } from "@/components/ui/button.tsx"
@@ -14,8 +16,11 @@ import {
 } from "@/components/ui/dialog.tsx"
 import { Form, FormField } from "@/components/ui/form.tsx"
 import { Input } from "@/components/ui/input.tsx"
+import { Label } from "@/components/ui/label.tsx"
 import { Spinner } from "@/components/ui/shadcn-io/spinner"
+import { Switch } from "@/components/ui/switch.tsx"
 import { Textarea } from "@/components/ui/textarea.tsx"
+import { usePushNotifications } from "@/hooks/usePushNotificationStatus"
 import { dateFromString } from "@/lib/datetime-utils"
 import { dateRange, optionalString } from "@/lib/formschema-utils"
 import { createNewTrip } from "@/lib/trip-utils"
@@ -29,32 +34,40 @@ const formSchema = z.object({
 
 export default function TripDialog({
   account,
-  trip,
+  sharedTrip,
   open,
   onOpenChange,
 }: {
   account: co.loaded<typeof UserAccount>
-  trip?: co.loaded<typeof Trip>
+  sharedTrip?: co.loaded<typeof SharedTrip>
   open: boolean
   onOpenChange: (open: boolean) => void
 }) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <TripDialogContent trip={trip} account={account} />
+      <TripDialogContent sharedTrip={sharedTrip} account={account} />
     </Dialog>
   )
 }
 
 function TripDialogContent({
   account,
-  trip,
+  sharedTrip,
 }: {
   account: co.loaded<typeof UserAccount>
-  trip?: co.loaded<typeof Trip>
+  sharedTrip?: co.loaded<typeof SharedTrip>
 }) {
+  const trip = sharedTrip?.trip
   const [edit, setEdit] = useState<boolean>(trip == undefined)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const { onClose } = useDialogContext()
+
+  const {
+    toggle: toggleNotifications,
+    sendTestNotification,
+    status: notificationStatus,
+    blockedReason,
+  } = usePushNotifications(sharedTrip)
 
   const form = useForm<
     z.input<typeof formSchema>,
@@ -89,11 +102,6 @@ function TripDialogContent({
         ...values,
         startDate: values.dateRange.from,
         endDate: values.dateRange.to,
-        activities: [],
-        accommodation: [],
-        transportation: [],
-        files: [],
-        notes: "",
       })
     }
     onClose()
@@ -105,7 +113,7 @@ function TripDialogContent({
     }
 
     if (showDeleteConfirm) {
-      account.root.tripMap.$jazz.delete(trip.$jazz.id)
+      account.root.trips.$jazz.delete(trip.$jazz.id)
       // TODO: think about revoking access
       onClose()
     } else {
@@ -147,6 +155,35 @@ function TripDialogContent({
           label="Image URL"
           render={({ field }) => <Input {...field} />}
         />
+        {trip && (
+          <div className="flex items-center justify-between">
+            <Label>Schedule Change Notifications</Label>
+            <div className="flex items-center gap-2 text-muted-foreground">
+              {notificationStatus !== "blocked" ? (
+                <>
+                  <Switch
+                    checked={notificationStatus === "active"}
+                    onCheckedChange={toggleNotifications}
+                    disabled={!edit}
+                  />
+                  <Button
+                    variant="secondary"
+                    size="icon-round"
+                    disabled={!edit}
+                    onClick={sendTestNotification}
+                  >
+                    <HugeiconsIcon icon={Notification01Icon} />
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <HugeiconsIcon icon={Alert02Icon} size={16} />
+                  <span className="text-sm">{blockedReason}</span>
+                </>
+              )}
+            </div>
+          </div>
+        )}
       </Form>
       <DialogFooter>
         {edit ? (

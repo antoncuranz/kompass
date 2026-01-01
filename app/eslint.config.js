@@ -4,7 +4,11 @@ import oxlint from "eslint-plugin-oxlint"
 
 export default [
   {
-    ignores: ["eslint.config.js", "public/config.js"],
+    ignores: [
+      "eslint.config.js",
+      "public/config.js",
+      "public/service-worker/push.js",
+    ],
   },
   ...tanstackConfig,
   {

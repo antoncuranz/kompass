@@ -1,38 +1,88 @@
-import { Group } from "jazz-tools"
-import type { co } from "jazz-tools"
+import { Group, co } from "jazz-tools"
 import type { UserAccount } from "@/schema"
-import { JoinRequests, RequestStatuses, SharedTrip, Trip } from "@/schema"
+import {
+  FileAttachment,
+  JoinRequests,
+  RequestStatuses,
+  SharedTrip,
+  Transportation,
+  Trip,
+} from "@/schema"
 import { loadTransportation } from "@/lib/transportation-utils"
+
+function createUserGroups() {
+  const admins = Group.create()
+
+  const members = Group.create()
+  members.addMember(admins)
+
+  const guests = Group.create()
+  guests.addMember(members)
+
+  const workers = Group.create()
+  workers.addMember(admins)
+
+  return { admins, members, guests, workers }
+}
 
 export function createNewTrip(
   account: co.loaded<typeof UserAccount>,
-  values: co.input<typeof Trip>,
+  values: {
+    name: string
+    startDate: string
+    endDate: string
+    description?: string
+    imageUrl?: string
+  },
 ) {
-  const adminsGroup = Group.create()
+  const { admins, members, guests, workers } = createUserGroups()
 
-  const membersGroup = Group.create()
-  membersGroup.addMember(adminsGroup)
+  const sharedTripGroup = Group.create()
+  sharedTripGroup.addMember("everyone", "reader")
+  sharedTripGroup.addMember(admins)
+
+  const tripGroup = Group.create()
+  tripGroup.addMember(admins)
+  tripGroup.addMember(members)
+  tripGroup.addMember(guests)
 
   const requestsGroup = Group.create()
   requestsGroup.addMember("everyone", "writeOnly")
-  requestsGroup.addMember(adminsGroup)
+  requestsGroup.addMember(admins)
 
-  const publicGroup = Group.create()
-  publicGroup.addMember("everyone", "reader")
-  publicGroup.addMember(adminsGroup)
+  const transportationGroup = Group.create()
+  transportationGroup.addMember(tripGroup)
+  transportationGroup.addMember(workers)
+
+  const filesGroup = Group.create()
+  filesGroup.addMember(members)
+
+  const trip = Trip.create(
+    {
+      ...values,
+      activities: [],
+      accommodation: [],
+      notes: "",
+      transportation: co.list(Transportation).create([], transportationGroup),
+      files: co.list(FileAttachment).create([], filesGroup),
+    },
+    tripGroup,
+  )
 
   const sharedTrip = SharedTrip.create(
     {
-      trip: Trip.create(values, membersGroup),
+      trip,
+      admins,
+      members,
+      guests,
+      workers,
       requests: JoinRequests.create({}, requestsGroup),
-      statuses: RequestStatuses.create({}, adminsGroup),
-      members: membersGroup,
-      admins: adminsGroup,
+      statuses: RequestStatuses.create({}, admins),
     },
-    publicGroup,
+    sharedTripGroup,
   )
 
-  account.root.tripMap.$jazz.set(sharedTrip.$jazz.id, sharedTrip)
+  account.root.trips.$jazz.set(sharedTrip.$jazz.id, sharedTrip)
 }
 
 async function exportTrip(sharedTrip: co.loaded<typeof SharedTrip>) {
@@ -48,7 +98,7 @@ async function exportTrip(sharedTrip: co.loaded<typeof SharedTrip>) {
 
 export async function exportUserData(account: co.loaded<typeof UserAccount>) {
   const trips = await Promise.all(
-    Object.values(account.root.tripMap).map(exportTrip),
+    Object.values(account.root.trips).map(exportTrip),
   )
 
   return {

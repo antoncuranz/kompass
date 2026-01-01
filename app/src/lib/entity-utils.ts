@@ -5,9 +5,11 @@ function removeEntityReferences(
   trip: co.loaded<typeof Trip>,
   entityId: string,
 ): void {
-  trip.files.forEach(file => {
-    file.references.$jazz.remove(ref => ref === entityId)
-  })
+  if (trip.files.$isLoaded) {
+    trip.files.forEach(file => {
+      file.references.$jazz.remove(ref => ref === entityId)
+    })
+  }
 }
 
 export function deleteActivity(

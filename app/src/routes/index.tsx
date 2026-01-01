@@ -2,7 +2,7 @@ import { Link, createFileRoute } from "@tanstack/react-router"
 import { useState } from "react"
 import { useAccount } from "jazz-tools/react"
 import type { co } from "jazz-tools"
-import type { SharedTrip, Trip } from "@/schema"
+import type { SharedTrip } from "@/schema"
 import { UserAccount } from "@/schema"
 import { ProfileMenu } from "@/components/navigation/ProfileMenu"
 import NewTripCard from "@/components/card/NewTripCard"
@@ -19,7 +19,7 @@ function App() {
   const account = useAccount(UserAccount)
   const [tripDialogOpen, setTripDialogOpen] = useState(false)
   const [selectedTrip, setSelectedTrip] = useState<
-    co.loaded<typeof Trip> | undefined
+    co.loaded<typeof SharedTrip> | undefined
   >(undefined)
 
   if (!account.$isLoaded) {
@@ -33,7 +33,7 @@ function App() {
     "aspect-3/5 min-h-[20rem] sm:min-h-[26rem] h-[calc(100vh-20rem)] md:h-[calc(100vh-26rem)] max-h-160"
 
   function sortedTrips(loaded: co.loaded<typeof UserAccount>) {
-    return Object.values(loaded.root.tripMap).sort(
+    return Object.values(loaded.root.trips).sort(
       (a: co.loaded<typeof SharedTrip>, b: co.loaded<typeof SharedTrip>) => {
         return (
           dateFromString(b.trip.startDate).getTime() -
@@ -54,7 +54,7 @@ function App() {
         className={cardClasses}
         fallbackColor={fallbackColors[idx % fallbackColors.length]}
         onEdit={() => {
-          setSelectedTrip(sharedTrip.trip)
+          setSelectedTrip(sharedTrip)
           setTripDialogOpen(true)
         }}
       />
@@ -98,7 +98,7 @@ function App() {
       </main>
       <TripDialog
         account={account}
-        trip={selectedTrip}
+        sharedTrip={selectedTrip}
         open={tripDialogOpen}
         onOpenChange={setTripDialogOpen}
       />

@@ -4,6 +4,7 @@ import type { ReactNode } from "react"
 import type { Transportation } from "@/schema"
 import { SharedTrip } from "@/schema"
 import { loadTransportation } from "@/lib/transportation-utils"
+import { UserRole, userHasRole } from "@/lib/collaboration-utils"
 
 const { Provider: JazzTripProvider, useSelector: useSharedTrip } =
   createCoValueSubscriptionContext(SharedTrip, SharedTrip.resolveQuery)
@@ -32,6 +33,18 @@ export function TripProvider({
 
 export const useTrip = () => {
   return useSharedTrip({ select: st => st.trip })
+}
+
+export const useRole = () => {
+  const sharedTrip = useSharedTrip()
+
+  for (const role of Object.values(UserRole)) {
+    if (userHasRole(sharedTrip, role)) {
+      return role
+    }
+  }
+
+  return undefined
 }
 
 export const useTransportation = () => {

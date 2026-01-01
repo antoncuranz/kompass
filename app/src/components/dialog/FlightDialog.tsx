@@ -5,8 +5,9 @@ import { useState } from "react"
 import { useFieldArray, useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
+import { useSharedTrip } from "../provider/TripProvider"
 import type { co } from "jazz-tools"
-import type { Flight, FlightLeg, PNR, Trip } from "@/schema.ts"
+import type { Flight, FlightLeg, PNR } from "@/schema.ts"
 import type { AmbiguousFlightChoice } from "@/types"
 import { deleteTransportation } from "@/lib/entity-utils"
 import AmbiguousFlightDialog from "@/components/dialog/AmbiguousFlightDialog"
@@ -29,6 +30,7 @@ import { Spinner } from "@/components/ui/shadcn-io/spinner"
 import { dateFromString } from "@/lib/datetime-utils"
 import { isoDate, optionalString } from "@/lib/formschema-utils"
 import { isLoaded } from "@/lib/misc-utils"
+import { addFlight, updateFlight } from "@/lib/transportation-utils"
 
 const formSchema = z.object({
   legs: z.array(
@@ -53,30 +55,28 @@ type AmbiguousDialogData = {
 }
 
 export default function FlightDialog({
-  trip,
   flight,
   open,
   onOpenChange,
 }: {
-  trip: co.loaded<typeof Trip>
   flight?: co.loaded<typeof Flight>
   open: boolean
   onOpenChange: (open: boolean) => void
 }) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <FlightDialogContent trip={trip} flight={flight} />
+      <FlightDialogContent flight={flight} />
     </Dialog>
   )
 }
 
 function FlightDialogContent({
-  trip,
   flight,
 }: {
-  trip: co.loaded<typeof Trip>
   flight?: co.loaded<typeof Flight>
 }) {
+  const sharedTrip = useSharedTrip()
+  const trip = sharedTrip.trip
   const [edit, setEdit] = useState<boolean>(flight == undefined)
   const [ambiguousDialogOpen, setAmbiguousDialogOpen] = useState(false)
   const [ambiguousDialogData, setAmbiguousDialogData] =
@@ -147,21 +147,15 @@ function FlightDialogContent({
 
     if (response.ok) {
       const responseJson = await response.json()
+      const augmentedValues = {
+        ...values,
+        legs: responseJson.legs,
+        geoJson: responseJson.geoJson,
+      }
       if (flight) {
-        const { pnrs, ...rest } = values
-        flight.$jazz.applyDiff({
-          ...rest,
-          legs: responseJson.legs,
-          geoJson: responseJson.geoJson,
-        })
-        if (flight.pnrs.$isLoaded) flight.pnrs.$jazz.applyDiff(pnrs)
+        updateFlight(flight, augmentedValues)
       } else {
-        trip.transportation.$jazz.push({
-          type: "flight",
-          ...values,
-          legs: responseJson.legs,
-          geoJson: responseJson.geoJson,
-        })
+        addFlight(sharedTrip, augmentedValues)
       }
       onClose()
     } else if (response.status === 422) {

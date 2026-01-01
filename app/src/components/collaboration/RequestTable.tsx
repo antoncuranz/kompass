@@ -14,11 +14,11 @@ import {
 } from "@/components/ui/select.tsx"
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table"
 import {
+  UserRole,
   approveJoinRequest,
   rejectJoinRequest,
 } from "@/lib/collaboration-utils"
 import { formatDateShort } from "@/lib/datetime-utils"
-import { titleCase } from "@/lib/misc-utils"
 import { Avatar } from "@/components/Avatar"
 
 interface RequestTableProps {
@@ -62,9 +62,7 @@ function RequestRow({
   sharedTrip: co.loaded<typeof SharedTrip>
 }) {
   const [isProcessing, startTransition] = useTransition()
-  const [selectedRole, setSelectedRole] = useState<"reader" | "writer">(
-    "reader",
-  )
+  const [selectedRole, setSelectedRole] = useState<UserRole>(UserRole.GUEST)
 
   async function processRequest(approve: boolean) {
     const loaded = await sharedTrip.$jazz.ensureLoaded({
@@ -104,15 +102,14 @@ function RequestRow({
         <div className="flex justify-end items-center gap-2">
           <Select
             value={selectedRole}
-            onValueChange={v => setSelectedRole(v as "reader" | "writer")}
+            onValueChange={v => setSelectedRole(v as UserRole)}
           >
-            <SelectTrigger className="w-32">
-              {titleCase(selectedRole)}
-            </SelectTrigger>
+            <SelectTrigger className="w-32">{selectedRole}</SelectTrigger>
             <SelectPositioner>
               <SelectContent>
-                <SelectItem value="reader">Reader</SelectItem>
-                <SelectItem value="writer">Writer</SelectItem>
+                {Object.values(UserRole).map(role => (
+                  <SelectItem value={role}>{role}</SelectItem>
+                ))}
               </SelectContent>
             </SelectPositioner>
           </Select>
