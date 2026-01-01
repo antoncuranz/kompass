@@ -4,8 +4,6 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { Alert02Icon, Notification01Icon } from "@hugeicons/core-free-icons"
-import { toast } from "sonner"
-import { generateAuthToken } from "jazz-tools"
 import type { co } from "jazz-tools"
 import type { SharedTrip, UserAccount } from "@/schema.ts"
 import { Dialog, useDialogContext } from "@/components/dialog/Dialog.tsx"
@@ -22,11 +20,10 @@ import { Label } from "@/components/ui/label.tsx"
 import { Spinner } from "@/components/ui/shadcn-io/spinner"
 import { Switch } from "@/components/ui/switch.tsx"
 import { Textarea } from "@/components/ui/textarea.tsx"
-import { usePushNotificationStatus } from "@/hooks/usePushNotificationStatus"
+import { usePushNotifications } from "@/hooks/usePushNotificationStatus"
 import { dateFromString } from "@/lib/datetime-utils"
 import { dateRange, optionalString } from "@/lib/formschema-utils"
 import { createNewTrip } from "@/lib/trip-utils"
-import config from "@/config"
 import { UserRole, userHasRole } from "@/lib/collaboration-utils"
 
 const formSchema = z.object({
@@ -64,11 +61,15 @@ function TripDialogContent({
   const trip = sharedTrip?.trip
   const [edit, setEdit] = useState<boolean>(trip == undefined)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
-  const [isNotificationsEnabled, setIsNotificationsEnabled] = useState(false)
   const { onClose } = useDialogContext()
 
   const isAdmin = !!sharedTrip && userHasRole(sharedTrip, UserRole.ADMIN)
-  const { canEnable, blockedReason } = usePushNotificationStatus(isAdmin)
+  const {
+    toggle: toggleNotifications,
+    sendTestNotification,
+    status: notificationStatus,
+    blockedReason,
+  } = usePushNotifications(isAdmin)
 
   const form = useForm<
     z.input<typeof formSchema>,
@@ -122,58 +123,6 @@ function TripDialogContent({
     }
   }
 
-  async function handleNotificationToggle(checked: boolean) {
-    if (!checked) {
-      setIsNotificationsEnabled(false)
-      return
-    }
-
-    const permission = await Notification.requestPermission()
-    if (permission !== "granted") {
-      console.log("Permission not granted for Notification")
-      return
-    }
-
-    const registration = await navigator.serviceWorker.ready
-    try {
-      const subscription = await registration.pushManager.subscribe({
-        userVisibleOnly: true,
-        applicationServerKey: config.VAPID_PUBLIC_KEY,
-      })
-
-      const response = await fetch("/worker/subscribe", {
-        method: "POST",
-        headers: {
-          Authorization: `Jazz ${generateAuthToken()}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(subscription),
-      })
-      if (!response.ok) {
-        toast.error("error posting subscription", {
-          description: await response.text(),
-        })
-      }
-      setIsNotificationsEnabled(true)
-    } catch (err) {
-      console.log("Failed to subscribe the user: ", err)
-    }
-  }
-
-  async function sendTestNotification() {
-    const response = await fetch("/worker/send-notification", {
-      method: "POST",
-      headers: {
-        Authorization: `Jazz ${generateAuthToken()}`,
-      },
-    })
-    if (!response.ok) {
-      toast.error("error sending test notification", {
-        description: await response.text(),
-      })
-    }
-  }
-
   return (
     <>
       <DialogHeader>
@@ -212,11 +161,11 @@ function TripDialogContent({
           <div className="flex items-center justify-between">
             <Label>Schedule Change Notifications</Label>
             <div className="flex items-center gap-2 text-muted-foreground">
-              {canEnable ? (
+              {notificationStatus !== "blocked" ? (
                 <>
                   <Switch
-                    checked={isNotificationsEnabled}
-                    onCheckedChange={handleNotificationToggle}
+                    checked={notificationStatus === "active"}
+                    onCheckedChange={toggleNotifications}
                     disabled={!edit}
                   />
                   <Button
