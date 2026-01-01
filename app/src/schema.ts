@@ -262,7 +262,15 @@ export const UserAccount = co
       root: { trips },
     } = await account.$jazz.ensureLoaded({
       resolve: {
-        root: { trips: { $each: { admins: true, members: true } } },
+        root: {
+          trips: {
+            $each: {
+              admins: true,
+              members: true,
+              trip: { transportation: true },
+            },
+          },
+        },
       },
     })
 
@@ -277,6 +285,7 @@ export const UserAccount = co
         const workers = Group.create()
         workers.addMember(sharedTrip.admins)
         sharedTrip.$jazz.set("workers", workers)
+        sharedTrip.trip.transportation.$jazz.owner.addMember(workers)
       }
     }
   })
