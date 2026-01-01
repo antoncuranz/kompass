@@ -47,7 +47,7 @@ function addMonitor(account: Account, coListId: string) {
     const transportationLists = swAccount.root.transportationLists
 
     if (!(hashedCoListId in transportationLists)) {
-      transportationLists.$jazz.set(coListId, {})
+      transportationLists.$jazz.set(hashedCoListId, {})
     }
 
     const monitorSet = transportationLists[hashedCoListId]
