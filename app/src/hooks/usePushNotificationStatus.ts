@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react"
 import { generateAuthToken } from "jazz-tools"
 import { toast } from "sonner"
-import { useSharedTrip } from "@/components/provider/TripProvider"
 import config from "@/config"
 
 interface PushNotificationStatus {
@@ -28,7 +27,10 @@ function usePushManager() {
   return pushManager
 }
 
-export function usePushNotifications(isAdmin: boolean): PushNotificationStatus {
+export function usePushNotifications(
+  isAdmin: boolean,
+  coListId: string,
+): PushNotificationStatus {
   const pushManager = usePushManager()
   const [isPwa, setIsPwa] = useState(false)
   const [permissionStatus, setPermissionStatus] = useState<
@@ -58,9 +60,7 @@ export function usePushNotifications(isAdmin: boolean): PushNotificationStatus {
     undefined,
   )
 
-  const transportation = useSharedTrip({ select: st => st.trip.transportation })
-
-  async function updateMonitorState(coListId: string) {
+  async function updateMonitorState() {
     setMonitorState(undefined)
     const response = await fetch("/worker/monitor/" + coListId, {
       headers: {
@@ -71,8 +71,8 @@ export function usePushNotifications(isAdmin: boolean): PushNotificationStatus {
   }
 
   useEffect(() => {
-    void updateMonitorState(transportation.$jazz.id)
-  }, [transportation.$jazz.id])
+    void updateMonitorState()
+  }, [])
 
   async function updateSubscriptionState(
     subscription: PushSubscription | null,
@@ -130,7 +130,6 @@ export function usePushNotifications(isAdmin: boolean): PushNotificationStatus {
 
   return {
     toggle: async () => {
-      const coListId = transportation.$jazz.id
       if (status === "inactive") {
         if (!subscriptionState && pushManager) {
           const subscription = await pushManager.subscribe({
@@ -165,7 +164,7 @@ export function usePushNotifications(isAdmin: boolean): PushNotificationStatus {
               description: await response.text(),
             })
           }
-          void updateMonitorState(coListId)
+          void updateMonitorState()
         }
       } else if (status === "active") {
         const response = await fetch("/worker/monitor/" + coListId, {
@@ -179,7 +178,7 @@ export function usePushNotifications(isAdmin: boolean): PushNotificationStatus {
             description: await response.text(),
           })
         }
-        void updateMonitorState(coListId)
+        void updateMonitorState()
       }
     },
     sendTestNotification: async () => {

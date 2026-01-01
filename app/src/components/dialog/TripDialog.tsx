@@ -69,7 +69,7 @@ function TripDialogContent({
     sendTestNotification,
     status: notificationStatus,
     blockedReason,
-  } = usePushNotifications(isAdmin)
+  } = usePushNotifications(isAdmin, trip?.transportation.$jazz.id ?? "")
 
   const form = useForm<
     z.input<typeof formSchema>,
