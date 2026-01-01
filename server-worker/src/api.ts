@@ -50,7 +50,7 @@ const SubscriptionsGroup = HttpApiGroup.make("Subscriptions")
 // Monitors group - transportation list monitoring
 const MonitorsGroup = HttpApiGroup.make("Monitors")
   .add(
-    HttpApiEndpoint.post("get-monitor", "/monitor/:id")
+    HttpApiEndpoint.get("get-monitor", "/monitor/:id")
       .setPath(
         Schema.Struct({
           id: Schema.String,
