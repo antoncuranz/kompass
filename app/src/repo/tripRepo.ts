@@ -1,11 +1,11 @@
 import { useAccount, useCoState } from "jazz-tools/react-core"
+import { useEffect, useState } from "react"
+import { mapUserRole } from "./userRepo"
 import type { TripRepo } from "@/usecase/contracts"
 import type { Maybe, Trip, TripMeta, User } from "@/domain"
 import type { Group, co } from "jazz-tools"
 import { SharedTripEntity, UserAccount } from "@/repo/jazzSchema"
 import { dateFromString } from "@/lib/datetime-utils"
-import { useEffect, useState } from "react"
-import { mapUserRole } from "./userRepo"
 // eslint-disable @typescript-eslint/no-misused-spread
 
 async function mapGroup(

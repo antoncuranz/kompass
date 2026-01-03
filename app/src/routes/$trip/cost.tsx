@@ -1,6 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router"
 import { useState } from "react"
 import type { CostItem } from "@/components/cost/CostTypes.tsx"
+import type {
+  Accommodation,
+  Activity,
+  Flight,
+  GenericTransportation,
+  Train,
+} from "@/domain"
 import AccommodationDialog from "@/components/dialog/AccommodationDialog.tsx"
 import ActivityDialog from "@/components/dialog/ActivityDialog.tsx"
 import FlightDialog from "@/components/dialog/FlightDialog.tsx"
@@ -21,13 +28,6 @@ import {
   useActivityRepo,
   useTransportation,
 } from "@/repo"
-import type {
-  Accommodation,
-  Activity,
-  Flight,
-  GenericTransportation,
-  Train,
-} from "@/domain"
 
 export const Route = createFileRoute("/$trip/cost")({
   component: CostPage,

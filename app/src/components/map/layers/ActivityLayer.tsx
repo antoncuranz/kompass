@@ -1,9 +1,9 @@
 import { Layer, Source } from "react-map-gl/maplibre"
 import type { Feature, FeatureCollection } from "geojson"
+import type { Activity } from "@/domain"
 import { formatDateShort, formatTime } from "@/lib/datetime-utils"
 import { useTrip } from "@/components/provider/TripProvider"
 import { useActivityRepo } from "@/repo"
-import type { Activity } from "@/domain"
 
 export default function ActivityLayer() {
   const trip = useTrip()

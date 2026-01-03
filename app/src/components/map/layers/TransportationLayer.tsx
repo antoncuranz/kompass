@@ -1,7 +1,7 @@
 import { Layer, Source } from "react-map-gl/maplibre"
 import type { FeatureCollection } from "geojson"
-import { TransportationType } from "@/types"
 import type { Transportation } from "@/domain"
+import { TransportationType } from "@/types"
 import { useTransportation } from "@/repo"
 import { useTrip } from "@/components/provider/TripProvider"
 

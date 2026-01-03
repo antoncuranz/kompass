@@ -1,7 +1,7 @@
 import { createContext, useContext } from "react"
 import type { ReactNode } from "react"
-import { isLoaded } from "@/domain"
 import type { Trip, UnavailableReason } from "@/domain"
+import { isLoaded } from "@/domain"
 import { useTrip as useTripFromRepo } from "@/repo"
 
 const TripContext = createContext<Trip | null>(null)

@@ -6,6 +6,13 @@ import {
   Location01Icon,
   Train01Icon,
 } from "@hugeicons/core-free-icons"
+import { useTrip } from "../provider/TripProvider"
+import type {
+  Accommodation,
+  Activity,
+  FileAttachment,
+  Transportation,
+} from "@/domain"
 import { Dialog, useDialogContext } from "@/components/dialog/Dialog.tsx"
 import { Button } from "@/components/ui/button.tsx"
 import {
@@ -17,13 +24,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { formatDateShort } from "@/lib/datetime-utils"
 import { getTransportationTypeEmoji } from "@/types"
 import { getDepartureDateTime, getTransportationShortName } from "@/domain"
-import type {
-  Accommodation,
-  Activity,
-  FileAttachment,
-  Transportation,
-} from "@/domain"
-import { useTrip } from "../provider/TripProvider"
 import {
   useAccommodationRepo,
   useActivityRepo,

@@ -2,6 +2,7 @@ import { HugeiconsIcon } from "@hugeicons/react"
 import { Cancel01Icon, Tick02Icon } from "@hugeicons/core-free-icons"
 import { useState, useTransition } from "react"
 import { toast } from "sonner"
+import type { JoinRequest, UserRole } from "@/domain"
 import { Button } from "@/components/ui/button.tsx"
 import {
   Select,
@@ -18,7 +19,6 @@ import {
 import { formatDateShort } from "@/lib/datetime-utils"
 import { Avatar } from "@/components/Avatar"
 import { UserRoleValues } from "@/domain"
-import type { JoinRequest, UserRole } from "@/domain"
 import { titleCase } from "@/lib/misc-utils"
 
 export default function RequestTable({

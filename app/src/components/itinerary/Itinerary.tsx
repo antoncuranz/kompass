@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { useTrip } from "../provider/TripProvider"
 import type { DayRenderData } from "@/types.ts"
 import type {
   Accommodation,
@@ -13,7 +14,6 @@ import FlightDialog from "@/components/dialog/FlightDialog"
 import TrainDialog from "@/components/dialog/TrainDialog"
 import TransportationDialog from "@/components/dialog/TransportationDialog"
 import Day from "@/components/itinerary/Day.tsx"
-import { useTrip } from "../provider/TripProvider"
 import { useUserRole } from "@/repo/userRepo"
 
 export default function Itinerary({

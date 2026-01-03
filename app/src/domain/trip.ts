@@ -57,9 +57,9 @@ export const UpdateTrip = CreateTrip.partial()
 export type UpdateTrip = z.infer<typeof UpdateTrip>
 
 export type UnavailableReason = "loading" | "unavailable" | "unauthorized"
-export type Maybe<X> = X | UnavailableReason
+export type Maybe<T> = T | UnavailableReason
 
-export function isLoaded<X>(entity: Maybe<X>): entity is X {
+export function isLoaded<T>(entity: Maybe<T>): entity is T {
   return (
     entity !== "loading" &&
     entity !== "unavailable" &&

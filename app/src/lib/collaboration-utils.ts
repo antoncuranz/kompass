@@ -1,10 +1,10 @@
 import { Group } from "jazz-tools"
+import type { UserRole } from "@/domain"
 import {
   JoinRequestEntity,
   SharedTripEntity,
   UserAccount,
 } from "@/repo/jazzSchema"
-import type { UserRole } from "@/domain"
 
 export async function sendJoinRequest(stid: string, userId: string) {
   const sharedTrip = await SharedTripEntity.load(stid, {
