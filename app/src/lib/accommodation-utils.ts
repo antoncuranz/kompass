@@ -1,5 +1,5 @@
 import type { DateRange } from "react-day-picker"
-import type { Trip } from "@/domain"
+import type { Accommodation, Transportation, Trip } from "@/domain"
 import { getArrivalDateTime, getDepartureDateTime } from "@/domain"
 import {
   addDays,
@@ -7,6 +7,7 @@ import {
   isSameDayDate,
   subDays,
 } from "@/lib/datetime-utils"
+import { useAccommodationRepo, useTransportation } from "@/repo"
 
 type Interval = { start: Date; end: Date }
 
@@ -39,16 +40,17 @@ export function calculateDisabledDateRanges(
   trip: Trip,
   currentAccommodationId?: string,
 ): Array<DateRange> {
-  const accommodationIntervals: Array<Interval> = trip.accommodation
-    .filter(
-      a => !currentAccommodationId || a.$jazz.id !== currentAccommodationId,
-    )
+  const { accommodation } = useAccommodationRepo(trip.stid)
+  const { transportation } = useTransportation(trip.stid)
+
+  const accommodationIntervals: Array<Interval> = accommodation
+    .filter(a => !currentAccommodationId || a.id !== currentAccommodationId)
     .map(a => ({
       start: dateFromString(a.arrivalDate),
       end: dateFromString(a.departureDate),
     }))
 
-  const transportationIntervals: Array<Interval> = trip.transportation
+  const transportationIntervals: Array<Interval> = transportation
     .map(t => {
       const departureDateTime = getDepartureDateTime(t)
       const arrivalDateTime = getArrivalDateTime(t)

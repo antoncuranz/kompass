@@ -1,5 +1,6 @@
 import * as z from "zod"
 import { Location } from "./"
+import { GeoJSONSchema } from "zod-geojson"
 
 const Airport = z.object({
   iata: z.string(),
@@ -38,7 +39,7 @@ export const Flight = z.object({
   legs: z.array(FlightLeg),
   pnrs: z.array(PNR),
   price: z.number().optional(),
-  geoJson: z.object().optional(),
+  geoJson: GeoJSONSchema.optional(),
 })
 export type Flight = z.infer<typeof Flight>
 

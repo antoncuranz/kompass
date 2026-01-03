@@ -1,14 +1,23 @@
 import { useEffect, useState } from "react"
 import { co, generateAuthToken } from "jazz-tools"
 import { toast } from "sonner"
-import type { SharedTripEntity } from "@/repo/jazzSchema"
+import { useCoState } from "jazz-tools/react"
+import { SharedTripEntity } from "@/repo/jazzSchema"
 import config from "@/config"
+import { useUserRole } from "@/repo/userRepo"
+
+type BlockedReason =
+  | "Loading..."
+  | "Install app to enable"
+  | "Notifications not supported"
+  | "Notifications blocked"
+  | "Admin access required"
 
 interface PushNotificationStatus {
   toggle: () => void
   sendTestNotification: () => void
   status: "active" | "inactive" | "blocked"
-  blockedReason: string | null
+  blockedReason: BlockedReason | null
 }
 
 function usePushManager() {
@@ -29,9 +38,9 @@ function usePushManager() {
 }
 
 export function usePushNotifications(
-  sharedTrip: co.loaded<typeof SharedTripEntity> | undefined,
+  stid: string | undefined,
 ): PushNotificationStatus {
-  if (!sharedTrip)
+  if (!stid)
     return {
       toggle: () => {},
       sendTestNotification: () => {},
@@ -39,7 +48,20 @@ export function usePushNotifications(
       blockedReason: null,
     }
 
-  const isAdmin = true // userHasRole(sharedTrip, UserRole.ADMIN)
+  const userRole = useUserRole(stid)
+  const sharedTrip = useCoState(SharedTripEntity, stid, {
+    resolve: { trip: true, workers: true },
+  })
+
+  if (!sharedTrip.$isLoaded)
+    return {
+      toggle: () => {},
+      sendTestNotification: () => {},
+      status: "blocked",
+      blockedReason: "Loading...",
+    }
+
+  const isAdmin = userRole === "admin"
   const coListId = sharedTrip.trip.transportation.$jazz.id
 
   const pushManager = usePushManager()
@@ -113,7 +135,7 @@ export function usePushNotifications(
     }
   }, [pushManager])
 
-  let blockedReason: string | null = null
+  let blockedReason: BlockedReason | null = null
 
   if (!isPwa) {
     blockedReason = "Install app to enable"

@@ -61,7 +61,7 @@ export default function TransportationLayer() {
     .sort(sortByTransportationType)
     .map(t => ({
       transportation: t,
-      geoJson: t.geoJson as FeatureCollection,
+      geoJson: t.geoJson as FeatureCollection, // TODO
     }))
 
   return (

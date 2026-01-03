@@ -24,6 +24,7 @@ import { Textarea } from "@/components/ui/textarea.tsx"
 import { usePushNotifications } from "@/hooks/usePushNotificationStatus"
 import { dateFromString } from "@/lib/datetime-utils"
 import { dateRange, optionalString } from "@/lib/formschema-utils"
+import { useTripRepo } from "@/repo"
 
 const formSchema = z.object({
   name: z.string().nonempty("Required"),
@@ -57,6 +58,7 @@ function TripDialogContent({
   account: co.loaded<typeof UserAccount>
   trip?: Trip
 }) {
+  const { create, update } = useTripRepo()
   const [edit, setEdit] = useState<boolean>(trip == undefined)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const { onClose } = useDialogContext()
@@ -66,7 +68,7 @@ function TripDialogContent({
     sendTestNotification,
     status: notificationStatus,
     blockedReason,
-  } = usePushNotifications(sharedTrip)
+  } = usePushNotifications(trip?.stid)
 
   const form = useForm<
     z.input<typeof formSchema>,
@@ -91,13 +93,13 @@ function TripDialogContent({
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     if (trip) {
-      trip.$jazz.applyDiff({
+      update(trip.stid, {
         ...values,
         startDate: values.dateRange.from,
         endDate: values.dateRange.to,
       })
     } else {
-      createNewTrip(account, {
+      create({
         ...values,
         startDate: values.dateRange.from,
         endDate: values.dateRange.to,
