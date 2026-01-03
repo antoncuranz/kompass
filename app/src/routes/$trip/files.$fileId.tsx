@@ -13,7 +13,6 @@ import {
 } from "@hugeicons/core-free-icons"
 import { useEffect, useState } from "react"
 import type { ResolvedReference } from "@/lib/file-utils"
-import type { Trip } from "@/repo/jazzSchema"
 import Pane from "@/components/Pane.tsx"
 import LinkDialog from "@/components/files/LinkDialog"
 import FileViewer from "@/components/files/FileViewer"
@@ -21,7 +20,6 @@ import { useTrip } from "@/components/provider/TripProvider"
 import { formatDateShort } from "@/lib/datetime-utils"
 import { useReferencedItem } from "@/lib/file-utils"
 import { downloadBlob } from "@/lib/misc-utils"
-import { FileAttachment } from "@/repo/jazzSchema"
 import { getTransportationTypeEmoji } from "@/types"
 
 export const Route = createFileRoute("/$trip/files/$fileId")({
@@ -132,7 +130,6 @@ function FileDetailPage() {
       </Pane>
 
       <LinkDialog
-        trip={trip}
         file={file}
         open={showEntitySelector}
         onOpenChange={setShowEntitySelector}

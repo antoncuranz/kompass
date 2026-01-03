@@ -69,11 +69,7 @@ export default function FlightDialog({
 
 function FlightDialogContent({ flight }: { flight?: Flight }) {
   const trip = useTrip()
-  const {
-    createFlight,
-    updateFlight,
-    delete: deleteTransportation,
-  } = useTransportation(trip.stid)
+  const { createFlight, updateFlight, remove } = useTransportation(trip.stid)
 
   const [edit, setEdit] = useState<boolean>(flight == undefined)
   const [ambiguousDialogOpen, setAmbiguousDialogOpen] = useState(false)
@@ -149,7 +145,7 @@ function FlightDialogContent({ flight }: { flight?: Flight }) {
       if (flight) {
         await updateFlight(flight.id, augmentedValues)
       } else {
-        await createFlight(trip.stid, augmentedValues)
+        await createFlight(augmentedValues)
       }
       onClose()
     } else if (response.status === 422) {
@@ -193,7 +189,7 @@ function FlightDialogContent({ flight }: { flight?: Flight }) {
       return
     }
 
-    await deleteTransportation(trip.stid, flight.id)
+    await remove(flight.id)
     onClose()
   }
 

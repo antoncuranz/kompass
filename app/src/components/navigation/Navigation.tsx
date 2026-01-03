@@ -6,12 +6,13 @@ import { SyncIndicator } from "@/components/navigation/SyncIndicator.tsx"
 import { Button } from "@/components/ui/button.tsx"
 import { cn } from "@/lib/utils"
 import { titleCase } from "@/lib/misc-utils"
-import { UserRole, userHasRole } from "@/lib/collaboration-utils"
 import { useTrip } from "@/repo"
 import { isLoaded } from "@/domain"
+import { useUserRole } from "@/repo/userRepo"
 
 export default function Navigation({ stid }: { stid: string }) {
   const trip = useTrip(stid)
+  const userRole = useUserRole(stid)
   const pathname = useLocation({
     select: location => location.pathname,
   })
@@ -27,13 +28,13 @@ export default function Navigation({ stid }: { stid: string }) {
   function getVisiblePages(): Array<
     "itinerary" | "notes" | "cost" | "files" | "map" | "share"
   > {
-    if (!isLoaded(trip)) return []
+    if (!isLoaded(trip) || !userRole) return []
 
-    if (userHasRole(trip, UserRole.ADMIN)) {
+    if (userRole === "admin") {
       return ["itinerary", "notes", "cost", "files", "map", "share"]
     }
 
-    if (userHasRole(trip, UserRole.MEMBER)) {
+    if (userRole === "member") {
       return ["itinerary", "notes", "cost", "files", "map"]
     }
 

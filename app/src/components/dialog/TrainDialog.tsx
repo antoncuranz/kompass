@@ -61,11 +61,7 @@ export default function TrainDialog({
 
 function TrainDialogContent({ train }: { train?: Train }) {
   const trip = useTrip()
-  const {
-    createTrain,
-    updateTrain,
-    delete: deleteTransportation,
-  } = useTransportation(trip.stid)
+  const { createTrain, updateTrain, remove } = useTransportation(trip.stid)
 
   const [edit, setEdit] = useState<boolean>(train == null)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
@@ -138,7 +134,7 @@ function TrainDialogContent({ train }: { train?: Train }) {
           price: values.price,
         })
       } else {
-        await createTrain(trip.stid, {
+        await createTrain({
           ...responseJson,
           price: values.price,
         })
@@ -157,7 +153,7 @@ function TrainDialogContent({ train }: { train?: Train }) {
     }
 
     if (showDeleteConfirm) {
-      await deleteTransportation(trip.stid, train.id)
+      await remove(train.id)
       onClose()
     } else {
       setShowDeleteConfirm(true)

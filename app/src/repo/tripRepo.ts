@@ -1,20 +1,63 @@
 import { useAccount, useCoState } from "jazz-tools/react-core"
-import type { TripStorage } from "@/usecase/contracts"
-import type { MaybeTrip, Trip } from "@/domain"
-import type { co } from "jazz-tools"
+import type { TripRepo } from "@/usecase/contracts"
+import type { Maybe, Trip, TripMeta, User } from "@/domain"
+import type { Group, co } from "jazz-tools"
 import { SharedTripEntity, UserAccount } from "@/repo/jazzSchema"
 import { dateFromString } from "@/lib/datetime-utils"
+import { useEffect, useState } from "react"
+import { mapUserRole } from "./userRepo"
 // eslint-disable @typescript-eslint/no-misused-spread
+
+async function mapGroup(
+  group: Group,
+  includeAdmins = false,
+): Promise<Array<User>> {
+  const loaded = await Promise.all(
+    group
+      .getDirectMembers()
+      .filter(member => member.role !== "admin" || includeAdmins)
+      .map(member =>
+        UserAccount.load(member.account.$jazz.id, {
+          resolve: { profile: { avatar: true } },
+        }),
+      ),
+  )
+
+  return loaded
+    .filter(account => account.$isLoaded)
+    .map(account => {
+      return {
+        id: account.$jazz.id,
+        name: account.profile.name,
+        avatarImageId: account.profile.avatar?.$jazz.id,
+        joinRequests: new Map(),
+      }
+    })
+}
+
+async function mapTripMeta(
+  entity: co.loaded<typeof SharedTripEntity>,
+): Promise<TripMeta> {
+  return {
+    stid: entity.$jazz.id,
+    myRole: mapUserRole(entity),
+    admins: await mapGroup(entity.admins, true),
+    members: await mapGroup(entity.members),
+    guests: await mapGroup(entity.guests),
+    workers: await mapGroup(entity.workers),
+    joinRequests: [],
+  }
+}
 
 function mapTrip(entity: co.loaded<typeof SharedTripEntity>): Trip {
   return {
     stid: entity.$jazz.id,
-    tid: entity.$jazz.id,
+    tid: entity.trip.$jazz.id,
     ...entity.trip,
   }
 }
 
-export function useTrips(): TripStorage {
+export function useTripRepo(): TripRepo {
   const entities = useAccount(UserAccount, {
     select: account =>
       account.$isLoaded ? Object.values(account.root.trips) : [],
@@ -35,10 +78,39 @@ export function useTrips(): TripStorage {
   }
 }
 
-export function useTrip(stid: string): MaybeTrip {
+export function useTrip(stid: string): Maybe<Trip> {
   const entity = useCoState(SharedTripEntity, stid)
 
   return entity.$isLoaded ? mapTrip(entity) : entity.$jazz.loadingState
+}
+
+export function useTripMeta(stid: string): Maybe<TripMeta> {
+  const entity = useCoState(SharedTripEntity, stid)
+  const [mapped, setMapped] = useState<Maybe<TripMeta>>("loading")
+
+  useEffect(() => {
+    let cancelled = false
+
+    async function load() {
+      if (!entity.$isLoaded) {
+        setMapped(entity.$jazz.loadingState)
+        return
+      }
+
+      const result = await mapTripMeta(entity)
+      if (!cancelled) {
+        setMapped(result)
+      }
+    }
+
+    void load()
+
+    return () => {
+      cancelled = true
+    }
+  }, [entity])
+
+  return mapped
 }
 
 // function createUserGroups() {

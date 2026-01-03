@@ -2,7 +2,7 @@ import { useCoState } from "jazz-tools/react-core"
 import { useEffect, useState } from "react"
 import { Group } from "jazz-tools"
 import { mapFlight, mapGenericTransportation, mapTrain } from "./mappers"
-import type { TransportationStorage } from "@/usecase/contracts"
+import type { TransportationRepo } from "@/usecase/contracts"
 import type { TransportationEntity } from "@/repo/jazzSchema"
 import type {
   CreateFlight,
@@ -21,7 +21,7 @@ import {
   TrainEntity,
 } from "@/repo/jazzSchema"
 
-export function useTransportation(stid: string): TransportationStorage {
+export function useTransportation(stid: string): TransportationRepo {
   const entities = useCoState(SharedTripEntity, stid, {
     select: st => (st.$isLoaded ? st.trip.transportation : []),
   })
@@ -76,7 +76,7 @@ export function useTransportation(stid: string): TransportationStorage {
   return {
     transportation: transportation,
 
-    createFlight: async (stid: string, values: CreateFlight) => {
+    createFlight: async (values: CreateFlight) => {
       const sharedTrip = await SharedTripEntity.load(stid)
       if (!sharedTrip.$isLoaded) {
         throw new Error(
@@ -114,7 +114,7 @@ export function useTransportation(stid: string): TransportationStorage {
       return mapFlight(entity)
     },
 
-    createTrain: async (stid: string, values: CreateTrain) => {
+    createTrain: async (values: CreateTrain) => {
       const sharedTrip = await SharedTripEntity.load(stid)
       if (!sharedTrip.$isLoaded) {
         throw new Error(
@@ -151,10 +151,7 @@ export function useTransportation(stid: string): TransportationStorage {
       return mapTrain(entity)
     },
 
-    createGeneric: async (
-      stid: string,
-      values: CreateGenericTransportation,
-    ) => {
+    createGeneric: async (values: CreateGenericTransportation) => {
       const sharedTrip = await SharedTripEntity.load(stid)
       if (!sharedTrip.$isLoaded) {
         throw new Error(
@@ -195,7 +192,7 @@ export function useTransportation(stid: string): TransportationStorage {
       return mapGenericTransportation(entity)
     },
 
-    delete: async (stid: string, id: string) => {
+    delete: async (id: string) => {
       const sharedTrip = await SharedTripEntity.load(stid)
       if (!sharedTrip.$isLoaded) {
         throw new Error(

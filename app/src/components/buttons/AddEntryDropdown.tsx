@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useRole } from "@/components/provider/TripProvider"
+import { useTrip } from "@/components/provider/TripProvider"
 import AccommodationDialogContent from "@/components/dialog/AccommodationDialog"
 import ActivityDialog from "@/components/dialog/ActivityDialog"
 import FlightDialog from "@/components/dialog/FlightDialog"
@@ -12,7 +12,7 @@ import {
   DropdownMenuPositioner,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu.tsx"
-import { UserRole } from "@/lib/collaboration-utils"
+import { useUserRole } from "@/repo/userRepo"
 
 export default function AddEntryDropdown({
   trigger,
@@ -22,7 +22,8 @@ export default function AddEntryDropdown({
     string | React.JSXElementConstructor<any>
   >
 }) {
-  const role = useRole()
+  const trip = useTrip()
+  const role = useUserRole(trip.stid)
 
   const [activityDialogOpen, setActivityDialogOpen] = useState(false)
   const [accommodationDialogOpen, setAccommodationDialogOpen] = useState(false)
@@ -32,7 +33,8 @@ export default function AddEntryDropdown({
     useState(false)
 
   return (
-    role !== UserRole.GUEST && (
+    role &&
+    role !== "guest" && (
       <div>
         <DropdownMenu>
           <DropdownMenuTrigger render={trigger} />

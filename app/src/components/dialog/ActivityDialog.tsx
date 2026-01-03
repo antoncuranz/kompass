@@ -30,7 +30,7 @@ import {
   optionalLocation,
   optionalString,
 } from "@/lib/formschema-utils"
-import { useActivities } from "@/repo"
+import { useActivityRepo } from "@/repo"
 
 const formSchema = z.object({
   name: z.string().nonempty("Required"),
@@ -59,11 +59,7 @@ export default function ActivityDialog({
 
 function ActivityDialogContent({ activity }: { activity?: Activity }) {
   const trip = useTrip()
-  const {
-    create: createActivity,
-    update: updateActivity,
-    delete: deleteActivity,
-  } = useActivities(trip.stid)
+  const { create, update, remove } = useActivityRepo(trip.stid)
 
   const [edit, setEdit] = useState<boolean>(activity == null)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
@@ -89,9 +85,9 @@ function ActivityDialogContent({ activity }: { activity?: Activity }) {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     if (activity) {
-      await updateActivity(activity.id, values)
+      await update(activity.id, values)
     } else {
-      await createActivity(trip.stid, values)
+      await create(values)
     }
     onClose()
   }
@@ -102,7 +98,7 @@ function ActivityDialogContent({ activity }: { activity?: Activity }) {
     }
 
     if (showDeleteConfirm) {
-      await deleteActivity(trip.stid, activity.id)
+      await remove(activity.id)
       onClose()
     } else {
       setShowDeleteConfirm(true)

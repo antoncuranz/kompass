@@ -75,7 +75,7 @@ function TransportationDialogContent({
   const {
     createGeneric: createGenericTransportation,
     updateGeneric: updateGenericTransportation,
-    delete: deleteTransportation,
+    remove,
   } = useTransportation(trip.stid)
 
   const [edit, setEdit] = useState<boolean>(transportation == null)
@@ -151,7 +151,7 @@ function TransportationDialogContent({
         ...values,
       })
     } else {
-      await createGenericTransportation(trip.stid, {
+      await createGenericTransportation({
         geoJson,
         ...values,
       })
@@ -165,7 +165,7 @@ function TransportationDialogContent({
     }
 
     if (showDeleteConfirm) {
-      await deleteTransportation(trip.stid, transportation.id)
+      await remove(transportation.id)
       onClose()
     } else {
       setShowDeleteConfirm(true)

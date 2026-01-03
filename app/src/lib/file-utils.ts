@@ -3,7 +3,11 @@ import { co } from "jazz-tools"
 import type { TripEntity } from "@/repo/jazzSchema"
 import type { Accommodation, Activity, Transportation } from "@/domain"
 import { getDepartureDateTime, getTransportationShortName } from "@/domain"
-import { useAccommodation, useActivities, useTransportation } from "@/repo"
+import {
+  useAccommodationRepo,
+  useActivityRepo,
+  useTransportation,
+} from "@/repo"
 import { useTrip } from "@/components/provider/TripProvider"
 
 export async function addFile(trip: co.loaded<typeof TripEntity>, file: File) {
@@ -74,8 +78,8 @@ export async function resolveReference(
 export function useReferencedItem(refId: string): ResolvedReference | null {
   const [item, setItem] = useState<ResolvedReference | null>(null)
   const trip = useTrip()
-  const { activities } = useActivities(trip.stid)
-  const { accommodation } = useAccommodation(trip.stid)
+  const { activities } = useActivityRepo(trip.stid)
+  const { accommodation } = useAccommodationRepo(trip.stid)
   const { transportation } = useTransportation(trip.stid)
 
   useEffect(() => {

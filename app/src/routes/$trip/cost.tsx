@@ -16,7 +16,11 @@ import {
   createCostItems,
   sortCostItems,
 } from "@/components/cost/CostTypes.tsx"
-import { useAccommodation, useActivities, useTransportation } from "@/repo"
+import {
+  useAccommodationRepo,
+  useActivityRepo,
+  useTransportation,
+} from "@/repo"
 import type {
   Accommodation,
   Activity,
@@ -39,8 +43,8 @@ function EmptyState({ message = "No cost items yet" }: EmptyStateProps) {
 
 function CostPage() {
   const trip = useTrip()
-  const { activities } = useActivities(trip.stid)
-  const { accommodation } = useAccommodation(trip.stid)
+  const { activities } = useActivityRepo(trip.stid)
+  const { accommodation } = useAccommodationRepo(trip.stid)
   const { transportation } = useTransportation(trip.stid)
 
   const [activityDialog, setActivityDialog] = useState<Activity | undefined>(

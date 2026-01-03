@@ -1,5 +1,5 @@
 import { useCoState } from "jazz-tools/react-core"
-import type { ActivityStorage } from "@/usecase/contracts"
+import type { ActivityRepo } from "@/usecase/contracts"
 import type { ActivityEntity } from "@/repo/jazzSchema"
 import type { Activity } from "@/domain"
 import type { co } from "jazz-tools"
@@ -7,7 +7,7 @@ import { SharedTripEntity } from "@/repo/jazzSchema"
 import { mapLocation } from "@/repo/commonMappers"
 // eslint-disable @typescript-eslint/no-misused-spread
 
-export function useActivities(stid: string): ActivityStorage {
+export function useActivityRepo(stid: string): ActivityRepo {
   const entities = useCoState(SharedTripEntity, stid, {
     select: st => (st.$isLoaded ? st.trip.activities : []),
   })

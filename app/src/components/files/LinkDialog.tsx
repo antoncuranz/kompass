@@ -24,7 +24,11 @@ import type {
   Transportation,
 } from "@/domain"
 import { useTrip } from "../provider/TripProvider"
-import { useAccommodation, useActivities, useTransportation } from "@/repo"
+import {
+  useAccommodationRepo,
+  useActivityRepo,
+  useTransportation,
+} from "@/repo"
 
 export default function LinkDialog({
   file,
@@ -44,8 +48,8 @@ export default function LinkDialog({
 
 function LinkDialogContent({ file }: { file: FileAttachment }) {
   const trip = useTrip()
-  const { activities } = useActivities(trip.stid)
-  const { accommodation } = useAccommodation(trip.stid)
+  const { activities } = useActivityRepo(trip.stid)
+  const { accommodation } = useAccommodationRepo(trip.stid)
   const { transportation } = useTransportation(trip.stid)
   const { onClose } = useDialogContext()
 

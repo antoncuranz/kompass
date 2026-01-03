@@ -11,6 +11,7 @@ import type {
   FileAttachment,
   Flight,
   GenericTransportation,
+  Maybe,
   Train,
   Transportation,
   Trip,
@@ -21,62 +22,61 @@ import type {
   UpdateGenericTransportation,
   UpdateTrain,
   UpdateTrip,
+  User,
 } from "@/domain"
 
 // TODOs:
-// - either add stid to getter or remove it everywhere
-// - rename actions to just create/update/delete
 // - create wrapping hook that retrieve stid from context (don't specify interface)
 // - we need a getter for a single item by id. Might be useful to return loadingState as well.
 
-export interface TripStorage {
+export interface UserRepo {
+  user: Maybe<User>
+}
+
+export interface TripRepo {
   trips: Array<Trip>
   // findById: (stid: string) => Promise<Trip>
   // getMetadata?
 
   create: (values: CreateTrip) => Promise<Trip>
   update: (stid: string, values: UpdateTrip) => Promise<Trip>
-  delete: (stid: string) => Promise<void>
+  remove: (stid: string) => Promise<void>
 }
 
-export interface ActivityStorage {
+export interface ActivityRepo {
   activities: Array<Activity>
-  create: (stid: string, values: CreateActivity) => Promise<Activity>
+  create: (values: CreateActivity) => Promise<Activity>
   update: (id: string, values: UpdateActivity) => Promise<Activity>
-  delete: (stid: string, id: string) => Promise<void>
+  remove: (id: string) => Promise<void>
 }
 
-export interface AccommodationStorage {
+export interface AccommodationRepo {
   accommodation: Array<Accommodation>
-  create: (stid: string, values: CreateAccommodation) => Promise<Accommodation>
+  create: (values: CreateAccommodation) => Promise<Accommodation>
   update: (id: string, values: UpdateAccommodation) => Promise<Accommodation>
-  delete: (stid: string, id: string) => Promise<void>
+  remove: (id: string) => Promise<void>
 }
 
-export interface TransportationStorage {
+export interface TransportationRepo {
   transportation: Array<Transportation>
-  createFlight: (stid: string, values: CreateFlight) => Promise<Flight>
+  createFlight: (values: CreateFlight) => Promise<Flight>
   updateFlight: (id: string, values: UpdateFlight) => Promise<Flight>
-  createTrain: (stid: string, values: CreateTrain) => Promise<Train>
+  createTrain: (values: CreateTrain) => Promise<Train>
   updateTrain: (id: string, values: UpdateTrain) => Promise<Train>
   createGeneric: (
-    stid: string,
     values: CreateGenericTransportation,
   ) => Promise<GenericTransportation>
   updateGeneric: (
     id: string,
     values: UpdateGenericTransportation,
   ) => Promise<GenericTransportation>
-  delete: (stid: string, id: string) => Promise<void>
+  remove: (id: string) => Promise<void>
 }
 
-export interface AttachmentStorage {
+export interface AttachmentRepo {
   attachments: Array<FileAttachment>
-  create: (
-    stid: string,
-    values: CreateFileAttachment,
-  ) => Promise<FileAttachment>
+  create: (values: CreateFileAttachment) => Promise<FileAttachment>
   update: (id: string, values: UpdateFileAttachment) => Promise<FileAttachment>
-  delete: (stid: string, id: string) => Promise<void>
+  remove: (id: string) => Promise<void>
   loadAsBlob: (id: string) => Promise<Blob | undefined>
 }

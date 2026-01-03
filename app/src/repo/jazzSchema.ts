@@ -183,21 +183,25 @@ export const TripEntity = co
 
 export const JoinRequestStatus = z.enum(["pending", "approved", "rejected"])
 
-export const JoinRequest = co
+export const AccountProfile = co.profile({
+  avatar: co.image().optional(),
+})
+
+export const JoinRequestEntity = co
   .map({
-    account: co.account(),
+    account: co.account({ root: co.map({}), profile: AccountProfile }),
     status: JoinRequestStatus,
     requestedAt: z.iso.datetime(),
   })
-  .resolved({ account: true })
+  .resolved({ account: { profile: AccountProfile.resolveQuery } })
 
 export const RequestStatuses = co
   .record(z.string(), JoinRequestStatus)
   .resolved({ $each: true })
 
 export const JoinRequests = co
-  .record(z.string(), JoinRequest)
-  .resolved({ $each: JoinRequest.resolveQuery, $onError: "catch" })
+  .record(z.string(), JoinRequestEntity)
+  .resolved({ $each: JoinRequestEntity.resolveQuery, $onError: "catch" })
 
 export const SharedTripEntity = co
   .map({
@@ -227,15 +231,13 @@ export const AccountRoot = co
   })
   .resolved({
     trips: { $each: SharedTripEntity.resolveQuery },
-    requests: { $each: true },
+    requests: JoinRequests.resolveQuery,
   })
 
 export const UserAccount = co
   .account({
     root: AccountRoot,
-    profile: co.profile({
-      avatar: co.image().optional(),
-    }),
+    profile: AccountProfile,
   })
   .withMigration(async account => {
     if (!account.$jazz.has("root")) {
@@ -290,6 +292,6 @@ export const UserAccount = co
     }
   })
   .resolved({
-    profile: true,
+    profile: AccountProfile.resolveQuery,
     root: AccountRoot.resolveQuery,
   })

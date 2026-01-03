@@ -12,7 +12,11 @@ import {
   getDaysBetween,
   isSameDay,
 } from "@/lib/datetime-utils"
-import { useAccommodation, useActivities, useTransportation } from "@/repo"
+import {
+  useAccommodationRepo,
+  useActivityRepo,
+  useTransportation,
+} from "@/repo"
 import { useTrip } from "@/components/provider/TripProvider"
 import { getArrivalDateTime, getDepartureDateTime } from "@/domain"
 
@@ -23,8 +27,8 @@ export const Route = createFileRoute("/$trip/itinerary")({
 function ItineraryPage() {
   const trip = useTrip()
   const { transportation } = useTransportation(trip.stid)
-  const { activities } = useActivities(trip.stid)
-  const { accommodation } = useAccommodation(trip.stid)
+  const { activities } = useActivityRepo(trip.stid)
+  const { accommodation } = useAccommodationRepo(trip.stid)
 
   function processDataAndGroupByDays() {
     const grouped: Array<DayRenderData> = []

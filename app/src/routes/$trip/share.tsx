@@ -3,41 +3,37 @@ import Pane from "@/components/Pane.tsx"
 import ShareButton from "@/components/buttons/ShareButton"
 import MemberTable from "@/components/collaboration/MemberTable.tsx"
 import RequestTable from "@/components/collaboration/RequestTable.tsx"
-import { useSharedTripEntity } from "@/components/provider/TripProvider"
+import { useTripMeta } from "@/repo"
+import { useTrip } from "@/components/provider/TripProvider"
+import { isLoaded } from "@/domain"
 
 export const Route = createFileRoute("/$trip/share")({
   component: SharePage,
 })
 
 function SharePage() {
-  const sharedTrip = useSharedTripEntity()
+  const trip = useTrip()
+  const tripMeta = useTripMeta(trip.stid)
+  if (!isLoaded(tripMeta)) return null
 
-  const pendingRequests = Object.values(sharedTrip.requests).filter(
+  const pendingRequests = Object.values(tripMeta.joinRequests).filter(
     req => req.status === "pending",
   )
 
-  const admins = sharedTrip.admins.getDirectMembers()
-  const members = sharedTrip.members
-    .getDirectMembers()
-    .filter(member => member.role !== "admin")
-  const guests = sharedTrip.guests
-    .getDirectMembers()
-    .filter(member => member.role !== "admin")
-
   const allMembers = [
-    ...admins.map(admin => ({
-      id: admin.id,
-      account: admin.account,
+    ...tripMeta.admins.map(member => ({
+      id: member.id,
+      name: member.name,
       role: "Admin",
     })),
-    ...members.map(member => ({
+    ...tripMeta.members.map(member => ({
       id: member.id,
-      account: member.account,
+      name: member.name,
       role: "Member",
     })),
-    ...guests.map(member => ({
+    ...tripMeta.guests.map(member => ({
       id: member.id,
-      account: member.account,
+      name: member.name,
       role: "Guest",
     })),
   ]
@@ -45,13 +41,13 @@ function SharePage() {
   return (
     <Pane
       title="Share Trip"
-      rightSlot={<ShareButton sharedTripId={sharedTrip.$jazz.id} />}
+      rightSlot={<ShareButton stid={trip.stid} />}
       testId="share-card"
     >
       <RequestTable
         title="Pending Requests"
-        requests={pendingRequests}
-        sharedTrip={sharedTrip}
+        joinRequests={pendingRequests}
+        stid={trip.stid}
       />
       <MemberTable title="Members" members={allMembers} />
     </Pane>

@@ -61,7 +61,7 @@ function RouteComponent() {
             )}
           </TripProvider>
         </MapProvider>
-        <TripAccessGuard sharedTripId={stid} />
+        <TripAccessGuard stid={stid} />
       </main>
     </>
   )

@@ -1,22 +1,33 @@
 import { Group } from "jazz-tools"
-import type { co } from "jazz-tools"
-import type { SharedTripEntity, UserAccount } from "@/repo/jazzSchema"
-import type { Trip } from "@/domain"
-import { JoinRequest } from "@/repo/jazzSchema"
+import {
+  JoinRequestEntity,
+  SharedTripEntity,
+  UserAccount,
+} from "@/repo/jazzSchema"
+import type { UserRole } from "@/domain"
 
-export function sendJoinRequest(
-  sharedTrip: co.loaded<
-    typeof SharedTripEntity,
-    { requests: true; admins: true }
-  >,
-  account: co.loaded<typeof UserAccount, { root: { requests: true } }>,
-) {
+export async function sendJoinRequest(stid: string, userId: string) {
+  const sharedTrip = await SharedTripEntity.load(stid, {
+    resolve: { admins: true, requests: true },
+  })
+  if (!sharedTrip.$isLoaded) {
+    throw new Error(
+      "Unable to load SharedTripEntity: " + sharedTrip.$jazz.loadingState,
+    )
+  }
+  const account = await UserAccount.load(userId, {
+    resolve: { root: { requests: true } },
+  })
+  if (!account.$isLoaded) {
+    throw new Error("Unable to load UserAccount: " + account.$jazz.loadingState)
+  }
+
   const now = new Date().toISOString()
 
   const requestGroup = Group.create(account)
   requestGroup.addMember(sharedTrip.admins)
 
-  const request = JoinRequest.create(
+  const request = JoinRequestEntity.create(
     {
       account,
       status: "pending",
@@ -29,40 +40,42 @@ export function sendJoinRequest(
   account.root.requests.$jazz.set(sharedTrip.$jazz.id, request)
 }
 
-export enum UserRole {
-  ADMIN = "Admin",
-  MEMBER = "Member",
-  GUEST = "Guest",
-}
-
-export function userHasRole(trip: Trip, role: UserRole) {
-  return true
-  switch (role) {
-    case UserRole.ADMIN:
-      return sharedTrip.admins.myRole() === "admin"
-    case UserRole.MEMBER:
-      return sharedTrip.members.myRole() === "writer"
-    case UserRole.GUEST:
-      return sharedTrip.guests.myRole() === "reader"
-  }
-}
-
-export function approveJoinRequest(
-  sharedTrip: co.loaded<
-    typeof SharedTripEntity,
-    { admins: true; members: true; guests: true; statuses: true; workers: true }
-  >,
-  joinRequest: co.loaded<typeof JoinRequest>,
+export async function approveJoinRequest(
+  stid: string,
+  joinRequestId: string,
   role: UserRole,
 ) {
+  const sharedTrip = await SharedTripEntity.load(stid, {
+    resolve: {
+      admins: true,
+      members: true,
+      guests: true,
+      statuses: true,
+    },
+  })
+  if (!sharedTrip.$isLoaded) {
+    throw new Error(
+      "Unable to load SharedTripEntity: " + sharedTrip.$jazz.loadingState,
+    )
+  }
+
+  const joinRequest = await JoinRequestEntity.load(joinRequestId, {
+    resolve: { account: true },
+  })
+  if (!joinRequest.$isLoaded) {
+    throw new Error(
+      "Unable to load JoinRequestEntity: " + joinRequest.$jazz.loadingState,
+    )
+  }
+
   switch (role) {
-    case UserRole.ADMIN:
+    case "admin":
       sharedTrip.admins.addMember(joinRequest.account, "admin")
       break
-    case UserRole.MEMBER:
+    case "member":
       sharedTrip.members.addMember(joinRequest.account, "writer")
       break
-    case UserRole.GUEST:
+    case "guest":
       sharedTrip.guests.addMember(joinRequest.account, "reader")
       break
   }
@@ -70,13 +83,27 @@ export function approveJoinRequest(
   joinRequest.$jazz.set("status", "approved")
 }
 
-export function rejectJoinRequest(
-  sharedTrip: co.loaded<
-    typeof SharedTripEntity,
-    { members: true; statuses: true }
-  >,
-  joinRequest: co.loaded<typeof JoinRequest>,
-) {
+export async function rejectJoinRequest(stid: string, joinRequestId: string) {
+  const sharedTrip = await SharedTripEntity.load(stid, {
+    resolve: {
+      statuses: true,
+    },
+  })
+  if (!sharedTrip.$isLoaded) {
+    throw new Error(
+      "Unable to load SharedTripEntity: " + sharedTrip.$jazz.loadingState,
+    )
+  }
+
+  const joinRequest = await JoinRequestEntity.load(joinRequestId, {
+    resolve: true,
+  })
+  if (!joinRequest.$isLoaded) {
+    throw new Error(
+      "Unable to load JoinRequestEntity: " + joinRequest.$jazz.loadingState,
+    )
+  }
+
   sharedTrip.statuses.$jazz.set(joinRequest.account.$jazz.id, "rejected")
   joinRequest.$jazz.set("status", "rejected")
 }

@@ -1,11 +1,10 @@
-import type { Account } from "jazz-tools"
 import { titleCase } from "@/lib/misc-utils"
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table"
 import { Avatar } from "@/components/Avatar"
 
 interface MemberTableProps {
   title: string
-  members: Array<{ id: string; account: Account; role: string }>
+  members: Array<{ id: string; name: string; role: string }>
 }
 
 export default function MemberTable({ title, members }: MemberTableProps) {
@@ -22,12 +21,8 @@ export default function MemberTable({ title, members }: MemberTableProps) {
             <TableRow key={member.id} className="cursor-pointer">
               <TableCell className="flex-1 truncate pl-5">
                 <div className="flex items-center gap-2">
-                  <Avatar accountId={member.account.$jazz.id} />
-                  <span className="truncate">
-                    {member.account.profile.$isLoaded
-                      ? member.account.profile.name
-                      : "Unknown"}
-                  </span>
+                  <Avatar accountId={member.id} />
+                  <span className="truncate">{member.name}</span>
                 </div>
               </TableCell>
               <TableCell className="text-right w-20 pr-5">

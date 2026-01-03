@@ -27,7 +27,7 @@ import { Form, FormField } from "@/components/ui/form"
 import { Input } from "@/components/ui/input.tsx"
 import { Spinner } from "@/components/ui/shadcn-io/spinner"
 import { Textarea } from "@/components/ui/textarea.tsx"
-import { useAccommodation } from "@/repo"
+import { useAccommodationRepo } from "@/repo"
 
 const formSchema = z.object({
   name: z.string().nonempty("Required"),
@@ -60,11 +60,7 @@ function AccommodationDialogContent({
   accommodation?: Accommodation
 }) {
   const trip = useTrip()
-  const {
-    create: createAccommodation,
-    update: updateAccommodation,
-    delete: deleteAccommodation,
-  } = useAccommodation(trip.stid)
+  const { create, update, remove } = useAccommodationRepo(trip.stid)
 
   const [edit, setEdit] = useState<boolean>(accommodation == null)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
@@ -97,13 +93,13 @@ function AccommodationDialogContent({
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     if (accommodation) {
-      await updateAccommodation(accommodation.id, {
+      await update(accommodation.id, {
         ...values,
         arrivalDate: values.dateRange.from,
         departureDate: values.dateRange.to,
       })
     } else {
-      await createAccommodation(trip.stid, {
+      await create({
         ...values,
         arrivalDate: values.dateRange.from,
         departureDate: values.dateRange.to,
@@ -118,7 +114,7 @@ function AccommodationDialogContent({
     }
 
     if (showDeleteConfirm) {
-      await deleteAccommodation(trip.stid, accommodation.id)
+      await remove(accommodation.id)
       onClose()
     } else {
       setShowDeleteConfirm(true)

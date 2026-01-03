@@ -2,12 +2,12 @@ import { Layer, Source } from "react-map-gl/maplibre"
 import type { Feature, FeatureCollection } from "geojson"
 import { formatDateShort } from "@/lib/datetime-utils"
 import { useTrip } from "@/components/provider/TripProvider"
-import { useAccommodation } from "@/repo"
+import { useAccommodationRepo } from "@/repo"
 import type { Accommodation } from "@/domain"
 
 export default function AccommodationLayer() {
   const trip = useTrip()
-  const { accommodation } = useAccommodation(trip.stid)
+  const { accommodation } = useAccommodationRepo(trip.stid)
 
   function getAccommodationGeoJson(): FeatureCollection {
     const features = accommodation

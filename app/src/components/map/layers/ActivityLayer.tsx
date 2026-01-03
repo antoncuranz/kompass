@@ -2,12 +2,12 @@ import { Layer, Source } from "react-map-gl/maplibre"
 import type { Feature, FeatureCollection } from "geojson"
 import { formatDateShort, formatTime } from "@/lib/datetime-utils"
 import { useTrip } from "@/components/provider/TripProvider"
-import { useActivities } from "@/repo"
+import { useActivityRepo } from "@/repo"
 import type { Activity } from "@/domain"
 
 export default function ActivityLayer() {
   const trip = useTrip()
-  const { activities } = useActivities(trip.stid)
+  const { activities } = useActivityRepo(trip.stid)
 
   function getActivityGeoJson(): FeatureCollection {
     const features = activities

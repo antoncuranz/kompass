@@ -1,12 +1,12 @@
 import { useCoState } from "jazz-tools/react-core"
 import { co } from "jazz-tools"
-import type { AttachmentStorage } from "@/usecase/contracts"
+import type { AttachmentRepo } from "@/usecase/contracts"
 import type { FileAttachmentEntity } from "@/repo/jazzSchema"
 import type { FileAttachment } from "@/domain"
 import { SharedTripEntity } from "@/repo/jazzSchema"
 // eslint-disable @typescript-eslint/no-misused-spread
 
-export function useAttachments(stid: string): AttachmentStorage {
+export function useAttachmentRepo(stid: string): AttachmentRepo {
   const entities = useCoState(SharedTripEntity, stid, {
     select: st =>
       st.$isLoaded && st.trip.files.$isLoaded ? st.trip.files : [],
