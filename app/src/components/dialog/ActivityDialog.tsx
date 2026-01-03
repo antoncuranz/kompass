@@ -2,9 +2,8 @@ import { useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import type { Activity, Trip } from "@/schema"
-import type { co } from "jazz-tools"
-import { deleteActivity } from "@/lib/entity-utils"
+import { useTrip } from "../provider/TripProvider"
+import type { Activity } from "@/domain"
 import { Button } from "@/components/ui/button.tsx"
 import {
   DialogFooter,
@@ -31,6 +30,7 @@ import {
   optionalLocation,
   optionalString,
 } from "@/lib/formschema-utils"
+import { useActivities } from "@/repo"
 
 const formSchema = z.object({
   name: z.string().nonempty("Required"),
@@ -42,30 +42,29 @@ const formSchema = z.object({
 })
 
 export default function ActivityDialog({
-  trip,
   activity,
   open,
   onOpenChange,
 }: {
-  trip: co.loaded<typeof Trip>
-  activity?: co.loaded<typeof Activity>
+  activity?: Activity
   open: boolean
   onOpenChange: (open: boolean) => void
 }) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <ActivityDialogContent trip={trip} activity={activity} />
+      <ActivityDialogContent activity={activity} />
     </Dialog>
   )
 }
 
-function ActivityDialogContent({
-  trip,
-  activity,
-}: {
-  trip: co.loaded<typeof Trip>
-  activity?: co.loaded<typeof Activity>
-}) {
+function ActivityDialogContent({ activity }: { activity?: Activity }) {
+  const trip = useTrip()
+  const {
+    create: createActivity,
+    update: updateActivity,
+    delete: deleteActivity,
+  } = useActivities(trip.stid)
+
   const [edit, setEdit] = useState<boolean>(activity == null)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const { onClose } = useDialogContext()
@@ -88,25 +87,22 @@ function ActivityDialogContent({
   })
   const { isSubmitting } = form.formState
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     if (activity) {
-      activity.$jazz.applyDiff(values)
-      if (!activity.location) {
-        activity.$jazz.set("location", values.location)
-      }
+      await updateActivity(activity.id, values)
     } else {
-      trip.activities.$jazz.push(values)
+      await createActivity(trip.stid, values)
     }
     onClose()
   }
 
-  function onDeleteButtonClick() {
+  async function onDeleteButtonClick() {
     if (activity === undefined) {
       return
     }
 
     if (showDeleteConfirm) {
-      deleteActivity(trip, activity.$jazz.id)
+      await deleteActivity(trip.stid, activity.id)
       onClose()
     } else {
       setShowDeleteConfirm(true)

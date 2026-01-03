@@ -1,74 +1,49 @@
-import { useEffect, useState } from "react"
-import { createCoValueSubscriptionContext } from "jazz-tools/react"
+import { createContext, useContext } from "react"
 import type { ReactNode } from "react"
-import type { Transportation } from "@/schema"
-import { SharedTrip } from "@/schema"
-import { loadTransportation } from "@/lib/transportation-utils"
-import { UserRole, userHasRole } from "@/lib/collaboration-utils"
+import type { Trip } from "@/domain"
+import { useTrip as useTripFromRepo } from "@/repo"
+import { userHasRole } from "@/lib/collaboration-utils"
 
-const { Provider: JazzTripProvider, useSelector: useSharedTrip } =
-  createCoValueSubscriptionContext(SharedTrip, SharedTrip.resolveQuery)
-
-export { useSharedTrip }
+const TripContext = createContext<Trip | null>(null)
 
 export function TripProvider({
-  id,
+  stid,
   fallback,
   children,
 }: {
-  id: string
-  fallback: (props: { reason: "loading" | "unavailable" }) => ReactNode
+  stid: string
+  fallback: (props: {
+    reason: "loading" | "unavailable" | "unauthorized"
+  }) => ReactNode
   children: ReactNode
 }) {
-  return (
-    <JazzTripProvider
-      id={id}
-      loadingFallback={fallback({ reason: "loading" })}
-      unavailableFallback={fallback({ reason: "unavailable" })}
-    >
-      {children}
-    </JazzTripProvider>
+  const trip = useTripFromRepo(stid)
+
+  return trip === "loading" ||
+    trip === "unauthorized" ||
+    trip === "unavailable" ? (
+    fallback({ reason: trip })
+  ) : (
+    <TripContext.Provider value={trip}>{children}</TripContext.Provider>
   )
 }
 
-export const useTrip = () => {
-  return useSharedTrip({ select: st => st.trip })
+export function useTrip() {
+  const context = useContext(TripContext)
+  if (!context) {
+    throw new Error("useTrip must be used within TripProvider")
+  }
+  return context
 }
 
 export const useRole = () => {
-  const sharedTrip = useSharedTrip()
+  // const sharedTrip = useSharedTripEntity()
 
-  for (const role of Object.values(UserRole)) {
-    if (userHasRole(sharedTrip, role)) {
-      return role
-    }
-  }
+  // for (const role of Object.values(UserRole)) {
+  //   if (userHasRole(sharedTrip, role)) {
+  //     return role
+  //   }
+  // }
 
   return undefined
-}
-
-export const useTransportation = () => {
-  const transportation = useSharedTrip({ select: st => st.trip.transportation })
-  const [loaded, setLoaded] = useState<Array<Transportation>>([])
-
-  useEffect(() => {
-    let cancelled = false
-
-    async function loadAll() {
-      const result = await Promise.all(
-        transportation.map(async t => await loadTransportation(t)),
-      )
-      if (!cancelled) {
-        setLoaded(result)
-      }
-    }
-
-    void loadAll()
-
-    return () => {
-      cancelled = true
-    }
-  }, [transportation])
-
-  return loaded
 }

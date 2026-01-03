@@ -13,7 +13,7 @@ import {
 } from "@hugeicons/core-free-icons"
 import { useEffect, useState } from "react"
 import type { ResolvedReference } from "@/lib/file-utils"
-import type { Trip } from "@/schema"
+import type { Trip } from "@/repo/jazzSchema"
 import Pane from "@/components/Pane.tsx"
 import LinkDialog from "@/components/files/LinkDialog"
 import FileViewer from "@/components/files/FileViewer"
@@ -21,7 +21,7 @@ import { useTrip } from "@/components/provider/TripProvider"
 import { formatDateShort } from "@/lib/datetime-utils"
 import { useReferencedItem } from "@/lib/file-utils"
 import { downloadBlob } from "@/lib/misc-utils"
-import { FileAttachment } from "@/schema"
+import { FileAttachment } from "@/repo/jazzSchema"
 import { getTransportationTypeEmoji } from "@/types"
 
 export const Route = createFileRoute("/$trip/files/$fileId")({
@@ -109,7 +109,6 @@ function FileDetailPage() {
                 file.references.map((refId, idx) => (
                   <LinkedItemChip
                     key={idx}
-                    trip={trip}
                     refId={refId}
                     onRemove={() => handleRemoveLink(refId)}
                   />
@@ -143,15 +142,13 @@ function FileDetailPage() {
 }
 
 function LinkedItemChip({
-  trip,
   refId,
   onRemove,
 }: {
-  trip: co.loaded<typeof Trip>
   refId: string
   onRemove: () => void
 }) {
-  const item = useReferencedItem(trip, refId)
+  const item = useReferencedItem(refId)
 
   return (
     <div className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-muted rounded-full text-sm">

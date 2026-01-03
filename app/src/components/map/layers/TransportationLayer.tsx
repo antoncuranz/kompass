@@ -1,23 +1,22 @@
 import { Layer, Source } from "react-map-gl/maplibre"
 import type { FeatureCollection } from "geojson"
-import type { co } from "jazz-tools"
-import type { Transportation } from "@/schema"
-import { useTransportation } from "@/components/provider/TripProvider"
 import { TransportationType } from "@/types"
+import type { Transportation } from "@/domain"
+import { useTransportation } from "@/repo"
+import { useTrip } from "@/components/provider/TripProvider"
 
 export default function TransportationLayer() {
-  const transportation = useTransportation()
+  const trip = useTrip()
+  const { transportation } = useTransportation(trip.stid)
 
-  function getTransportationType(
-    t: co.loaded<typeof Transportation>,
-  ): TransportationType {
+  function getTransportationType(t: Transportation): TransportationType {
     if (t.type === "generic") {
       return t.genericType.toUpperCase() as TransportationType
     }
     return t.type.toUpperCase() as TransportationType
   }
 
-  function getColorByType(t: co.loaded<typeof Transportation>): string {
+  function getColorByType(t: Transportation): string {
     switch (getTransportationType(t)) {
       case TransportationType.Flight:
         return "#007cbf"
@@ -49,8 +48,8 @@ export default function TransportationLayer() {
   }
 
   function sortByTransportationType(
-    a: co.loaded<typeof Transportation>,
-    b: co.loaded<typeof Transportation>,
+    a: Transportation,
+    b: Transportation,
   ): number {
     return (
       typeRank(getTransportationType(a)) - typeRank(getTransportationType(b))

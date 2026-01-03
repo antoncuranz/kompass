@@ -16,7 +16,7 @@ export const Route = createFileRoute("/$trip")({
 })
 
 function RouteComponent() {
-  const sharedTripId = Route.useParams().trip
+  const stid = Route.useParams().trip
 
   const isMapRoute = useLocation({
     select: location => location.pathname.endsWith("/map"),
@@ -32,11 +32,11 @@ function RouteComponent() {
 
   return (
     <>
-      <Navigation sharedTripId={sharedTripId} />
+      <Navigation stid={stid} />
       <main className="w-full sm:px-4 md:px-6 md:gap-2 relative z-1 sm:h-[calc(100dvh-4.5rem)]">
         <MapProvider>
           <TripProvider
-            id={sharedTripId}
+            stid={stid}
             fallback={({ reason }) => (
               <SkeletonCard title={titleCase(reason)} />
             )}
@@ -61,7 +61,7 @@ function RouteComponent() {
             )}
           </TripProvider>
         </MapProvider>
-        <TripAccessGuard sharedTripId={sharedTripId} />
+        <TripAccessGuard sharedTripId={stid} />
       </main>
     </>
   )

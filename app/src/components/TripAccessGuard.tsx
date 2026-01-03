@@ -1,7 +1,7 @@
 import { useAccount, useCoState, useIsAuthenticated } from "jazz-tools/react"
 import { DialogFooter, DialogHeader, DialogTitle } from "./ui/dialog"
 import { Dialog } from "./dialog/Dialog"
-import { SharedTrip, UserAccount } from "@/schema.ts"
+import { SharedTripEntity, UserAccount } from "@/repo/jazzSchema"
 import { sendJoinRequest } from "@/lib/collaboration-utils"
 import { Button } from "@/components/ui/button.tsx"
 
@@ -12,7 +12,7 @@ export default function TripAccessGuard({
 }) {
   const account = useAccount(UserAccount)
   const isAuthenticated = useIsAuthenticated()
-  const sharedTrip = useCoState(SharedTrip, sharedTripId, {
+  const sharedTrip = useCoState(SharedTripEntity, sharedTripId, {
     resolve: { admins: true, members: true, guests: true, requests: true },
   })
 

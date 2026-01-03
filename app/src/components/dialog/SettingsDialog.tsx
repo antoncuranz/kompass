@@ -13,7 +13,7 @@ import {
   ViewOffSlashIcon,
 } from "@hugeicons/core-free-icons"
 import type { co } from "jazz-tools"
-import type { UserAccount } from "@/schema"
+import type { UserAccount } from "@/repo/jazzSchema"
 import wordlist from "@/lib/wordlist"
 import { Dialog, useDialogContext } from "@/components/dialog/Dialog"
 import { ImageUpload } from "@/components/ImageUpload"

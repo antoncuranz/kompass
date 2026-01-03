@@ -12,11 +12,9 @@ import {
   getDaysBetween,
   isSameDay,
 } from "@/lib/datetime-utils"
-import {
-  getArrivalDateTime,
-  getDepartureDateTime,
-} from "@/lib/transportation-utils"
-import { useTransportation, useTrip } from "@/components/provider/TripProvider"
+import { useAccommodation, useActivities, useTransportation } from "@/repo"
+import { useTrip } from "@/components/provider/TripProvider"
+import { getArrivalDateTime, getDepartureDateTime } from "@/domain"
 
 export const Route = createFileRoute("/$trip/itinerary")({
   component: ItineraryPage,
@@ -24,13 +22,15 @@ export const Route = createFileRoute("/$trip/itinerary")({
 
 function ItineraryPage() {
   const trip = useTrip()
-  const transportation = useTransportation()
+  const { transportation } = useTransportation(trip.stid)
+  const { activities } = useActivities(trip.stid)
+  const { accommodation } = useAccommodation(trip.stid)
 
   function processDataAndGroupByDays() {
     const grouped: Array<DayRenderData> = []
 
     for (const day of getDaysBetween(trip.startDate, trip.endDate)) {
-      const filteredActivities = trip.activities.filter(act =>
+      const filteredActivities = activities.filter(act =>
         isSameDay(day, act.date),
       )
 
@@ -38,7 +38,7 @@ function ItineraryPage() {
         t => dayIsBetween(day, getDepartureDateTime(t), getArrivalDateTime(t)), // TODO: this causes errors sometimes
       )
 
-      const relevantAccommodation = trip.accommodation.find(
+      const relevantAccommodation = accommodation.find(
         acc => acc.arrivalDate <= day && acc.departureDate > day,
       )
 
@@ -76,7 +76,6 @@ function ItineraryPage() {
         title={`${formatDateMedium(trip.startDate)} - ${formatDateMedium(trip.endDate)}`}
         rightSlot={
           <AddEntryDropdown
-            trip={trip}
             trigger={
               <Button
                 variant="secondary"
@@ -90,11 +89,10 @@ function ItineraryPage() {
         }
         testId="itinerary-card"
       >
-        <Itinerary trip={trip} dataByDays={processDataAndGroupByDays()} />
+        <Itinerary dataByDays={processDataAndGroupByDays()} />
       </Pane>
       <div className="fixed bottom-6 right-6 z-50 sm:hidden">
         <AddEntryDropdown
-          trip={trip}
           trigger={
             <Button size="icon" className="rounded-full h-12 w-12 shadow-lg">
               <HugeiconsIcon icon={Add01Icon} size={24} />

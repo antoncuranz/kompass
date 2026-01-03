@@ -5,7 +5,8 @@ import { z } from "zod"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { Alert02Icon, Notification01Icon } from "@hugeicons/core-free-icons"
 import type { co } from "jazz-tools"
-import type { SharedTrip, UserAccount } from "@/schema.ts"
+import type { UserAccount } from "@/repo/jazzSchema"
+import type { Trip } from "@/domain"
 import { Dialog, useDialogContext } from "@/components/dialog/Dialog.tsx"
 import DateInput from "@/components/dialog/input/DateInput.tsx"
 import { Button } from "@/components/ui/button.tsx"
@@ -23,7 +24,6 @@ import { Textarea } from "@/components/ui/textarea.tsx"
 import { usePushNotifications } from "@/hooks/usePushNotificationStatus"
 import { dateFromString } from "@/lib/datetime-utils"
 import { dateRange, optionalString } from "@/lib/formschema-utils"
-import { createNewTrip } from "@/lib/trip-utils"
 
 const formSchema = z.object({
   name: z.string().nonempty("Required"),
@@ -34,30 +34,29 @@ const formSchema = z.object({
 
 export default function TripDialog({
   account,
-  sharedTrip,
+  trip,
   open,
   onOpenChange,
 }: {
   account: co.loaded<typeof UserAccount>
-  sharedTrip?: co.loaded<typeof SharedTrip>
+  trip?: Trip
   open: boolean
   onOpenChange: (open: boolean) => void
 }) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <TripDialogContent sharedTrip={sharedTrip} account={account} />
+      <TripDialogContent trip={trip} account={account} />
     </Dialog>
   )
 }
 
 function TripDialogContent({
   account,
-  sharedTrip,
+  trip,
 }: {
   account: co.loaded<typeof UserAccount>
-  sharedTrip?: co.loaded<typeof SharedTrip>
+  trip?: Trip
 }) {
-  const trip = sharedTrip?.trip
   const [edit, setEdit] = useState<boolean>(trip == undefined)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const { onClose } = useDialogContext()
@@ -113,7 +112,7 @@ function TripDialogContent({
     }
 
     if (showDeleteConfirm) {
-      account.root.trips.$jazz.delete(trip.$jazz.id)
+      account.root.trips.$jazz.delete(trip.stid)
       // TODO: think about revoking access
       onClose()
     } else {

@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react"
 import { co, generateAuthToken } from "jazz-tools"
 import { toast } from "sonner"
-import type { SharedTrip } from "@/schema"
+import type { SharedTripEntity } from "@/repo/jazzSchema"
 import config from "@/config"
-import { UserRole, userHasRole } from "@/lib/collaboration-utils"
 
 interface PushNotificationStatus {
   toggle: () => void
@@ -30,7 +29,7 @@ function usePushManager() {
 }
 
 export function usePushNotifications(
-  sharedTrip: co.loaded<typeof SharedTrip> | undefined,
+  sharedTrip: co.loaded<typeof SharedTripEntity> | undefined,
 ): PushNotificationStatus {
   if (!sharedTrip)
     return {
@@ -40,7 +39,7 @@ export function usePushNotifications(
       blockedReason: null,
     }
 
-  const isAdmin = userHasRole(sharedTrip, UserRole.ADMIN)
+  const isAdmin = true // userHasRole(sharedTrip, UserRole.ADMIN)
   const coListId = sharedTrip.trip.transportation.$jazz.id
 
   const pushManager = usePushManager()

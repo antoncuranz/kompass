@@ -5,9 +5,8 @@ import { useState } from "react"
 import { useFieldArray, useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
-import type { Train, TrainLeg, Trip } from "@/schema.ts"
-import type { co } from "jazz-tools"
-import { deleteTransportation } from "@/lib/entity-utils"
+import { useTrip } from "../provider/TripProvider"
+import type { Train, TrainLeg } from "@/domain"
 import {
   Dialog,
   RowContainer,
@@ -27,7 +26,7 @@ import { Input } from "@/components/ui/input.tsx"
 import { Spinner } from "@/components/ui/shadcn-io/spinner"
 import { dateFromString } from "@/lib/datetime-utils"
 import { isoDate, trainStation } from "@/lib/formschema-utils"
-import { isLoaded } from "@/lib/misc-utils"
+import { useTransportation } from "@/repo"
 
 const formSchema = z.object({
   departureDate: isoDate("Required"),
@@ -45,30 +44,29 @@ const formSchema = z.object({
 })
 
 export default function TrainDialog({
-  trip,
   train,
   open,
   onOpenChange,
 }: {
-  trip: co.loaded<typeof Trip>
-  train?: co.loaded<typeof Train>
+  train?: Train
   open: boolean
   onOpenChange: (open: boolean) => void
 }) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <TrainDialogContent trip={trip} train={train} />
+      <TrainDialogContent train={train} />
     </Dialog>
   )
 }
 
-function TrainDialogContent({
-  trip,
-  train,
-}: {
-  trip: co.loaded<typeof Trip>
-  train?: co.loaded<typeof Train>
-}) {
+function TrainDialogContent({ train }: { train?: Train }) {
+  const trip = useTrip()
+  const {
+    createTrain,
+    updateTrain,
+    delete: deleteTransportation,
+  } = useTransportation(trip.stid)
+
   const [edit, setEdit] = useState<boolean>(train == null)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const { onClose } = useDialogContext()
@@ -83,37 +81,31 @@ function TrainDialogContent({
       departureDate: train
         ? dateFromString(train.legs[0].departureDateTime)
         : undefined,
-      fromStationId: getDefaultFromStation(train?.legs.filter(isLoaded)),
-      toStationId: getDefaultToStation(train?.legs.filter(isLoaded)),
+      fromStationId: getDefaultFromStation(train?.legs),
+      toStationId: getDefaultToStation(train?.legs),
       viaStationId: undefined,
-      trainNumbers: mapLegsOrDefault(train?.legs.filter(isLoaded)),
+      trainNumbers: mapLegsOrDefault(train?.legs),
       price: train?.price ?? undefined,
     },
     disabled: !edit,
   })
   const { isSubmitting } = form.formState
 
-  function getDefaultFromStation(
-    trainLegs: Array<co.loaded<typeof TrainLeg>> | undefined,
-  ) {
+  function getDefaultFromStation(trainLegs: Array<TrainLeg> | undefined) {
     if (trainLegs !== undefined) {
       return trainLegs[0].origin
     }
     return undefined
   }
 
-  function getDefaultToStation(
-    trainLegs: Array<co.loaded<typeof TrainLeg>> | undefined,
-  ) {
+  function getDefaultToStation(trainLegs: Array<TrainLeg> | undefined) {
     if (trainLegs !== undefined) {
       return trainLegs[trainLegs.length - 1].destination
     }
     return undefined
   }
 
-  function mapLegsOrDefault(
-    trainLegs: Array<co.loaded<typeof TrainLeg>> | undefined,
-  ) {
+  function mapLegsOrDefault(trainLegs: Array<TrainLeg> | undefined) {
     if (trainLegs !== undefined) {
       return trainLegs.map(leg => ({
         value: leg.lineName,
@@ -141,13 +133,12 @@ function TrainDialogContent({
       const responseJson = await response.json()
       console.log(responseJson)
       if (train) {
-        train.$jazz.applyDiff({
+        await updateTrain(train.id, {
           ...responseJson,
           price: values.price,
         })
       } else {
-        trip.transportation.$jazz.push({
-          type: "train",
+        await createTrain(trip.stid, {
           ...responseJson,
           price: values.price,
         })
@@ -160,13 +151,13 @@ function TrainDialogContent({
     }
   }
 
-  function onDeleteButtonClick() {
+  async function onDeleteButtonClick() {
     if (train === undefined) {
       return
     }
 
     if (showDeleteConfirm) {
-      deleteTransportation(trip, train.$jazz.id)
+      await deleteTransportation(trip.stid, train.id)
       onClose()
     } else {
       setShowDeleteConfirm(true)

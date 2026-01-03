@@ -3,7 +3,7 @@ import { Cancel01Icon, Tick02Icon } from "@hugeicons/core-free-icons"
 import { useState, useTransition } from "react"
 import { toast } from "sonner"
 import type { co } from "jazz-tools"
-import type { JoinRequest, SharedTrip } from "@/schema.ts"
+import type { JoinRequest, SharedTripEntity } from "@/repo/jazzSchema"
 import { Button } from "@/components/ui/button.tsx"
 import {
   Select,
@@ -24,7 +24,7 @@ import { Avatar } from "@/components/Avatar"
 interface RequestTableProps {
   title: string
   requests: Array<co.loaded<typeof JoinRequest>>
-  sharedTrip: co.loaded<typeof SharedTrip>
+  sharedTrip: co.loaded<typeof SharedTripEntity>
 }
 
 export default function RequestTable({
@@ -59,7 +59,7 @@ function RequestRow({
   sharedTrip,
 }: {
   request: co.loaded<typeof JoinRequest>
-  sharedTrip: co.loaded<typeof SharedTrip>
+  sharedTrip: co.loaded<typeof SharedTripEntity>
 }) {
   const [isProcessing, startTransition] = useTransition()
   const [selectedRole, setSelectedRole] = useState<UserRole>(UserRole.GUEST)

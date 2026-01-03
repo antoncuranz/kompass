@@ -3,9 +3,8 @@ import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
-import type { GenericTransportation, Trip } from "@/schema"
-import type { co } from "jazz-tools"
-import { deleteTransportation } from "@/lib/entity-utils"
+import { useTrip } from "../provider/TripProvider"
+import type { GenericTransportation } from "@/domain"
 import {
   Dialog,
   RowContainer,
@@ -37,6 +36,7 @@ import { dateFromString, dateToString } from "@/lib/datetime-utils"
 import { titleCase } from "@/lib/misc-utils"
 import { isoDateTime, location, optionalString } from "@/lib/formschema-utils"
 import { TransportationType, getTransportationTypeEmoji } from "@/types.ts"
+import { useTransportation } from "@/repo"
 
 const formSchema = z.object({
   name: z.string().nonempty("Required"),
@@ -51,33 +51,33 @@ const formSchema = z.object({
 })
 
 export default function TransportationDialog({
-  trip,
   transportation,
   open,
   onOpenChange,
 }: {
-  trip: co.loaded<typeof Trip>
-  transportation?: co.loaded<typeof GenericTransportation>
+  transportation?: GenericTransportation
   open: boolean
   onOpenChange: (open: boolean) => void
 }) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <TransportationDialogContent
-        trip={trip}
-        transportation={transportation}
-      />
+      <TransportationDialogContent transportation={transportation} />
     </Dialog>
   )
 }
 
 function TransportationDialogContent({
-  trip,
   transportation,
 }: {
-  trip: co.loaded<typeof Trip>
-  transportation?: co.loaded<typeof GenericTransportation>
+  transportation?: GenericTransportation
 }) {
+  const trip = useTrip()
+  const {
+    createGeneric: createGenericTransportation,
+    updateGeneric: updateGenericTransportation,
+    delete: deleteTransportation,
+  } = useTransportation(trip.stid)
+
   const [edit, setEdit] = useState<boolean>(transportation == null)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const { onClose } = useDialogContext()
@@ -146,10 +146,12 @@ function TransportationDialogContent({
     enrichGeoJsonPoints(geoJson, values)
 
     if (transportation) {
-      transportation.$jazz.applyDiff({ geoJson, ...values })
+      await updateGenericTransportation(transportation.id, {
+        geoJson,
+        ...values,
+      })
     } else {
-      trip.transportation.$jazz.push({
-        type: "generic",
+      await createGenericTransportation(trip.stid, {
         geoJson,
         ...values,
       })
@@ -157,13 +159,13 @@ function TransportationDialogContent({
     onClose()
   }
 
-  function onDeleteButtonClick() {
+  async function onDeleteButtonClick() {
     if (transportation === undefined) {
       return
     }
 
     if (showDeleteConfirm) {
-      deleteTransportation(trip, transportation.$jazz.id)
+      await deleteTransportation(trip.stid, transportation.id)
       onClose()
     } else {
       setShowDeleteConfirm(true)

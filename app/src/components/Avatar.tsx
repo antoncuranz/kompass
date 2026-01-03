@@ -1,5 +1,5 @@
 import { Image, useCoState } from "jazz-tools/react"
-import { UserAccount } from "@/schema"
+import { UserAccount } from "@/repo/jazzSchema"
 import { cn } from "@/lib/utils"
 
 export function Avatar({

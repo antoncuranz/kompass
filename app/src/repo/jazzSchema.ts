@@ -1,11 +1,11 @@
 import { Group, co, z } from "jazz-tools"
 
-export const Location = co.map({
+export const LocationEntity = co.map({
   latitude: z.number(),
   longitude: z.number(),
 })
 
-export const Activity = co
+export const ActivityEntity = co
   .map({
     name: z.string(),
     description: z.string().optional(),
@@ -13,11 +13,11 @@ export const Activity = co
     time: z.iso.time().optional(),
     price: z.number().optional(),
     address: z.string().optional(),
-    location: Location.optional(),
+    location: LocationEntity.optional(),
   })
-  .resolved({ location: Location.resolveQuery })
+  .resolved({ location: LocationEntity.resolveQuery })
 
-export const Accommodation = co
+export const AccommodationEntity = co
   .map({
     name: z.string(),
     description: z.string().optional(),
@@ -25,23 +25,23 @@ export const Accommodation = co
     departureDate: z.iso.date(),
     price: z.number().optional(),
     address: z.string().optional(),
-    location: Location.optional(),
+    location: LocationEntity.optional(),
   })
-  .resolved({ location: Location.resolveQuery })
+  .resolved({ location: LocationEntity.resolveQuery })
 
-export const Airport = co
+export const AirportEntity = co
   .map({
     iata: z.string(),
     name: z.string(),
     municipality: z.string(),
-    location: Location,
+    location: LocationEntity,
   })
-  .resolved({ location: Location.resolveQuery })
+  .resolved({ location: LocationEntity.resolveQuery })
 
-export const FlightLeg = co
+export const FlightLegEntity = co
   .map({
-    origin: Airport,
-    destination: Airport,
+    origin: AirportEntity,
+    destination: AirportEntity,
     airline: z.string(),
     flightNumber: z.string(),
     departureDateTime: z.iso.datetime(),
@@ -51,40 +51,40 @@ export const FlightLeg = co
     aircraft: z.string().optional(),
   })
   .resolved({
-    origin: Airport.resolveQuery,
-    destination: Airport.resolveQuery,
+    origin: AirportEntity.resolveQuery,
+    destination: AirportEntity.resolveQuery,
   })
 
-export const PNR = co.map({
+export const PnrEntity = co.map({
   airline: z.string(),
   pnr: z.string(),
 })
 
-export const Flight = co
+export const FlightEntity = co
   .map({
     type: z.literal("flight"),
-    legs: co.list(FlightLeg),
-    pnrs: co.list(PNR).withPermissions({ onInlineCreate: "newGroup" }),
+    legs: co.list(FlightLegEntity),
+    pnrs: co.list(PnrEntity).withPermissions({ onInlineCreate: "newGroup" }),
     price: z.number().optional(),
     geoJson: z.object().optional(),
   })
   .resolved({
-    legs: { $each: FlightLeg.resolveQuery },
-    pnrs: { $each: PNR.resolveQuery, $onError: "catch" },
+    legs: { $each: FlightLegEntity.resolveQuery },
+    pnrs: { $each: PnrEntity.resolveQuery, $onError: "catch" },
   })
 
-export const TrainStation = co
+export const TrainStationEntity = co
   .map({
     id: z.string(),
     name: z.string(),
-    location: Location,
+    location: LocationEntity,
   })
-  .resolved({ location: Location.resolveQuery })
+  .resolved({ location: LocationEntity.resolveQuery })
 
-export const TrainLeg = co
+export const TrainLegEntity = co
   .map({
-    origin: TrainStation,
-    destination: TrainStation,
+    origin: TrainStationEntity,
+    destination: TrainStationEntity,
     departureDateTime: z.iso.datetime(),
     arrivalDateTime: z.iso.datetime(),
     durationInMinutes: z.number(),
@@ -92,52 +92,52 @@ export const TrainLeg = co
     operatorName: z.string(),
   })
   .resolved({
-    origin: TrainStation.resolveQuery,
-    destination: TrainStation.resolveQuery,
+    origin: TrainStationEntity.resolveQuery,
+    destination: TrainStationEntity.resolveQuery,
   })
 
-export const Train = co
+export const TrainEntity = co
   .map({
     type: z.literal("train"),
-    legs: co.list(TrainLeg),
+    legs: co.list(TrainLegEntity),
     refreshToken: z.string().optional(),
     price: z.number().optional(),
     geoJson: z.object().optional(),
   })
   .resolved({
-    legs: { $each: TrainLeg.resolveQuery },
+    legs: { $each: TrainLegEntity.resolveQuery },
   })
 
-export const GenericTransportation = co
+export const GenericTransportationEntity = co
   .map({
     type: z.literal("generic"),
     name: z.string(),
     genericType: z.string(),
     departureDateTime: z.iso.datetime(),
     arrivalDateTime: z.iso.datetime(),
-    origin: Location,
-    destination: Location,
+    origin: LocationEntity,
+    destination: LocationEntity,
     originAddress: z.string().optional(),
     destinationAddress: z.string().optional(),
     price: z.number().optional(),
     geoJson: z.object().optional(),
   })
   .resolved({
-    origin: Location.resolveQuery,
-    destination: Location.resolveQuery,
+    origin: LocationEntity.resolveQuery,
+    destination: LocationEntity.resolveQuery,
   })
 
-export const Transportation = co.discriminatedUnion("type", [
-  GenericTransportation,
-  Flight,
-  Train,
+export const TransportationEntity = co.discriminatedUnion("type", [
+  GenericTransportationEntity,
+  FlightEntity,
+  TrainEntity,
 ])
-export type Transportation =
-  | co.loaded<typeof Flight>
-  | co.loaded<typeof Train>
-  | co.loaded<typeof GenericTransportation>
+export type TransportationEntity =
+  | co.loaded<typeof FlightEntity>
+  | co.loaded<typeof TrainEntity>
+  | co.loaded<typeof GenericTransportationEntity>
 
-export const FileAttachment = co
+export const FileAttachmentEntity = co
   .map({
     name: z.string(),
     file: co.fileStream(),
@@ -147,18 +147,18 @@ export const FileAttachment = co
     references: true,
   })
 
-export const Trip = co
+export const TripEntity = co
   .map({
     name: z.string(),
     startDate: z.iso.date(),
     endDate: z.iso.date(),
     description: z.string().optional(),
     imageUrl: z.string().optional(),
-    activities: co.list(Activity),
-    accommodation: co.list(Accommodation),
-    transportation: co.list(Transportation),
+    activities: co.list(ActivityEntity),
+    accommodation: co.list(AccommodationEntity),
+    transportation: co.list(TransportationEntity),
     notes: co.richText(),
-    files: co.list(FileAttachment),
+    files: co.list(FileAttachmentEntity),
   })
   // .withMigration(trip => {
   //   // consider making new attributes optional to prevent errors for users w/o write permissions
@@ -172,11 +172,11 @@ export const Trip = co
   //   }
   // })
   .resolved({
-    activities: { $each: Activity.resolveQuery },
-    accommodation: { $each: Accommodation.resolveQuery },
+    activities: { $each: ActivityEntity.resolveQuery },
+    accommodation: { $each: AccommodationEntity.resolveQuery },
     transportation: { $each: true },
     notes: true,
-    files: { $each: FileAttachment.resolveQuery, $onError: "catch" },
+    files: { $each: FileAttachmentEntity.resolveQuery, $onError: "catch" },
   })
 
 // COLLABORATION
@@ -199,18 +199,18 @@ export const JoinRequests = co
   .record(z.string(), JoinRequest)
   .resolved({ $each: JoinRequest.resolveQuery, $onError: "catch" })
 
-export const SharedTrip = co
+export const SharedTripEntity = co
   .map({
-    trip: Trip,
+    trip: TripEntity,
     requests: JoinRequests,
     statuses: RequestStatuses,
-    admins: Group, // write-access to SharedTrip
+    admins: Group, // write-access to SharedTripEntity
     members: Group, // write-access to Trip
     guests: Group, // read-access to less sensitive Trip data
     workers: Group, // necessary access for server workers
   })
   .resolved({
-    trip: Trip.resolveQuery,
+    trip: TripEntity.resolveQuery,
     requests: JoinRequests.resolveQuery,
     statuses: { $onError: "catch" },
     admins: true,
@@ -221,12 +221,12 @@ export const SharedTrip = co
 
 export const AccountRoot = co
   .map({
-    trips: co.record(z.string(), SharedTrip),
-    tripMap: co.record(z.string(), SharedTrip), // deprecated
+    trips: co.record(z.string(), SharedTripEntity),
+    tripMap: co.record(z.string(), SharedTripEntity), // deprecated
     requests: JoinRequests,
   })
   .resolved({
-    trips: { $each: SharedTrip.resolveQuery },
+    trips: { $each: SharedTripEntity.resolveQuery },
     requests: { $each: true },
   })
 

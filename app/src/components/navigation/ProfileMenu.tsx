@@ -11,7 +11,7 @@ import { useState } from "react"
 import { usePrivacy } from "../provider/PrivacyProvider"
 import { useTheme } from "../provider/ThemeProvider"
 import SettingsDialog from "../dialog/SettingsDialog"
-import { UserAccount } from "@/schema"
+import { UserAccount } from "@/repo/jazzSchema"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,

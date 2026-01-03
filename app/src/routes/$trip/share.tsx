@@ -3,14 +3,14 @@ import Pane from "@/components/Pane.tsx"
 import ShareButton from "@/components/buttons/ShareButton"
 import MemberTable from "@/components/collaboration/MemberTable.tsx"
 import RequestTable from "@/components/collaboration/RequestTable.tsx"
-import { useSharedTrip } from "@/components/provider/TripProvider"
+import { useSharedTripEntity } from "@/components/provider/TripProvider"
 
 export const Route = createFileRoute("/$trip/share")({
   component: SharePage,
 })
 
 function SharePage() {
-  const sharedTrip = useSharedTrip()
+  const sharedTrip = useSharedTripEntity()
 
   const pendingRequests = Object.values(sharedTrip.requests).filter(
     req => req.status === "pending",

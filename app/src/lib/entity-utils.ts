@@ -1,5 +1,5 @@
 import type { co } from "jazz-tools"
-import type { Trip } from "@/schema.ts"
+import type { Trip } from "@/repo/jazzSchema"
 
 function removeEntityReferences(
   trip: co.loaded<typeof Trip>,

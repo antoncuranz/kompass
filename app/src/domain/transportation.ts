@@ -1,56 +1,40 @@
-import { Group } from "jazz-tools"
-import type { co } from "jazz-tools"
-import type { SharedTrip, Transportation } from "@/schema"
-import { Flight, GenericTransportation, Train } from "@/schema"
+import * as z from "zod"
+import { CreateLocation, Flight, Location, Train } from "./"
 
-export function addFlight(
-  sharedTrip: co.loaded<typeof SharedTrip>,
-  values: Omit<co.input<typeof Flight>, "type">,
-) {
-  const transportation = sharedTrip.trip.transportation
+const GenericTransportation = z.object({
+  id: z.string(),
+  type: z.literal("generic"),
+  name: z.string(),
+  genericType: z.string(),
+  departureDateTime: z.iso.datetime(),
+  arrivalDateTime: z.iso.datetime(),
+  origin: Location,
+  destination: Location,
+  originAddress: z.string().optional(),
+  destinationAddress: z.string().optional(),
+  price: z.number().optional(),
+  geoJson: z.object().optional(),
+})
+export type GenericTransportation = z.infer<typeof GenericTransportation>
 
-  const flightGroup = Group.create()
-  flightGroup.addMember(transportation.$jazz.owner)
+export const CreateGenericTransportation = z
+  .object({
+    ...GenericTransportation.shape,
+    origin: CreateLocation,
+    destination: CreateLocation,
+  })
+  .omit({ id: true, type: true })
+export type CreateGenericTransportation = z.infer<
+  typeof CreateGenericTransportation
+>
 
-  const flight = Flight.create(
-    {
-      type: "flight",
-      ...values,
-    },
-    flightGroup,
-  )
-  flight.pnrs.$jazz.owner.addMember(sharedTrip.members) // required because the PNR list has onInlineCreate: "newGroup"
+export const UpdateGenericTransportation = CreateGenericTransportation.partial()
+export type UpdateGenericTransportation = z.infer<
+  typeof UpdateGenericTransportation
+>
 
-  transportation.$jazz.push(flight)
-}
-
-export function updateFlight(
-  flight: co.loaded<typeof Flight>,
-  values: Omit<co.input<typeof Flight>, "type">,
-) {
-  flight.$jazz.applyDiff(values)
-}
-
-export async function loadTransportation(
-  transportation: co.loaded<typeof Transportation>,
-) {
-  switch (transportation.type) {
-    case "flight":
-      return await transportation.$jazz.ensureLoaded({
-        resolve: Flight.resolveQuery,
-      })
-
-    case "train":
-      return await transportation.$jazz.ensureLoaded({
-        resolve: Train.resolveQuery,
-      })
-
-    case "generic":
-      return await transportation.$jazz.ensureLoaded({
-        resolve: GenericTransportation.resolveQuery,
-      })
-  }
-}
+export const Transportation = z.union([Flight, Train, GenericTransportation])
+export type Transportation = Flight | Train | GenericTransportation
 
 export function getDepartureDateTime(transportation: Transportation): string {
   switch (transportation.type) {

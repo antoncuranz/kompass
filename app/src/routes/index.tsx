@@ -1,15 +1,14 @@
 import { Link, createFileRoute } from "@tanstack/react-router"
 import { useState } from "react"
 import { useAccount } from "jazz-tools/react"
-import type { co } from "jazz-tools"
-import type { SharedTrip } from "@/schema"
-import { UserAccount } from "@/schema"
+import type { Trip } from "@/domain"
+import { UserAccount } from "@/repo/jazzSchema"
 import { ProfileMenu } from "@/components/navigation/ProfileMenu"
 import NewTripCard from "@/components/card/NewTripCard"
 import TripCard from "@/components/card/TripCard"
 import TripDialog from "@/components/dialog/TripDialog"
 import { Carousel } from "@/components/ui/cards-carousel"
-import { dateFromString } from "@/lib/datetime-utils"
+import { useTrips } from "@/repo"
 
 export const Route = createFileRoute("/")({
   component: App,
@@ -17,10 +16,9 @@ export const Route = createFileRoute("/")({
 
 function App() {
   const account = useAccount(UserAccount)
+  const { trips } = useTrips()
   const [tripDialogOpen, setTripDialogOpen] = useState(false)
-  const [selectedTrip, setSelectedTrip] = useState<
-    co.loaded<typeof SharedTrip> | undefined
-  >(undefined)
+  const [selectedTrip, setSelectedTrip] = useState<Trip | undefined>(undefined)
 
   if (!account.$isLoaded) {
     return account.$jazz.loadingState !== "loading" ? (
@@ -32,29 +30,14 @@ function App() {
   const cardClasses =
     "aspect-3/5 min-h-[20rem] sm:min-h-[26rem] h-[calc(100vh-20rem)] md:h-[calc(100vh-26rem)] max-h-160"
 
-  function sortedTrips(loaded: co.loaded<typeof UserAccount>) {
-    return Object.values(loaded.root.trips).sort(
-      (a: co.loaded<typeof SharedTrip>, b: co.loaded<typeof SharedTrip>) => {
-        return (
-          dateFromString(b.trip.startDate).getTime() -
-          dateFromString(a.trip.startDate).getTime()
-        )
-      },
-    )
-  }
-
-  const cards = sortedTrips(account).map((sharedTrip: any, idx) => (
-    <Link
-      key={sharedTrip.$jazz.id}
-      to={"/" + sharedTrip.$jazz.id + "/itinerary"}
-    >
+  const cards = trips.map((trip: Trip, idx) => (
+    <Link key={trip.stid} to={"/" + trip.stid + "/itinerary"}>
       <TripCard
-        trip={sharedTrip.trip} // TODO: sometimes, trip is undefined (race condition?)
-        sharedTripId={sharedTrip.$jazz.id}
+        trip={trip} // TODO: sometimes, trip is undefined (race condition?)
         className={cardClasses}
         fallbackColor={fallbackColors[idx % fallbackColors.length]}
         onEdit={() => {
-          setSelectedTrip(sharedTrip)
+          setSelectedTrip(trip)
           setTripDialogOpen(true)
         }}
       />
@@ -98,7 +81,7 @@ function App() {
       </main>
       <TripDialog
         account={account}
-        sharedTrip={selectedTrip}
+        trip={selectedTrip}
         open={tripDialogOpen}
         onOpenChange={setTripDialogOpen}
       />

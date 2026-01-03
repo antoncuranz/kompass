@@ -1,5 +1,4 @@
-import type { co } from "jazz-tools"
-import type { Accommodation, Activity, Transportation } from "./schema"
+import type { Accommodation, Activity, Transportation } from "@/domain"
 
 export enum TransportationType {
   Flight = "FLIGHT",
@@ -46,8 +45,8 @@ export type AmbiguousFlightChoice = {
 export type DayRenderData = {
   day: string
   transportation: Array<Transportation>
-  activities: Array<co.loaded<typeof Activity>>
-  accommodation: co.loaded<typeof Accommodation> | undefined
+  activities: Array<Activity>
+  accommodation: Accommodation | undefined
 }
 
 export type GeoJsonFlight = {

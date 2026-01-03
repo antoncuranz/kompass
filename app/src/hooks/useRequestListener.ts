@@ -1,7 +1,7 @@
 import { useEffect } from "react"
 import { useAccount } from "jazz-tools/react"
 import { toast } from "sonner"
-import { SharedTrip, UserAccount } from "@/schema"
+import { SharedTripEntity, UserAccount } from "@/repo/jazzSchema"
 
 export function useRequestListener() {
   const account = useAccount(UserAccount, {
@@ -24,7 +24,7 @@ export function useRequestListener() {
         if (request.status !== "approved") continue
 
         try {
-          const sharedTrip = await SharedTrip.load(sharedTripId)
+          const sharedTrip = await SharedTripEntity.load(sharedTripId)
 
           if (!sharedTrip.$isLoaded) continue
 

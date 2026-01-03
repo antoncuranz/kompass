@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react"
 import { co } from "jazz-tools"
-import type { Trip } from "@/schema"
-import {
-  getDepartureDateTime,
-  getTransportationShortName,
-  loadTransportation,
-} from "@/lib/transportation-utils"
+import type { TripEntity } from "@/repo/jazzSchema"
+import type { Accommodation, Activity, Transportation } from "@/domain"
+import { getDepartureDateTime, getTransportationShortName } from "@/domain"
+import { useAccommodation, useActivities, useTransportation } from "@/repo"
+import { useTrip } from "@/components/provider/TripProvider"
 
-export async function addFile(trip: co.loaded<typeof Trip>, file: File) {
+export async function addFile(trip: co.loaded<typeof TripEntity>, file: File) {
   if (trip.files.$isLoaded) {
     trip.files.$jazz.push({
       name: file.name,
@@ -28,10 +27,12 @@ export type ResolvedReference = {
 }
 
 export async function resolveReference(
-  trip: co.loaded<typeof Trip>,
   refId: string,
+  activities: Array<Activity>,
+  accommodation: Array<Accommodation>,
+  transportation: Array<Transportation>,
 ): Promise<ResolvedReference | null> {
-  const activity = trip.activities.find(a => a.$jazz.id === refId)
+  const activity = activities.find(a => a.id === refId)
   if (activity) {
     return {
       id: refId,
@@ -41,27 +42,28 @@ export async function resolveReference(
     }
   }
 
-  const accommodation = trip.accommodation.find(a => a.$jazz.id === refId)
-  if (accommodation) {
+  const accommodationItem = accommodation.find(a => a.id === refId)
+  if (accommodationItem) {
     return {
       id: refId,
       type: "accommodation",
-      name: accommodation.name,
-      date: accommodation.arrivalDate,
+      name: accommodationItem.name,
+      date: accommodationItem.arrivalDate,
     }
   }
 
-  const transportationItem = trip.transportation.find(t => t.$jazz.id === refId)
+  const transportationItem = transportation.find(t => t.id === refId)
   if (transportationItem) {
-    const loaded = await loadTransportation(transportationItem)
     const transportationType =
-      loaded.type === "generic" ? loaded.genericType : loaded.type
+      transportationItem.type === "generic"
+        ? transportationItem.genericType
+        : transportationItem.type
 
     return {
       id: refId,
       type: "transportation",
-      name: getTransportationShortName(loaded),
-      date: getDepartureDateTime(loaded).substring(0, 10),
+      name: getTransportationShortName(transportationItem),
+      date: getDepartureDateTime(transportationItem).substring(0, 10),
       transportationType,
     }
   }
@@ -69,15 +71,21 @@ export async function resolveReference(
   return null
 }
 
-export function useReferencedItem(
-  trip: co.loaded<typeof Trip>,
-  refId: string,
-): ResolvedReference | null {
+export function useReferencedItem(refId: string): ResolvedReference | null {
   const [item, setItem] = useState<ResolvedReference | null>(null)
+  const trip = useTrip()
+  const { activities } = useActivities(trip.stid)
+  const { accommodation } = useAccommodation(trip.stid)
+  const { transportation } = useTransportation(trip.stid)
 
   useEffect(() => {
     let cancelled = false
-    void resolveReference(trip, refId).then(result => {
+    void resolveReference(
+      refId,
+      activities,
+      accommodation,
+      transportation,
+    ).then(result => {
       if (!cancelled) setItem(result)
     })
     return () => {

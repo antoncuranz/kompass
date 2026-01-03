@@ -1,7 +1,5 @@
 import { useState } from "react"
-import { useRole } from "../provider/TripProvider"
-import type { Trip } from "@/schema"
-import type { co } from "jazz-tools"
+import { useRole } from "@/components/provider/TripProvider"
 import AccommodationDialogContent from "@/components/dialog/AccommodationDialog"
 import ActivityDialog from "@/components/dialog/ActivityDialog"
 import FlightDialog from "@/components/dialog/FlightDialog"
@@ -17,10 +15,8 @@ import {
 import { UserRole } from "@/lib/collaboration-utils"
 
 export default function AddEntryDropdown({
-  trip,
   trigger,
 }: {
-  trip: co.loaded<typeof Trip>
   trigger: React.ReactElement<
     Record<string, unknown>,
     string | React.JSXElementConstructor<any>
@@ -65,12 +61,10 @@ export default function AddEntryDropdown({
           </DropdownMenuPositioner>
         </DropdownMenu>
         <ActivityDialog
-          trip={trip}
           open={activityDialogOpen}
           onOpenChange={setActivityDialogOpen}
         />
         <AccommodationDialogContent
-          trip={trip}
           open={accommodationDialogOpen}
           onOpenChange={setAccommodationDialogOpen}
         />
@@ -78,13 +72,8 @@ export default function AddEntryDropdown({
           open={flightDialogOpen}
           onOpenChange={setFlightDialogOpen}
         />
-        <TrainDialog
-          trip={trip}
-          open={trainDialogOpen}
-          onOpenChange={setTrainDialogOpen}
-        />
+        <TrainDialog open={trainDialogOpen} onOpenChange={setTrainDialogOpen} />
         <TransportationDialog
-          trip={trip}
           open={transportationDialogOpen}
           onOpenChange={setTransportationDialogOpen}
         />

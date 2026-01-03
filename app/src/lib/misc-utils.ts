@@ -1,5 +1,3 @@
-import type { CoValue, MaybeLoaded } from "jazz-tools"
-
 export function downloadBlob(blobUrl: string, fileName: string) {
   const a = document.createElement("a")
   a.href = blobUrl
@@ -7,10 +5,6 @@ export function downloadBlob(blobUrl: string, fileName: string) {
   document.body.appendChild(a)
   a.click()
   document.body.removeChild(a)
-}
-
-export function isLoaded<T extends CoValue>(item: MaybeLoaded<T>): item is T {
-  return item.$isLoaded === true
 }
 
 export function formatAmount(

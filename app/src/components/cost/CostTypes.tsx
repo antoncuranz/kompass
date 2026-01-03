@@ -1,14 +1,10 @@
-import type { Accommodation, Activity, Transportation, Trip } from "@/schema.ts"
-import type { co } from "jazz-tools"
-import {
-  getDepartureDateTime,
-  getTransportationName,
-} from "@/lib/transportation-utils"
 import { dateFromString, formatDateShort } from "@/lib/datetime-utils"
+import { getDepartureDateTime, getTransportationName } from "@/domain"
+import type { Accommodation, Activity, Transportation } from "@/domain"
 
 type ActivityWithPrice = {
   type: "activity"
-  item: co.loaded<typeof Activity>
+  item: Activity
   name: string
   date: string
   price?: number
@@ -16,7 +12,7 @@ type ActivityWithPrice = {
 
 type AccommodationWithPrice = {
   type: "accommodation"
-  item: co.loaded<typeof Accommodation>
+  item: Accommodation
   name: string
   date: string
   price?: number
@@ -36,14 +32,11 @@ export type CostItem =
   | TransportationWithPrice
 
 export function createCostItems(
-  trip: co.loaded<typeof Trip>,
+  activities: Array<Activity>,
+  accommodation: Array<Accommodation>,
   transportation: Array<Transportation>,
-): {
-  activities: Array<CostItem>
-  accommodations: Array<CostItem>
-  transportations: Array<CostItem>
-} {
-  const activities: Array<CostItem> = trip.activities.map(activity => ({
+) {
+  const activityItems: Array<CostItem> = activities.map(activity => ({
     type: "activity",
     item: activity,
     name: activity.name,
@@ -51,7 +44,7 @@ export function createCostItems(
     price: activity.price,
   }))
 
-  const accommodations: Array<CostItem> = trip.accommodation.map(acc => {
+  const accommodationItems: Array<CostItem> = accommodation.map(acc => {
     const nights = Math.round(
       (dateFromString(acc.departureDate).getTime() -
         dateFromString(acc.arrivalDate).getTime()) /
@@ -66,7 +59,7 @@ export function createCostItems(
     }
   })
 
-  const transportations: Array<CostItem> = transportation.map(t => ({
+  const transportationItems: Array<CostItem> = transportation.map(t => ({
     type: "transportation",
     item: t,
     name: getTransportationName(t),
@@ -74,7 +67,11 @@ export function createCostItems(
     price: t.price,
   }))
 
-  return { activities, accommodations, transportations }
+  return {
+    activityItems,
+    accommodationItems,
+    transportationItems,
+  }
 }
 
 export function calculateTotals(

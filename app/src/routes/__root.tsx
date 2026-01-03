@@ -4,7 +4,7 @@ import { useEffect } from "react"
 import { Toaster } from "@/components/ui/sonner"
 import { Auth } from "@/components/Auth"
 import { useRequestListener } from "@/hooks/useRequestListener"
-import { SharedTrip } from "@/schema"
+import { SharedTripEntity } from "@/repo/jazzSchema"
 import { titleCase } from "@/lib/misc-utils"
 import { useInspector } from "@/components/provider/InspectorProvider"
 
@@ -21,7 +21,7 @@ function DynamicTitle() {
       }
 
       try {
-        const sharedTrip = await SharedTrip.load(tripId, {
+        const sharedTrip = await SharedTripEntity.load(tripId, {
           resolve: { trip: true },
         })
         if (cancelled) return

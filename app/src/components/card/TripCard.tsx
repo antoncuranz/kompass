@@ -1,7 +1,6 @@
 import { HugeiconsIcon } from "@hugeicons/react"
 import { PencilEdit02Icon } from "@hugeicons/core-free-icons"
-import type { Trip } from "@/schema.ts"
-import type { co } from "jazz-tools"
+import type { Trip } from "@/domain"
 import Card from "@/components/card/Card.tsx"
 import { cn } from "@/lib/utils"
 
@@ -11,8 +10,7 @@ export default function TripCard({
   fallbackColor,
   onEdit,
 }: {
-  trip: co.loaded<typeof Trip>
-  sharedTripId: string
+  trip: Trip
   className?: string
   fallbackColor: string
   onEdit: () => void
