@@ -1,14 +1,11 @@
 import { Group, co, z } from "jazz-tools"
 import { JoinRequests, SharedTripEntity } from "@/repo/trip/schema"
+import { AccountProfile } from "../common/schema"
 
 const AccountRoot = co.map({
   trips: co.record(z.string(), SharedTripEntity),
   tripMap: co.record(z.string(), SharedTripEntity), // deprecated
   requests: JoinRequests,
-})
-
-export const AccountProfile = co.profile({
-  avatar: co.image().optional(),
 })
 
 export const UserAccount = co
