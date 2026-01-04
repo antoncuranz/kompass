@@ -19,7 +19,6 @@ import { Separator } from "@/components/ui/separator.tsx"
 import { Spinner } from "@/components/ui/shadcn-io/spinner"
 import { cn } from "@/lib/utils"
 import { useUserRepo } from "@/repo/user"
-import { isLoaded } from "@/domain/trip.ts"
 
 const signupFormSchema = z.object({
   name: z.string().nonempty("Required"),
@@ -41,7 +40,7 @@ export function Auth() {
   const [profileImage, setProfileImage] = useState<File | null>(null)
 
   async function uploadProfileImage() {
-    if (profileImage && isLoaded(user)) {
+    if (profileImage && user.$isLoaded) {
       try {
         await update({
           avatarImage: profileImage,

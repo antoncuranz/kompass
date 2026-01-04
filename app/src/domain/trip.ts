@@ -1,38 +1,43 @@
 import * as z from "zod"
 import { CoRichText } from "jazz-tools"
+import { User } from "./user"
+
+export { User } from "./user"
+export type { UpdateUser } from "./user"
+export {
+  Maybe,
+  type Loaded,
+  type NotLoaded,
+  type UnavailableReason,
+} from "./common"
 
 const JoinRequestStatus = z.enum(["pending", "approved", "rejected"])
 export type JoinRequestStatus = z.infer<typeof JoinRequestStatus>
 
-const UserWithoutRequests = z.object({
-  id: z.string(),
-  name: z.string(),
-  avatarImageId: z.string().optional(),
-})
-
 const JoinRequest = z.object({
   id: z.string(),
-  account: UserWithoutRequests,
+  user: User,
   status: JoinRequestStatus,
   requestedAt: z.iso.datetime(),
 })
 export type JoinRequest = z.infer<typeof JoinRequest>
 
-const User = UserWithoutRequests.extend({
-  joinRequests: z.map(z.string(), JoinRequest),
-})
-export type User = z.infer<typeof User>
-
-const UpdateUser = UserWithoutRequests.omit({ id: true, avatarImageId: true })
-  .extend({
-    avatarImage: z.instanceof(File).nullable(),
-  })
-  .partial()
-export type UpdateUser = z.infer<typeof UpdateUser>
-
-export const UserRoleValues = ["admin", "member", "guest"] as const
+export const UserRoleValues = [
+  "admin",
+  "member",
+  "guest",
+  "unauthorized",
+] as const
 const UserRole = z.enum(UserRoleValues)
 export type UserRole = z.infer<typeof UserRole>
+
+export const UserRoleHelpers = {
+  canRead: (role: UserRole | undefined): role is UserRole =>
+    role !== undefined && role !== "unauthorized",
+  canWrite: (role: UserRole | undefined) =>
+    role === "admin" || role === "member",
+  canAdmin: (role: UserRole | undefined) => role === "admin",
+} as const
 
 const TripMeta = z.object({
   stid: z.string(),
@@ -62,14 +67,3 @@ export type CreateTrip = z.infer<typeof CreateTrip>
 
 export const UpdateTrip = CreateTrip.partial()
 export type UpdateTrip = z.infer<typeof UpdateTrip>
-
-export type UnavailableReason = "loading" | "unavailable" | "unauthorized"
-export type Maybe<T> = T | UnavailableReason
-
-export function isLoaded<T>(entity: Maybe<T>): entity is T {
-  return (
-    entity !== "loading" &&
-    entity !== "unavailable" &&
-    entity !== "unauthorized"
-  )
-}

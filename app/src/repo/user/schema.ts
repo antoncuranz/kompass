@@ -1,17 +1,15 @@
 import { Group, co, z } from "jazz-tools"
-import { AccountProfile } from "@/repo/common/schema"
 import { JoinRequests, SharedTripEntity } from "@/repo/trip/schema"
 
-export const AccountRoot = co
-  .map({
-    trips: co.record(z.string(), SharedTripEntity),
-    tripMap: co.record(z.string(), SharedTripEntity), // deprecated
-    requests: JoinRequests,
-  })
-  .resolved({
-    trips: { $each: SharedTripEntity.resolveQuery },
-    requests: JoinRequests.resolveQuery,
-  })
+const AccountRoot = co.map({
+  trips: co.record(z.string(), SharedTripEntity),
+  tripMap: co.record(z.string(), SharedTripEntity), // deprecated
+  requests: JoinRequests,
+})
+
+export const AccountProfile = co.profile({
+  avatar: co.image().optional(),
+})
 
 export const UserAccount = co
   .account({
@@ -72,5 +70,4 @@ export const UserAccount = co
   })
   .resolved({
     profile: AccountProfile.resolveQuery,
-    root: AccountRoot.resolveQuery,
   })

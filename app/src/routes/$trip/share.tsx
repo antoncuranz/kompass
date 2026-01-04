@@ -4,7 +4,6 @@ import ShareButton from "@/components/buttons/ShareButton"
 import MemberTable from "@/components/collaboration/MemberTable.tsx"
 import RequestTable from "@/components/collaboration/RequestTable.tsx"
 import { useTrip } from "@/components/provider/TripProvider"
-import { isLoaded } from "@/domain"
 import { useSingleTripRepo } from "@/repo"
 
 export const Route = createFileRoute("/$trip/share")({
@@ -14,7 +13,7 @@ export const Route = createFileRoute("/$trip/share")({
 function SharePage() {
   const trip = useTrip()
   const { meta: tripMeta } = useSingleTripRepo(trip.stid)
-  if (!isLoaded(tripMeta)) return null
+  if (!tripMeta.$isLoaded) return null
 
   const pendingRequests = Object.values(tripMeta.joinRequests).filter(
     req => req.status === "pending",

@@ -1,7 +1,6 @@
 import { Link, createFileRoute } from "@tanstack/react-router"
 import { useState } from "react"
 import type { Trip } from "@/domain"
-import { isLoaded } from "@/domain"
 import { ProfileMenu } from "@/components/navigation/ProfileMenu"
 import NewTripCard from "@/components/card/NewTripCard"
 import TripCard from "@/components/card/TripCard"
@@ -20,9 +19,7 @@ function App() {
   const [tripDialogOpen, setTripDialogOpen] = useState(false)
   const [selectedTrip, setSelectedTrip] = useState<Trip | undefined>(undefined)
 
-  if (!isLoaded(user)) {
-    return user !== "loading" ? <>Error loading data</> : null
-  }
+  if (!user.$isLoaded) return null
 
   const fallbackColors = ["#0081A7", "#459f00", "#FED9B7", "#F07167"]
   const cardClasses =

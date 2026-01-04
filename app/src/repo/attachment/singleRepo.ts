@@ -3,6 +3,7 @@ import { co } from "jazz-tools"
 import { mapAttachment } from "./mappers"
 import { FileAttachmentEntity } from "./schema"
 import type { SingleAttachmentRepo } from "@/repo/contracts"
+import { Maybe } from "@/domain"
 // eslint-disable @typescript-eslint/no-misused-spread
 
 export function useSingleAttachmentRepo(id: string): SingleAttachmentRepo {
@@ -10,8 +11,8 @@ export function useSingleAttachmentRepo(id: string): SingleAttachmentRepo {
 
   return {
     attachment: entity.$isLoaded
-      ? mapAttachment(entity)
-      : entity.$jazz.loadingState,
+      ? Maybe.of(mapAttachment(entity))
+      : Maybe.notLoaded(entity.$jazz.loadingState),
 
     loadAsBlob: () => co.fileStream().loadAsBlob(id),
   }

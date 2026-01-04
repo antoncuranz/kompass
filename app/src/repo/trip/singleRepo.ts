@@ -2,8 +2,9 @@ import { useCoState } from "jazz-tools/react-core"
 import { useEffect, useState } from "react"
 import { mapTrip, mapTripMeta } from "./mappers"
 import { SharedTripEntity } from "./schema"
-import type { Maybe, TripMeta } from "@/domain"
+import type { TripMeta } from "@/domain"
 import type { SingleTripRepo } from "@/repo/contracts"
+import { Maybe } from "@/domain"
 // eslint-disable @typescript-eslint/no-misused-spread
 
 export function useSingleTripRepo(stid: string | undefined): SingleTripRepo {
@@ -20,20 +21,20 @@ export function useSingleTripRepo(stid: string | undefined): SingleTripRepo {
       trip: { notes: true },
     },
   })
-  const [meta, setMeta] = useState<Maybe<TripMeta>>("loading")
+  const [meta, setMeta] = useState<Maybe<TripMeta>>(Maybe.loading())
 
   useEffect(() => {
     let cancelled = false
 
     async function load() {
       if (!metaEntity.$isLoaded) {
-        setMeta(metaEntity.$jazz.loadingState)
+        setMeta(Maybe.notLoaded(metaEntity.$jazz.loadingState))
         return
       }
 
       const result = await mapTripMeta(metaEntity)
       if (!cancelled) {
-        setMeta(result)
+        setMeta(Maybe.of(result))
       }
     }
 
@@ -46,8 +47,8 @@ export function useSingleTripRepo(stid: string | undefined): SingleTripRepo {
 
   return {
     trip: tripEntity.$isLoaded
-      ? mapTrip(tripEntity)
-      : tripEntity.$jazz.loadingState,
+      ? Maybe.of(mapTrip(tripEntity))
+      : Maybe.notLoaded(tripEntity.$jazz.loadingState),
     meta,
   }
 }

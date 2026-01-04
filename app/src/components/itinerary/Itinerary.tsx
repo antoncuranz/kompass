@@ -7,6 +7,7 @@ import type {
   GenericTransportation,
   Train,
 } from "@/domain"
+import { UserRoleHelpers } from "@/domain"
 import { useTrip } from "@/components/provider/TripProvider"
 import AccommodationDialog from "@/components/dialog/AccommodationDialog"
 import ActivityDialog from "@/components/dialog/ActivityDialog"
@@ -50,7 +51,7 @@ export default function Itinerary({
   }
 
   function onAccommodationClick(accommodation: Accommodation | undefined) {
-    if (accommodation !== undefined || (userRole && userRole !== "guest")) {
+    if (accommodation !== undefined || UserRoleHelpers.canWrite(userRole)) {
       setDialogAccommodation(accommodation)
       setAccommodationDialogOpen(true)
     }

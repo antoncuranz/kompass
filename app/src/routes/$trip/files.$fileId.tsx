@@ -26,7 +26,6 @@ import {
   useSingleAttachmentRepo,
   useTransportationRepo,
 } from "@/repo"
-import { isLoaded } from "@/domain"
 
 export const Route = createFileRoute("/$trip/files/$fileId")({
   component: FileDetailPage,
@@ -54,7 +53,7 @@ function FileDetailPage() {
     let currentBlobUrl: string | null = null
 
     async function loadFile() {
-      if (!isLoaded(attachment)) return
+      if (!attachment.$isLoaded) return
       try {
         const blob = await loadAsBlob()
         if (blob) {
@@ -76,12 +75,12 @@ function FileDetailPage() {
   }, [attachment])
 
   function handleDownload() {
-    if (blobUrl && isLoaded(attachment)) {
+    if (blobUrl && attachment.$isLoaded) {
       downloadBlob(blobUrl, attachment.name)
     }
   }
 
-  if (!isLoaded(attachment)) {
+  if (!attachment.$isLoaded) {
     return (
       <Pane title="Loading..." testId="file-detail-card">
         <div className="text-center text-muted-foreground py-8">
@@ -92,7 +91,7 @@ function FileDetailPage() {
   }
 
   async function handleRemoveLink(refId: string) {
-    if (isLoaded(attachment)) {
+    if (attachment.$isLoaded) {
       await update(attachment.id, {
         references: attachment.references.filter(id => id !== refId),
       })

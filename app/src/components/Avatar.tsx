@@ -1,12 +1,17 @@
 import { Image } from "jazz-tools/react"
 import { cn } from "@/lib/utils"
-import { isLoaded } from "@/domain"
 import { useUserRepo } from "@/repo/user"
 
-export function Avatar({ className }: { className?: string }) {
-  const { user } = useUserRepo()
+export function Avatar({
+  userId,
+  className,
+}: {
+  userId?: string
+  className?: string
+}) {
+  const { user } = useUserRepo(userId)
 
-  if (!isLoaded(user)) return null
+  if (!user.$isLoaded) return null
 
   const getInitials = (name?: string) => {
     if (!name) return "?"

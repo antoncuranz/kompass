@@ -2,18 +2,18 @@ import { DialogFooter, DialogHeader, DialogTitle } from "./ui/dialog"
 import { Dialog } from "./dialog/Dialog"
 import { sendJoinRequest } from "@/lib/collaboration-utils"
 import { Button } from "@/components/ui/button.tsx"
-import { useUserRepo, useUserRole } from "@/repo/user"
-import { isLoaded } from "@/domain"
+import { useJoinRequests, useUserRole } from "@/repo/user"
 
 export default function TripAccessGuard({ stid }: { stid: string }) {
   const userRole = useUserRole(stid)
-  const { user } = useUserRepo()
-  if (!isLoaded(user)) return null
+  const joinRequests = useJoinRequests()
 
-  const existingRequestStatus = user.joinRequests.get(stid)?.status
+  const existingRequestStatus = joinRequests.$isLoaded
+    ? joinRequests.get(stid)?.status
+    : undefined
 
   return (
-    !userRole && (
+    userRole === "unauthorized" && (
       <Dialog>
         <DialogHeader>
           <DialogTitle>Unauthorized</DialogTitle>

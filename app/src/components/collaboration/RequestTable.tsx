@@ -75,9 +75,9 @@ function RequestRow({
       {/* TODO: disable hover without bg-transparent */}
       <TableCell className="flex-1 truncate pl-5">
         <div className="flex items-center gap-2">
-          <Avatar />
+          <Avatar userId={joinRequest.user.id} />
           <div className="flex-1 min-w-0">
-            <p className="font-medium truncate">{joinRequest.account.name}</p>
+            <p className="font-medium truncate">{joinRequest.user.name}</p>
             <p className="text-xs text-muted-foreground">
               Requested {formatDateShort(joinRequest.requestedAt)}
             </p>

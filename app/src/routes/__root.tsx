@@ -6,14 +6,13 @@ import { Auth } from "@/components/Auth"
 import { useRequestListener } from "@/hooks/useRequestListener"
 import { useInspector } from "@/components/provider/InspectorProvider"
 import { useSingleTripRepo } from "@/repo"
-import { isLoaded } from "@/domain"
 
 function DynamicTitle() {
   const tripId = useParams({ strict: false }).trip
   const trip = useSingleTripRepo(tripId).trip
 
   useEffect(() => {
-    if (!isLoaded(trip)) {
+    if (!trip.$isLoaded) {
       document.title = "kompass"
     } else {
       document.title = `${trip.name} | kompass`

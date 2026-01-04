@@ -8,11 +8,12 @@ import { InlineMenu } from "./InlineMenu"
 import type { CoRichText } from "jazz-tools"
 import { useTrip } from "@/components/provider/TripProvider"
 import { useUserRole } from "@/repo/user"
+import { UserRoleHelpers } from "@/domain"
 
 function NotesEditor({ richText }: { richText: CoRichText }) {
   const trip = useTrip()
   const userRole = useUserRole(trip.stid)
-  const readOnly = !userRole || userRole === "guest"
+  const readOnly = !UserRoleHelpers.canWrite(userRole)
 
   const editor = useMemo(() => {
     const extension = defineExtension({ richText, readOnly })

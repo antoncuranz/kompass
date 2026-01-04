@@ -1,26 +1,27 @@
-import {
-  useAccount,
-  useCoState,
-  useIsAuthenticated,
-} from "jazz-tools/react-core"
+import { useAccount, useCoState } from "jazz-tools/react-core"
 import { createImage } from "jazz-tools/media"
-import { mapUser, mapUserRole } from "./mappers"
+import { JoinRequestEntity } from "../common/schema"
+import { mapJoinRequests, mapUser, mapUserRole } from "./mappers"
 import { UserAccount } from "./schema"
 import type { SingleUserRepo } from "@/repo/contracts"
-import type { Maybe, UserRole } from "@/domain"
+import type { UserRole } from "@/domain"
+import { Maybe } from "@/domain"
 import { SharedTripEntity } from "@/repo/trip/schema"
 // eslint-disable @typescript-eslint/no-misused-spread
 
-export function useUserRepo(): SingleUserRepo {
-  const isAuthenticated = useIsAuthenticated()
-  const entity = useAccount(UserAccount)
-
-  if (!isAuthenticated) return { user: "unauthorized", update: async () => {} }
+export function useUserRepo(userId?: string): SingleUserRepo {
+  const entity = userId
+    ? useCoState(UserAccount, userId)
+    : useAccount(UserAccount)
 
   return {
-    user: entity.$isLoaded ? mapUser(entity) : entity.$jazz.loadingState,
+    user: entity.$isLoaded
+      ? Maybe.of(mapUser(entity))
+      : Maybe.notLoaded(entity.$jazz.loadingState),
 
     update: async values => {
+      if (userId) throw new Error("can only make changes to current user")
+
       const account = await UserAccount.getMe().$jazz.ensureLoaded({
         resolve: { profile: true },
       })
@@ -43,12 +44,20 @@ export function useUserRepo(): SingleUserRepo {
   }
 }
 
-export function useUserRole(stid: string): Maybe<UserRole | undefined> {
+export function useJoinRequests() {
+  const entity = useAccount(UserAccount, {
+    resolve: { root: { requests: { $each: JoinRequestEntity.resolveQuery } } },
+  })
+
+  return entity.$isLoaded
+    ? Maybe.of(mapJoinRequests(entity.root.requests))
+    : Maybe.notLoaded(entity.$jazz.loadingState)
+}
+
+export function useUserRole(stid: string): UserRole | undefined {
   const sharedTrip = useCoState(SharedTripEntity, stid, {
     resolve: { admins: true, members: true, guests: true },
   })
 
-  return sharedTrip.$isLoaded
-    ? mapUserRole(sharedTrip)
-    : sharedTrip.$jazz.loadingState
+  return sharedTrip.$isLoaded ? mapUserRole(sharedTrip) : undefined
 }

@@ -24,7 +24,6 @@ import { Spinner } from "@/components/ui/shadcn-io/spinner"
 import { exportUserData } from "@/lib/trip-utils"
 import { useInspector } from "@/components/provider/InspectorProvider"
 import { Switch } from "@/components/ui/switch"
-import { isLoaded } from "@/domain"
 import { useUserRepo } from "@/repo/user"
 import { downloadBlob } from "@/lib/misc-utils"
 
@@ -42,7 +41,7 @@ export default function SettingsDialog({
   const { user } = useUserRepo()
 
   return (
-    isLoaded(user) && (
+    user.$isLoaded && (
       <Dialog open={open} onOpenChange={onOpenChange}>
         <SettingsDialogContent user={user} />
       </Dialog>

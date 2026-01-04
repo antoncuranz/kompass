@@ -1,4 +1,5 @@
 import { co, z } from "jazz-tools"
+import { AccountProfile } from "../user/schema"
 
 export const LocationEntity = co.map({
   latitude: z.number(),
@@ -6,10 +7,6 @@ export const LocationEntity = co.map({
 })
 
 export const JoinRequestStatus = z.enum(["pending", "approved", "rejected"])
-
-export const AccountProfile = co.profile({
-  avatar: co.image().optional(),
-})
 
 export const JoinRequestEntity = co
   .map({

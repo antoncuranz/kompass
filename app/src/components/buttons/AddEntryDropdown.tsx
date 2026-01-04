@@ -13,6 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu.tsx"
 import { useUserRole } from "@/repo/user"
+import { UserRoleHelpers } from "@/domain"
 
 export default function AddEntryDropdown({
   trigger,
@@ -33,8 +34,7 @@ export default function AddEntryDropdown({
     useState(false)
 
   return (
-    role &&
-    role !== "guest" && (
+    UserRoleHelpers.canRead(role) && (
       <div>
         <DropdownMenu>
           <DropdownMenuTrigger render={trigger} />

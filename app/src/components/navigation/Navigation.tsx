@@ -6,9 +6,9 @@ import { SyncIndicator } from "@/components/navigation/SyncIndicator.tsx"
 import { Button } from "@/components/ui/button.tsx"
 import { cn } from "@/lib/utils"
 import { titleCase } from "@/lib/misc-utils"
-import { isLoaded } from "@/domain"
 import { useUserRole } from "@/repo/user"
 import { useSingleTripRepo } from "@/repo"
+import { UserRoleHelpers } from "@/domain"
 
 export default function Navigation({ stid }: { stid: string }) {
   const { trip } = useSingleTripRepo(stid)
@@ -28,7 +28,7 @@ export default function Navigation({ stid }: { stid: string }) {
   function getVisiblePages(): Array<
     "itinerary" | "notes" | "cost" | "files" | "map" | "share"
   > {
-    if (!isLoaded(trip) || !userRole) return []
+    if (!trip.$isLoaded || !UserRoleHelpers.canRead(userRole)) return []
 
     if (userRole === "admin") {
       return ["itinerary", "notes", "cost", "files", "map", "share"]
@@ -51,7 +51,7 @@ export default function Navigation({ stid }: { stid: string }) {
             </Button>
           </Link>
           <h1 className="text-2xl font-semibold leading-10 ml-2 grow sm:max-w-50 truncate">
-            {isLoaded(trip) ? trip.name : trip}
+            {trip.$isLoaded ? trip.name : trip.$loadingState}
           </h1>
           <div className="flex items-center justify-center gap-2 sm:hidden">
             <SyncIndicator />

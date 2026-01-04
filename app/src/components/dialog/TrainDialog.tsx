@@ -127,7 +127,6 @@ function TrainDialogContent({ train }: { train?: Train }) {
 
     if (response.ok) {
       const responseJson = await response.json()
-      console.log(responseJson)
       if (train) {
         await updateTrain(train.id, {
           ...responseJson,
