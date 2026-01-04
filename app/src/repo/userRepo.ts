@@ -3,6 +3,7 @@ import {
   useCoState,
   useIsAuthenticated,
 } from "jazz-tools/react-core"
+import { createImage } from "jazz-tools/media"
 import type { SingleUserRepo } from "@/usecase/contracts"
 import type { JoinRequest, Maybe, User, UserRole } from "@/domain"
 import type { co } from "jazz-tools"
@@ -42,10 +43,31 @@ export function useUserRepo(): SingleUserRepo {
   const isAuthenticated = useIsAuthenticated()
   const entity = useAccount(UserAccount)
 
-  if (!isAuthenticated) return { user: "unauthorized" }
+  if (!isAuthenticated) return { user: "unauthorized", update: async () => {} }
 
   return {
     user: entity.$isLoaded ? mapUser(entity) : entity.$jazz.loadingState,
+
+    update: async values => {
+      const account = await UserAccount.getMe().$jazz.ensureLoaded({
+        resolve: { profile: true },
+      })
+
+      if (values.name) account.profile.$jazz.set("name", values.name)
+
+      if (values.avatarImage === null) {
+        account.profile.$jazz.set("avatar", undefined)
+      } else if (values.avatarImage) {
+        account.profile.$jazz.set(
+          "avatar",
+          await createImage(values.avatarImage, {
+            owner: account.profile.$jazz.owner,
+            progressive: true,
+            placeholder: "blur",
+          }),
+        )
+      }
+    },
   }
 }
 

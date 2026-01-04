@@ -1,5 +1,3 @@
-import { co } from "jazz-tools"
-import type { TripEntity } from "@/repo/jazzSchema"
 import type { Accommodation, Activity, Transportation } from "@/domain"
 import { getDepartureDateTime, getTransportationShortName } from "@/domain"
 import {
@@ -8,16 +6,6 @@ import {
   useTransportationRepo,
 } from "@/repo"
 import { useTrip } from "@/components/provider/TripProvider"
-
-export async function addFile(trip: co.loaded<typeof TripEntity>, file: File) {
-  if (trip.files.$isLoaded) {
-    trip.files.$jazz.push({
-      name: file.name,
-      file: await co.fileStream().createFromBlob(file),
-      references: [],
-    })
-  }
-}
 
 export type EntityType = "activity" | "accommodation" | "transportation"
 

@@ -21,7 +21,7 @@ export default function MemberTable({ title, members }: MemberTableProps) {
             <TableRow key={member.id} className="cursor-pointer">
               <TableCell className="flex-1 truncate pl-5">
                 <div className="flex items-center gap-2">
-                  <Avatar accountId={member.id} />
+                  <Avatar />
                   <span className="truncate">{member.name}</span>
                 </div>
               </TableCell>

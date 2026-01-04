@@ -1,7 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod"
-import { createImage } from "jazz-tools/media"
 import {
-  useAccount,
   useIsAuthenticated,
   usePasskeyAuth,
   usePassphraseAuth,
@@ -11,7 +9,6 @@ import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
 import wordlist from "../lib/wordlist.ts"
-import { UserAccount } from "@/repo/jazzSchema"
 import { Dialog } from "@/components/dialog/Dialog.tsx"
 import { ImageUpload } from "@/components/ImageUpload.tsx"
 import { Button } from "@/components/ui/button.tsx"
@@ -21,6 +18,8 @@ import { Input } from "@/components/ui/input.tsx"
 import { Separator } from "@/components/ui/separator.tsx"
 import { Spinner } from "@/components/ui/shadcn-io/spinner"
 import { cn } from "@/lib/utils"
+import { useUserRepo } from "@/repo/userRepo.ts"
+import { isLoaded } from "@/domain/trip.ts"
 
 const signupFormSchema = z.object({
   name: z.string().nonempty("Required"),
@@ -36,22 +35,17 @@ export function Auth() {
   const passkeyAuth = usePasskeyAuth({
     appName: "kompass",
   })
-  const account = useAccount(UserAccount)
+  const { user, update } = useUserRepo()
 
   const [passphraseFormShown, setPassphraseFormShown] = useState<boolean>(false)
   const [profileImage, setProfileImage] = useState<File | null>(null)
 
   async function uploadProfileImage() {
-    if (profileImage && account.$isLoaded) {
+    if (profileImage && isLoaded(user)) {
       try {
-        account.profile.$jazz.set(
-          "avatar",
-          await createImage(profileImage, {
-            owner: account.profile.$jazz.owner,
-            progressive: true,
-            placeholder: "blur",
-          }),
-        )
+        await update({
+          avatarImage: profileImage,
+        })
       } catch {
         toast.error("Failed to upload profile picture")
       }

@@ -1,5 +1,4 @@
-import type { co } from "jazz-tools"
-import type { UserAccount } from "@/repo/jazzSchema"
+import type { User } from "@/domain"
 
 // async function exportTrip(trip: Trip) {
 //   // const transportation = await Promise.all(
@@ -12,7 +11,7 @@ import type { UserAccount } from "@/repo/jazzSchema"
 //   }
 // }
 
-export async function exportUserData(account: co.loaded<typeof UserAccount>) {
+export async function exportUserData(user: User) {
   // const trips = await Promise.all(
   //   Object.values(account.root.trips).map(exportTrip),
   // )
@@ -22,11 +21,7 @@ export async function exportUserData(account: co.loaded<typeof UserAccount>) {
     type: "kompass",
     version: 1,
     exportedAt: new Date().toISOString(),
-    account: {
-      id: account.$jazz.id,
-      name: account.profile.name,
-      avatar: account.profile.avatar?.$jazz.id,
-    },
+    user,
     // trips,
   }
 }

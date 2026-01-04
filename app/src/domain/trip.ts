@@ -23,6 +23,13 @@ const User = UserWithoutRequests.extend({
 })
 export type User = z.infer<typeof User>
 
+const UpdateUser = UserWithoutRequests.omit({ id: true, avatarImageId: true })
+  .extend({
+    avatarImage: z.instanceof(File).nullable(),
+  })
+  .partial()
+export type UpdateUser = z.infer<typeof UpdateUser>
+
 export const UserRoleValues = ["admin", "member", "guest"] as const
 const UserRole = z.enum(UserRoleValues)
 export type UserRole = z.infer<typeof UserRole>

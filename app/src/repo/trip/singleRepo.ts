@@ -6,7 +6,7 @@ import type { SingleTripRepo } from "@/usecase/contracts"
 import { SharedTripEntity } from "@/repo/jazzSchema"
 // eslint-disable @typescript-eslint/no-misused-spread
 
-export function useSingleTripRepo(stid: string): SingleTripRepo {
+export function useSingleTripRepo(stid: string | undefined): SingleTripRepo {
   const metaEntity = useCoState(SharedTripEntity, stid, {
     resolve: {
       admins: true,

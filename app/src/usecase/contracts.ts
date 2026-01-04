@@ -23,11 +23,13 @@ import type {
   UpdateGenericTransportation,
   UpdateTrain,
   UpdateTrip,
+  UpdateUser,
   User,
 } from "@/domain"
 
 export interface SingleUserRepo {
   user: Maybe<User>
+  update: (values: UpdateUser) => Promise<void>
 }
 
 export interface TripRepo {
