@@ -51,6 +51,7 @@ export function mapFlight(entity: co.loaded<typeof FlightEntity>): Flight {
     ...entity,
     legs: entity.legs.map(mapFlightLeg),
     pnrs: entity.pnrs.$isLoaded ? entity.pnrs.map(mapPnr) : [],
+    geoJson: entity.geoJson as GeoJSON.GeoJSON, // TODO
   }
 }
 

@@ -24,7 +24,9 @@ export function useRequestListener() {
         if (request.status !== "approved") continue
 
         try {
-          const sharedTrip = await SharedTripEntity.load(sharedTripId)
+          const sharedTrip = await SharedTripEntity.load(sharedTripId, {
+            resolve: { trip: true },
+          })
 
           if (!sharedTrip.$isLoaded) continue
 

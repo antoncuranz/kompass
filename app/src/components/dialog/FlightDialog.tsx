@@ -27,7 +27,7 @@ import { Input } from "@/components/ui/input.tsx"
 import { Spinner } from "@/components/ui/shadcn-io/spinner"
 import { dateFromString } from "@/lib/datetime-utils"
 import { isoDate, optionalString } from "@/lib/formschema-utils"
-import { useTransportation } from "@/repo"
+import { useTransportationRepo } from "@/repo"
 
 const formSchema = z.object({
   legs: z.array(
@@ -69,7 +69,9 @@ export default function FlightDialog({
 
 function FlightDialogContent({ flight }: { flight?: Flight }) {
   const trip = useTrip()
-  const { createFlight, updateFlight, remove } = useTransportation(trip.stid)
+  const { createFlight, updateFlight, remove } = useTransportationRepo(
+    trip.stid,
+  )
 
   const [edit, setEdit] = useState<boolean>(flight == undefined)
   const [ambiguousDialogOpen, setAmbiguousDialogOpen] = useState(false)

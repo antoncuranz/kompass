@@ -1,29 +1,27 @@
 import { Link, createFileRoute } from "@tanstack/react-router"
 import { useState } from "react"
-import { useAccount } from "jazz-tools/react"
 import type { Trip } from "@/domain"
-import { UserAccount } from "@/repo/jazzSchema"
+import { isLoaded } from "@/domain"
 import { ProfileMenu } from "@/components/navigation/ProfileMenu"
 import NewTripCard from "@/components/card/NewTripCard"
 import TripCard from "@/components/card/TripCard"
 import TripDialog from "@/components/dialog/TripDialog"
 import { Carousel } from "@/components/ui/cards-carousel"
 import { useTripRepo } from "@/repo"
+import { useUserRepo } from "@/repo/userRepo"
 
 export const Route = createFileRoute("/")({
   component: App,
 })
 
 function App() {
-  const account = useAccount(UserAccount)
+  const { user } = useUserRepo()
   const { trips } = useTripRepo()
   const [tripDialogOpen, setTripDialogOpen] = useState(false)
   const [selectedTrip, setSelectedTrip] = useState<Trip | undefined>(undefined)
 
-  if (!account.$isLoaded) {
-    return account.$jazz.loadingState !== "loading" ? (
-      <>Error loading data</>
-    ) : null
+  if (!isLoaded(user)) {
+    return user !== "loading" ? <>Error loading data</> : null
   }
 
   const fallbackColors = ["#0081A7", "#459f00", "#FED9B7", "#F07167"]
@@ -72,7 +70,7 @@ function App() {
         <div className="flex h-full gap-4">
           <div className="w-full h-full py-6">
             <h2 className="max-w-7xl pl-4 mx-auto text-3xl md:text-5xl font-bold text-neutral-800 dark:text-neutral-200 font-sans">
-              Hello {account.profile.name}!<br />
+              Hello {user.name}!<br />
               Let's plan your trips
             </h2>
             <Carousel items={cards} />
@@ -80,7 +78,6 @@ function App() {
         </div>
       </main>
       <TripDialog
-        account={account}
         trip={selectedTrip}
         open={tripDialogOpen}
         onOpenChange={setTripDialogOpen}

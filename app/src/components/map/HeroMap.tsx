@@ -16,7 +16,7 @@ import BaseMap from "@/components/map/BaseMap.tsx"
 import FlightPopup from "@/components/map/popup/FlightPopup.tsx"
 import TrainPopup from "@/components/map/popup/TrainPopup.tsx"
 import TransportationPopup from "@/components/map/popup/TransportationPopup"
-import { useTransportation } from "@/repo"
+import { useTransportationRepo } from "@/repo"
 
 type PopupInfo = {
   lngLat: LngLat
@@ -25,7 +25,7 @@ type PopupInfo = {
 
 export default function HeroMap() {
   const stid = useTrip().stid
-  const { transportation } = useTransportation(stid)
+  const { transportation } = useTransportationRepo(stid)
   const [popupInfo, setPopupInfo] = useState<PopupInfo | null>(null)
 
   function onMouseEnter(event: MapMouseEvent) {

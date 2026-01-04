@@ -203,25 +203,24 @@ export const JoinRequests = co
   .record(z.string(), JoinRequestEntity)
   .resolved({ $each: JoinRequestEntity.resolveQuery, $onError: "catch" })
 
-export const SharedTripEntity = co
-  .map({
-    trip: TripEntity,
-    requests: JoinRequests,
-    statuses: RequestStatuses,
-    admins: Group, // write-access to SharedTripEntity
-    members: Group, // write-access to Trip
-    guests: Group, // read-access to less sensitive Trip data
-    workers: Group, // necessary access for server workers
-  })
-  .resolved({
-    trip: TripEntity.resolveQuery,
-    requests: JoinRequests.resolveQuery,
-    statuses: { $onError: "catch" },
-    admins: true,
-    members: true,
-    guests: true,
-    workers: true,
-  })
+export const SharedTripEntity = co.map({
+  trip: TripEntity,
+  requests: JoinRequests,
+  statuses: RequestStatuses,
+  admins: Group, // write-access to SharedTripEntity
+  members: Group, // write-access to Trip
+  guests: Group, // read-access to less sensitive Trip data
+  workers: Group, // necessary access for server workers
+})
+// .resolved({
+//   trip: TripEntity.resolveQuery,
+//   requests: JoinRequests.resolveQuery,
+//   statuses: { $onError: "catch" },
+//   admins: true,
+//   members: true,
+//   guests: true,
+//   workers: true,
+// })
 
 export const AccountRoot = co
   .map({

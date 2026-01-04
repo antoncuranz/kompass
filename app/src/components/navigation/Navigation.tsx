@@ -6,12 +6,12 @@ import { SyncIndicator } from "@/components/navigation/SyncIndicator.tsx"
 import { Button } from "@/components/ui/button.tsx"
 import { cn } from "@/lib/utils"
 import { titleCase } from "@/lib/misc-utils"
-import { useTrip } from "@/repo"
 import { isLoaded } from "@/domain"
 import { useUserRole } from "@/repo/userRepo"
+import { useSingleTripRepo } from "@/repo"
 
 export default function Navigation({ stid }: { stid: string }) {
-  const trip = useTrip(stid)
+  const { trip } = useSingleTripRepo(stid)
   const userRole = useUserRole(stid)
   const pathname = useLocation({
     select: location => location.pathname,

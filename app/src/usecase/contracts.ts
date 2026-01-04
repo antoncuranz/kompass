@@ -15,6 +15,7 @@ import type {
   Train,
   Transportation,
   Trip,
+  TripMeta,
   UpdateAccommodation,
   UpdateActivity,
   UpdateFileAttachment,
@@ -25,11 +26,7 @@ import type {
   User,
 } from "@/domain"
 
-// TODOs:
-// - create wrapping hook that retrieve stid from context (don't specify interface)
-// - we need a getter for a single item by id. Might be useful to return loadingState as well.
-
-export interface UserRepo {
+export interface SingleUserRepo {
   user: Maybe<User>
 }
 
@@ -41,6 +38,11 @@ export interface TripRepo {
   create: (values: CreateTrip) => Promise<Trip>
   update: (stid: string, values: UpdateTrip) => Promise<Trip>
   remove: (stid: string) => Promise<void>
+}
+
+export interface SingleTripRepo {
+  trip: Maybe<Trip>
+  meta: Maybe<TripMeta>
 }
 
 export interface ActivityRepo {
@@ -78,5 +80,9 @@ export interface AttachmentRepo {
   create: (values: CreateFileAttachment) => Promise<FileAttachment>
   update: (id: string, values: UpdateFileAttachment) => Promise<FileAttachment>
   remove: (id: string) => Promise<void>
-  loadAsBlob: (id: string) => Promise<Blob | undefined>
+}
+
+export interface SingleAttachmentRepo {
+  attachment: Maybe<FileAttachment>
+  loadAsBlob: () => Promise<Blob | undefined>
 }

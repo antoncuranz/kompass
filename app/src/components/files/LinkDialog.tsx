@@ -27,33 +27,35 @@ import { getDepartureDateTime, getTransportationShortName } from "@/domain"
 import {
   useAccommodationRepo,
   useActivityRepo,
-  useTransportation,
+  useAttachmentRepo,
+  useTransportationRepo,
 } from "@/repo"
 
 export default function LinkDialog({
-  file,
+  attachment,
   open,
   onOpenChange,
 }: {
-  file: FileAttachment
+  attachment: FileAttachment
   open: boolean
   onOpenChange: (open: boolean) => void
 }) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <LinkDialogContent file={file} />
+      <LinkDialogContent attachment={attachment} />
     </Dialog>
   )
 }
 
-function LinkDialogContent({ file }: { file: FileAttachment }) {
+function LinkDialogContent({ attachment }: { attachment: FileAttachment }) {
   const trip = useTrip()
+  const { update } = useAttachmentRepo(trip.stid)
   const { activities } = useActivityRepo(trip.stid)
   const { accommodation } = useAccommodationRepo(trip.stid)
-  const { transportation } = useTransportation(trip.stid)
+  const { transportation } = useTransportationRepo(trip.stid)
   const { onClose } = useDialogContext()
 
-  const existingRefs = new Set(file.references)
+  const existingRefs = new Set(attachment.references)
 
   const hasActivities = activities.length > 0
   const hasAccommodation = accommodation.length > 0
@@ -65,10 +67,11 @@ function LinkDialogContent({ file }: { file: FileAttachment }) {
       ? "accommodation"
       : "transportation"
 
-  function handleSelect(entityId: string) {
+  async function handleSelect(entityId: string) {
     if (!existingRefs.has(entityId)) {
-      // file.references.$jazz.push(entityId)
-      alert("fixme")
+      await update(attachment.id, {
+        references: [...attachment.references, entityId],
+      })
     }
     onClose()
   }

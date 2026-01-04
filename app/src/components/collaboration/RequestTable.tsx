@@ -58,7 +58,7 @@ function RequestRow({
   const [isProcessing, startTransition] = useTransition()
   const [selectedRole, setSelectedRole] = useState<UserRole>("guest")
 
-  async function processRequest(approve: boolean) {
+  function processRequest(approve: boolean) {
     startTransition(async () => {
       if (approve) {
         await approveJoinRequest(stid, joinRequest.id, selectedRole)

@@ -16,6 +16,7 @@ export async function exportUserData(account: co.loaded<typeof UserAccount>) {
   // const trips = await Promise.all(
   //   Object.values(account.root.trips).map(exportTrip),
   // )
+  await Promise.all([])
 
   return {
     type: "kompass",

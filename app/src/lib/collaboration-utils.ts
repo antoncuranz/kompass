@@ -6,7 +6,7 @@ import {
   UserAccount,
 } from "@/repo/jazzSchema"
 
-export async function sendJoinRequest(stid: string, userId: string) {
+export async function sendJoinRequest(stid: string) {
   const sharedTrip = await SharedTripEntity.load(stid, {
     resolve: { admins: true, requests: true },
   })
@@ -15,12 +15,9 @@ export async function sendJoinRequest(stid: string, userId: string) {
       "Unable to load SharedTripEntity: " + sharedTrip.$jazz.loadingState,
     )
   }
-  const account = await UserAccount.load(userId, {
+  const account = await UserAccount.getMe().$jazz.ensureLoaded({
     resolve: { root: { requests: true } },
   })
-  if (!account.$isLoaded) {
-    throw new Error("Unable to load UserAccount: " + account.$jazz.loadingState)
-  }
 
   const now = new Date().toISOString()
 

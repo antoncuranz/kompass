@@ -15,7 +15,7 @@ import {
 import {
   useAccommodationRepo,
   useActivityRepo,
-  useTransportation,
+  useTransportationRepo,
 } from "@/repo"
 import { useTrip } from "@/components/provider/TripProvider"
 import { getArrivalDateTime, getDepartureDateTime } from "@/domain"
@@ -26,7 +26,7 @@ export const Route = createFileRoute("/$trip/itinerary")({
 
 function ItineraryPage() {
   const trip = useTrip()
-  const { transportation } = useTransportation(trip.stid)
+  const { transportation } = useTransportationRepo(trip.stid)
   const { activities } = useActivityRepo(trip.stid)
   const { accommodation } = useAccommodationRepo(trip.stid)
 

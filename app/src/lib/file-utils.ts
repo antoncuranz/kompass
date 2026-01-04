@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react"
 import { co } from "jazz-tools"
 import type { TripEntity } from "@/repo/jazzSchema"
 import type { Accommodation, Activity, Transportation } from "@/domain"
@@ -6,7 +5,7 @@ import { getDepartureDateTime, getTransportationShortName } from "@/domain"
 import {
   useAccommodationRepo,
   useActivityRepo,
-  useTransportation,
+  useTransportationRepo,
 } from "@/repo"
 import { useTrip } from "@/components/provider/TripProvider"
 
@@ -30,12 +29,12 @@ export type ResolvedReference = {
   transportationType?: string
 }
 
-export async function resolveReference(
+export function resolveReference(
   refId: string,
   activities: Array<Activity>,
   accommodation: Array<Accommodation>,
   transportation: Array<Transportation>,
-): Promise<ResolvedReference | null> {
+): ResolvedReference | null {
   const activity = activities.find(a => a.id === refId)
   if (activity) {
     return {
@@ -76,26 +75,10 @@ export async function resolveReference(
 }
 
 export function useReferencedItem(refId: string): ResolvedReference | null {
-  const [item, setItem] = useState<ResolvedReference | null>(null)
   const trip = useTrip()
   const { activities } = useActivityRepo(trip.stid)
   const { accommodation } = useAccommodationRepo(trip.stid)
-  const { transportation } = useTransportation(trip.stid)
+  const { transportation } = useTransportationRepo(trip.stid)
 
-  useEffect(() => {
-    let cancelled = false
-    void resolveReference(
-      refId,
-      activities,
-      accommodation,
-      transportation,
-    ).then(result => {
-      if (!cancelled) setItem(result)
-    })
-    return () => {
-      cancelled = true
-    }
-  }, [trip, refId])
-
-  return item
+  return resolveReference(refId, activities, accommodation, transportation)
 }

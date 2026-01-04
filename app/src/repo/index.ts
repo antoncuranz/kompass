@@ -1,5 +1,5 @@
+export * from "./attachment"
 export * from "./transportation"
+export * from "./trip"
 export * from "./accommodationRepo"
 export * from "./activityRepo"
-export * from "./attachmentRepo"
-export * from "./tripRepo"

@@ -40,7 +40,7 @@ export default function TripAccessGuard({ stid }: { stid: string }) {
               <Button
                 size="round"
                 className="w-full"
-                onClick={() => sendJoinRequest(stid, user.id)}
+                onClick={() => sendJoinRequest(stid)}
               >
                 Request Access
               </Button>

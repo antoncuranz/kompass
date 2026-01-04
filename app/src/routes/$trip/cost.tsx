@@ -26,7 +26,7 @@ import {
 import {
   useAccommodationRepo,
   useActivityRepo,
-  useTransportation,
+  useTransportationRepo,
 } from "@/repo"
 
 export const Route = createFileRoute("/$trip/cost")({
@@ -45,7 +45,7 @@ function CostPage() {
   const trip = useTrip()
   const { activities } = useActivityRepo(trip.stid)
   const { accommodation } = useAccommodationRepo(trip.stid)
-  const { transportation } = useTransportation(trip.stid)
+  const { transportation } = useTransportationRepo(trip.stid)
 
   const [activityDialog, setActivityDialog] = useState<Activity | undefined>(
     undefined,

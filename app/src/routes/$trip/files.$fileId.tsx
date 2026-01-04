@@ -1,6 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router"
-import { co } from "jazz-tools"
-import { useCoState } from "jazz-tools/react"
 import { HugeiconsIcon } from "@hugeicons/react"
 import {
   Add01Icon,
@@ -21,6 +19,14 @@ import { formatDateShort } from "@/lib/datetime-utils"
 import { useReferencedItem } from "@/lib/file-utils"
 import { downloadBlob } from "@/lib/misc-utils"
 import { getTransportationTypeEmoji } from "@/types"
+import {
+  useAccommodationRepo,
+  useActivityRepo,
+  useAttachmentRepo,
+  useSingleAttachmentRepo,
+  useTransportationRepo,
+} from "@/repo"
+import { isLoaded } from "@/domain"
 
 export const Route = createFileRoute("/$trip/files/$fileId")({
   component: FileDetailPage,
@@ -28,25 +34,29 @@ export const Route = createFileRoute("/$trip/files/$fileId")({
 
 function FileDetailPage() {
   const { fileId } = Route.useParams()
+
   const trip = useTrip()
-  const file = useCoState(FileAttachment, fileId, {
-    resolve: { file: true, references: true },
-  })
+  const { attachment, loadAsBlob } = useSingleAttachmentRepo(fileId)
+  const { update } = useAttachmentRepo(trip.stid)
+  const { activities } = useActivityRepo(trip.stid)
+  const { accommodation } = useAccommodationRepo(trip.stid)
+  const { transportation } = useTransportationRepo(trip.stid)
+
   const [blobUrl, setBlobUrl] = useState<string | null>(null)
   const [showEntitySelector, setShowEntitySelector] = useState(false)
 
   const hasLinkableItems =
-    trip.activities.length > 0 ||
-    trip.accommodation.length > 0 ||
-    trip.transportation.length > 0
+    activities.length > 0 ||
+    accommodation.length > 0 ||
+    transportation.length > 0
 
   useEffect(() => {
     let currentBlobUrl: string | null = null
 
     async function loadFile() {
-      if (!file.$isLoaded) return
+      if (!isLoaded(attachment)) return
       try {
-        const blob = await co.fileStream().loadAsBlob(file.file.$jazz.id)
+        const blob = await loadAsBlob()
         if (blob) {
           currentBlobUrl = URL.createObjectURL(blob)
           setBlobUrl(currentBlobUrl)
@@ -63,15 +73,15 @@ function FileDetailPage() {
         URL.revokeObjectURL(currentBlobUrl)
       }
     }
-  }, [file.$isLoaded, file.$isLoaded ? file.file.$jazz.id : null])
+  }, [attachment])
 
   function handleDownload() {
-    if (blobUrl && file.$isLoaded) {
-      downloadBlob(blobUrl, file.name)
+    if (blobUrl && isLoaded(attachment)) {
+      downloadBlob(blobUrl, attachment.name)
     }
   }
 
-  if (!file.$isLoaded) {
+  if (!isLoaded(attachment)) {
     return (
       <Pane title="Loading..." testId="file-detail-card">
         <div className="text-center text-muted-foreground py-8">
@@ -81,19 +91,21 @@ function FileDetailPage() {
     )
   }
 
-  function handleRemoveLink(refId: string) {
-    if (file.$isLoaded) {
-      file.references.$jazz.remove(ref => ref === refId)
+  async function handleRemoveLink(refId: string) {
+    if (isLoaded(attachment)) {
+      await update(attachment.id, {
+        references: attachment.references.filter(id => id !== refId),
+      })
     }
   }
 
   return (
     <>
-      <Pane title={file.name} testId="file-detail-card">
+      <Pane title={attachment.name} testId="file-detail-card">
         <div className="h-full flex flex-col overflow-hidden">
           <FileViewer
             fileUrl={blobUrl}
-            fileName={file.name}
+            fileName={attachment.name}
             onDownload={handleDownload}
           />
 
@@ -103,8 +115,8 @@ function FileDetailPage() {
                 icon={Link01Icon}
                 className="text-muted-foreground"
               />
-              {file.references.length > 0 ? (
-                file.references.map((refId, idx) => (
+              {attachment.references.length > 0 ? (
+                attachment.references.map((refId, idx) => (
                   <LinkedItemChip
                     key={idx}
                     refId={refId}
@@ -130,7 +142,7 @@ function FileDetailPage() {
       </Pane>
 
       <LinkDialog
-        file={file}
+        attachment={attachment}
         open={showEntitySelector}
         onOpenChange={setShowEntitySelector}
       />

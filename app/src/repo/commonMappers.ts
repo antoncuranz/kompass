@@ -1,6 +1,6 @@
 import type { LocationEntity } from "@/repo/jazzSchema"
 import type { co } from "jazz-tools"
-import type { Location, Trip } from "@/domain"
+import type { Location } from "@/domain"
 // eslint-disable @typescript-eslint/no-misused-spread
 
 export function mapLocation(
@@ -10,10 +10,4 @@ export function mapLocation(
     id: entity.$jazz.id,
     ...entity,
   }
-}
-
-export function removeEntityReferences(trip: Trip, entityId: string): void {
-  // trip.files.forEach(file => {
-  //   file.references.$jazz.remove(ref => ref === entityId)
-  // })
 }

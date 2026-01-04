@@ -3,7 +3,7 @@ import {
   useCoState,
   useIsAuthenticated,
 } from "jazz-tools/react-core"
-import type { UserRepo } from "@/usecase/contracts"
+import type { SingleUserRepo } from "@/usecase/contracts"
 import type { JoinRequest, Maybe, User, UserRole } from "@/domain"
 import type { co } from "jazz-tools"
 import type { JoinRequestEntity } from "@/repo/jazzSchema"
@@ -38,7 +38,7 @@ export function mapUser(entity: co.loaded<typeof UserAccount>): User {
   }
 }
 
-export function useUserRepo(): UserRepo {
+export function useUserRepo(): SingleUserRepo {
   const isAuthenticated = useIsAuthenticated()
   const entity = useAccount(UserAccount)
 
@@ -50,7 +50,10 @@ export function useUserRepo(): UserRepo {
 }
 
 export function mapUserRole(
-  entity: co.loaded<typeof SharedTripEntity>,
+  entity: co.loaded<
+    typeof SharedTripEntity,
+    { admins: true; members: true; guests: true }
+  >,
 ): UserRole | undefined {
   if (entity.admins.myRole() === "admin") return "admin"
   if (entity.members.myRole() === "writer") return "member"
@@ -60,7 +63,9 @@ export function mapUserRole(
 }
 
 export function useUserRole(stid: string): Maybe<UserRole | undefined> {
-  const sharedTrip = useCoState(SharedTripEntity, stid)
+  const sharedTrip = useCoState(SharedTripEntity, stid, {
+    resolve: { admins: true, members: true, guests: true },
+  })
 
   return sharedTrip.$isLoaded
     ? mapUserRole(sharedTrip)

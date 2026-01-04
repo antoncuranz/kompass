@@ -4,8 +4,6 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { Alert02Icon, Notification01Icon } from "@hugeicons/core-free-icons"
-import type { co } from "jazz-tools"
-import type { UserAccount } from "@/repo/jazzSchema"
 import type { Trip } from "@/domain"
 import { Dialog, useDialogContext } from "@/components/dialog/Dialog.tsx"
 import DateInput from "@/components/dialog/input/DateInput.tsx"
@@ -34,31 +32,23 @@ const formSchema = z.object({
 })
 
 export default function TripDialog({
-  account,
   trip,
   open,
   onOpenChange,
 }: {
-  account: co.loaded<typeof UserAccount>
   trip?: Trip
   open: boolean
   onOpenChange: (open: boolean) => void
 }) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <TripDialogContent trip={trip} account={account} />
+      <TripDialogContent trip={trip} />
     </Dialog>
   )
 }
 
-function TripDialogContent({
-  account,
-  trip,
-}: {
-  account: co.loaded<typeof UserAccount>
-  trip?: Trip
-}) {
-  const { create, update } = useTripRepo()
+function TripDialogContent({ trip }: { trip?: Trip }) {
+  const { create, update, remove } = useTripRepo()
   const [edit, setEdit] = useState<boolean>(trip == undefined)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const { onClose } = useDialogContext()
@@ -91,15 +81,15 @@ function TripDialogContent({
   })
   const { isSubmitting } = form.formState
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     if (trip) {
-      update(trip.stid, {
+      await update(trip.stid, {
         ...values,
         startDate: values.dateRange.from,
         endDate: values.dateRange.to,
       })
     } else {
-      create({
+      await create({
         ...values,
         startDate: values.dateRange.from,
         endDate: values.dateRange.to,
@@ -108,14 +98,13 @@ function TripDialogContent({
     onClose()
   }
 
-  function onDeleteButtonClick() {
+  async function onDeleteButtonClick() {
     if (trip === undefined) {
       return
     }
 
     if (showDeleteConfirm) {
-      account.root.trips.$jazz.delete(trip.stid)
-      // TODO: think about revoking access
+      await remove(trip.stid)
       onClose()
     } else {
       setShowDeleteConfirm(true)

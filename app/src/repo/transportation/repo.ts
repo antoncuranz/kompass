@@ -3,26 +3,21 @@ import { useEffect, useState } from "react"
 import { Group } from "jazz-tools"
 import { mapFlight, mapGenericTransportation, mapTrain } from "./mappers"
 import type { TransportationRepo } from "@/usecase/contracts"
-import type { TransportationEntity } from "@/repo/jazzSchema"
-import type {
-  CreateFlight,
-  CreateGenericTransportation,
-  CreateTrain,
-  Transportation,
-  UpdateFlight,
-  UpdateGenericTransportation,
-  UpdateTrain,
-} from "@/domain"
+import type { Transportation } from "@/domain"
 import type { co } from "jazz-tools"
 import {
   FlightEntity,
   GenericTransportationEntity,
   SharedTripEntity,
   TrainEntity,
+  TransportationEntity,
 } from "@/repo/jazzSchema"
 
-export function useTransportation(stid: string): TransportationRepo {
+export function useTransportationRepo(stid: string): TransportationRepo {
   const entities = useCoState(SharedTripEntity, stid, {
+    resolve: {
+      trip: { transportation: { $each: TransportationEntity.resolveQuery } },
+    },
     select: st => (st.$isLoaded ? st.trip.transportation : []),
   })
   const [transportation, setTransportation] = useState<Array<Transportation>>(
@@ -76,8 +71,10 @@ export function useTransportation(stid: string): TransportationRepo {
   return {
     transportation: transportation,
 
-    createFlight: async (values: CreateFlight) => {
-      const sharedTrip = await SharedTripEntity.load(stid)
+    createFlight: async values => {
+      const sharedTrip = await SharedTripEntity.load(stid, {
+        resolve: { members: true, trip: { transportation: true } },
+      })
       if (!sharedTrip.$isLoaded) {
         throw new Error(
           "Unable to load SharedTripEntity: " + sharedTrip.$jazz.loadingState,
@@ -102,7 +99,7 @@ export function useTransportation(stid: string): TransportationRepo {
       return mapFlight(entity)
     },
 
-    updateFlight: async (flightId: string, values: UpdateFlight) => {
+    updateFlight: async (flightId, values) => {
       const entity = await FlightEntity.load(flightId)
       if (!entity.$isLoaded) {
         throw new Error(
@@ -114,8 +111,10 @@ export function useTransportation(stid: string): TransportationRepo {
       return mapFlight(entity)
     },
 
-    createTrain: async (values: CreateTrain) => {
-      const sharedTrip = await SharedTripEntity.load(stid)
+    createTrain: async values => {
+      const sharedTrip = await SharedTripEntity.load(stid, {
+        resolve: { trip: { transportation: true } },
+      })
       if (!sharedTrip.$isLoaded) {
         throw new Error(
           "Unable to load SharedTripEntity: " + sharedTrip.$jazz.loadingState,
@@ -139,7 +138,7 @@ export function useTransportation(stid: string): TransportationRepo {
       return mapTrain(entity)
     },
 
-    updateTrain: async (trainId: string, values: UpdateTrain) => {
+    updateTrain: async (trainId, values) => {
       const entity = await TrainEntity.load(trainId)
       if (!entity.$isLoaded) {
         throw new Error(
@@ -151,8 +150,10 @@ export function useTransportation(stid: string): TransportationRepo {
       return mapTrain(entity)
     },
 
-    createGeneric: async (values: CreateGenericTransportation) => {
-      const sharedTrip = await SharedTripEntity.load(stid)
+    createGeneric: async values => {
+      const sharedTrip = await SharedTripEntity.load(stid, {
+        resolve: { trip: { transportation: true } },
+      })
       if (!sharedTrip.$isLoaded) {
         throw new Error(
           "Unable to load SharedTripEntity: " + sharedTrip.$jazz.loadingState,
@@ -176,10 +177,7 @@ export function useTransportation(stid: string): TransportationRepo {
       return mapGenericTransportation(entity)
     },
 
-    updateGeneric: async (
-      transportationId: string,
-      values: UpdateGenericTransportation,
-    ) => {
+    updateGeneric: async (transportationId, values) => {
       const entity = await GenericTransportationEntity.load(transportationId)
       if (!entity.$isLoaded) {
         throw new Error(
@@ -192,8 +190,10 @@ export function useTransportation(stid: string): TransportationRepo {
       return mapGenericTransportation(entity)
     },
 
-    delete: async (id: string) => {
-      const sharedTrip = await SharedTripEntity.load(stid)
+    remove: async id => {
+      const sharedTrip = await SharedTripEntity.load(stid, {
+        resolve: { trip: { transportation: true } },
+      })
       if (!sharedTrip.$isLoaded) {
         throw new Error(
           "Unable to load SharedTripEntity: " + sharedTrip.$jazz.loadingState,

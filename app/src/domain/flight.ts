@@ -1,6 +1,6 @@
 import * as z from "zod"
-import { Location } from "./"
 import { GeoJSONSchema } from "zod-geojson"
+import { Location } from "./"
 
 const Airport = z.object({
   iata: z.string(),
