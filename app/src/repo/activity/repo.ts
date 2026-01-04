@@ -1,10 +1,8 @@
 import { useCoState } from "jazz-tools/react-core"
 import { Group } from "jazz-tools"
+import { mapActivity } from "./mappers"
 import type { ActivityRepo } from "@/repo/contracts"
-import type { Activity } from "@/domain"
-import type { co } from "jazz-tools"
 import { ActivityEntity, SharedTripEntity } from "@/repo/jazzSchema"
-import { mapLocation } from "@/repo/commonMappers"
 // eslint-disable @typescript-eslint/no-misused-spread
 
 export function useActivityRepo(stid: string): ActivityRepo {
@@ -14,14 +12,6 @@ export function useActivityRepo(stid: string): ActivityRepo {
     },
     select: st => (st.$isLoaded ? st.trip.activities : []),
   })
-
-  function mapActivity(entity: co.loaded<typeof ActivityEntity>): Activity {
-    return {
-      id: entity.$jazz.id,
-      ...entity,
-      location: entity.location && mapLocation(entity.location),
-    }
-  }
 
   return {
     activities: entities.map(mapActivity),

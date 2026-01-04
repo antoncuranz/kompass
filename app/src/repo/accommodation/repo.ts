@@ -1,10 +1,8 @@
 import { useCoState } from "jazz-tools/react-core"
 import { Group } from "jazz-tools"
+import { mapAccommodation } from "./mappers"
 import type { AccommodationRepo } from "@/repo/contracts"
-import type { Accommodation } from "@/domain"
-import type { co } from "jazz-tools"
 import { AccommodationEntity, SharedTripEntity } from "@/repo/jazzSchema"
-import { mapLocation } from "@/repo/commonMappers"
 // eslint-disable @typescript-eslint/no-misused-spread
 
 export function useAccommodationRepo(stid: string): AccommodationRepo {
@@ -14,16 +12,6 @@ export function useAccommodationRepo(stid: string): AccommodationRepo {
     },
     select: st => (st.$isLoaded ? st.trip.accommodation : []),
   })
-
-  function mapAccommodation(
-    entity: co.loaded<typeof AccommodationEntity>,
-  ): Accommodation {
-    return {
-      id: entity.$jazz.id,
-      ...entity,
-      location: entity.location && mapLocation(entity.location),
-    }
-  }
 
   return {
     accommodation: entities.map(mapAccommodation),

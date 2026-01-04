@@ -1,7 +1,7 @@
 import type { Trip, TripMeta, User } from "@/domain"
 import type { Group, co } from "jazz-tools"
 import type { SharedTripEntity } from "@/repo/jazzSchema"
-import { mapUserRole } from "@/repo/userRepo"
+import { mapUserRole } from "@/repo/user/mappers"
 import { UserAccount } from "@/repo/jazzSchema"
 // eslint-disable @typescript-eslint/no-misused-spread
 

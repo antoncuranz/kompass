@@ -34,9 +34,6 @@ export interface SingleUserRepo {
 
 export interface TripRepo {
   trips: Array<Trip>
-  // findById: (stid: string) => Promise<Trip>
-  // getMetadata?
-
   create: (values: CreateTrip) => Promise<Trip>
   update: (stid: string, values: UpdateTrip) => Promise<Trip>
   remove: (stid: string) => Promise<void>
