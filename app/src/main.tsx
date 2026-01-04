@@ -3,7 +3,6 @@ import ReactDOM from "react-dom/client"
 import { RouterProvider, createRouter } from "@tanstack/react-router"
 import { routeTree } from "./routeTree.gen"
 import "./styles.css"
-import reportWebVitals from "./reportWebVitals.ts"
 import { JazzProvider } from "./components/provider/JazzProvider.tsx"
 import { ThemeProvider } from "./components/provider/ThemeProvider.tsx"
 import { PrivacyProvider } from "./components/provider/PrivacyProvider.tsx"
@@ -47,8 +46,3 @@ if (rootElement && !rootElement.innerHTML) {
     </StrictMode>,
   )
 }
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals()
