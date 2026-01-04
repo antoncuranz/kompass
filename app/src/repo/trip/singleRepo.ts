@@ -2,7 +2,7 @@ import { useCoState } from "jazz-tools/react-core"
 import { useEffect, useState } from "react"
 import { mapTrip, mapTripMeta } from "./mappers"
 import type { Maybe, TripMeta } from "@/domain"
-import type { SingleTripRepo } from "@/usecase/contracts"
+import type { SingleTripRepo } from "@/repo/contracts"
 import { SharedTripEntity } from "@/repo/jazzSchema"
 // eslint-disable @typescript-eslint/no-misused-spread
 

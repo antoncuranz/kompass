@@ -1,5 +1,4 @@
 import { useState } from "react"
-import { useTrip } from "../provider/TripProvider"
 import type { DayRenderData } from "@/types.ts"
 import type {
   Accommodation,
@@ -8,6 +7,7 @@ import type {
   GenericTransportation,
   Train,
 } from "@/domain"
+import { useTrip } from "@/components/provider/TripProvider"
 import AccommodationDialog from "@/components/dialog/AccommodationDialog"
 import ActivityDialog from "@/components/dialog/ActivityDialog"
 import FlightDialog from "@/components/dialog/FlightDialog"

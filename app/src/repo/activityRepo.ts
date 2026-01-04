@@ -1,6 +1,6 @@
 import { useCoState } from "jazz-tools/react-core"
 import { Group } from "jazz-tools"
-import type { ActivityRepo } from "@/usecase/contracts"
+import type { ActivityRepo } from "@/repo/contracts"
 import type { Activity } from "@/domain"
 import type { co } from "jazz-tools"
 import { ActivityEntity, SharedTripEntity } from "@/repo/jazzSchema"

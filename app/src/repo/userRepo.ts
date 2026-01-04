@@ -4,7 +4,7 @@ import {
   useIsAuthenticated,
 } from "jazz-tools/react-core"
 import { createImage } from "jazz-tools/media"
-import type { SingleUserRepo } from "@/usecase/contracts"
+import type { SingleUserRepo } from "@/repo/contracts"
 import type { JoinRequest, Maybe, User, UserRole } from "@/domain"
 import type { co } from "jazz-tools"
 import type { JoinRequestEntity } from "@/repo/jazzSchema"

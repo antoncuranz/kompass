@@ -1,7 +1,7 @@
 import { useAccount } from "jazz-tools/react-core"
 import { Group, co } from "jazz-tools"
 import { mapTrip } from "./mappers"
-import type { TripRepo } from "@/usecase/contracts"
+import type { TripRepo } from "@/repo/contracts"
 import type { Trip } from "@/domain"
 import {
   FileAttachmentEntity,

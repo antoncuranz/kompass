@@ -2,11 +2,11 @@ import { memo, useMemo } from "react"
 import { createEditor } from "prosekit/core"
 import { ProseKit } from "@prosekit/react"
 import { DropIndicator } from "@prosekit/react/drop-indicator"
-import { useTrip } from "../provider/TripProvider"
 import { defineExtension } from "./extension"
 import { BlockHandle } from "./BlockHandle"
 import { InlineMenu } from "./InlineMenu"
 import type { CoRichText } from "jazz-tools"
+import { useTrip } from "@/components/provider/TripProvider"
 import { useUserRole } from "@/repo/userRepo"
 
 function NotesEditor({ richText }: { richText: CoRichText }) {

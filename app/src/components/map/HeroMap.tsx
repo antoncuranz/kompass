@@ -1,6 +1,5 @@
 import React, { useState } from "react"
 import { Popup } from "react-map-gl/maplibre"
-import { useTrip } from "../provider/TripProvider"
 import AccommodationLayer from "./layers/AccommodationLayer"
 import ActivityLayer from "./layers/ActivityLayer"
 import TransportationLayer from "./layers/TransportationLayer"
@@ -12,6 +11,7 @@ import type {
   GeoJsonTransportation,
 } from "@/types.ts"
 import type { LngLat } from "maplibre-gl"
+import { useTrip } from "@/components/provider/TripProvider"
 import BaseMap from "@/components/map/BaseMap.tsx"
 import FlightPopup from "@/components/map/popup/FlightPopup.tsx"
 import TrainPopup from "@/components/map/popup/TrainPopup.tsx"

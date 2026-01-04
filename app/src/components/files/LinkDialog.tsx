@@ -6,13 +6,13 @@ import {
   Location01Icon,
   Train01Icon,
 } from "@hugeicons/core-free-icons"
-import { useTrip } from "../provider/TripProvider"
 import type {
   Accommodation,
   Activity,
   FileAttachment,
   Transportation,
 } from "@/domain"
+import { useTrip } from "@/components/provider/TripProvider"
 import { Dialog, useDialogContext } from "@/components/dialog/Dialog.tsx"
 import { Button } from "@/components/ui/button.tsx"
 import {

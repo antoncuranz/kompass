@@ -5,8 +5,8 @@ import { useState } from "react"
 import { useFieldArray, useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
-import { useTrip } from "../provider/TripProvider"
 import type { Train, TrainLeg } from "@/domain"
+import { useTrip } from "@/components/provider/TripProvider"
 import {
   Dialog,
   RowContainer,

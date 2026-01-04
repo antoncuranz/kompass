@@ -1,24 +1,26 @@
-import { useCoState } from "jazz-tools/react-core"
+import { useCoState } from "jazz-tools/react"
 import { useEffect, useState } from "react"
 import { Group } from "jazz-tools"
 import { mapFlight, mapGenericTransportation, mapTrain } from "./mappers"
-import type { TransportationRepo } from "@/usecase/contracts"
+import type { TransportationRepo } from "@/repo/contracts"
 import type { Transportation } from "@/domain"
 import type { co } from "jazz-tools"
+import type { TransportationEntity } from "@/repo/jazzSchema"
 import {
   FlightEntity,
   GenericTransportationEntity,
   SharedTripEntity,
   TrainEntity,
-  TransportationEntity,
 } from "@/repo/jazzSchema"
+
+const EMPTY_ARRAY: Array<co.loaded<typeof TransportationEntity>> = []
 
 export function useTransportationRepo(stid: string): TransportationRepo {
   const entities = useCoState(SharedTripEntity, stid, {
     resolve: {
-      trip: { transportation: { $each: TransportationEntity.resolveQuery } },
+      trip: { transportation: { $each: true } },
     },
-    select: st => (st.$isLoaded ? st.trip.transportation : []),
+    select: st => (st.$isLoaded ? st.trip.transportation : EMPTY_ARRAY),
   })
   const [transportation, setTransportation] = useState<Array<Transportation>>(
     [],

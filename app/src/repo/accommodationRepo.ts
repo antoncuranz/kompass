@@ -1,6 +1,6 @@
 import { useCoState } from "jazz-tools/react-core"
 import { Group } from "jazz-tools"
-import type { AccommodationRepo } from "@/usecase/contracts"
+import type { AccommodationRepo } from "@/repo/contracts"
 import type { Accommodation } from "@/domain"
 import type { co } from "jazz-tools"
 import { AccommodationEntity, SharedTripEntity } from "@/repo/jazzSchema"
