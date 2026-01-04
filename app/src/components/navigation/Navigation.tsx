@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button.tsx"
 import { cn } from "@/lib/utils"
 import { titleCase } from "@/lib/misc-utils"
 import { isLoaded } from "@/domain"
-import { useUserRole } from "@/repo/userRepo"
+import { useUserRole } from "@/repo/user"
 import { useSingleTripRepo } from "@/repo"
 
 export default function Navigation({ stid }: { stid: string }) {

@@ -25,7 +25,7 @@ import { exportUserData } from "@/lib/trip-utils"
 import { useInspector } from "@/components/provider/InspectorProvider"
 import { Switch } from "@/components/ui/switch"
 import { isLoaded } from "@/domain"
-import { useUserRepo } from "@/repo/userRepo"
+import { useUserRepo } from "@/repo/user"
 import { downloadBlob } from "@/lib/misc-utils"
 
 const formSchema = z.object({

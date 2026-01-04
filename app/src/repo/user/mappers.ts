@@ -1,9 +1,7 @@
 import type { co } from "jazz-tools"
-import type {
-  JoinRequestEntity,
-  SharedTripEntity,
-  UserAccount,
-} from "@/repo/jazzSchema"
+import type { JoinRequestEntity } from "@/repo/common/schema"
+import type { SharedTripEntity } from "@/repo/trip/schema"
+import type { UserAccount } from "./schema"
 import type { JoinRequest, User, UserRole } from "@/domain"
 // eslint-disable @typescript-eslint/no-misused-spread
 

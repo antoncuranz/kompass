@@ -7,7 +7,7 @@ import { BlockHandle } from "./BlockHandle"
 import { InlineMenu } from "./InlineMenu"
 import type { CoRichText } from "jazz-tools"
 import { useTrip } from "@/components/provider/TripProvider"
-import { useUserRole } from "@/repo/userRepo"
+import { useUserRole } from "@/repo/user"
 
 function NotesEditor({ richText }: { richText: CoRichText }) {
   const trip = useTrip()

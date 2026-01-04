@@ -1,8 +1,8 @@
 import { useCoState } from "jazz-tools/react-core"
 import { co } from "jazz-tools"
 import { mapAttachment } from "./mappers"
+import { FileAttachmentEntity } from "./schema"
 import type { SingleAttachmentRepo } from "@/repo/contracts"
-import { FileAttachmentEntity } from "@/repo/jazzSchema"
 // eslint-disable @typescript-eslint/no-misused-spread
 
 export function useSingleAttachmentRepo(id: string): SingleAttachmentRepo {

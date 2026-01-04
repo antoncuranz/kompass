@@ -1,7 +1,7 @@
 import { Image } from "jazz-tools/react"
 import { cn } from "@/lib/utils"
 import { isLoaded } from "@/domain"
-import { useUserRepo } from "@/repo/userRepo"
+import { useUserRepo } from "@/repo/user"
 
 export function Avatar({ className }: { className?: string }) {
   const { user } = useUserRepo()

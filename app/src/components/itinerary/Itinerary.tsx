@@ -14,7 +14,7 @@ import FlightDialog from "@/components/dialog/FlightDialog"
 import TrainDialog from "@/components/dialog/TrainDialog"
 import TransportationDialog from "@/components/dialog/TransportationDialog"
 import Day from "@/components/itinerary/Day.tsx"
-import { useUserRole } from "@/repo/userRepo"
+import { useUserRole } from "@/repo/user"
 
 export default function Itinerary({
   dataByDays,

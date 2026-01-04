@@ -1,8 +1,9 @@
 import { useCoState } from "jazz-tools/react-core"
 import { Group } from "jazz-tools"
 import { mapAccommodation } from "./mappers"
+import { AccommodationEntity } from "./schema"
 import type { AccommodationRepo } from "@/repo/contracts"
-import { AccommodationEntity, SharedTripEntity } from "@/repo/jazzSchema"
+import { SharedTripEntity } from "@/repo/trip/schema"
 // eslint-disable @typescript-eslint/no-misused-spread
 
 export function useAccommodationRepo(stid: string): AccommodationRepo {

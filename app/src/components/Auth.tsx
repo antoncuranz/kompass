@@ -18,7 +18,7 @@ import { Input } from "@/components/ui/input.tsx"
 import { Separator } from "@/components/ui/separator.tsx"
 import { Spinner } from "@/components/ui/shadcn-io/spinner"
 import { cn } from "@/lib/utils"
-import { useUserRepo } from "@/repo/userRepo.ts"
+import { useUserRepo } from "@/repo/user"
 import { isLoaded } from "@/domain/trip.ts"
 
 const signupFormSchema = z.object({

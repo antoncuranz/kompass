@@ -1,8 +1,9 @@
 import { useCoState } from "jazz-tools/react-core"
 import { Group } from "jazz-tools"
 import { mapActivity } from "./mappers"
+import { ActivityEntity } from "./schema"
 import type { ActivityRepo } from "@/repo/contracts"
-import { ActivityEntity, SharedTripEntity } from "@/repo/jazzSchema"
+import { SharedTripEntity } from "@/repo/trip/schema"
 // eslint-disable @typescript-eslint/no-misused-spread
 
 export function useActivityRepo(stid: string): ActivityRepo {

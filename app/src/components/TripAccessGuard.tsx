@@ -2,7 +2,7 @@ import { DialogFooter, DialogHeader, DialogTitle } from "./ui/dialog"
 import { Dialog } from "./dialog/Dialog"
 import { sendJoinRequest } from "@/lib/collaboration-utils"
 import { Button } from "@/components/ui/button.tsx"
-import { useUserRepo, useUserRole } from "@/repo/userRepo"
+import { useUserRepo, useUserRole } from "@/repo/user"
 import { isLoaded } from "@/domain"
 
 export default function TripAccessGuard({ stid }: { stid: string }) {

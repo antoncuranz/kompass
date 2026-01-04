@@ -1,8 +1,9 @@
 import { useCoState } from "jazz-tools/react-core"
 import { Group, co } from "jazz-tools"
 import { mapAttachment } from "./mappers"
+import { FileAttachmentEntity } from "./schema"
 import type { AttachmentRepo } from "@/repo/contracts"
-import { FileAttachmentEntity, SharedTripEntity } from "@/repo/jazzSchema"
+import { SharedTripEntity } from "@/repo/trip/schema"
 // eslint-disable @typescript-eslint/no-misused-spread
 
 export function useAttachmentRepo(stid: string): AttachmentRepo {

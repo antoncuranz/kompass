@@ -1,5 +1,5 @@
 import type { co } from "jazz-tools"
-import type { AccommodationEntity } from "@/repo/jazzSchema"
+import type { AccommodationEntity } from "./schema"
 import type { Accommodation } from "@/domain"
 import { mapLocation } from "@/repo/common/mappers"
 // eslint-disable @typescript-eslint/no-misused-spread

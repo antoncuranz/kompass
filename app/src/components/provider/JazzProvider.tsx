@@ -1,5 +1,5 @@
 import { JazzReactProvider } from "jazz-tools/react"
-import { UserAccount } from "@/repo/jazzSchema"
+import { UserAccount } from "@/repo/user/schema"
 import config from "@/config"
 
 export function JazzProvider({ children }: { children: React.ReactNode }) {

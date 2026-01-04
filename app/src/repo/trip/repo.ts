@@ -1,17 +1,17 @@
 import { useAccount } from "jazz-tools/react-core"
 import { Group, co } from "jazz-tools"
 import { mapTrip } from "./mappers"
-import type { TripRepo } from "@/repo/contracts"
-import type { Trip } from "@/domain"
 import {
-  FileAttachmentEntity,
   JoinRequests,
   RequestStatuses,
   SharedTripEntity,
-  TransportationEntity,
   TripEntity,
-  UserAccount,
-} from "@/repo/jazzSchema"
+} from "./schema"
+import type { TripRepo } from "@/repo/contracts"
+import type { Trip } from "@/domain"
+import { TransportationEntity } from "@/repo/transportation/schema"
+import { FileAttachmentEntity } from "@/repo/attachment/schema"
+import { UserAccount } from "@/repo/user/schema"
 import { dateFromString } from "@/lib/datetime-utils"
 // eslint-disable @typescript-eslint/no-misused-spread
 

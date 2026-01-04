@@ -8,7 +8,7 @@ import TripCard from "@/components/card/TripCard"
 import TripDialog from "@/components/dialog/TripDialog"
 import { Carousel } from "@/components/ui/cards-carousel"
 import { useTripRepo } from "@/repo"
-import { useUserRepo } from "@/repo/userRepo"
+import { useUserRepo } from "@/repo/user"
 
 export const Route = createFileRoute("/")({
   component: App,

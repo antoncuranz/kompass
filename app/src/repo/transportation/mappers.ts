@@ -7,7 +7,7 @@ import type {
   TrainEntity,
   TrainLegEntity,
   TrainStationEntity,
-} from "@/repo/jazzSchema"
+} from "./schema"
 import type {
   Airport,
   Flight,
@@ -19,7 +19,7 @@ import type {
   TrainStation,
 } from "@/domain"
 import type { co } from "jazz-tools"
-import { mapLocation } from "@/repo/commonMappers"
+import { mapLocation } from "@/repo/common/mappers"
 // eslint-disable @typescript-eslint/no-misused-spread
 
 function mapAirport(entity: co.loaded<typeof AirportEntity>): Airport {

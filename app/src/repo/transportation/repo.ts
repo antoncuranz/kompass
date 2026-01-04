@@ -2,16 +2,16 @@ import { useCoState } from "jazz-tools/react"
 import { useEffect, useState } from "react"
 import { Group } from "jazz-tools"
 import { mapFlight, mapGenericTransportation, mapTrain } from "./mappers"
-import type { TransportationRepo } from "@/repo/contracts"
-import type { Transportation } from "@/domain"
-import type { co } from "jazz-tools"
-import type { TransportationEntity } from "@/repo/jazzSchema"
 import {
   FlightEntity,
   GenericTransportationEntity,
-  SharedTripEntity,
   TrainEntity,
-} from "@/repo/jazzSchema"
+} from "./schema"
+import type { TransportationRepo } from "@/repo/contracts"
+import type { Transportation } from "@/domain"
+import type { co } from "jazz-tools"
+import type { TransportationEntity } from "./schema"
+import { SharedTripEntity } from "@/repo/trip/schema"
 
 const EMPTY_ARRAY: Array<co.loaded<typeof TransportationEntity>> = []
 

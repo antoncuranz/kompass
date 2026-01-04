@@ -2,9 +2,9 @@ import { useEffect, useState } from "react"
 import { co, generateAuthToken } from "jazz-tools"
 import { toast } from "sonner"
 import { useCoState } from "jazz-tools/react"
-import { SharedTripEntity } from "@/repo/jazzSchema"
+import { SharedTripEntity } from "@/repo/trip/schema"
 import config from "@/config"
-import { useUserRole } from "@/repo/userRepo"
+import { useUserRole } from "@/repo/user"
 
 type BlockedReason =
   | "Loading..."

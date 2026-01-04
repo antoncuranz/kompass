@@ -1,5 +1,5 @@
 import type { co } from "jazz-tools"
-import type { FileAttachmentEntity } from "@/repo/jazzSchema"
+import type { FileAttachmentEntity } from "./schema"
 import type { FileAttachment } from "@/domain"
 // eslint-disable @typescript-eslint/no-misused-spread
 

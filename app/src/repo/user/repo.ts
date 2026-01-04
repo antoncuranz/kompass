@@ -5,9 +5,10 @@ import {
 } from "jazz-tools/react-core"
 import { createImage } from "jazz-tools/media"
 import { mapUser, mapUserRole } from "./mappers"
+import { UserAccount } from "./schema"
 import type { SingleUserRepo } from "@/repo/contracts"
 import type { Maybe, UserRole } from "@/domain"
-import { SharedTripEntity, UserAccount } from "@/repo/jazzSchema"
+import { SharedTripEntity } from "@/repo/trip/schema"
 // eslint-disable @typescript-eslint/no-misused-spread
 
 export function useUserRepo(): SingleUserRepo {

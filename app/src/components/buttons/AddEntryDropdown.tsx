@@ -12,7 +12,7 @@ import {
   DropdownMenuPositioner,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu.tsx"
-import { useUserRole } from "@/repo/userRepo"
+import { useUserRole } from "@/repo/user"
 
 export default function AddEntryDropdown({
   trigger,
