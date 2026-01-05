@@ -2,7 +2,7 @@ import { HugeiconsIcon } from "@hugeicons/react"
 import { Cancel01Icon, Tick02Icon } from "@hugeicons/core-free-icons"
 import { useState, useTransition } from "react"
 import { toast } from "sonner"
-import type { JoinRequest, UserRole } from "@/domain"
+import type { GrantedRole, JoinRequest } from "@/domain"
 import { Button } from "@/components/ui/button.tsx"
 import {
   Select,
@@ -18,7 +18,7 @@ import {
 } from "@/lib/collaboration-utils"
 import { formatDateShort } from "@/lib/datetime-utils"
 import { Avatar } from "@/components/Avatar"
-import { UserRoleValues } from "@/domain"
+import { GrantedRoleValues } from "@/domain"
 import { titleCase } from "@/lib/misc-utils"
 
 export default function RequestTable({
@@ -56,7 +56,7 @@ function RequestRow({
   stid: string
 }) {
   const [isProcessing, startTransition] = useTransition()
-  const [selectedRole, setSelectedRole] = useState<UserRole>("guest")
+  const [selectedRole, setSelectedRole] = useState<GrantedRole>("guest")
 
   function processRequest(approve: boolean) {
     startTransition(async () => {
@@ -88,15 +88,17 @@ function RequestRow({
         <div className="flex justify-end items-center gap-2">
           <Select
             value={selectedRole}
-            onValueChange={v => setSelectedRole(v as UserRole)}
+            onValueChange={v => setSelectedRole(v as GrantedRole)}
           >
             <SelectTrigger className="w-32">
               {titleCase(selectedRole)}
             </SelectTrigger>
             <SelectPositioner>
               <SelectContent>
-                {UserRoleValues.map(role => (
-                  <SelectItem value={role}>{titleCase(role)}</SelectItem>
+                {GrantedRoleValues.map(role => (
+                  <SelectItem key={role} value={role}>
+                    {titleCase(role)}
+                  </SelectItem>
                 ))}
               </SelectContent>
             </SelectPositioner>

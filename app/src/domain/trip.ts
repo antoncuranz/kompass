@@ -22,14 +22,13 @@ const JoinRequest = z.object({
 })
 export type JoinRequest = z.infer<typeof JoinRequest>
 
-export const UserRoleValues = [
-  "admin",
-  "member",
-  "guest",
-  "unauthorized",
-] as const
-const UserRole = z.enum(UserRoleValues)
+export const GrantedRoleValues = ["admin", "member", "guest"] as const
+
+const UserRole = z.enum([...GrantedRoleValues, "unauthorized"])
 export type UserRole = z.infer<typeof UserRole>
+
+const GrantedRole = z.enum(GrantedRoleValues)
+export type GrantedRole = z.infer<typeof GrantedRole>
 
 export const UserRoleHelpers = {
   canRead: (role: UserRole | undefined): role is UserRole =>

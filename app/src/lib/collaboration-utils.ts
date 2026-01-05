@@ -1,5 +1,5 @@
 import { Group } from "jazz-tools"
-import type { UserRole } from "@/domain"
+import type { GrantedRole } from "@/domain"
 import { JoinRequestEntity } from "@/repo/common/schema"
 import { SharedTripEntity } from "@/repo/trip/schema"
 import { UserAccount } from "@/repo/user/schema"
@@ -38,7 +38,7 @@ export async function sendJoinRequest(stid: string) {
 export async function approveJoinRequest(
   stid: string,
   joinRequestId: string,
-  role: UserRole,
+  role: GrantedRole,
 ) {
   const sharedTrip = await SharedTripEntity.load(stid, {
     resolve: {
