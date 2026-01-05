@@ -27,10 +27,12 @@ export function useTransportationMutations(
       const group = Group.create()
       group.addMember(transportation.$jazz.owner)
 
+      const { pnrs, ...rest } = values
       const entity = FlightEntity.create(
         {
           type: "flight",
-          ...values,
+          ...rest,
+          pnrs: pnrs ?? [],
         },
         group,
       )
@@ -41,14 +43,21 @@ export function useTransportationMutations(
     },
 
     updateFlight: async (flightId, values) => {
-      const entity = await FlightEntity.load(flightId)
+      const entity = await FlightEntity.load(flightId, {
+        resolve: { pnrs: true },
+      })
       if (!entity.$isLoaded) {
         throw new Error(
           "Unable to load FlightEntity: " + entity.$jazz.loadingState,
         )
       }
 
-      entity.$jazz.applyDiff(values)
+      const { pnrs, ...rest } = values
+      entity.$jazz.applyDiff(rest)
+      if (pnrs) {
+        entity.pnrs.$jazz.applyDiff(pnrs)
+      }
+
       return mapFlight(entity)
     },
 

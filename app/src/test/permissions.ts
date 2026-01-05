@@ -56,8 +56,7 @@ function checkAccess(account: Account, entity: CoValue, expected: Access) {
       expect(canWrite, `Expected no write for ${entityId}`).toBe(false)
       break
     case "w":
-      // users can read their own submissions
-      // expect(canRead, `Expected no read for ${entityId}`).toBe(false)
+      // expect(canRead, `Expected no read for ${entityId}`).toBe(false) // users can read their own submissions
       expect(canWrite, `Expected write for ${entityId}`).toBe(true)
       break
     case "-":
@@ -140,6 +139,7 @@ async function buildAccessMatrix(sharedTrip: LoadedSharedTrip) {
   checks.set(sharedTrip.statuses, adminOnly)
 
   // Activities (same as Trip)
+  checks.set(sharedTrip.trip.activities, tripAccess)
   sharedTrip.trip.activities.forEach(activity => {
     checks.set(activity, tripAccess)
     if (activity.location) {
@@ -148,6 +148,7 @@ async function buildAccessMatrix(sharedTrip: LoadedSharedTrip) {
   })
 
   // Accommodation (same as Trip)
+  checks.set(sharedTrip.trip.accommodation, tripAccess)
   sharedTrip.trip.accommodation.forEach(acc => {
     checks.set(acc, tripAccess)
     if (acc.location) {
@@ -156,6 +157,7 @@ async function buildAccessMatrix(sharedTrip: LoadedSharedTrip) {
   })
 
   // Transportation (Worker has access)
+  checks.set(sharedTrip.trip.transportation, transportAccess)
   await Promise.all(
     sharedTrip.trip.transportation.map(async trans => {
       checks.set(trans, transportAccess)
@@ -165,6 +167,7 @@ async function buildAccessMatrix(sharedTrip: LoadedSharedTrip) {
           const flight = await trans.$jazz.ensureLoaded({
             resolve: flightResolveQuery,
           })
+          checks.set(flight.legs, transportAccess)
           flight.legs.forEach(leg => {
             checks.set(leg, transportAccess)
             checks.set(leg.origin, transportAccess)
@@ -173,6 +176,7 @@ async function buildAccessMatrix(sharedTrip: LoadedSharedTrip) {
             checks.set(leg.destination.location, transportAccess)
           })
           // PNRs are member-only (no guest, no worker per docs)
+          checks.set(flight.pnrs, memberOnly)
           flight.pnrs.forEach(pnr => {
             checks.set(pnr, memberOnly)
           })
@@ -182,6 +186,7 @@ async function buildAccessMatrix(sharedTrip: LoadedSharedTrip) {
           const train = await trans.$jazz.ensureLoaded({
             resolve: TrainEntity.resolveQuery,
           })
+          checks.set(train.legs, transportAccess)
           train.legs.forEach(leg => {
             checks.set(leg, transportAccess)
             checks.set(leg.origin, transportAccess)
@@ -204,6 +209,7 @@ async function buildAccessMatrix(sharedTrip: LoadedSharedTrip) {
   )
 
   // Files (Member-only, no guest)
+  checks.set(sharedTrip.trip.files, memberOnly)
   sharedTrip.trip.files.forEach(file => {
     checks.set(file, memberOnly)
   })
