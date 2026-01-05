@@ -11,6 +11,7 @@ import {
 } from "@hugeicons/core-free-icons"
 import { useEffect, useState } from "react"
 import type { ResolvedReference } from "@/lib/files"
+import type { TransportationType } from "@/domain/transportation"
 import Pane from "@/components/Pane.tsx"
 import LinkDialog from "@/components/files/LinkDialog"
 import FileViewer from "@/components/files/FileViewer"
@@ -188,7 +189,7 @@ export function TransportationIcon({
   className = "w-3.5 h-3.5 text-muted-foreground",
 }: {
   type: ResolvedReference["type"]
-  transportationType?: string
+  transportationType?: TransportationType
   className?: string
 }) {
   switch (type) {

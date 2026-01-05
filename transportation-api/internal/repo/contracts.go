@@ -22,7 +22,7 @@ type (
 
 	OpenRouteServiceWebAPI interface {
 		LookupLocation(ctx context.Context, query string) (entity.GeocodeLocation, error)
-		LookupDirections(ctx context.Context, start entity.Location, end entity.Location, transportatinoType entity.TransportationType) (*geojson.FeatureCollection, error)
+		LookupDirections(ctx context.Context, start entity.Location, end entity.Location, transportationType entity.TransportationType) (*geojson.FeatureCollection, error)
 	}
 
 	IataLookup interface {

@@ -95,7 +95,7 @@ function TransportationDialogContent({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: transportation?.name ?? "",
-      genericType: transportation?.genericType ?? "bus",
+      genericType: transportation?.genericType,
       price: transportation?.price ?? undefined,
       departureDateTime: transportation?.departureDateTime
         ? dateFromString(transportation.departureDateTime)
@@ -120,7 +120,7 @@ function TransportationDialogContent({
       if (feature.geometry.type === "Point") {
         feature.properties = {
           ...feature.properties,
-          type: values.genericType.toUpperCase(),
+          type: values.genericType,
           name: values.name,
           departureDateTime: values.departureDateTime,
           arrivalDateTime: values.arrivalDateTime,
@@ -136,7 +136,7 @@ function TransportationDialogContent({
       body: JSON.stringify({
         start: values.origin,
         end: values.destination,
-        transportationType: values.genericType.toUpperCase(),
+        transportationType: values.genericType,
       }),
     })
 
@@ -219,7 +219,8 @@ function TransportationDialogContent({
                   className="w-full"
                 >
                   <SelectValue placeholder="Select type">
-                    {`${getTransportationTypeEmoji(field.value)} ${titleCase(field.value)}`}
+                    {(field.value as TransportationType | undefined) &&
+                      `${getTransportationTypeEmoji(field.value)} ${titleCase(field.value)}`}
                   </SelectValue>
                 </SelectTrigger>
                 <SelectPositioner>

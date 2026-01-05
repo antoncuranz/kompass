@@ -11,7 +11,7 @@ export const TransportationTypeValues = [
   "car",
   "hike",
   "other",
-]
+] as const
 
 export const TransportationType = z.enum(TransportationTypeValues)
 export type TransportationType = z.infer<typeof TransportationType>
@@ -113,7 +113,7 @@ export function getTransportationShortName(
   }
 }
 
-export function getTransportationTypeEmoji(type: string): string {
+export function getTransportationTypeEmoji(type: TransportationType): string {
   switch (type) {
     case "flight":
       return "✈️"

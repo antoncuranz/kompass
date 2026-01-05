@@ -1,4 +1,9 @@
-import type { Accommodation, Activity, Transportation } from "@/domain"
+import type {
+  Accommodation,
+  Activity,
+  Transportation,
+  TransportationType,
+} from "@/domain"
 import { getDepartureDateTime, getTransportationShortName } from "@/domain"
 import { useTripEntities } from "@/hooks/useTripEntities"
 import { useTrip } from "@/components/provider/TripProvider"
@@ -19,7 +24,7 @@ export type ResolvedReference = {
   type: EntityType
   name: string
   date: string
-  transportationType?: string
+  transportationType?: TransportationType
 }
 
 export function resolveReference(
