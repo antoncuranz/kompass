@@ -51,7 +51,6 @@ export type TripMeta = z.infer<typeof TripMeta>
 
 export const Trip = z.object({
   stid: z.string(),
-  tid: z.string(),
   name: z.string(),
   startDate: z.iso.date(),
   endDate: z.iso.date(),

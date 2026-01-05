@@ -55,6 +55,9 @@ export function useTripMutations(): TripMutations {
       const filesGroup = Group.create()
       filesGroup.addMember(members)
 
+      const statusesGroup = Group.create()
+      statusesGroup.addMember(admins)
+
       const trip = TripEntity.create(
         {
           ...values,
@@ -77,7 +80,7 @@ export function useTripMutations(): TripMutations {
           guests,
           workers,
           requests: JoinRequests.create({}, requestsGroup),
-          statuses: RequestStatuses.create({}, admins),
+          statuses: RequestStatuses.create({}, statusesGroup),
         },
         sharedTripGroup,
       )

@@ -11,7 +11,7 @@ graph TD
     classDef scopeRestricted fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px,color:black
     classDef scopePublic fill:#fff8e1,stroke:#fbc02d,stroke-width:2px,color:black
     classDef scopeAdmin fill:#ffebee,stroke:#c62828,stroke-width:2px,color:black
-    
+
     %% Define style for White Subgraph Background
     classDef whiteBox fill:#ffffff,stroke:#333,stroke-width:1px
 
@@ -24,7 +24,7 @@ graph TD
         L4["Members and Workers"]:::scopeTrans
         L5["Members Only"]:::scopeRestricted
         L6["Admins Only"]:::scopeAdmin
-        
+
         %% Force vertical stack
         L1 ~~~ L2 ~~~ L3 ~~~ L4 ~~~ L5 ~~~ L6
     end
@@ -32,7 +32,7 @@ graph TD
     %% --- Nodes & Styles ---
     subgraph Structure
         direction TB
-        
+
         STE[SharedTripEntity]:::scopeShared
 
         TE[TripEntity]:::scopeTrip
@@ -40,7 +40,7 @@ graph TD
         Accs[Accommodation List]:::scopeTrip
         ActE[ActivityEntity]:::scopeTrip
         AccE[AccommodationEntity]:::scopeTrip
-        
+
         TE --> Acts
         TE --> Accs
         Acts --> ActE
@@ -48,7 +48,7 @@ graph TD
 
         TL[Transportation List]:::scopeTrans
         TransE[TransportationEntity]:::scopeTrans
-        
+
         TL --> TransE
 
         PNR[PNR List]:::scopeRestricted
@@ -56,7 +56,7 @@ graph TD
 
         FL[Files List]:::scopeRestricted
         FileE[FileAttachmentEntity]:::scopeRestricted
-        
+
         FL --> FileE
 
         JR[JoinRequests]:::scopePublic
@@ -69,7 +69,7 @@ graph TD
         STE --> TE
         STE --> JR
         STE --> RS
-        
+
         %% Cross-Scope Links
         TE --> TL
         TE --> FL
@@ -87,15 +87,15 @@ Use the following access matrix to verify permission logic in unit tests.
 
 ### Resolved Access Matrix
 
-| Scope / Entity | Public | Guest | Member | Admin | Worker |
-| :--- | :---: | :---: | :---: | :---: | :---: |
-| **SharedTrip** | Read | Read | Read | Read/Write | Read |
-| **Trip (General)** | - | Read/Write | Read/Write | Read/Write | - |
-| **Transportation** | - | Read/Write | Read/Write | Read/Write | Read/Write |
-| **PNRs (Flights)** | - | - | Read/Write | Read/Write | - |
-| **Files** | - | - | Read/Write | Read/Write | - |
-| **JoinRequests** | Create | Create | Create | Read/Write | Create |
-| **RequestStatuses**| - | - | - | Read/Write | - |
+| Scope / Entity      | Public | Guest  |   Member   |   Admin    |   Worker   |
+| :------------------ | :----: | :----: | :--------: | :--------: | :--------: |
+| **SharedTrip**      |  Read  |  Read  |    Read    | Read/Write |    Read    |
+| **Trip (General)**  |   -    |  Read  | Read/Write | Read/Write |     -      |
+| **Transportation**  |   -    |  Read  | Read/Write | Read/Write | Read/Write |
+| **PNRs (Flights)**  |   -    |   -    | Read/Write | Read/Write |     -      |
+| **Files**           |   -    |   -    | Read/Write | Read/Write |     -      |
+| **JoinRequests**    | Create | Create |   Create   | Read/Write |   Create   |
+| **RequestStatuses** |   -    |   -    |     -      | Read/Write |     -      |
 
 ### Key Testing Invariants
 
@@ -106,3 +106,4 @@ When writing schema tests, verify these invariants:
 3.  **Worker Restrictions**: `Worker` users must **not** be able to read `TripEntity` or `PnrEntity`. They strictly access `TransportationEntity`.
 4.  **Admin Supremacy**: `Admin` users must have `Read/Write` access to **all** entities.
 5.  **Public Isolation**: Unauthenticated/Public users can **only** read the `SharedTripEntity` (root) and create `JoinRequestEntity` items. They must not see any internal Trip data.
+6.  **Dedicated Groups**: Groups are **never** reused. Every Entity has an own group, which is extended with other groups as necessary.

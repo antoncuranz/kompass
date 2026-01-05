@@ -11,7 +11,6 @@ export function mapTrip(
 ): Trip {
   return {
     stid: entity.$jazz.id,
-    tid: entity.trip.$jazz.id,
     ...entity.trip,
   }
 }
