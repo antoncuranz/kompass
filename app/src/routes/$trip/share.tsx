@@ -15,7 +15,7 @@ function SharePage() {
   const { meta: tripMeta } = useSingleTripRepo(trip.stid)
   if (!tripMeta.$isLoaded) return null
 
-  const pendingRequests = Object.values(tripMeta.joinRequests).filter(
+  const pendingRequests = Array.from(tripMeta.joinRequests.values()).filter(
     req => req.status === "pending",
   )
 

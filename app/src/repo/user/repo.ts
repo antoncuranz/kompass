@@ -1,12 +1,13 @@
 import { useAccount, useCoState } from "jazz-tools/react-core"
 import { createImage } from "jazz-tools/media"
 import { JoinRequestEntity } from "../common/schema"
-import { mapJoinRequests, mapUser, mapUserRole } from "./mappers"
+import { mapUser, mapUserRole } from "./mappers"
 import { UserAccount } from "./schema"
 import type { SingleUserRepo } from "@/repo/contracts"
 import type { UserRole } from "@/domain"
 import { Maybe } from "@/domain"
 import { SharedTripEntity } from "@/repo/trip/schema"
+import { mapJoinRequests } from "@/repo/common/mappers"
 // eslint-disable @typescript-eslint/no-misused-spread
 
 export function useUserRepo(userId?: string): SingleUserRepo {

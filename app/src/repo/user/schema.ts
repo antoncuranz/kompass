@@ -1,6 +1,6 @@
 import { Group, co, z } from "jazz-tools"
-import { JoinRequests, SharedTripEntity } from "@/repo/trip/schema"
 import { AccountProfile } from "../common/schema"
+import { JoinRequests, SharedTripEntity } from "@/repo/trip/schema"
 
 const AccountRoot = co.map({
   trips: co.record(z.string(), SharedTripEntity),

@@ -1,3 +1,4 @@
+import { mapJoinRequests } from "../common/mappers"
 import type { Trip, TripMeta, User } from "@/domain"
 import type { Group, co } from "jazz-tools"
 import type { SharedTripEntity } from "./schema"
@@ -45,7 +46,13 @@ export async function mapGroup(
 export async function mapTripMeta(
   entity: co.loaded<
     typeof SharedTripEntity,
-    { admins: true; members: true; guests: true; workers: true }
+    {
+      admins: true
+      members: true
+      guests: true
+      workers: true
+      requests: { $each: { account: { profile: true } } }
+    }
   >,
 ): Promise<TripMeta> {
   return {
@@ -55,6 +62,6 @@ export async function mapTripMeta(
     members: await mapGroup(entity.members),
     guests: await mapGroup(entity.guests),
     workers: await mapGroup(entity.workers),
-    joinRequests: [],
+    joinRequests: mapJoinRequests(entity.requests),
   }
 }

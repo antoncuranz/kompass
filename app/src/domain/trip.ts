@@ -46,7 +46,7 @@ const TripMeta = z.object({
   members: z.array(User),
   guests: z.array(User),
   workers: z.array(User),
-  joinRequests: z.array(JoinRequest),
+  joinRequests: z.map(z.string(), JoinRequest),
 })
 export type TripMeta = z.infer<typeof TripMeta>
 

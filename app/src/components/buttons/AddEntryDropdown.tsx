@@ -34,7 +34,7 @@ export default function AddEntryDropdown({
     useState(false)
 
   return (
-    UserRoleHelpers.canRead(role) && (
+    UserRoleHelpers.canWrite(role) && (
       <div>
         <DropdownMenu>
           <DropdownMenuTrigger render={trigger} />

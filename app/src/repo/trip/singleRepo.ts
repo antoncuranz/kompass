@@ -1,5 +1,6 @@
 import { useCoState } from "jazz-tools/react-core"
 import { useEffect, useState } from "react"
+import { JoinRequestEntity } from "../common/schema"
 import { mapTrip, mapTripMeta } from "./mappers"
 import { SharedTripEntity } from "./schema"
 import type { TripMeta } from "@/domain"
@@ -14,6 +15,7 @@ export function useSingleTripRepo(stid: string | undefined): SingleTripRepo {
       members: true,
       guests: true,
       workers: true,
+      requests: { $each: JoinRequestEntity.resolveQuery },
     },
   })
   const tripEntity = useCoState(SharedTripEntity, stid, {
