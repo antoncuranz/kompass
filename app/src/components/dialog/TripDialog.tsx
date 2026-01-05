@@ -20,8 +20,8 @@ import { Spinner } from "@/components/ui/shadcn-io/spinner"
 import { Switch } from "@/components/ui/switch.tsx"
 import { Textarea } from "@/components/ui/textarea.tsx"
 import { usePushNotifications } from "@/hooks/usePushNotificationStatus"
-import { dateFromString } from "@/lib/datetime-utils"
-import { dateRange, optionalString } from "@/lib/formschema-utils"
+import { dateFromString } from "@/lib/datetime"
+import { dateRange, optionalString } from "@/lib/formschema"
 import { useTripMutations } from "@/repo"
 
 const formSchema = z.object({

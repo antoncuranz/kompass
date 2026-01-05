@@ -1,5 +1,5 @@
-import type { GeoJsonFlight, GeoJsonFlightLeg } from "@/types.ts"
-import { formatTimePadded } from "@/lib/datetime-utils"
+import type { GeoJsonFlight, GeoJsonFlightLeg } from "@/components/map/types"
+import { formatTimePadded } from "@/lib/formatting"
 
 export default function FlightPopup({
   properties,

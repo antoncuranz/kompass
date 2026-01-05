@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Avatar } from "@/components/Avatar"
 import { cn } from "@/lib/utils"
-import { titleCase } from "@/lib/misc-utils"
+import { titleCase } from "@/lib/formatting"
 
 const themeIcons = {
   light: SunIcon,

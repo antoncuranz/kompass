@@ -1,5 +1,5 @@
 import { useState } from "react"
-import type { Coordinates } from "@/types.ts"
+import type { Coordinates } from "@/domain/location"
 import { Dialog, useDialogContext } from "@/components/dialog/Dialog.tsx"
 import MiniMap from "@/components/map/MiniMap.tsx"
 import { Button } from "@/components/ui/button.tsx"

@@ -1,7 +1,6 @@
 import { Layer, Source } from "react-map-gl/maplibre"
 import type { FeatureCollection } from "geojson"
-import type { Transportation } from "@/domain"
-import { TransportationType } from "@/types"
+import type { Transportation, TransportationType } from "@/domain"
 import { useTransportationSubscription } from "@/repo"
 import { useTrip } from "@/components/provider/TripProvider"
 
@@ -11,19 +10,19 @@ export default function TransportationLayer() {
 
   function getTransportationType(t: Transportation): TransportationType {
     if (t.type === "generic") {
-      return t.genericType.toUpperCase() as TransportationType
+      return t.genericType
     }
-    return t.type.toUpperCase() as TransportationType
+    return t.type
   }
 
   function getColorByType(t: Transportation): string {
     switch (getTransportationType(t)) {
-      case TransportationType.Flight:
+      case "flight":
         return "#007cbf"
-      case TransportationType.Train:
+      case "train":
         return "#ec0016"
-      case TransportationType.Ferry:
-      case TransportationType.Boat:
+      case "ferry":
+      case "boat":
         return "#01428c"
       default:
         return "purple"
@@ -32,15 +31,15 @@ export default function TransportationLayer() {
 
   function typeRank(type: TransportationType): number {
     switch (type) {
-      case TransportationType.Flight:
+      case "flight":
         return 4
-      case TransportationType.Train:
+      case "train":
         return 3
-      case TransportationType.Ferry:
-      case TransportationType.Boat:
+      case "ferry":
+      case "boat":
         return 2
-      case TransportationType.Bus:
-      case TransportationType.Car:
+      case "bus":
+      case "car":
         return 1
       default:
         return 0

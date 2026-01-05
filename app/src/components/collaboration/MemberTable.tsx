@@ -1,4 +1,4 @@
-import { titleCase } from "@/lib/misc-utils"
+import { titleCase } from "@/lib/formatting"
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table"
 import { Avatar } from "@/components/Avatar"
 

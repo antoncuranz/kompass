@@ -24,8 +24,8 @@ import {
 import { Form, FormField } from "@/components/ui/form"
 import { Input } from "@/components/ui/input.tsx"
 import { Spinner } from "@/components/ui/shadcn-io/spinner"
-import { dateFromString } from "@/lib/datetime-utils"
-import { isoDate, trainStation } from "@/lib/formschema-utils"
+import { dateFromString } from "@/lib/datetime"
+import { isoDate, trainStation } from "@/lib/formschema"
 import { useTransportationMutations } from "@/repo"
 
 const formSchema = z.object({

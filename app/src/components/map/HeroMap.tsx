@@ -9,7 +9,7 @@ import type {
   GeoJsonFlight,
   GeoJsonTrain,
   GeoJsonTransportation,
-} from "@/types.ts"
+} from "@/components/map/types"
 import type { LngLat } from "maplibre-gl"
 import { useTrip } from "@/components/provider/TripProvider"
 import BaseMap from "@/components/map/BaseMap.tsx"

@@ -16,7 +16,7 @@ import TransportationDialog from "@/components/dialog/TransportationDialog.tsx"
 import Pane from "@/components/Pane.tsx"
 import { useTrip } from "@/components/provider/TripProvider"
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table"
-import { formatAmount } from "@/lib/misc-utils"
+import { formatAmount } from "@/lib/formatting"
 import CostTable from "@/components/cost/CostTable.tsx"
 import {
   calculateTotals,

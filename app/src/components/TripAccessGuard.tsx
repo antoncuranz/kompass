@@ -1,6 +1,6 @@
 import { DialogFooter, DialogHeader, DialogTitle } from "./ui/dialog"
 import { Dialog } from "./dialog/Dialog"
-import { sendJoinRequest } from "@/lib/collaboration-utils"
+import { sendJoinRequest } from "@/lib/collaboration"
 import { Button } from "@/components/ui/button.tsx"
 import { useJoinRequests, useUserRole } from "@/repo/user"
 

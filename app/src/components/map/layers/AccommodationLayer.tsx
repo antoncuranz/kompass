@@ -1,7 +1,7 @@
 import { Layer, Source } from "react-map-gl/maplibre"
 import type { Feature, FeatureCollection } from "geojson"
 import type { Accommodation } from "@/domain"
-import { formatDateShort } from "@/lib/datetime-utils"
+import { formatDateShort } from "@/lib/formatting"
 import { useTrip } from "@/components/provider/TripProvider"
 import { useAccommodationSubscription } from "@/repo"
 

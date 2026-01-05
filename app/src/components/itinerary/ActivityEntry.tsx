@@ -3,7 +3,7 @@ import { ArrowRight01Icon } from "@hugeicons/core-free-icons"
 import { useMap } from "react-map-gl/maplibre"
 import type { MouseEvent, MouseEventHandler } from "react"
 import type { Activity } from "@/domain"
-import { formatTime } from "@/lib/datetime-utils"
+import { formatTime } from "@/lib/formatting"
 
 export default function ActivityEntry({
   activity,

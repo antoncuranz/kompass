@@ -4,6 +4,11 @@ import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
 import type { GenericTransportation } from "@/domain"
+import {
+  TransportationType,
+  TransportationTypeValues,
+  getTransportationTypeEmoji,
+} from "@/domain/transportation"
 import { useTrip } from "@/components/provider/TripProvider"
 import {
   Dialog,
@@ -32,15 +37,14 @@ import {
 } from "@/components/ui/select"
 import { Separator } from "@/components/ui/separator.tsx"
 import { Spinner } from "@/components/ui/shadcn-io/spinner"
-import { dateFromString, dateToString } from "@/lib/datetime-utils"
-import { titleCase } from "@/lib/misc-utils"
-import { isoDateTime, location, optionalString } from "@/lib/formschema-utils"
-import { TransportationType, getTransportationTypeEmoji } from "@/types.ts"
+import { dateFromString, dateToString } from "@/lib/datetime"
+import { titleCase } from "@/lib/formatting"
+import { isoDateTime, location, optionalString } from "@/lib/formschema"
 import { useTransportationMutations } from "@/repo"
 
 const formSchema = z.object({
   name: z.string().nonempty("Required"),
-  genericType: z.string().nonempty("Required"),
+  genericType: TransportationType,
   price: z.number().optional(),
   departureDateTime: isoDateTime("Required"),
   arrivalDateTime: isoDateTime("Required"),
@@ -71,6 +75,7 @@ function TransportationDialogContent({
 }: {
   transportation?: GenericTransportation
 }) {
+  console.log("anton", transportation, JSON.stringify(transportation))
   const trip = useTrip()
   const {
     createGeneric: createGenericTransportation,
@@ -90,7 +95,7 @@ function TransportationDialogContent({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: transportation?.name ?? "",
-      genericType: transportation?.genericType ?? "",
+      genericType: transportation?.genericType ?? "bus",
       price: transportation?.price ?? undefined,
       departureDateTime: transportation?.departureDateTime
         ? dateFromString(transportation.departureDateTime)
@@ -214,22 +219,12 @@ function TransportationDialogContent({
                   className="w-full"
                 >
                   <SelectValue placeholder="Select type">
-                    {field.value
-                      ? `${getTransportationTypeEmoji(field.value)} ${titleCase(field.value)}`
-                      : undefined}
+                    {`${getTransportationTypeEmoji(field.value)} ${titleCase(field.value)}`}
                   </SelectValue>
                 </SelectTrigger>
                 <SelectPositioner>
                   <SelectContent>
-                    {[
-                      TransportationType.Bus,
-                      TransportationType.Ferry,
-                      TransportationType.Boat,
-                      TransportationType.Bike,
-                      TransportationType.Car,
-                      TransportationType.Hike,
-                      TransportationType.Other,
-                    ].map(type => (
+                    {TransportationTypeValues.map(type => (
                       <SelectItem key={type} value={type}>
                         {getTransportationTypeEmoji(type)} {titleCase(type)}
                       </SelectItem>
@@ -288,8 +283,7 @@ function TransportationDialogContent({
           render={({ field }) => (
             <DateTimeInput
               startDate={
-                // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-                form.getValues("departureDateTime")
+                (form.getValues("departureDateTime") as Date | undefined)
                   ? dateToString(form.getValues("departureDateTime"))
                   : trip.startDate
               }

@@ -3,7 +3,7 @@ import { mapTrip } from "./mappers"
 import type { TripSubscription } from "@/repo/contracts"
 import type { Trip } from "@/domain"
 import { UserAccount } from "@/repo/user/schema"
-import { dateFromString } from "@/lib/datetime-utils"
+import { dateFromString } from "@/lib/datetime"
 
 export function useTripSubscription(): TripSubscription {
   const entities = useAccount(UserAccount, {

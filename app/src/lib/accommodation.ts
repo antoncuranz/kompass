@@ -1,12 +1,7 @@
 import type { DateRange } from "react-day-picker"
 import type { Trip } from "@/domain"
 import { getArrivalDateTime, getDepartureDateTime } from "@/domain"
-import {
-  addDays,
-  dateFromString,
-  isSameDayDate,
-  subDays,
-} from "@/lib/datetime-utils"
+import { addDays, dateFromString, isSameDayDate, subDays } from "@/lib/datetime"
 import {
   useAccommodationSubscription,
   useTransportationSubscription,

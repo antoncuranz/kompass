@@ -1,9 +1,14 @@
 import * as z from "zod"
 
-export const Location = z.object({
-  id: z.string(),
+const Coordinates = z.object({
   latitude: z.number(),
   longitude: z.number(),
+})
+export type Coordinates = z.infer<typeof Coordinates>
+
+export const Location = z.object({
+  id: z.string(),
+  ...Coordinates.shape,
 })
 export type Location = z.infer<typeof Location>
 

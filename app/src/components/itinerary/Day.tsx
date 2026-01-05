@@ -6,7 +6,7 @@ import type {
   Train,
   Transportation,
 } from "@/domain"
-import type { DayRenderData } from "@/types"
+import type { DayRenderData } from "@/components/itinerary/types"
 import ActivityEntry from "@/components/itinerary/ActivityEntry.tsx"
 import DayLabel from "@/components/itinerary/DayLabel.tsx"
 import DaySeparator from "@/components/itinerary/DaySeparator.tsx"
@@ -14,7 +14,8 @@ import FlightEntry from "@/components/itinerary/FlightEntry.tsx"
 import TrainEntry from "@/components/itinerary/TrainEntry.tsx"
 import TransportationEntry from "@/components/itinerary/TransportationEntry.tsx"
 import { Separator } from "@/components/ui/separator.tsx"
-import { formatDuration, getDaysBetween, isSameDay } from "@/lib/datetime-utils"
+import { getDaysBetween, isSameDay } from "@/lib/datetime"
+import { formatDuration } from "@/lib/formatting"
 
 export default function Day({
   dayData,

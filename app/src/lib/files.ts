@@ -3,6 +3,15 @@ import { getDepartureDateTime, getTransportationShortName } from "@/domain"
 import { useTripEntities } from "@/hooks/useTripEntities"
 import { useTrip } from "@/components/provider/TripProvider"
 
+export function downloadBlob(blobUrl: string, fileName: string) {
+  const a = document.createElement("a")
+  a.href = blobUrl
+  a.download = fileName
+  document.body.appendChild(a)
+  a.click()
+  document.body.removeChild(a)
+}
+
 export type EntityType = "activity" | "accommodation" | "transportation"
 
 export type ResolvedReference = {

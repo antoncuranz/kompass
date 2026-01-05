@@ -1,5 +1,5 @@
 import { useState } from "react"
-import type { AmbiguousFlightChoice } from "@/types.ts"
+import type { AmbiguousFlightChoice } from "@/components/dialog/types"
 import { Button } from "@/components/ui/button.tsx"
 import {
   DialogDescription,
@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dialog.tsx"
 import { Field, FieldLabel } from "@/components/ui/field.tsx"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group.tsx"
-import { formatDateShort, formatTimePadded } from "@/lib/datetime-utils"
+import { formatDateShort, formatTimePadded } from "@/lib/formatting"
 import { Dialog } from "@/components/dialog/Dialog"
 
 export default function AmbiguousFlightDialog({

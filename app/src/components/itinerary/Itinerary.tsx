@@ -1,5 +1,5 @@
 import { useState } from "react"
-import type { DayRenderData } from "@/types.ts"
+import type { DayRenderData } from "@/components/itinerary/types"
 import type {
   Accommodation,
   Activity,

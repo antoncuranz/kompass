@@ -21,8 +21,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog.tsx"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { formatDateShort } from "@/lib/datetime-utils"
-import { getTransportationTypeEmoji } from "@/types"
+import { formatDateShort } from "@/lib/formatting"
+import { getTransportationTypeEmoji } from "@/domain/transportation"
 import { getDepartureDateTime, getTransportationShortName } from "@/domain"
 import { useAttachmentMutations } from "@/repo"
 import { useTripEntities } from "@/hooks/useTripEntities"

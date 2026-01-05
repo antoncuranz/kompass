@@ -1,7 +1,7 @@
 import { Layer, Source } from "react-map-gl/maplibre"
 import type { Feature, FeatureCollection } from "geojson"
 import type { Activity } from "@/domain"
-import { formatDateShort, formatTime } from "@/lib/datetime-utils"
+import { formatDateShort, formatTime } from "@/lib/formatting"
 import { useTrip } from "@/components/provider/TripProvider"
 import { useActivitySubscription } from "@/repo"
 

@@ -1,4 +1,4 @@
-import { formatDateLong } from "@/lib/datetime-utils"
+import { formatDateLong } from "@/lib/formatting"
 
 export default function DayLabel({
   date,

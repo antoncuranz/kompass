@@ -1,5 +1,6 @@
 import type { Accommodation, Activity, Transportation } from "@/domain"
-import { dateFromString, formatDateShort } from "@/lib/datetime-utils"
+import { dateFromString } from "@/lib/datetime"
+import { formatDateShort } from "@/lib/formatting"
 import { getDepartureDateTime, getTransportationName } from "@/domain"
 
 type ActivityWithPrice = {

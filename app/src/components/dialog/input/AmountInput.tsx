@@ -4,7 +4,7 @@ import type { FocusEvent } from "react"
 import type { ControllerRenderProps, FieldValues } from "react-hook-form"
 import { Input } from "@/components/ui/input.tsx"
 import { cn } from "@/lib/utils"
-import { formatAmount } from "@/lib/misc-utils"
+import { formatAmount } from "@/lib/formatting"
 
 export default function AmountInput({
   id,

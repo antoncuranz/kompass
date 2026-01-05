@@ -12,14 +12,10 @@ import {
   SelectTrigger,
 } from "@/components/ui/select.tsx"
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table"
-import {
-  approveJoinRequest,
-  rejectJoinRequest,
-} from "@/lib/collaboration-utils"
-import { formatDateShort } from "@/lib/datetime-utils"
+import { approveJoinRequest, rejectJoinRequest } from "@/lib/collaboration"
+import { formatDateShort, titleCase } from "@/lib/formatting"
 import { Avatar } from "@/components/Avatar"
 import { GrantedRoleValues } from "@/domain"
-import { titleCase } from "@/lib/misc-utils"
 
 export default function RequestTable({
   title,

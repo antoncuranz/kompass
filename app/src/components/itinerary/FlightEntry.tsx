@@ -16,7 +16,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible"
-import { formatDurationMinutes, formatTime } from "@/lib/datetime-utils"
+import { formatDurationMinutes, formatTime } from "@/lib/formatting"
 import { cn } from "@/lib/utils"
 
 export default function FlightEntry({

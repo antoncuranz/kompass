@@ -1,11 +1,26 @@
 import * as z from "zod"
 import { CreateLocation, Flight, Location, Train } from "./"
 
+export const TransportationTypeValues = [
+  "flight",
+  "train",
+  "bus",
+  "ferry",
+  "boat",
+  "bike",
+  "car",
+  "hike",
+  "other",
+]
+
+export const TransportationType = z.enum(TransportationTypeValues)
+export type TransportationType = z.infer<typeof TransportationType>
+
 const GenericTransportation = z.object({
   id: z.string(),
   type: z.literal("generic"),
   name: z.string(),
-  genericType: z.string(),
+  genericType: TransportationType,
   departureDateTime: z.iso.datetime(),
   arrivalDateTime: z.iso.datetime(),
   origin: Location,
@@ -95,5 +110,29 @@ export function getTransportationShortName(
     }
     case "generic":
       return transportation.name
+  }
+}
+
+export function getTransportationTypeEmoji(type: string): string {
+  switch (type) {
+    case "flight":
+      return "✈️"
+    case "train":
+      return "🚇"
+    case "bus":
+      return "🚌"
+    case "car":
+      return "🚗"
+    case "ferry":
+      return "⛴️"
+    case "boat":
+      return "⛵️"
+    case "bike":
+      return "🚲"
+    case "hike":
+      return "🥾"
+    case "other":
+    default:
+      return "🛸"
   }
 }

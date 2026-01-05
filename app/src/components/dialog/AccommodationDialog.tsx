@@ -4,14 +4,10 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import type { Accommodation } from "@/domain"
 import { useTrip } from "@/components/provider/TripProvider"
-import { dateFromString } from "@/lib/datetime-utils"
-import {
-  dateRange,
-  optionalLocation,
-  optionalString,
-} from "@/lib/formschema-utils"
+import { dateFromString } from "@/lib/datetime"
+import { dateRange, optionalLocation, optionalString } from "@/lib/formschema"
 
-import { calculateDisabledDateRanges } from "@/lib/accommodation-utils.ts"
+import { calculateDisabledDateRanges } from "@/lib/accommodation"
 import { Dialog, useDialogContext } from "@/components/dialog/Dialog.tsx"
 import AddressInput from "@/components/dialog/input/AddressInput.tsx"
 import AmountInput from "@/components/dialog/input/AmountInput.tsx"

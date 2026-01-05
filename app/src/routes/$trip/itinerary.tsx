@@ -1,17 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { Add01Icon, FilterMailIcon } from "@hugeicons/core-free-icons"
-import type { DayRenderData } from "@/types.ts"
+import type { DayRenderData } from "@/components/itinerary/types"
 import AddEntryDropdown from "@/components/buttons/AddEntryDropdown.tsx"
 import { Button } from "@/components/ui/button.tsx"
 import Pane from "@/components/Pane.tsx"
 import Itinerary from "@/components/itinerary/Itinerary.tsx"
-import {
-  dayIsBetween,
-  formatDateMedium,
-  getDaysBetween,
-  isSameDay,
-} from "@/lib/datetime-utils"
+import { dayIsBetween, getDaysBetween, isSameDay } from "@/lib/datetime"
+import { formatDateMedium } from "@/lib/formatting"
 import { useTripEntities } from "@/hooks/useTripEntities"
 import { useTrip } from "@/components/provider/TripProvider"
 import { getArrivalDateTime, getDepartureDateTime } from "@/domain"
