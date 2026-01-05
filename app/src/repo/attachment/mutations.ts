@@ -1,22 +1,11 @@
-import { useCoState } from "jazz-tools/react-core"
 import { Group, co } from "jazz-tools"
 import { mapAttachment } from "./mappers"
 import { FileAttachmentEntity } from "./schema"
-import type { AttachmentRepo } from "@/repo/contracts"
+import type { AttachmentMutations } from "@/repo/contracts"
 import { SharedTripEntity } from "@/repo/trip/schema"
-// eslint-disable @typescript-eslint/no-misused-spread
 
-export function useAttachmentRepo(stid: string): AttachmentRepo {
-  const entities = useCoState(SharedTripEntity, stid, {
-    resolve: {
-      trip: { files: { $each: FileAttachmentEntity.resolveQuery } },
-    },
-    select: st => (st.$isLoaded ? st.trip.files : []),
-  })
-
+export function useAttachmentMutations(stid: string): AttachmentMutations {
   return {
-    attachments: entities.map(mapAttachment),
-
     create: async values => {
       const sharedTrip = await SharedTripEntity.load(stid, {
         resolve: { trip: { files: true } },

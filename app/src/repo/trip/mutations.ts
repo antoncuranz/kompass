@@ -1,4 +1,3 @@
-import { useAccount } from "jazz-tools/react-core"
 import { Group, co } from "jazz-tools"
 import { mapTrip } from "./mappers"
 import {
@@ -7,13 +6,10 @@ import {
   SharedTripEntity,
   TripEntity,
 } from "./schema"
-import type { TripRepo } from "@/repo/contracts"
-import type { Trip } from "@/domain"
+import type { TripMutations } from "@/repo/contracts"
 import { TransportationEntity } from "@/repo/transportation/schema"
 import { FileAttachmentEntity } from "@/repo/attachment/schema"
 import { UserAccount } from "@/repo/user/schema"
-import { dateFromString } from "@/lib/datetime-utils"
-// eslint-disable @typescript-eslint/no-misused-spread
 
 function createUserGroups() {
   const admins = Group.create()
@@ -30,25 +26,8 @@ function createUserGroups() {
   return { admins, members, guests, workers }
 }
 
-export function useTripRepo(): TripRepo {
-  const entities = useAccount(UserAccount, {
-    resolve: { root: { trips: { $each: { trip: { notes: true } } } } },
-    select: account =>
-      account.$isLoaded ? Object.values(account.root.trips) : [],
-  })
-
-  function sorted(trips: Array<Trip>) {
-    return trips.sort((a: Trip, b: Trip) => {
-      return (
-        dateFromString(b.startDate).getTime() -
-        dateFromString(a.startDate).getTime()
-      )
-    })
-  }
-
+export function useTripMutations(): TripMutations {
   return {
-    trips: sorted(entities.map(mapTrip)),
-
     create: async values => {
       const account = await UserAccount.getMe().$jazz.ensureLoaded({
         resolve: { root: { trips: true } },

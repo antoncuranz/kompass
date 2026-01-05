@@ -1,16 +1,11 @@
 import { useAccount, useCoState } from "jazz-tools/react-core"
 import { createImage } from "jazz-tools/media"
-import { JoinRequestEntity } from "../common/schema"
-import { mapUser, mapUserRole } from "./mappers"
+import { mapUser } from "./mappers"
 import { UserAccount } from "./schema"
-import type { SingleUserRepo } from "@/repo/contracts"
-import type { UserRole } from "@/domain"
+import type { UserQuery } from "@/repo/contracts"
 import { Maybe } from "@/domain"
-import { SharedTripEntity } from "@/repo/trip/schema"
-import { mapJoinRequests } from "@/repo/common/mappers"
-// eslint-disable @typescript-eslint/no-misused-spread
 
-export function useUserRepo(userId?: string): SingleUserRepo {
+export function useUserQuery(userId?: string): UserQuery {
   const entity = userId
     ? useCoState(UserAccount, userId)
     : useAccount(UserAccount)
@@ -43,22 +38,4 @@ export function useUserRepo(userId?: string): SingleUserRepo {
       }
     },
   }
-}
-
-export function useJoinRequests() {
-  const entity = useAccount(UserAccount, {
-    resolve: { root: { requests: { $each: JoinRequestEntity.resolveQuery } } },
-  })
-
-  return entity.$isLoaded
-    ? Maybe.of(mapJoinRequests(entity.root.requests))
-    : Maybe.notLoaded(entity.$jazz.loadingState)
-}
-
-export function useUserRole(stid: string): UserRole | undefined {
-  const sharedTrip = useCoState(SharedTripEntity, stid, {
-    resolve: { admins: true, members: true, guests: true },
-  })
-
-  return sharedTrip.$isLoaded ? mapUserRole(sharedTrip) : undefined
 }

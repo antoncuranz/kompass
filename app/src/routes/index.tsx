@@ -6,16 +6,16 @@ import NewTripCard from "@/components/card/NewTripCard"
 import TripCard from "@/components/card/TripCard"
 import TripDialog from "@/components/dialog/TripDialog"
 import { Carousel } from "@/components/ui/cards-carousel"
-import { useTripRepo } from "@/repo"
-import { useUserRepo } from "@/repo/user"
+import { useTripSubscription } from "@/repo"
+import { useUserQuery } from "@/repo/user"
 
 export const Route = createFileRoute("/")({
   component: App,
 })
 
 function App() {
-  const { user } = useUserRepo()
-  const { trips } = useTripRepo()
+  const { user } = useUserQuery()
+  const { trips } = useTripSubscription()
   const [tripDialogOpen, setTripDialogOpen] = useState(false)
   const [selectedTrip, setSelectedTrip] = useState<Trip | undefined>(undefined)
 

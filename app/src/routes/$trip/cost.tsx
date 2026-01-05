@@ -23,11 +23,7 @@ import {
   createCostItems,
   sortCostItems,
 } from "@/components/cost/CostTypes.tsx"
-import {
-  useAccommodationRepo,
-  useActivityRepo,
-  useTransportationRepo,
-} from "@/repo"
+import { useTripEntities } from "@/hooks/useTripEntities"
 
 export const Route = createFileRoute("/$trip/cost")({
   component: CostPage,
@@ -43,9 +39,9 @@ function EmptyState({ message = "No cost items yet" }: EmptyStateProps) {
 
 function CostPage() {
   const trip = useTrip()
-  const { activities } = useActivityRepo(trip.stid)
-  const { accommodation } = useAccommodationRepo(trip.stid)
-  const { transportation } = useTransportationRepo(trip.stid)
+  const { activities, accommodation, transportation } = useTripEntities(
+    trip.stid,
+  )
 
   const [activityDialog, setActivityDialog] = useState<Activity | undefined>(
     undefined,

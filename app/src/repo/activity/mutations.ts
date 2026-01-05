@@ -1,22 +1,11 @@
-import { useCoState } from "jazz-tools/react-core"
 import { Group } from "jazz-tools"
 import { mapActivity } from "./mappers"
 import { ActivityEntity } from "./schema"
-import type { ActivityRepo } from "@/repo/contracts"
+import type { ActivityMutations } from "@/repo/contracts"
 import { SharedTripEntity } from "@/repo/trip/schema"
-// eslint-disable @typescript-eslint/no-misused-spread
 
-export function useActivityRepo(stid: string): ActivityRepo {
-  const entities = useCoState(SharedTripEntity, stid, {
-    resolve: {
-      trip: { activities: { $each: ActivityEntity.resolveQuery } },
-    },
-    select: st => (st.$isLoaded ? st.trip.activities : []),
-  })
-
+export function useActivityMutations(stid: string): ActivityMutations {
   return {
-    activities: entities.map(mapActivity),
-
     create: async values => {
       const sharedTrip = await SharedTripEntity.load(stid, {
         resolve: { trip: { activities: true } },

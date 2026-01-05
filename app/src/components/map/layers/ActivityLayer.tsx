@@ -3,11 +3,11 @@ import type { Feature, FeatureCollection } from "geojson"
 import type { Activity } from "@/domain"
 import { formatDateShort, formatTime } from "@/lib/datetime-utils"
 import { useTrip } from "@/components/provider/TripProvider"
-import { useActivityRepo } from "@/repo"
+import { useActivitySubscription } from "@/repo"
 
 export default function ActivityLayer() {
   const trip = useTrip()
-  const { activities } = useActivityRepo(trip.stid)
+  const { activities } = useActivitySubscription(trip.stid)
 
   function getActivityGeoJson(): FeatureCollection {
     const features = activities

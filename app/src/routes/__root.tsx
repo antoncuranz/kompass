@@ -5,11 +5,11 @@ import { Toaster } from "@/components/ui/sonner"
 import { Auth } from "@/components/Auth"
 import { useRequestListener } from "@/hooks/useRequestListener"
 import { useInspector } from "@/components/provider/InspectorProvider"
-import { useSingleTripRepo } from "@/repo"
+import { useTripQuery } from "@/repo"
 
 function DynamicTitle() {
   const tripId = useParams({ strict: false }).trip
-  const trip = useSingleTripRepo(tripId).trip
+  const trip = useTripQuery(tripId).trip
 
   useEffect(() => {
     if (!trip.$isLoaded) {

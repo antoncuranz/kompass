@@ -1,22 +1,13 @@
-import { useCoState } from "jazz-tools/react-core"
 import { Group } from "jazz-tools"
 import { mapAccommodation } from "./mappers"
 import { AccommodationEntity } from "./schema"
-import type { AccommodationRepo } from "@/repo/contracts"
+import type { AccommodationMutations } from "@/repo/contracts"
 import { SharedTripEntity } from "@/repo/trip/schema"
-// eslint-disable @typescript-eslint/no-misused-spread
 
-export function useAccommodationRepo(stid: string): AccommodationRepo {
-  const entities = useCoState(SharedTripEntity, stid, {
-    resolve: {
-      trip: { accommodation: { $each: AccommodationEntity.resolveQuery } },
-    },
-    select: st => (st.$isLoaded ? st.trip.accommodation : []),
-  })
-
+export function useAccommodationMutations(
+  stid: string,
+): AccommodationMutations {
   return {
-    accommodation: entities.map(mapAccommodation),
-
     create: async values => {
       const sharedTrip = await SharedTripEntity.load(stid, {
         resolve: { trip: { accommodation: true } },

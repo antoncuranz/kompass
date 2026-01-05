@@ -19,13 +19,8 @@ import { formatDateShort } from "@/lib/datetime-utils"
 import { useReferencedItem } from "@/lib/file-utils"
 import { downloadBlob } from "@/lib/misc-utils"
 import { getTransportationTypeEmoji } from "@/types"
-import {
-  useAccommodationRepo,
-  useActivityRepo,
-  useAttachmentRepo,
-  useSingleAttachmentRepo,
-  useTransportationRepo,
-} from "@/repo"
+import { useAttachmentMutations, useAttachmentQuery } from "@/repo"
+import { useTripEntities } from "@/hooks/useTripEntities"
 
 export const Route = createFileRoute("/$trip/files/$fileId")({
   component: FileDetailPage,
@@ -35,11 +30,11 @@ function FileDetailPage() {
   const { fileId } = Route.useParams()
 
   const trip = useTrip()
-  const { attachment, loadAsBlob } = useSingleAttachmentRepo(fileId)
-  const { update } = useAttachmentRepo(trip.stid)
-  const { activities } = useActivityRepo(trip.stid)
-  const { accommodation } = useAccommodationRepo(trip.stid)
-  const { transportation } = useTransportationRepo(trip.stid)
+  const { attachment, loadAsBlob } = useAttachmentQuery(fileId)
+  const { update } = useAttachmentMutations(trip.stid)
+  const { activities, accommodation, transportation } = useTripEntities(
+    trip.stid,
+  )
 
   const [blobUrl, setBlobUrl] = useState<string | null>(null)
   const [showEntitySelector, setShowEntitySelector] = useState(false)

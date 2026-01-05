@@ -1,6 +1,6 @@
 import { Image } from "jazz-tools/react"
 import { cn } from "@/lib/utils"
-import { useUserRepo } from "@/repo/user"
+import { useUserQuery } from "@/repo/user"
 
 export function Avatar({
   userId,
@@ -9,7 +9,7 @@ export function Avatar({
   userId?: string
   className?: string
 }) {
-  const { user } = useUserRepo(userId)
+  const { user } = useUserQuery(userId)
 
   if (!user.$isLoaded) return null
 

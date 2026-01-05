@@ -2,12 +2,12 @@ import { Layer, Source } from "react-map-gl/maplibre"
 import type { FeatureCollection } from "geojson"
 import type { Transportation } from "@/domain"
 import { TransportationType } from "@/types"
-import { useTransportationRepo } from "@/repo"
+import { useTransportationSubscription } from "@/repo"
 import { useTrip } from "@/components/provider/TripProvider"
 
 export default function TransportationLayer() {
   const trip = useTrip()
-  const { transportation } = useTransportationRepo(trip.stid)
+  const { transportation } = useTransportationSubscription(trip.stid)
 
   function getTransportationType(t: Transportation): TransportationType {
     if (t.type === "generic") {

@@ -24,12 +24,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { formatDateShort } from "@/lib/datetime-utils"
 import { getTransportationTypeEmoji } from "@/types"
 import { getDepartureDateTime, getTransportationShortName } from "@/domain"
-import {
-  useAccommodationRepo,
-  useActivityRepo,
-  useAttachmentRepo,
-  useTransportationRepo,
-} from "@/repo"
+import { useAttachmentMutations } from "@/repo"
+import { useTripEntities } from "@/hooks/useTripEntities"
 
 export default function LinkDialog({
   attachment,
@@ -49,10 +45,10 @@ export default function LinkDialog({
 
 function LinkDialogContent({ attachment }: { attachment: FileAttachment }) {
   const trip = useTrip()
-  const { update } = useAttachmentRepo(trip.stid)
-  const { activities } = useActivityRepo(trip.stid)
-  const { accommodation } = useAccommodationRepo(trip.stid)
-  const { transportation } = useTransportationRepo(trip.stid)
+  const { update } = useAttachmentMutations(trip.stid)
+  const { activities, accommodation, transportation } = useTripEntities(
+    trip.stid,
+  )
   const { onClose } = useDialogContext()
 
   const existingRefs = new Set(attachment.references)

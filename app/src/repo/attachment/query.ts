@@ -2,11 +2,10 @@ import { useCoState } from "jazz-tools/react-core"
 import { co } from "jazz-tools"
 import { mapAttachment } from "./mappers"
 import { FileAttachmentEntity } from "./schema"
-import type { SingleAttachmentRepo } from "@/repo/contracts"
+import type { AttachmentQuery } from "@/repo/contracts"
 import { Maybe } from "@/domain"
-// eslint-disable @typescript-eslint/no-misused-spread
 
-export function useSingleAttachmentRepo(id: string): SingleAttachmentRepo {
+export function useAttachmentQuery(id: string): AttachmentQuery {
   const entity = useCoState(FileAttachmentEntity, id)
 
   return {

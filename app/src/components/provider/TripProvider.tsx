@@ -1,7 +1,7 @@
 import { createContext, useContext } from "react"
 import type { ReactNode } from "react"
 import type { Trip, UnavailableReason } from "@/domain"
-import { useSingleTripRepo } from "@/repo"
+import { useTripQuery } from "@/repo"
 
 const TripContext = createContext<Trip | null>(null)
 
@@ -14,7 +14,7 @@ export function TripProvider({
   fallback: (props: { reason: UnavailableReason }) => ReactNode
   children: ReactNode
 }) {
-  const { trip } = useSingleTripRepo(stid)
+  const { trip } = useTripQuery(stid)
 
   return !trip.$isLoaded ? (
     fallback({ reason: trip.$loadingState })

@@ -1,5 +1,3 @@
-import { useCoState } from "jazz-tools/react"
-import { useEffect, useState } from "react"
 import { Group } from "jazz-tools"
 import { mapFlight, mapGenericTransportation, mapTrain } from "./mappers"
 import {
@@ -7,72 +5,13 @@ import {
   GenericTransportationEntity,
   TrainEntity,
 } from "./schema"
-import type { TransportationRepo } from "@/repo/contracts"
-import type { Transportation } from "@/domain"
-import type { co } from "jazz-tools"
-import type { TransportationEntity } from "./schema"
+import type { TransportationMutations } from "@/repo/contracts"
 import { SharedTripEntity } from "@/repo/trip/schema"
 
-const EMPTY_ARRAY: Array<co.loaded<typeof TransportationEntity>> = []
-
-export function useTransportationRepo(stid: string): TransportationRepo {
-  const entities = useCoState(SharedTripEntity, stid, {
-    resolve: {
-      trip: { transportation: { $each: true } },
-    },
-    select: st => (st.$isLoaded ? st.trip.transportation : EMPTY_ARRAY),
-  })
-  const [transportation, setTransportation] = useState<Array<Transportation>>(
-    [],
-  )
-
-  async function loadAndMapTransportation(
-    transportation: co.loaded<typeof TransportationEntity>,
-  ): Promise<Transportation> {
-    switch (transportation.type) {
-      case "flight":
-        return mapFlight(
-          await transportation.$jazz.ensureLoaded({
-            resolve: FlightEntity.resolveQuery,
-          }),
-        )
-
-      case "train":
-        return mapTrain(
-          await transportation.$jazz.ensureLoaded({
-            resolve: TrainEntity.resolveQuery,
-          }),
-        )
-
-      case "generic":
-        return mapGenericTransportation(
-          await transportation.$jazz.ensureLoaded({
-            resolve: GenericTransportationEntity.resolveQuery,
-          }),
-        )
-    }
-  }
-
-  useEffect(() => {
-    let cancelled = false
-
-    async function loadAll() {
-      const result = await Promise.all(entities.map(loadAndMapTransportation))
-      if (!cancelled) {
-        setTransportation(result)
-      }
-    }
-
-    void loadAll()
-
-    return () => {
-      cancelled = true
-    }
-  }, [entities])
-
+export function useTransportationMutations(
+  stid: string,
+): TransportationMutations {
   return {
-    transportation: transportation,
-
     createFlight: async values => {
       const sharedTrip = await SharedTripEntity.load(stid, {
         resolve: { members: true, trip: { transportation: true } },

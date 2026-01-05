@@ -3,11 +3,11 @@ import type { Feature, FeatureCollection } from "geojson"
 import type { Accommodation } from "@/domain"
 import { formatDateShort } from "@/lib/datetime-utils"
 import { useTrip } from "@/components/provider/TripProvider"
-import { useAccommodationRepo } from "@/repo"
+import { useAccommodationSubscription } from "@/repo"
 
 export default function AccommodationLayer() {
   const trip = useTrip()
-  const { accommodation } = useAccommodationRepo(trip.stid)
+  const { accommodation } = useAccommodationSubscription(trip.stid)
 
   function getAccommodationGeoJson(): FeatureCollection {
     const features = accommodation

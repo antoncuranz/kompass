@@ -24,7 +24,7 @@ import { Spinner } from "@/components/ui/shadcn-io/spinner"
 import { exportUserData } from "@/lib/trip-utils"
 import { useInspector } from "@/components/provider/InspectorProvider"
 import { Switch } from "@/components/ui/switch"
-import { useUserRepo } from "@/repo/user"
+import { useUserQuery } from "@/repo/user"
 import { downloadBlob } from "@/lib/misc-utils"
 
 const formSchema = z.object({
@@ -38,7 +38,7 @@ export default function SettingsDialog({
   open: boolean
   onOpenChange: (open: boolean) => void
 }) {
-  const { user } = useUserRepo()
+  const { user } = useUserQuery()
 
   return (
     user.$isLoaded && (
@@ -50,7 +50,7 @@ export default function SettingsDialog({
 }
 
 function SettingsDialogContent({ user }: { user: User }) {
-  const { update } = useUserRepo()
+  const { update } = useUserQuery()
 
   const { onClose } = useDialogContext()
   const logOut = useLogOut()

@@ -7,11 +7,11 @@ import { Button } from "@/components/ui/button.tsx"
 import { cn } from "@/lib/utils"
 import { titleCase } from "@/lib/misc-utils"
 import { useUserRole } from "@/repo/user"
-import { useSingleTripRepo } from "@/repo"
+import { useTripQuery } from "@/repo"
 import { UserRoleHelpers } from "@/domain"
 
 export default function Navigation({ stid }: { stid: string }) {
-  const { trip } = useSingleTripRepo(stid)
+  const { trip } = useTripQuery(stid)
   const userRole = useUserRole(stid)
   const pathname = useLocation({
     select: location => location.pathname,

@@ -1,10 +1,6 @@
 import type { Accommodation, Activity, Transportation } from "@/domain"
 import { getDepartureDateTime, getTransportationShortName } from "@/domain"
-import {
-  useAccommodationRepo,
-  useActivityRepo,
-  useTransportationRepo,
-} from "@/repo"
+import { useTripEntities } from "@/hooks/useTripEntities"
 import { useTrip } from "@/components/provider/TripProvider"
 
 export type EntityType = "activity" | "accommodation" | "transportation"
@@ -64,9 +60,9 @@ export function resolveReference(
 
 export function useReferencedItem(refId: string): ResolvedReference | null {
   const trip = useTrip()
-  const { activities } = useActivityRepo(trip.stid)
-  const { accommodation } = useAccommodationRepo(trip.stid)
-  const { transportation } = useTransportationRepo(trip.stid)
+  const { activities, accommodation, transportation } = useTripEntities(
+    trip.stid,
+  )
 
   return resolveReference(refId, activities, accommodation, transportation)
 }

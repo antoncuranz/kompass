@@ -18,7 +18,7 @@ import { Input } from "@/components/ui/input.tsx"
 import { Separator } from "@/components/ui/separator.tsx"
 import { Spinner } from "@/components/ui/shadcn-io/spinner"
 import { cn } from "@/lib/utils"
-import { useUserRepo } from "@/repo/user"
+import { useUserQuery } from "@/repo/user"
 
 const signupFormSchema = z.object({
   name: z.string().nonempty("Required"),
@@ -34,7 +34,7 @@ export function Auth() {
   const passkeyAuth = usePasskeyAuth({
     appName: "kompass",
   })
-  const { user, update } = useUserRepo()
+  const { user, update } = useUserQuery()
 
   const [passphraseFormShown, setPassphraseFormShown] = useState<boolean>(false)
   const [profileImage, setProfileImage] = useState<File | null>(null)

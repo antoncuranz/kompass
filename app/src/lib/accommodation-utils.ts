@@ -7,7 +7,10 @@ import {
   isSameDayDate,
   subDays,
 } from "@/lib/datetime-utils"
-import { useAccommodationRepo, useTransportationRepo } from "@/repo"
+import {
+  useAccommodationSubscription,
+  useTransportationSubscription,
+} from "@/repo"
 
 type Interval = { start: Date; end: Date }
 
@@ -40,8 +43,8 @@ export function calculateDisabledDateRanges(
   trip: Trip,
   currentAccommodationId?: string,
 ): Array<DateRange> {
-  const { accommodation } = useAccommodationRepo(trip.stid)
-  const { transportation } = useTransportationRepo(trip.stid)
+  const { accommodation } = useAccommodationSubscription(trip.stid)
+  const { transportation } = useTransportationSubscription(trip.stid)
 
   const accommodationIntervals: Array<Interval> = accommodation
     .filter(a => !currentAccommodationId || a.id !== currentAccommodationId)

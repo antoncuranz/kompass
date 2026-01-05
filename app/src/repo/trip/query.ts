@@ -3,12 +3,11 @@ import { useEffect, useState } from "react"
 import { JoinRequestEntity } from "../common/schema"
 import { mapTrip, mapTripMeta } from "./mappers"
 import { SharedTripEntity } from "./schema"
+import type { TripQuery } from "@/repo/contracts"
 import type { TripMeta } from "@/domain"
-import type { SingleTripRepo } from "@/repo/contracts"
 import { Maybe } from "@/domain"
-// eslint-disable @typescript-eslint/no-misused-spread
 
-export function useSingleTripRepo(stid: string | undefined): SingleTripRepo {
+export function useTripQuery(stid: string | undefined): TripQuery {
   const metaEntity = useCoState(SharedTripEntity, stid, {
     resolve: {
       admins: true,

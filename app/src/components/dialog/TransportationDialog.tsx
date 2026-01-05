@@ -36,7 +36,7 @@ import { dateFromString, dateToString } from "@/lib/datetime-utils"
 import { titleCase } from "@/lib/misc-utils"
 import { isoDateTime, location, optionalString } from "@/lib/formschema-utils"
 import { TransportationType, getTransportationTypeEmoji } from "@/types.ts"
-import { useTransportationRepo } from "@/repo"
+import { useTransportationMutations } from "@/repo"
 
 const formSchema = z.object({
   name: z.string().nonempty("Required"),
@@ -76,7 +76,7 @@ function TransportationDialogContent({
     createGeneric: createGenericTransportation,
     updateGeneric: updateGenericTransportation,
     remove,
-  } = useTransportationRepo(trip.stid)
+  } = useTransportationMutations(trip.stid)
 
   const [edit, setEdit] = useState<boolean>(transportation == null)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)

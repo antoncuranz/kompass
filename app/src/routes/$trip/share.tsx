@@ -4,7 +4,7 @@ import ShareButton from "@/components/buttons/ShareButton"
 import MemberTable from "@/components/collaboration/MemberTable.tsx"
 import RequestTable from "@/components/collaboration/RequestTable.tsx"
 import { useTrip } from "@/components/provider/TripProvider"
-import { useSingleTripRepo } from "@/repo"
+import { useTripQuery } from "@/repo"
 
 export const Route = createFileRoute("/$trip/share")({
   component: SharePage,
@@ -12,7 +12,7 @@ export const Route = createFileRoute("/$trip/share")({
 
 function SharePage() {
   const trip = useTrip()
-  const { meta: tripMeta } = useSingleTripRepo(trip.stid)
+  const { meta: tripMeta } = useTripQuery(trip.stid)
   if (!tripMeta.$isLoaded) return null
 
   const pendingRequests = Array.from(tripMeta.joinRequests.values()).filter(
