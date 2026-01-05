@@ -85,7 +85,7 @@ describe("TripMutations", () => {
       await mutations.remove(trip.stid)
 
       // then
-      const account = await (admin as any).$jazz.ensureLoaded({
+      const account = await admin.$jazz.ensureLoaded({
         resolve: { root: { trips: true } },
       })
       expect(account.root.trips.$jazz.has(trip.stid)).toBe(false)

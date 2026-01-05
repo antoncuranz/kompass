@@ -1,8 +1,10 @@
 import { beforeEach, describe, expect, it } from "vitest"
-import { useActivityMutations } from "./mutations"
-import { useTripMutations } from "../trip/mutations"
 import { createTestUser, setupTestEnvironment } from "../../test/setup"
 import { assertTripPermissions } from "../../test/permissions"
+import { FileAttachmentEntity } from "../attachment/schema"
+import { useAttachmentMutations } from "../attachment/mutations"
+import { useTripMutations } from "../trip/mutations"
+import { useActivityMutations } from "./mutations"
 
 describe("ActivityMutations", () => {
   let tripStid: string
@@ -89,5 +91,30 @@ describe("ActivityMutations", () => {
 
     // then
     await assertTripPermissions(tripStid, admin)
+  })
+
+  it("should remove activity reference from attachments when activity is removed", async () => {
+    // given
+    const mutations = useActivityMutations(tripStid)
+    const attachmentMutations = useAttachmentMutations(tripStid)
+    const activity = await mutations.create({
+      name: "Test Activity",
+      date: "2024-01-02",
+    })
+    const attachment = await attachmentMutations.create({
+      name: "Test Attachment",
+      file: new Blob(["test"], { type: "text/plain" }),
+      references: [activity.id],
+    })
+
+    // when
+    await mutations.remove(activity.id)
+
+    // then
+    const updatedAttachment = await FileAttachmentEntity.load(attachment.id)
+    if (!updatedAttachment.$isLoaded) {
+      throw new Error("Unable to load updated attachment")
+    }
+    expect(updatedAttachment.references).not.toContain(activity.id)
   })
 })

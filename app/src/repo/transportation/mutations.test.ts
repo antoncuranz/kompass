@@ -1,8 +1,10 @@
 import { beforeEach, describe, expect, it } from "vitest"
 import { useTransportationMutations } from "./mutations"
 import { useTripMutations } from "../trip/mutations"
+import { useAttachmentMutations } from "../attachment/mutations"
 import { createTestUser, setupTestEnvironment } from "../../test/setup"
 import { assertTripPermissions } from "../../test/permissions"
+import { FileAttachmentEntity } from "../attachment/schema"
 
 describe("TransportationMutations", () => {
   let tripStid: string
@@ -144,6 +146,40 @@ describe("TransportationMutations", () => {
       // then
       await assertTripPermissions(tripStid, admin)
     })
+
+    it("should remove flight reference from attachments when flight is removed", async () => {
+      // given
+      const mutations = useTransportationMutations(tripStid)
+      const attachmentMutations = useAttachmentMutations(tripStid)
+      const flight = await mutations.createFlight({
+        legs: [
+          {
+            origin: airport,
+            destination: airport,
+            airline: "LH",
+            flightNumber: "123",
+            departureDateTime: "2024-01-01T10:00:00Z",
+            arrivalDateTime: "2024-01-01T12:00:00Z",
+            durationInMinutes: 120,
+          },
+        ],
+      })
+      const attachment = await attachmentMutations.create({
+        name: "Flight Attachment",
+        file: new Blob(["test"], { type: "text/plain" }),
+        references: [flight.id],
+      })
+
+      // when
+      await mutations.remove(flight.id)
+
+      // then
+      const updatedAttachment = await FileAttachmentEntity.load(attachment.id)
+      if (!updatedAttachment?.$isLoaded) {
+        throw new Error("Unable to load updated attachment")
+      }
+      expect(updatedAttachment.references).not.toContain(flight.id)
+    })
   })
 
   describe("Train", () => {
@@ -239,7 +275,7 @@ describe("TransportationMutations", () => {
             departureDateTime: "2024-01-01T10:00:00Z",
             arrivalDateTime: "2024-01-01T12:00:00Z",
             durationInMinutes: 120,
-            lineName: "ICE 1",
+            lineName: " ICE 1",
             operatorName: "DB",
           },
         ],
@@ -250,6 +286,40 @@ describe("TransportationMutations", () => {
 
       // then
       await assertTripPermissions(tripStid, admin)
+    })
+
+    it("should remove train reference from attachments when train is removed", async () => {
+      // given
+      const mutations = useTransportationMutations(tripStid)
+      const attachmentMutations = useAttachmentMutations(tripStid)
+      const train = await mutations.createTrain({
+        legs: [
+          {
+            origin: station,
+            destination: station,
+            departureDateTime: "2024-01-01T10:00:00Z",
+            arrivalDateTime: "2024-01-01T12:00:00Z",
+            durationInMinutes: 120,
+            lineName: "ICE 1",
+            operatorName: "DB",
+          },
+        ],
+      })
+      const attachment = await attachmentMutations.create({
+        name: "Train Attachment",
+        file: new Blob(["test"], { type: "text/plain" }),
+        references: [train.id],
+      })
+
+      // when
+      await mutations.remove(train.id)
+
+      // then
+      const updatedAttachment = await FileAttachmentEntity.load(attachment.id)
+      if (!updatedAttachment?.$isLoaded) {
+        throw new Error("Unable to load updated attachment")
+      }
+      expect(updatedAttachment.references).not.toContain(train.id)
     })
   })
 
@@ -339,6 +409,35 @@ describe("TransportationMutations", () => {
 
       // then
       await assertTripPermissions(tripStid, admin)
+    })
+
+    it("should remove generic reference from attachments when generic is removed", async () => {
+      // given
+      const mutations = useTransportationMutations(tripStid)
+      const attachmentMutations = useAttachmentMutations(tripStid)
+      const generic = await mutations.createGeneric({
+        name: "Test Ride",
+        genericType: "car",
+        departureDateTime: "2024-01-01T10:00:00Z",
+        arrivalDateTime: "2024-01-01T12:00:00Z",
+        origin: location,
+        destination: location,
+      })
+      const attachment = await attachmentMutations.create({
+        name: "Generic Attachment",
+        file: new Blob(["test"], { type: "text/plain" }),
+        references: [generic.id],
+      })
+
+      // when
+      await mutations.remove(generic.id)
+
+      // then
+      const updatedAttachment = await FileAttachmentEntity.load(attachment.id)
+      if (!updatedAttachment?.$isLoaded) {
+        throw new Error("Unable to load updated attachment")
+      }
+      expect(updatedAttachment.references).not.toContain(generic.id)
     })
   })
 })

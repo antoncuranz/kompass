@@ -1,8 +1,10 @@
 import { beforeEach, describe, expect, it } from "vitest"
-import { useAccommodationMutations } from "./mutations"
-import { useTripMutations } from "../trip/mutations"
 import { createTestUser, setupTestEnvironment } from "../../test/setup"
 import { assertTripPermissions } from "../../test/permissions"
+import { FileAttachmentEntity } from "../attachment/schema"
+import { useAttachmentMutations } from "../attachment/mutations"
+import { useTripMutations } from "../trip/mutations"
+import { useAccommodationMutations } from "./mutations"
 
 describe("AccommodationMutations", () => {
   let tripStid: string
@@ -94,5 +96,31 @@ describe("AccommodationMutations", () => {
 
     // then
     await assertTripPermissions(tripStid, admin)
+  })
+
+  it("should remove accommodation reference from attachments when accommodation is removed", async () => {
+    // given
+    const mutations = useAccommodationMutations(tripStid)
+    const attachmentMutations = useAttachmentMutations(tripStid)
+    const accommodation = await mutations.create({
+      name: "Test Accommodation",
+      arrivalDate: "2024-01-01",
+      departureDate: "2024-01-07",
+    })
+    const attachment = await attachmentMutations.create({
+      name: "Test Attachment",
+      file: new Blob(["test"], { type: "text/plain" }),
+      references: [accommodation.id],
+    })
+
+    // when
+    await mutations.remove(accommodation.id)
+
+    // then
+    const updatedAttachment = await FileAttachmentEntity.load(attachment.id)
+    if (!updatedAttachment.$isLoaded) {
+      throw new Error("Unable to load updated attachment")
+    }
+    expect(updatedAttachment.references).not.toContain(accommodation.id)
   })
 })
