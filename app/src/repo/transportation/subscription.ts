@@ -9,7 +9,7 @@ import {
 import type { TransportationSubscription } from "@/repo/contracts"
 import type { co } from "jazz-tools"
 import type { TransportationEntity } from "./schema"
-import { Transportation } from "@/domain"
+import type { Transportation } from "@/domain"
 import { SharedTripEntity } from "@/repo/trip/schema"
 
 const EMPTY_ARRAY: Array<co.loaded<typeof TransportationEntity>> = []
@@ -72,8 +72,6 @@ export function useTransportationSubscription(
   }, [entities])
 
   return {
-    transportation: transportation.filter(
-      a => Transportation.safeParse(a).success, // prevents loading problems during creation of new entities
-    ),
+    transportation,
   }
 }
