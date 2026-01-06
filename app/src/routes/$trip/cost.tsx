@@ -1,29 +1,29 @@
 import { createFileRoute } from "@tanstack/react-router"
 import { useState } from "react"
+import type { CostItem } from "@/components/cost/CostTypes.tsx"
 import type {
   Accommodation,
   Activity,
   Flight,
   GenericTransportation,
   Train,
-} from "@/schema.ts"
-import type { co } from "jazz-tools"
-import type { CostItem } from "@/components/cost/CostTypes.tsx"
+} from "@/domain"
 import AccommodationDialog from "@/components/dialog/AccommodationDialog.tsx"
 import ActivityDialog from "@/components/dialog/ActivityDialog.tsx"
 import FlightDialog from "@/components/dialog/FlightDialog.tsx"
 import TrainDialog from "@/components/dialog/TrainDialog.tsx"
 import TransportationDialog from "@/components/dialog/TransportationDialog.tsx"
 import Pane from "@/components/Pane.tsx"
-import { useTransportation, useTrip } from "@/components/provider/TripProvider"
+import { useTrip } from "@/components/provider/TripProvider"
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table"
-import { formatAmount } from "@/lib/misc-utils"
+import { formatAmount } from "@/lib/formatting"
 import CostTable from "@/components/cost/CostTable.tsx"
 import {
   calculateTotals,
   createCostItems,
   sortCostItems,
 } from "@/components/cost/CostTypes.tsx"
+import { useTripEntities } from "@/hooks/useTripEntities"
 
 export const Route = createFileRoute("/$trip/cost")({
   component: CostPage,
@@ -39,34 +39,36 @@ function EmptyState({ message = "No cost items yet" }: EmptyStateProps) {
 
 function CostPage() {
   const trip = useTrip()
-  const transportation = useTransportation()
-
-  const [activityDialog, setActivityDialog] = useState<
-    co.loaded<typeof Activity> | undefined
-  >(undefined)
-  const [accommodationDialog, setAccommodationDialog] = useState<
-    co.loaded<typeof Accommodation> | undefined
-  >(undefined)
-  const [flightDialog, setFlightDialog] = useState<
-    co.loaded<typeof Flight> | undefined
-  >(undefined)
-  const [trainDialog, setTrainDialog] = useState<
-    co.loaded<typeof Train> | undefined
-  >(undefined)
-  const [transportationDialog, setTransportationDialog] = useState<
-    co.loaded<typeof GenericTransportation> | undefined
-  >(undefined)
-
-  const { activities, accommodations, transportations } = createCostItems(
-    trip,
-    transportation,
+  const { activities, accommodation, transportation } = useTripEntities(
+    trip.stid,
   )
 
-  const totals = calculateTotals(activities, accommodations, transportations)
+  const [activityDialog, setActivityDialog] = useState<Activity | undefined>(
+    undefined,
+  )
+  const [accommodationDialog, setAccommodationDialog] = useState<
+    Accommodation | undefined
+  >(undefined)
+  const [flightDialog, setFlightDialog] = useState<Flight | undefined>(
+    undefined,
+  )
+  const [trainDialog, setTrainDialog] = useState<Train | undefined>(undefined)
+  const [transportationDialog, setTransportationDialog] = useState<
+    GenericTransportation | undefined
+  >(undefined)
 
-  const sortedActivities = sortCostItems(activities)
-  const sortedAccommodations = sortCostItems(accommodations)
-  const sortedTransportations = sortCostItems(transportations)
+  const { activityItems, accommodationItems, transportationItems } =
+    createCostItems(activities, accommodation, transportation)
+
+  const totals = calculateTotals(
+    activityItems,
+    accommodationItems,
+    transportationItems,
+  )
+
+  const sortedActivities = sortCostItems(activityItems)
+  const sortedAccommodations = sortCostItems(accommodationItems)
+  const sortedTransportations = sortCostItems(transportationItems)
 
   const hasActivities = sortedActivities.length > 0
   const hasAccommodations = sortedAccommodations.length > 0
@@ -148,13 +150,11 @@ function CostPage() {
       </Pane>
 
       <ActivityDialog
-        trip={trip}
         activity={activityDialog}
         open={activityDialog !== undefined}
         onOpenChange={open => !open && setActivityDialog(undefined)}
       />
       <AccommodationDialog
-        trip={trip}
         accommodation={accommodationDialog}
         open={accommodationDialog !== undefined}
         onOpenChange={open => !open && setAccommodationDialog(undefined)}
@@ -165,13 +165,11 @@ function CostPage() {
         onOpenChange={open => !open && setFlightDialog(undefined)}
       />
       <TrainDialog
-        trip={trip}
         train={trainDialog}
         open={trainDialog !== undefined}
         onOpenChange={open => !open && setTrainDialog(undefined)}
       />
       <TransportationDialog
-        trip={trip}
         transportation={transportationDialog}
         open={transportationDialog !== undefined}
         onOpenChange={open => !open && setTransportationDialog(undefined)}

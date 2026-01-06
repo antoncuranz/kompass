@@ -2,17 +2,12 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import type { Accommodation, Trip } from "@/schema.ts"
-import type { co } from "jazz-tools"
-import { deleteAccommodation } from "@/lib/entity-utils"
-import { dateFromString } from "@/lib/datetime-utils"
-import {
-  dateRange,
-  optionalLocation,
-  optionalString,
-} from "@/lib/formschema-utils"
+import type { Accommodation } from "@/domain"
+import { useTrip } from "@/components/provider/TripProvider"
+import { dateFromString } from "@/lib/datetime"
+import { dateRange, optionalLocation, optionalString } from "@/lib/formschema"
 
-import { calculateDisabledDateRanges } from "@/lib/accommodation-utils.ts"
+import { calculateDisabledDateRanges } from "@/lib/accommodation"
 import { Dialog, useDialogContext } from "@/components/dialog/Dialog.tsx"
 import AddressInput from "@/components/dialog/input/AddressInput.tsx"
 import AmountInput from "@/components/dialog/input/AmountInput.tsx"
@@ -28,6 +23,7 @@ import { Form, FormField } from "@/components/ui/form"
 import { Input } from "@/components/ui/input.tsx"
 import { Spinner } from "@/components/ui/shadcn-io/spinner"
 import { Textarea } from "@/components/ui/textarea.tsx"
+import { useAccommodationRepository } from "@/repo"
 
 const formSchema = z.object({
   name: z.string().nonempty("Required"),
@@ -39,30 +35,29 @@ const formSchema = z.object({
 })
 
 export default function AccommodationDialog({
-  trip,
   accommodation,
   open,
   onOpenChange,
 }: {
-  trip: co.loaded<typeof Trip>
-  accommodation?: co.loaded<typeof Accommodation>
+  accommodation?: Accommodation
   open: boolean
   onOpenChange: (open: boolean) => void
 }) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <AccommodationDialogContent trip={trip} accommodation={accommodation} />
+      <AccommodationDialogContent accommodation={accommodation} />
     </Dialog>
   )
 }
 
 function AccommodationDialogContent({
-  trip,
   accommodation,
 }: {
-  trip: co.loaded<typeof Trip>
-  accommodation?: co.loaded<typeof Accommodation>
+  accommodation?: Accommodation
 }) {
+  const trip = useTrip()
+  const { create, update, remove } = useAccommodationRepository(trip.stid)
+
   const [edit, setEdit] = useState<boolean>(accommodation == null)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const { onClose } = useDialogContext()
@@ -90,23 +85,17 @@ function AccommodationDialogContent({
   })
   const { isSubmitting } = form.formState
 
-  const disabledRanges = calculateDisabledDateRanges(
-    trip,
-    accommodation?.$jazz.id,
-  )
+  const disabledRanges = calculateDisabledDateRanges(trip, accommodation?.id)
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     if (accommodation) {
-      accommodation.$jazz.applyDiff({
+      await update(accommodation.id, {
         ...values,
         arrivalDate: values.dateRange.from,
         departureDate: values.dateRange.to,
       })
-      if (!accommodation.location) {
-        accommodation.$jazz.set("location", values.location)
-      }
     } else {
-      trip.accommodation.$jazz.push({
+      await create({
         ...values,
         arrivalDate: values.dateRange.from,
         departureDate: values.dateRange.to,
@@ -115,13 +104,13 @@ function AccommodationDialogContent({
     onClose()
   }
 
-  function onDeleteButtonClick() {
+  async function onDeleteButtonClick() {
     if (accommodation === undefined) {
       return
     }
 
     if (showDeleteConfirm) {
-      deleteAccommodation(trip, accommodation.$jazz.id)
+      await remove(accommodation.id)
       onClose()
     } else {
       setShowDeleteConfirm(true)

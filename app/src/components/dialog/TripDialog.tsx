@@ -4,8 +4,7 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { Alert02Icon, Notification01Icon } from "@hugeicons/core-free-icons"
-import type { co } from "jazz-tools"
-import type { SharedTrip, UserAccount } from "@/schema.ts"
+import type { Trip } from "@/domain"
 import { Dialog, useDialogContext } from "@/components/dialog/Dialog.tsx"
 import DateInput from "@/components/dialog/input/DateInput.tsx"
 import { Button } from "@/components/ui/button.tsx"
@@ -21,9 +20,9 @@ import { Spinner } from "@/components/ui/shadcn-io/spinner"
 import { Switch } from "@/components/ui/switch.tsx"
 import { Textarea } from "@/components/ui/textarea.tsx"
 import { usePushNotifications } from "@/hooks/usePushNotificationStatus"
-import { dateFromString } from "@/lib/datetime-utils"
-import { dateRange, optionalString } from "@/lib/formschema-utils"
-import { createNewTrip } from "@/lib/trip-utils"
+import { dateFromString } from "@/lib/datetime"
+import { dateRange, optionalString } from "@/lib/formschema"
+import { useTripRepository } from "@/repo"
 
 const formSchema = z.object({
   name: z.string().nonempty("Required"),
@@ -33,31 +32,23 @@ const formSchema = z.object({
 })
 
 export default function TripDialog({
-  account,
-  sharedTrip,
+  trip,
   open,
   onOpenChange,
 }: {
-  account: co.loaded<typeof UserAccount>
-  sharedTrip?: co.loaded<typeof SharedTrip>
+  trip?: Trip
   open: boolean
   onOpenChange: (open: boolean) => void
 }) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <TripDialogContent sharedTrip={sharedTrip} account={account} />
+      <TripDialogContent trip={trip} />
     </Dialog>
   )
 }
 
-function TripDialogContent({
-  account,
-  sharedTrip,
-}: {
-  account: co.loaded<typeof UserAccount>
-  sharedTrip?: co.loaded<typeof SharedTrip>
-}) {
-  const trip = sharedTrip?.trip
+function TripDialogContent({ trip }: { trip?: Trip }) {
+  const { create, update, remove } = useTripRepository()
   const [edit, setEdit] = useState<boolean>(trip == undefined)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const { onClose } = useDialogContext()
@@ -67,7 +58,7 @@ function TripDialogContent({
     sendTestNotification,
     status: notificationStatus,
     blockedReason,
-  } = usePushNotifications(sharedTrip)
+  } = usePushNotifications(trip?.stid)
 
   const form = useForm<
     z.input<typeof formSchema>,
@@ -90,15 +81,15 @@ function TripDialogContent({
   })
   const { isSubmitting } = form.formState
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     if (trip) {
-      trip.$jazz.applyDiff({
+      await update(trip.stid, {
         ...values,
         startDate: values.dateRange.from,
         endDate: values.dateRange.to,
       })
     } else {
-      createNewTrip(account, {
+      await create({
         ...values,
         startDate: values.dateRange.from,
         endDate: values.dateRange.to,
@@ -107,14 +98,13 @@ function TripDialogContent({
     onClose()
   }
 
-  function onDeleteButtonClick() {
+  async function onDeleteButtonClick() {
     if (trip === undefined) {
       return
     }
 
     if (showDeleteConfirm) {
-      account.root.trips.$jazz.delete(trip.$jazz.id)
-      // TODO: think about revoking access
+      await remove(trip.stid)
       onClose()
     } else {
       setShowDeleteConfirm(true)

@@ -8,19 +8,18 @@ import {
 } from "@hugeicons/core-free-icons"
 import { useRef } from "react"
 import { toast } from "sonner"
-import { Route } from "@/routes/$trip/files"
 import Pane from "@/components/Pane.tsx"
 import { useTrip } from "@/components/provider/TripProvider"
 import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table"
-import { addFile } from "@/lib/file-utils"
+import { useAttachmentRepository, useAttachmentSubscription } from "@/repo"
 
 export default function FileListPane() {
-  const sharedTripId = Route.useParams().trip
   const trip = useTrip()
-  const fileInputRef = useRef<HTMLInputElement>(null)
+  const { attachments } = useAttachmentSubscription(trip.stid)
+  const { create } = useAttachmentRepository(trip.stid)
 
-  const hasFiles = trip.files.$isLoaded && trip.files.length > 0
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   async function handleFileUpload(event: React.ChangeEvent<HTMLInputElement>) {
     const files = event.target.files
@@ -28,7 +27,11 @@ export default function FileListPane() {
 
     for (const file of Array.from(files)) {
       try {
-        await addFile(trip, file)
+        await create({
+          name: file.name,
+          file,
+          references: [],
+        })
         toast.success(`Uploaded "${file.name}"`)
       } catch (error) {
         toast.error(`Failed to upload "${file.name}"`)
@@ -68,15 +71,14 @@ export default function FileListPane() {
           className="hidden"
           onChange={handleFileUpload}
         />
-        {hasFiles ? (
+        {attachments.length > 0 ? (
           <Table className="table-fixed">
             <TableBody>
-              {trip.files.map(file => (
-                <TableRow key={file.$jazz.id} className="cursor-pointer">
+              {attachments.map(file => (
+                <TableRow key={file.id} className="cursor-pointer">
                   <TableCell className="p-0">
                     <Link
-                      to="/$trip/files/$fileId"
-                      params={{ trip: sharedTripId, fileId: file.$jazz.id }}
+                      to={"/" + trip.stid + "/files/" + file.id}
                       className="flex items-center gap-3 w-full py-2 pl-3 pr-4"
                     >
                       <HugeiconsIcon

@@ -8,8 +8,7 @@ import {
 import { useState } from "react"
 import { useMap } from "react-map-gl/maplibre"
 import type { MouseEvent, MouseEventHandler } from "react"
-import type { Flight, FlightLeg } from "@/schema.ts"
-import type { co } from "jazz-tools"
+import type { Flight, FlightLeg } from "@/domain"
 import PrivacyFilter from "@/components/PrivacyFilter.tsx"
 import { Button } from "@/components/ui/button.tsx"
 import {
@@ -17,7 +16,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible"
-import { formatDurationMinutes, formatTime } from "@/lib/datetime-utils"
+import { formatDurationMinutes, formatTime } from "@/lib/formatting"
 import { cn } from "@/lib/utils"
 
 export default function FlightEntry({
@@ -26,8 +25,8 @@ export default function FlightEntry({
   className,
   onInfoBtnClick,
 }: {
-  flight: co.loaded<typeof Flight>
-  flightLeg: co.loaded<typeof FlightLeg>
+  flight: Flight
+  flightLeg: FlightLeg
   className?: string
   onInfoBtnClick?: MouseEventHandler<HTMLButtonElement> | undefined
 }) {
@@ -120,18 +119,13 @@ export default function FlightEntry({
               {flightLeg.aircraft}
             </span>
             <div className="flex ml-auto">
-              {flight.pnrs.$isLoaded &&
-                flight.pnrs.map(pnr => (
-                  <PrivacyFilter
-                    key={pnr.$jazz.id}
-                    className="flex"
-                    mode="hide"
-                  >
-                    <Button variant="secondary" className="ml-2 p-2 h-6">
-                      {pnr.airline} {pnr.pnr}
-                    </Button>
-                  </PrivacyFilter>
-                ))}
+              {flight.pnrs.map(pnr => (
+                <PrivacyFilter key={pnr.id} className="flex" mode="hide">
+                  <Button variant="secondary" className="ml-2 p-2 h-6">
+                    {pnr.airline} {pnr.pnr}
+                  </Button>
+                </PrivacyFilter>
+              ))}
               <Button
                 variant="secondary"
                 className="ml-2 p-2 h-6"

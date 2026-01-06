@@ -2,15 +2,14 @@ import { HugeiconsIcon } from "@hugeicons/react"
 import { ArrowRight01Icon } from "@hugeicons/core-free-icons"
 import { useMap } from "react-map-gl/maplibre"
 import type { MouseEvent, MouseEventHandler } from "react"
-import type { Activity } from "@/schema"
-import type { co } from "jazz-tools"
-import { formatTime } from "@/lib/datetime-utils"
+import type { Activity } from "@/domain"
+import { formatTime } from "@/lib/formatting"
 
 export default function ActivityEntry({
   activity,
   onClick,
 }: {
-  activity: co.loaded<typeof Activity>
+  activity: Activity
   onClick?: MouseEventHandler<HTMLDivElement> | undefined
 }) {
   const { heroMap } = useMap()

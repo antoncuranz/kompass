@@ -17,9 +17,6 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       registerType: "autoUpdate",
-      devOptions: {
-        enabled: true,
-      },
       workbox: {
         globPatterns: ["**/*.{js,mjs,css,html,woff2}"],
         importScripts: ["/service-worker/push.js"],

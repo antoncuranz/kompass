@@ -5,30 +5,27 @@ import ActivityLayer from "./layers/ActivityLayer"
 import TransportationLayer from "./layers/TransportationLayer"
 import type { MapMouseEvent } from "react-map-gl/maplibre"
 import type { GeoJsonProperties } from "geojson"
-import type { co } from "jazz-tools"
-import type { Accommodation, Activity, Transportation } from "@/schema.ts"
 import type {
   GeoJsonFlight,
   GeoJsonTrain,
   GeoJsonTransportation,
-} from "@/types.ts"
+} from "@/components/map/types"
 import type { LngLat } from "maplibre-gl"
+import { useTrip } from "@/components/provider/TripProvider"
 import BaseMap from "@/components/map/BaseMap.tsx"
 import FlightPopup from "@/components/map/popup/FlightPopup.tsx"
 import TrainPopup from "@/components/map/popup/TrainPopup.tsx"
 import TransportationPopup from "@/components/map/popup/TransportationPopup"
+import { useTransportationSubscription } from "@/repo"
 
-export default function HeroMap({
-  transportation,
-}: {
-  activities: Array<co.loaded<typeof Activity>>
-  accommodation: Array<co.loaded<typeof Accommodation>>
-  transportation: Array<co.loaded<typeof Transportation>>
-}) {
-  type PopupInfo = {
-    lngLat: LngLat
-    children: React.ReactNode
-  }
+type PopupInfo = {
+  lngLat: LngLat
+  children: React.ReactNode
+}
+
+export default function HeroMap() {
+  const stid = useTrip().stid
+  const { transportation } = useTransportationSubscription(stid)
   const [popupInfo, setPopupInfo] = useState<PopupInfo | null>(null)
 
   function onMouseEnter(event: MapMouseEvent) {

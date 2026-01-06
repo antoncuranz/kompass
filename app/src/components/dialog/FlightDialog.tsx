@@ -5,11 +5,9 @@ import { useState } from "react"
 import { useFieldArray, useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
-import { useSharedTrip } from "../provider/TripProvider"
-import type { co } from "jazz-tools"
-import type { Flight, FlightLeg, PNR } from "@/schema.ts"
-import type { AmbiguousFlightChoice } from "@/types"
-import { deleteTransportation } from "@/lib/entity-utils"
+import type { AmbiguousFlightChoice } from "@/components/dialog/types"
+import type { Flight, FlightLeg, PNR } from "@/domain"
+import { useTrip } from "@/components/provider/TripProvider"
 import AmbiguousFlightDialog from "@/components/dialog/AmbiguousFlightDialog"
 import {
   Dialog,
@@ -27,10 +25,9 @@ import {
 import { Form, FormField } from "@/components/ui/form.tsx"
 import { Input } from "@/components/ui/input.tsx"
 import { Spinner } from "@/components/ui/shadcn-io/spinner"
-import { dateFromString } from "@/lib/datetime-utils"
-import { isoDate, optionalString } from "@/lib/formschema-utils"
-import { isLoaded } from "@/lib/misc-utils"
-import { addFlight, updateFlight } from "@/lib/transportation-utils"
+import { dateFromString } from "@/lib/datetime"
+import { isoDate, optionalString } from "@/lib/formschema"
+import { useTransportationRepository } from "@/repo"
 
 const formSchema = z.object({
   legs: z.array(
@@ -59,7 +56,7 @@ export default function FlightDialog({
   open,
   onOpenChange,
 }: {
-  flight?: co.loaded<typeof Flight>
+  flight?: Flight
   open: boolean
   onOpenChange: (open: boolean) => void
 }) {
@@ -70,22 +67,19 @@ export default function FlightDialog({
   )
 }
 
-function FlightDialogContent({
-  flight,
-}: {
-  flight?: co.loaded<typeof Flight>
-}) {
-  const sharedTrip = useSharedTrip()
-  const trip = sharedTrip.trip
+function FlightDialogContent({ flight }: { flight?: Flight }) {
+  const trip = useTrip()
+  const { createFlight, updateFlight, remove } = useTransportationRepository(
+    trip.stid,
+  )
+
   const [edit, setEdit] = useState<boolean>(flight == undefined)
   const [ambiguousDialogOpen, setAmbiguousDialogOpen] = useState(false)
   const [ambiguousDialogData, setAmbiguousDialogData] =
     useState<AmbiguousDialogData>({ legs: [], choices: {} })
   const { onClose } = useDialogContext()
 
-  function mapLegsOrDefault(
-    flightLegs: Array<co.loaded<typeof FlightLeg>> | undefined,
-  ) {
+  function mapLegsOrDefault(flightLegs: Array<FlightLeg> | undefined) {
     if (flightLegs) {
       return flightLegs.map(leg => ({
         date: dateFromString(leg.amadeusFlightDate ?? leg.departureDateTime),
@@ -101,7 +95,7 @@ function FlightDialogContent({
     ]
   }
 
-  function mapPnrsOrDefault(pnrs: Array<co.loaded<typeof PNR>>) {
+  function mapPnrsOrDefault(pnrs: Array<PNR>) {
     return pnrs.map(pnr => ({
       airline: pnr.airline,
       pnr: pnr.pnr,
@@ -115,10 +109,8 @@ function FlightDialogContent({
   >({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      legs: mapLegsOrDefault(flight?.legs.filter(isLoaded)),
-      pnrs: mapPnrsOrDefault(
-        flight?.pnrs.$isLoaded ? flight.pnrs.filter(isLoaded) : [],
-      ),
+      legs: mapLegsOrDefault(flight?.legs),
+      pnrs: mapPnrsOrDefault(flight?.pnrs ?? []),
       price: flight?.price ?? undefined,
     },
     disabled: !edit,
@@ -153,9 +145,9 @@ function FlightDialogContent({
         geoJson: responseJson.geoJson,
       }
       if (flight) {
-        updateFlight(flight, augmentedValues)
+        await updateFlight(flight.id, augmentedValues)
       } else {
-        addFlight(sharedTrip, augmentedValues)
+        await createFlight(augmentedValues)
       }
       onClose()
     } else if (response.status === 422) {
@@ -194,12 +186,12 @@ function FlightDialogContent({
     void form.handleSubmit(onSubmit)()
   }
 
-  function onDeleteButtonClick() {
+  async function onDeleteButtonClick() {
     if (flight === undefined) {
       return
     }
 
-    deleteTransportation(trip, flight.$jazz.id)
+    await remove(flight.id)
     onClose()
   }
 
@@ -281,7 +273,7 @@ function FlightDialogContent({
           </div>
         ))}
 
-        {(flight === undefined || flight.pnrs.$isLoaded) && (
+        {((flight && flight.pnrs.length > 0) || edit) && (
           <>
             <div className="flex">
               <h3 className="font-semibold mb-2 grow">PNRs</h3>

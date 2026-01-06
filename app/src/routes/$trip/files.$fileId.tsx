@@ -1,6 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router"
-import { co } from "jazz-tools"
-import { useCoState } from "jazz-tools/react"
 import { HugeiconsIcon } from "@hugeicons/react"
 import {
   Add01Icon,
@@ -12,17 +10,17 @@ import {
   Train01Icon,
 } from "@hugeicons/core-free-icons"
 import { useEffect, useState } from "react"
-import type { ResolvedReference } from "@/lib/file-utils"
-import type { Trip } from "@/schema"
+import type { ResolvedReference } from "@/lib/files"
+import type { TransportationType } from "@/domain/transportation"
 import Pane from "@/components/Pane.tsx"
 import LinkDialog from "@/components/files/LinkDialog"
 import FileViewer from "@/components/files/FileViewer"
 import { useTrip } from "@/components/provider/TripProvider"
-import { formatDateShort } from "@/lib/datetime-utils"
-import { useReferencedItem } from "@/lib/file-utils"
-import { downloadBlob } from "@/lib/misc-utils"
-import { FileAttachment } from "@/schema"
-import { getTransportationTypeEmoji } from "@/types"
+import { formatDateShort } from "@/lib/formatting"
+import { downloadBlob, useReferencedItem } from "@/lib/files"
+import { getTransportationTypeEmoji } from "@/domain/transportation"
+import { useAttachmentQuery, useAttachmentRepository } from "@/repo"
+import { useTripEntities } from "@/hooks/useTripEntities"
 
 export const Route = createFileRoute("/$trip/files/$fileId")({
   component: FileDetailPage,
@@ -30,25 +28,29 @@ export const Route = createFileRoute("/$trip/files/$fileId")({
 
 function FileDetailPage() {
   const { fileId } = Route.useParams()
+
   const trip = useTrip()
-  const file = useCoState(FileAttachment, fileId, {
-    resolve: { file: true, references: true },
-  })
+  const { attachment, loadAsBlob } = useAttachmentQuery(fileId)
+  const { update } = useAttachmentRepository(trip.stid)
+  const { activities, accommodation, transportation } = useTripEntities(
+    trip.stid,
+  )
+
   const [blobUrl, setBlobUrl] = useState<string | null>(null)
   const [showEntitySelector, setShowEntitySelector] = useState(false)
 
   const hasLinkableItems =
-    trip.activities.length > 0 ||
-    trip.accommodation.length > 0 ||
-    trip.transportation.length > 0
+    activities.length > 0 ||
+    accommodation.length > 0 ||
+    transportation.length > 0
 
   useEffect(() => {
     let currentBlobUrl: string | null = null
 
     async function loadFile() {
-      if (!file.$isLoaded) return
+      if (!attachment.$isLoaded) return
       try {
-        const blob = await co.fileStream().loadAsBlob(file.file.$jazz.id)
+        const blob = await loadAsBlob()
         if (blob) {
           currentBlobUrl = URL.createObjectURL(blob)
           setBlobUrl(currentBlobUrl)
@@ -65,15 +67,15 @@ function FileDetailPage() {
         URL.revokeObjectURL(currentBlobUrl)
       }
     }
-  }, [file.$isLoaded, file.$isLoaded ? file.file.$jazz.id : null])
+  }, [attachment.$isLoaded ? attachment.id : attachment.$loadingState])
 
   function handleDownload() {
-    if (blobUrl && file.$isLoaded) {
-      downloadBlob(blobUrl, file.name)
+    if (blobUrl && attachment.$isLoaded) {
+      downloadBlob(blobUrl, attachment.name)
     }
   }
 
-  if (!file.$isLoaded) {
+  if (!attachment.$isLoaded) {
     return (
       <Pane title="Loading..." testId="file-detail-card">
         <div className="text-center text-muted-foreground py-8">
@@ -83,19 +85,21 @@ function FileDetailPage() {
     )
   }
 
-  function handleRemoveLink(refId: string) {
-    if (file.$isLoaded) {
-      file.references.$jazz.remove(ref => ref === refId)
+  async function handleRemoveLink(refId: string) {
+    if (attachment.$isLoaded) {
+      await update(attachment.id, {
+        references: attachment.references.filter(id => id !== refId),
+      })
     }
   }
 
   return (
     <>
-      <Pane title={file.name} testId="file-detail-card">
+      <Pane title={attachment.name} testId="file-detail-card">
         <div className="h-full flex flex-col overflow-hidden">
           <FileViewer
             fileUrl={blobUrl}
-            fileName={file.name}
+            fileName={attachment.name}
             onDownload={handleDownload}
           />
 
@@ -105,11 +109,10 @@ function FileDetailPage() {
                 icon={Link01Icon}
                 className="text-muted-foreground"
               />
-              {file.references.length > 0 ? (
-                file.references.map((refId, idx) => (
+              {attachment.references.length > 0 ? (
+                attachment.references.map((refId, idx) => (
                   <LinkedItemChip
                     key={idx}
-                    trip={trip}
                     refId={refId}
                     onRemove={() => handleRemoveLink(refId)}
                   />
@@ -133,8 +136,7 @@ function FileDetailPage() {
       </Pane>
 
       <LinkDialog
-        trip={trip}
-        file={file}
+        attachment={attachment}
         open={showEntitySelector}
         onOpenChange={setShowEntitySelector}
       />
@@ -143,15 +145,13 @@ function FileDetailPage() {
 }
 
 function LinkedItemChip({
-  trip,
   refId,
   onRemove,
 }: {
-  trip: co.loaded<typeof Trip>
   refId: string
   onRemove: () => void
 }) {
-  const item = useReferencedItem(trip, refId)
+  const item = useReferencedItem(refId)
 
   return (
     <div className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-muted rounded-full text-sm">
@@ -189,7 +189,7 @@ export function TransportationIcon({
   className = "w-3.5 h-3.5 text-muted-foreground",
 }: {
   type: ResolvedReference["type"]
-  transportationType?: string
+  transportationType?: TransportationType
   className?: string
 }) {
   switch (type) {

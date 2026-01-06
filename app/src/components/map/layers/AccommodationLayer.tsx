@@ -1,12 +1,13 @@
 import { Layer, Source } from "react-map-gl/maplibre"
 import type { Feature, FeatureCollection } from "geojson"
-import type { co } from "jazz-tools"
-import type { Accommodation } from "@/schema.ts"
-import { formatDateShort } from "@/lib/datetime-utils"
-import { useSharedTrip } from "@/components/provider/TripProvider"
+import type { Accommodation } from "@/domain"
+import { formatDateShort } from "@/lib/formatting"
+import { useTrip } from "@/components/provider/TripProvider"
+import { useAccommodationSubscription } from "@/repo"
 
 export default function AccommodationLayer() {
-  const accommodation = useSharedTrip({ select: st => st.trip.accommodation })
+  const trip = useTrip()
+  const { accommodation } = useAccommodationSubscription(trip.stid)
 
   function getAccommodationGeoJson(): FeatureCollection {
     const features = accommodation
@@ -16,9 +17,7 @@ export default function AccommodationLayer() {
     return { type: "FeatureCollection", features: features }
   }
 
-  function mapAccommodationToFeature(
-    accommodation: co.loaded<typeof Accommodation>,
-  ): Feature {
+  function mapAccommodationToFeature(accommodation: Accommodation): Feature {
     return {
       type: "Feature",
       geometry: {

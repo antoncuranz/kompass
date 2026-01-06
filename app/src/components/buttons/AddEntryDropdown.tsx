@@ -1,7 +1,5 @@
 import { useState } from "react"
-import { useRole } from "../provider/TripProvider"
-import type { Trip } from "@/schema"
-import type { co } from "jazz-tools"
+import { useTrip } from "@/components/provider/TripProvider"
 import AccommodationDialogContent from "@/components/dialog/AccommodationDialog"
 import ActivityDialog from "@/components/dialog/ActivityDialog"
 import FlightDialog from "@/components/dialog/FlightDialog"
@@ -14,19 +12,19 @@ import {
   DropdownMenuPositioner,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu.tsx"
-import { UserRole } from "@/lib/collaboration-utils"
+import { useUserRole } from "@/repo/user"
+import { UserRoleHelpers } from "@/domain"
 
 export default function AddEntryDropdown({
-  trip,
   trigger,
 }: {
-  trip: co.loaded<typeof Trip>
   trigger: React.ReactElement<
     Record<string, unknown>,
     string | React.JSXElementConstructor<any>
   >
 }) {
-  const role = useRole()
+  const trip = useTrip()
+  const role = useUserRole(trip.stid)
 
   const [activityDialogOpen, setActivityDialogOpen] = useState(false)
   const [accommodationDialogOpen, setAccommodationDialogOpen] = useState(false)
@@ -36,7 +34,7 @@ export default function AddEntryDropdown({
     useState(false)
 
   return (
-    role !== UserRole.GUEST && (
+    UserRoleHelpers.canWrite(role) && (
       <div>
         <DropdownMenu>
           <DropdownMenuTrigger render={trigger} />
@@ -65,12 +63,10 @@ export default function AddEntryDropdown({
           </DropdownMenuPositioner>
         </DropdownMenu>
         <ActivityDialog
-          trip={trip}
           open={activityDialogOpen}
           onOpenChange={setActivityDialogOpen}
         />
         <AccommodationDialogContent
-          trip={trip}
           open={accommodationDialogOpen}
           onOpenChange={setAccommodationDialogOpen}
         />
@@ -78,13 +74,8 @@ export default function AddEntryDropdown({
           open={flightDialogOpen}
           onOpenChange={setFlightDialogOpen}
         />
-        <TrainDialog
-          trip={trip}
-          open={trainDialogOpen}
-          onOpenChange={setTrainDialogOpen}
-        />
+        <TrainDialog open={trainDialogOpen} onOpenChange={setTrainDialogOpen} />
         <TransportationDialog
-          trip={trip}
           open={transportationDialogOpen}
           onOpenChange={setTransportationDialogOpen}
         />

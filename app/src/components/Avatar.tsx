@@ -1,22 +1,17 @@
-import { Image, useCoState } from "jazz-tools/react"
-import { UserAccount } from "@/schema"
+import { Image } from "jazz-tools/react"
 import { cn } from "@/lib/utils"
+import { useUserQuery } from "@/repo/user"
 
 export function Avatar({
-  accountId,
+  userId,
   className,
 }: {
-  accountId?: string
+  userId?: string
   className?: string
 }) {
-  const account = useCoState(UserAccount, accountId, {
-    resolve: { profile: true },
-  })
+  const { user } = useUserQuery(userId)
 
-  if (!account.$isLoaded) return null
-
-  const imageId = account.profile.avatar?.$jazz.id
-  const name = account.profile.name
+  if (!user.$isLoaded) return null
 
   const getInitials = (name?: string) => {
     if (!name) return "?"
@@ -32,15 +27,15 @@ export function Avatar({
         className,
       )}
     >
-      {imageId ? (
+      {user.avatarImageId ? (
         <Image
-          imageId={imageId}
-          alt={name || "Profile"}
+          imageId={user.avatarImageId}
+          alt={user.name || "Profile"}
           className="h-full w-full object-cover"
         />
       ) : (
         <span className="font-medium text-muted-foreground">
-          {getInitials(name)}
+          {getInitials(user.name)}
         </span>
       )}
     </div>

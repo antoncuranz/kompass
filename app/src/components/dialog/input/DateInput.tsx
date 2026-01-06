@@ -11,7 +11,7 @@ import {
   PopoverPositioner,
   PopoverTrigger,
 } from "@/components/ui/popover.tsx"
-import { dateFromString, getNextDay } from "@/lib/datetime-utils"
+import { dateFromString, getNextDay } from "@/lib/datetime"
 import { cn } from "@/lib/utils"
 
 export default function DateInput({

@@ -4,45 +4,20 @@ import { useEffect } from "react"
 import { Toaster } from "@/components/ui/sonner"
 import { Auth } from "@/components/Auth"
 import { useRequestListener } from "@/hooks/useRequestListener"
-import { SharedTrip } from "@/schema"
-import { titleCase } from "@/lib/misc-utils"
 import { useInspector } from "@/components/provider/InspectorProvider"
+import { useTripQuery } from "@/repo"
 
 function DynamicTitle() {
   const tripId = useParams({ strict: false }).trip
+  const trip = useTripQuery(tripId).trip
 
   useEffect(() => {
-    let cancelled = false
-
-    async function updateTitle() {
-      if (!tripId) {
-        document.title = "kompass"
-        return
-      }
-
-      try {
-        const sharedTrip = await SharedTrip.load(tripId, {
-          resolve: { trip: true },
-        })
-        if (cancelled) return
-        if (sharedTrip.$isLoaded) {
-          document.title = `${sharedTrip.trip.name} | kompass`
-        } else {
-          document.title = `${titleCase(sharedTrip.$jazz.loadingState)} | kompass`
-        }
-      } catch {
-        if (!cancelled) {
-          document.title = "Error | kompass"
-        }
-      }
+    if (!trip.$isLoaded) {
+      document.title = "kompass"
+    } else {
+      document.title = `${trip.name} | kompass`
     }
-
-    void updateTitle()
-
-    return () => {
-      cancelled = true
-    }
-  }, [tripId])
+  }, [trip])
 
   return null
 }

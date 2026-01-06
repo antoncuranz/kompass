@@ -1,5 +1,5 @@
-import type { GeoJsonTrain, GeoJsonTrainLeg } from "@/types.ts"
-import { formatTimePadded } from "@/lib/datetime-utils"
+import type { GeoJsonTrain, GeoJsonTrainLeg } from "@/components/map/types"
+import { formatTimePadded } from "@/lib/formatting"
 
 export default function TrainPopup({
   properties,

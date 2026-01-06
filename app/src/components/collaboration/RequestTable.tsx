@@ -2,8 +2,7 @@ import { HugeiconsIcon } from "@hugeicons/react"
 import { Cancel01Icon, Tick02Icon } from "@hugeicons/core-free-icons"
 import { useState, useTransition } from "react"
 import { toast } from "sonner"
-import type { co } from "jazz-tools"
-import type { JoinRequest, SharedTrip } from "@/schema.ts"
+import type { GrantedRole, JoinRequest } from "@/domain"
 import { Button } from "@/components/ui/button.tsx"
 import {
   Select,
@@ -13,26 +12,21 @@ import {
   SelectTrigger,
 } from "@/components/ui/select.tsx"
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table"
-import {
-  UserRole,
-  approveJoinRequest,
-  rejectJoinRequest,
-} from "@/lib/collaboration-utils"
-import { formatDateShort } from "@/lib/datetime-utils"
+import { approveJoinRequest, rejectJoinRequest } from "@/lib/collaboration"
+import { formatDateShort, titleCase } from "@/lib/formatting"
 import { Avatar } from "@/components/Avatar"
-
-interface RequestTableProps {
-  title: string
-  requests: Array<co.loaded<typeof JoinRequest>>
-  sharedTrip: co.loaded<typeof SharedTrip>
-}
+import { GrantedRoleValues } from "@/domain"
 
 export default function RequestTable({
   title,
-  requests,
-  sharedTrip,
-}: RequestTableProps) {
-  const hasRequests = requests.length > 0
+  joinRequests,
+  stid,
+}: {
+  title: string
+  joinRequests: Array<JoinRequest>
+  stid: string
+}) {
+  const hasRequests = joinRequests.length > 0
 
   if (!hasRequests) return null
 
@@ -41,12 +35,8 @@ export default function RequestTable({
       <h2 className="text-lg font-semibold mx-5 my-2">{title}</h2>
       <Table className="table-fixed">
         <TableBody>
-          {requests.map(request => (
-            <RequestRow
-              key={request.$jazz.id}
-              request={request}
-              sharedTrip={sharedTrip}
-            />
+          {joinRequests.map(request => (
+            <RequestRow key={request.id} joinRequest={request} stid={stid} />
           ))}
         </TableBody>
       </Table>
@@ -55,26 +45,22 @@ export default function RequestTable({
 }
 
 function RequestRow({
-  request,
-  sharedTrip,
+  joinRequest,
+  stid,
 }: {
-  request: co.loaded<typeof JoinRequest>
-  sharedTrip: co.loaded<typeof SharedTrip>
+  joinRequest: JoinRequest
+  stid: string
 }) {
   const [isProcessing, startTransition] = useTransition()
-  const [selectedRole, setSelectedRole] = useState<UserRole>(UserRole.GUEST)
+  const [selectedRole, setSelectedRole] = useState<GrantedRole>("guest")
 
-  async function processRequest(approve: boolean) {
-    const loaded = await sharedTrip.$jazz.ensureLoaded({
-      resolve: { admins: true, statuses: true },
-    })
-
-    startTransition(() => {
+  function processRequest(approve: boolean) {
+    startTransition(async () => {
       if (approve) {
-        approveJoinRequest(loaded, request, selectedRole)
+        await approveJoinRequest(stid, joinRequest.id, selectedRole)
         toast.success(`Access granted as ${selectedRole}`)
       } else {
-        rejectJoinRequest(loaded, request)
+        await rejectJoinRequest(stid, joinRequest.id)
         toast.success("Access request rejected")
       }
     })
@@ -85,15 +71,11 @@ function RequestRow({
       {/* TODO: disable hover without bg-transparent */}
       <TableCell className="flex-1 truncate pl-5">
         <div className="flex items-center gap-2">
-          <Avatar accountId={request.account.$jazz.id} />
+          <Avatar userId={joinRequest.user.id} />
           <div className="flex-1 min-w-0">
-            <p className="font-medium truncate">
-              {request.account.profile.$isLoaded
-                ? request.account.profile.name
-                : "Unknown"}
-            </p>
+            <p className="font-medium truncate">{joinRequest.user.name}</p>
             <p className="text-xs text-muted-foreground">
-              Requested {formatDateShort(request.requestedAt)}
+              Requested {formatDateShort(joinRequest.requestedAt)}
             </p>
           </div>
         </div>
@@ -102,13 +84,17 @@ function RequestRow({
         <div className="flex justify-end items-center gap-2">
           <Select
             value={selectedRole}
-            onValueChange={v => setSelectedRole(v as UserRole)}
+            onValueChange={v => setSelectedRole(v as GrantedRole)}
           >
-            <SelectTrigger className="w-32">{selectedRole}</SelectTrigger>
+            <SelectTrigger className="w-32">
+              {titleCase(selectedRole)}
+            </SelectTrigger>
             <SelectPositioner>
               <SelectContent>
-                {Object.values(UserRole).map(role => (
-                  <SelectItem value={role}>{role}</SelectItem>
+                {GrantedRoleValues.map(role => (
+                  <SelectItem key={role} value={role}>
+                    {titleCase(role)}
+                  </SelectItem>
                 ))}
               </SelectContent>
             </SelectPositioner>

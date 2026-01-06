@@ -8,15 +8,14 @@ import {
 import { useState } from "react"
 import { useMap } from "react-map-gl/maplibre"
 import type { MouseEvent, MouseEventHandler } from "react"
-import type { TrainLeg } from "@/schema.ts"
-import type { co } from "jazz-tools"
+import type { TrainLeg } from "@/domain"
 import { Button } from "@/components/ui/button.tsx"
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible"
-import { formatDurationMinutes, formatTime } from "@/lib/datetime-utils"
+import { formatDurationMinutes, formatTime } from "@/lib/formatting"
 import { cn } from "@/lib/utils"
 
 export default function TrainEntry({
@@ -24,7 +23,7 @@ export default function TrainEntry({
   className,
   onInfoBtnClick,
 }: {
-  trainLeg: co.loaded<typeof TrainLeg>
+  trainLeg: TrainLeg
   className?: string
   onInfoBtnClick?: MouseEventHandler<HTMLButtonElement> | undefined
 }) {

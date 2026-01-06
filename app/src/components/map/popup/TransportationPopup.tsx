@@ -1,6 +1,7 @@
-import type { GeoJsonTransportation } from "@/types.ts"
-import { formatDateShort, formatTime, isSameDay } from "@/lib/datetime-utils"
-import { getTransportationTypeEmoji } from "@/types.ts"
+import type { GeoJsonTransportation } from "@/components/map/types"
+import { isSameDay } from "@/lib/datetime"
+import { formatDateShort, formatTime } from "@/lib/formatting"
+import { getTransportationTypeEmoji } from "@/domain/transportation"
 
 export default function TransportationPopup({
   properties,

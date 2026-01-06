@@ -1,19 +1,18 @@
 import { Link, useLocation } from "@tanstack/react-router"
-import { useCoState } from "jazz-tools/react-core"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { CarouselHorizontal02Icon } from "@hugeicons/core-free-icons"
-import { SharedTrip } from "@/schema.ts"
 import { ProfileMenu } from "@/components/navigation/ProfileMenu.tsx"
 import { SyncIndicator } from "@/components/navigation/SyncIndicator.tsx"
 import { Button } from "@/components/ui/button.tsx"
 import { cn } from "@/lib/utils"
-import { titleCase } from "@/lib/misc-utils"
-import { UserRole, userHasRole } from "@/lib/collaboration-utils"
+import { titleCase } from "@/lib/formatting"
+import { useUserRole } from "@/repo/user"
+import { useTripQuery } from "@/repo"
+import { UserRoleHelpers } from "@/domain"
 
-export default function Navigation({ sharedTripId }: { sharedTripId: string }) {
-  const sharedTrip = useCoState(SharedTrip, sharedTripId, {
-    resolve: { admins: true, members: true, guests: true, trip: true },
-  })
+export default function Navigation({ stid }: { stid: string }) {
+  const { trip } = useTripQuery(stid)
+  const userRole = useUserRole(stid)
   const pathname = useLocation({
     select: location => location.pathname,
   })
@@ -29,13 +28,13 @@ export default function Navigation({ sharedTripId }: { sharedTripId: string }) {
   function getVisiblePages(): Array<
     "itinerary" | "notes" | "cost" | "files" | "map" | "share"
   > {
-    if (!sharedTrip.$isLoaded) return []
+    if (!trip.$isLoaded || !UserRoleHelpers.canRead(userRole)) return []
 
-    if (userHasRole(sharedTrip, UserRole.ADMIN)) {
+    if (userRole === "admin") {
       return ["itinerary", "notes", "cost", "files", "map", "share"]
     }
 
-    if (userHasRole(sharedTrip, UserRole.MEMBER)) {
+    if (userRole === "member") {
       return ["itinerary", "notes", "cost", "files", "map"]
     }
 
@@ -52,9 +51,7 @@ export default function Navigation({ sharedTripId }: { sharedTripId: string }) {
             </Button>
           </Link>
           <h1 className="text-2xl font-semibold leading-10 ml-2 grow sm:max-w-50 truncate">
-            {sharedTrip.$isLoaded
-              ? sharedTrip.trip.name
-              : sharedTrip.$jazz.loadingState}
+            {trip.$isLoaded ? trip.name : trip.$loadingState}
           </h1>
           <div className="flex items-center justify-center gap-2 sm:hidden">
             <SyncIndicator />
@@ -71,7 +68,7 @@ export default function Navigation({ sharedTripId }: { sharedTripId: string }) {
           {getVisiblePages().map(page => (
             <Link
               key={page}
-              to={"/" + sharedTripId + "/" + page}
+              to={"/" + stid + "/" + page}
               className={
                 pathname.includes("/" + page) ? activeStyle : inactiveStyle
               }

@@ -6,10 +6,14 @@ import {
   Location01Icon,
   Train01Icon,
 } from "@hugeicons/core-free-icons"
-import type { co } from "jazz-tools"
-import type { FileAttachment, Transportation, Trip } from "@/schema"
+import type {
+  Accommodation,
+  Activity,
+  FileAttachment,
+  Transportation,
+} from "@/domain"
+import { useTrip } from "@/components/provider/TripProvider"
 import { Dialog, useDialogContext } from "@/components/dialog/Dialog.tsx"
-import { useTransportation } from "@/components/provider/TripProvider"
 import { Button } from "@/components/ui/button.tsx"
 import {
   DialogFooter,
@@ -17,45 +21,40 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog.tsx"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { formatDateShort } from "@/lib/datetime-utils"
-import {
-  getDepartureDateTime,
-  getTransportationShortName,
-} from "@/lib/transportation-utils"
-import { getTransportationTypeEmoji } from "@/types"
+import { formatDateShort } from "@/lib/formatting"
+import { getTransportationTypeEmoji } from "@/domain/transportation"
+import { getDepartureDateTime, getTransportationShortName } from "@/domain"
+import { useAttachmentRepository } from "@/repo"
+import { useTripEntities } from "@/hooks/useTripEntities"
 
 export default function LinkDialog({
-  trip,
-  file,
+  attachment,
   open,
   onOpenChange,
 }: {
-  trip: co.loaded<typeof Trip>
-  file: co.loaded<typeof FileAttachment>
+  attachment: FileAttachment
   open: boolean
   onOpenChange: (open: boolean) => void
 }) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <LinkDialogContent trip={trip} file={file} />
+      <LinkDialogContent attachment={attachment} />
     </Dialog>
   )
 }
 
-function LinkDialogContent({
-  trip,
-  file,
-}: {
-  trip: co.loaded<typeof Trip>
-  file: co.loaded<typeof FileAttachment>
-}) {
-  const transportation = useTransportation()
+function LinkDialogContent({ attachment }: { attachment: FileAttachment }) {
+  const trip = useTrip()
+  const { update } = useAttachmentRepository(trip.stid)
+  const { activities, accommodation, transportation } = useTripEntities(
+    trip.stid,
+  )
   const { onClose } = useDialogContext()
 
-  const existingRefs = new Set(file.references)
+  const existingRefs = new Set(attachment.references)
 
-  const hasActivities = trip.activities.length > 0
-  const hasAccommodation = trip.accommodation.length > 0
+  const hasActivities = activities.length > 0
+  const hasAccommodation = accommodation.length > 0
   const hasTransportation = transportation.length > 0
 
   const defaultTab = hasActivities
@@ -64,9 +63,11 @@ function LinkDialogContent({
       ? "accommodation"
       : "transportation"
 
-  function handleSelect(entityId: string) {
+  async function handleSelect(entityId: string) {
     if (!existingRefs.has(entityId)) {
-      file.references.$jazz.push(entityId)
+      await update(attachment.id, {
+        references: [...attachment.references, entityId],
+      })
     }
     onClose()
   }
@@ -103,7 +104,7 @@ function LinkDialogContent({
           {hasActivities && (
             <TabsContent value="activity">
               <ActivityList
-                activities={trip.activities}
+                activities={activities}
                 existingRefs={existingRefs}
                 onSelect={handleSelect}
               />
@@ -112,7 +113,7 @@ function LinkDialogContent({
           {hasAccommodation && (
             <TabsContent value="accommodation">
               <AccommodationList
-                accommodation={trip.accommodation}
+                accommodation={accommodation}
                 existingRefs={existingRefs}
                 onSelect={handleSelect}
               />
@@ -149,7 +150,7 @@ function ActivityList({
   existingRefs,
   onSelect,
 }: {
-  activities: co.loaded<typeof Trip>["activities"]
+  activities: Array<Activity>
   existingRefs: Set<string>
   onSelect: (id: string) => void
 }) {
@@ -168,15 +169,15 @@ function ActivityList({
   return (
     <div className="space-y-1">
       {sorted.map(activity => {
-        const isLinked = existingRefs.has(activity.$jazz.id)
+        const isLinked = existingRefs.has(activity.id)
         return (
           <EntityRow
-            key={activity.$jazz.id}
+            key={activity.id}
             icon={<HugeiconsIcon icon={Location01Icon} />}
             name={activity.name}
             date={formatDateShort(activity.date)}
             isLinked={isLinked}
-            onSelect={() => onSelect(activity.$jazz.id)}
+            onSelect={() => onSelect(activity.id)}
           />
         )
       })}
@@ -189,7 +190,7 @@ function AccommodationList({
   existingRefs,
   onSelect,
 }: {
-  accommodation: co.loaded<typeof Trip>["accommodation"]
+  accommodation: Array<Accommodation>
   existingRefs: Set<string>
   onSelect: (id: string) => void
 }) {
@@ -209,15 +210,15 @@ function AccommodationList({
   return (
     <div className="space-y-1">
       {sorted.map(acc => {
-        const isLinked = existingRefs.has(acc.$jazz.id)
+        const isLinked = existingRefs.has(acc.id)
         return (
           <EntityRow
-            key={acc.$jazz.id}
+            key={acc.id}
             icon={<HugeiconsIcon icon={Building03Icon} />}
             name={acc.name}
             date={`${formatDateShort(acc.arrivalDate)} - ${formatDateShort(acc.departureDate)}`}
             isLinked={isLinked}
-            onSelect={() => onSelect(acc.$jazz.id)}
+            onSelect={() => onSelect(acc.id)}
           />
         )
       })}
@@ -266,15 +267,15 @@ function TransportationList({
   return (
     <div className="space-y-1">
       {sorted.map(t => {
-        const isLinked = existingRefs.has(t.$jazz.id)
+        const isLinked = existingRefs.has(t.id)
         return (
           <EntityRow
-            key={t.$jazz.id}
+            key={t.id}
             icon={getIcon(t)}
             name={getTransportationShortName(t)}
             date={formatDateShort(getDepartureDateTime(t).substring(0, 10))}
             isLinked={isLinked}
-            onSelect={() => onSelect(t.$jazz.id)}
+            onSelect={() => onSelect(t.id)}
           />
         )
       })}

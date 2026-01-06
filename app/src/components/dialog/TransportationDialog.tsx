@@ -3,9 +3,14 @@ import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
-import type { GenericTransportation, Trip } from "@/schema"
-import type { co } from "jazz-tools"
-import { deleteTransportation } from "@/lib/entity-utils"
+import type { GenericTransportation } from "@/domain"
+import type { GeoJSONFeatureCollection } from "zod-geojson"
+import {
+  TransportationType,
+  TransportationTypeValues,
+  getTransportationTypeEmoji,
+} from "@/domain/transportation"
+import { useTrip } from "@/components/provider/TripProvider"
 import {
   Dialog,
   RowContainer,
@@ -33,14 +38,14 @@ import {
 } from "@/components/ui/select"
 import { Separator } from "@/components/ui/separator.tsx"
 import { Spinner } from "@/components/ui/shadcn-io/spinner"
-import { dateFromString, dateToString } from "@/lib/datetime-utils"
-import { titleCase } from "@/lib/misc-utils"
-import { isoDateTime, location, optionalString } from "@/lib/formschema-utils"
-import { TransportationType, getTransportationTypeEmoji } from "@/types.ts"
+import { dateFromString, dateToString } from "@/lib/datetime"
+import { titleCase } from "@/lib/formatting"
+import { isoDateTime, location, optionalString } from "@/lib/formschema"
+import { useTransportationRepository } from "@/repo"
 
 const formSchema = z.object({
   name: z.string().nonempty("Required"),
-  genericType: z.string().nonempty("Required"),
+  genericType: TransportationType,
   price: z.number().optional(),
   departureDateTime: isoDateTime("Required"),
   arrivalDateTime: isoDateTime("Required"),
@@ -51,33 +56,34 @@ const formSchema = z.object({
 })
 
 export default function TransportationDialog({
-  trip,
   transportation,
   open,
   onOpenChange,
 }: {
-  trip: co.loaded<typeof Trip>
-  transportation?: co.loaded<typeof GenericTransportation>
+  transportation?: GenericTransportation
   open: boolean
   onOpenChange: (open: boolean) => void
 }) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <TransportationDialogContent
-        trip={trip}
-        transportation={transportation}
-      />
+      <TransportationDialogContent transportation={transportation} />
     </Dialog>
   )
 }
 
 function TransportationDialogContent({
-  trip,
   transportation,
 }: {
-  trip: co.loaded<typeof Trip>
-  transportation?: co.loaded<typeof GenericTransportation>
+  transportation?: GenericTransportation
 }) {
+  console.log("anton", transportation, JSON.stringify(transportation))
+  const trip = useTrip()
+  const {
+    createGeneric: createGenericTransportation,
+    updateGeneric: updateGenericTransportation,
+    remove,
+  } = useTransportationRepository(trip.stid)
+
   const [edit, setEdit] = useState<boolean>(transportation == null)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const { onClose } = useDialogContext()
@@ -90,7 +96,7 @@ function TransportationDialogContent({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: transportation?.name ?? "",
-      genericType: transportation?.genericType ?? "",
+      genericType: transportation?.genericType,
       price: transportation?.price ?? undefined,
       departureDateTime: transportation?.departureDateTime
         ? dateFromString(transportation.departureDateTime)
@@ -108,14 +114,14 @@ function TransportationDialogContent({
   const { isSubmitting } = form.formState
 
   function enrichGeoJsonPoints(
-    geoJson: GeoJSON.FeatureCollection,
+    geoJson: GeoJSONFeatureCollection,
     values: z.infer<typeof formSchema>,
   ) {
     for (const feature of geoJson.features) {
       if (feature.geometry.type === "Point") {
         feature.properties = {
           ...feature.properties,
-          type: values.genericType.toUpperCase(),
+          type: values.genericType,
           name: values.name,
           departureDateTime: values.departureDateTime,
           arrivalDateTime: values.arrivalDateTime,
@@ -131,7 +137,7 @@ function TransportationDialogContent({
       body: JSON.stringify({
         start: values.origin,
         end: values.destination,
-        transportationType: values.genericType.toUpperCase(),
+        transportationType: values.genericType,
       }),
     })
 
@@ -146,10 +152,12 @@ function TransportationDialogContent({
     enrichGeoJsonPoints(geoJson, values)
 
     if (transportation) {
-      transportation.$jazz.applyDiff({ geoJson, ...values })
+      await updateGenericTransportation(transportation.id, {
+        geoJson,
+        ...values,
+      })
     } else {
-      trip.transportation.$jazz.push({
-        type: "generic",
+      await createGenericTransportation({
         geoJson,
         ...values,
       })
@@ -157,13 +165,13 @@ function TransportationDialogContent({
     onClose()
   }
 
-  function onDeleteButtonClick() {
+  async function onDeleteButtonClick() {
     if (transportation === undefined) {
       return
     }
 
     if (showDeleteConfirm) {
-      deleteTransportation(trip, transportation.$jazz.id)
+      await remove(transportation.id)
       onClose()
     } else {
       setShowDeleteConfirm(true)
@@ -212,22 +220,13 @@ function TransportationDialogContent({
                   className="w-full"
                 >
                   <SelectValue placeholder="Select type">
-                    {field.value
-                      ? `${getTransportationTypeEmoji(field.value)} ${titleCase(field.value)}`
-                      : undefined}
+                    {(field.value as TransportationType | undefined) &&
+                      `${getTransportationTypeEmoji(field.value)} ${titleCase(field.value)}`}
                   </SelectValue>
                 </SelectTrigger>
                 <SelectPositioner>
                   <SelectContent>
-                    {[
-                      TransportationType.Bus,
-                      TransportationType.Ferry,
-                      TransportationType.Boat,
-                      TransportationType.Bike,
-                      TransportationType.Car,
-                      TransportationType.Hike,
-                      TransportationType.Other,
-                    ].map(type => (
+                    {TransportationTypeValues.map(type => (
                       <SelectItem key={type} value={type}>
                         {getTransportationTypeEmoji(type)} {titleCase(type)}
                       </SelectItem>
@@ -286,8 +285,7 @@ function TransportationDialogContent({
           render={({ field }) => (
             <DateTimeInput
               startDate={
-                // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-                form.getValues("departureDateTime")
+                (form.getValues("departureDateTime") as Date | undefined)
                   ? dateToString(form.getValues("departureDateTime"))
                   : trip.startDate
               }

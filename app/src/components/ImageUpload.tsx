@@ -10,11 +10,9 @@ const MAX_FILE_SIZE = 5 * 1024 * 1024 // 5MB
 
 export function ImageUpload({
   onFileSelect,
-  accountId,
   className,
 }: {
   onFileSelect: (file: File | null) => void
-  accountId?: string
   className?: string
 }) {
   const inputRef = useRef<HTMLInputElement>(null)
@@ -62,14 +60,14 @@ export function ImageUpload({
     <div className={cn("flex flex-col items-center gap-2", className)}>
       <div className="relative w-24 h-24">
         <div className="relative flex items-center justify-center rounded-full bg-muted overflow-hidden h-24 w-24 text-2xl">
-          {previewUrl ? (
+          {hasImage ? (
             <img
               src={previewUrl}
               alt="Profile preview"
               className="h-full w-full object-cover"
             />
           ) : (
-            <Avatar accountId={accountId} className="h-24 w-24 text-2xl" />
+            <Avatar className="h-24 w-24 text-2xl" />
           )}
         </div>
         <div

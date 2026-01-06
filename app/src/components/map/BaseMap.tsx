@@ -1,7 +1,7 @@
 import React from "react"
 import { Map as MaplibreMap } from "react-map-gl/maplibre"
 import type { MapProps } from "react-map-gl/maplibre"
-import type { Coordinates } from "@/types.ts"
+import type { Coordinates } from "@/domain/location"
 import RenderAfterMap from "@/components/map/RenderAfterMap.tsx"
 import config from "@/config"
 import "maplibre-gl/dist/maplibre-gl.css"

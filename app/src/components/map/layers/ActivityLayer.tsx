@@ -1,12 +1,13 @@
 import { Layer, Source } from "react-map-gl/maplibre"
 import type { Feature, FeatureCollection } from "geojson"
-import type { co } from "jazz-tools"
-import type { Activity } from "@/schema"
-import { formatDateShort, formatTime } from "@/lib/datetime-utils"
-import { useSharedTrip } from "@/components/provider/TripProvider"
+import type { Activity } from "@/domain"
+import { formatDateShort, formatTime } from "@/lib/formatting"
+import { useTrip } from "@/components/provider/TripProvider"
+import { useActivitySubscription } from "@/repo"
 
 export default function ActivityLayer() {
-  const activities = useSharedTrip({ select: st => st.trip.activities })
+  const trip = useTrip()
+  const { activities } = useActivitySubscription(trip.stid)
 
   function getActivityGeoJson(): FeatureCollection {
     const features = activities
@@ -16,7 +17,7 @@ export default function ActivityLayer() {
     return { type: "FeatureCollection", features: features }
   }
 
-  function mapActivityToFeature(activity: co.loaded<typeof Activity>): Feature {
+  function mapActivityToFeature(activity: Activity): Feature {
     return {
       type: "Feature",
       geometry: {

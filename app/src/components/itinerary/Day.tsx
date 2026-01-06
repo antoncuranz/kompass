@@ -5,9 +5,8 @@ import type {
   GenericTransportation,
   Train,
   Transportation,
-} from "@/schema.ts"
-import type { DayRenderData } from "@/types"
-import type { co } from "jazz-tools"
+} from "@/domain"
+import type { DayRenderData } from "@/components/itinerary/types"
 import ActivityEntry from "@/components/itinerary/ActivityEntry.tsx"
 import DayLabel from "@/components/itinerary/DayLabel.tsx"
 import DaySeparator from "@/components/itinerary/DaySeparator.tsx"
@@ -15,7 +14,8 @@ import FlightEntry from "@/components/itinerary/FlightEntry.tsx"
 import TrainEntry from "@/components/itinerary/TrainEntry.tsx"
 import TransportationEntry from "@/components/itinerary/TransportationEntry.tsx"
 import { Separator } from "@/components/ui/separator.tsx"
-import { formatDuration, getDaysBetween, isSameDay } from "@/lib/datetime-utils"
+import { getDaysBetween, isSameDay } from "@/lib/datetime"
+import { formatDuration } from "@/lib/formatting"
 
 export default function Day({
   dayData,
@@ -28,15 +28,11 @@ export default function Day({
 }: {
   dayData: DayRenderData
   nextDay: string
-  onActivityClick?: (activity: co.loaded<typeof Activity>) => void
-  onAccommodationClick?: (
-    accommodation: co.loaded<typeof Accommodation> | undefined,
-  ) => void
-  onFlightClick?: (flight: co.loaded<typeof Flight>) => void
-  onTrainClick?: (train: co.loaded<typeof Train>) => void
-  onTransportationClick?: (
-    transportation: co.loaded<typeof GenericTransportation>,
-  ) => void
+  onActivityClick?: (activity: Activity) => void
+  onAccommodationClick?: (accommodation: Accommodation | undefined) => void
+  onFlightClick?: (flight: Flight) => void
+  onTrainClick?: (train: Train) => void
+  onTransportationClick?: (transportation: GenericTransportation) => void
 }) {
   const collapsedDays = nextDay
     ? getDaysBetween(dayData.day, nextDay).length - 2
@@ -92,7 +88,7 @@ export default function Day({
     }
   }
 
-  function renderFlight(flight: co.loaded<typeof Flight>) {
+  function renderFlight(flight: Flight) {
     const filteredLegs = flight.legs.filter(leg =>
       isSameDay(leg.departureDateTime, dayData.day),
     )
@@ -117,7 +113,7 @@ export default function Day({
     ))
   }
 
-  function renderTrain(train: co.loaded<typeof Train>) {
+  function renderTrain(train: Train) {
     const filteredLegs = train.legs.filter(leg =>
       isSameDay(leg.departureDateTime, dayData.day),
     )
@@ -144,7 +140,7 @@ export default function Day({
 
       {dayData.activities.map(act => (
         <ActivityEntry
-          key={act.$jazz.id}
+          key={act.id}
           activity={act}
           onClick={() => onActivityClick(act)}
         />

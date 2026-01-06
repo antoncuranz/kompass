@@ -1,30 +1,28 @@
 import { Layer, Source } from "react-map-gl/maplibre"
-import type { FeatureCollection } from "geojson"
-import type { co } from "jazz-tools"
-import type { Transportation } from "@/schema"
-import { useTransportation } from "@/components/provider/TripProvider"
-import { TransportationType } from "@/types"
+import type { Transportation, TransportationType } from "@/domain"
+import type { GeoJSONFeatureCollection } from "zod-geojson"
+import { useTransportationSubscription } from "@/repo"
+import { useTrip } from "@/components/provider/TripProvider"
 
 export default function TransportationLayer() {
-  const transportation = useTransportation()
+  const trip = useTrip()
+  const { transportation } = useTransportationSubscription(trip.stid)
 
-  function getTransportationType(
-    t: co.loaded<typeof Transportation>,
-  ): TransportationType {
+  function getTransportationType(t: Transportation): TransportationType {
     if (t.type === "generic") {
-      return t.genericType.toUpperCase() as TransportationType
+      return t.genericType
     }
-    return t.type.toUpperCase() as TransportationType
+    return t.type
   }
 
-  function getColorByType(t: co.loaded<typeof Transportation>): string {
+  function getColorByType(t: Transportation): string {
     switch (getTransportationType(t)) {
-      case TransportationType.Flight:
+      case "flight":
         return "#007cbf"
-      case TransportationType.Train:
+      case "train":
         return "#ec0016"
-      case TransportationType.Ferry:
-      case TransportationType.Boat:
+      case "ferry":
+      case "boat":
         return "#01428c"
       default:
         return "purple"
@@ -33,15 +31,15 @@ export default function TransportationLayer() {
 
   function typeRank(type: TransportationType): number {
     switch (type) {
-      case TransportationType.Flight:
+      case "flight":
         return 4
-      case TransportationType.Train:
+      case "train":
         return 3
-      case TransportationType.Ferry:
-      case TransportationType.Boat:
+      case "ferry":
+      case "boat":
         return 2
-      case TransportationType.Bus:
-      case TransportationType.Car:
+      case "bus":
+      case "car":
         return 1
       default:
         return 0
@@ -49,8 +47,8 @@ export default function TransportationLayer() {
   }
 
   function sortByTransportationType(
-    a: co.loaded<typeof Transportation>,
-    b: co.loaded<typeof Transportation>,
+    a: Transportation,
+    b: Transportation,
   ): number {
     return (
       typeRank(getTransportationType(a)) - typeRank(getTransportationType(b))
@@ -62,7 +60,7 @@ export default function TransportationLayer() {
     .sort(sortByTransportationType)
     .map(t => ({
       transportation: t,
-      geoJson: t.geoJson as FeatureCollection,
+      geoJson: t.geoJson as GeoJSONFeatureCollection,
     }))
 
   return (

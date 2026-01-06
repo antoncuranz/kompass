@@ -10,7 +10,6 @@ on:
 
 jobs:
   test:
-    name: "Playwright Tests"
     runs-on: ubuntu-latest
 
     container:
@@ -27,7 +26,15 @@ jobs:
         run: npm ci
         working-directory: ./app
 
-      - name: Run Playwright tests
+      - name: Run linter
+        run: npm run lint
+        working-directory: ./app
+
+      - name: Run unit tests
+        run: npm run test
+        working-directory: ./app
+
+      - name: Run playwright tests
         run: npx playwright test
         working-directory: ./app
 

@@ -6,12 +6,10 @@ import {
   SunIcon,
   Tick02Icon,
 } from "@hugeicons/core-free-icons"
-import { useAccount } from "jazz-tools/react"
 import { useState } from "react"
 import { usePrivacy } from "../provider/PrivacyProvider"
 import { useTheme } from "../provider/ThemeProvider"
 import SettingsDialog from "../dialog/SettingsDialog"
-import { UserAccount } from "@/schema"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -23,7 +21,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Avatar } from "@/components/Avatar"
 import { cn } from "@/lib/utils"
-import { titleCase } from "@/lib/misc-utils"
+import { titleCase } from "@/lib/formatting"
 
 const themeIcons = {
   light: SunIcon,
@@ -32,12 +30,9 @@ const themeIcons = {
 }
 
 export function ProfileMenu({ className }: { className?: string }) {
-  const account = useAccount(UserAccount)
   const { theme, setTheme } = useTheme()
   const { privacyMode, togglePrivacyMode } = usePrivacy()
   const [settingsOpen, setSettingsOpen] = useState(false)
-
-  if (!account.$isLoaded) return null
 
   const themeOptions = (["light", "dark", "system"] as const).filter(
     t => t !== theme,
@@ -51,10 +46,7 @@ export function ProfileMenu({ className }: { className?: string }) {
         }
         className={className}
       >
-        <Avatar
-          accountId={account.$jazz.id}
-          className="h-full w-full border-0"
-        />
+        <Avatar className="h-full w-full border-0" />
         <span className="sr-only">Open profile menu</span>
       </DropdownMenuTrigger>
       <DropdownMenuPositioner align="end">
@@ -83,11 +75,7 @@ export function ProfileMenu({ className }: { className?: string }) {
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenuPositioner>
-      <SettingsDialog
-        open={settingsOpen}
-        onOpenChange={setSettingsOpen}
-        account={account}
-      />
+      <SettingsDialog open={settingsOpen} onOpenChange={setSettingsOpen} />
     </DropdownMenu>
   )
 }

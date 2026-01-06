@@ -2,16 +2,15 @@ import { HugeiconsIcon } from "@hugeicons/react"
 import { ArrowRight01Icon } from "@hugeicons/core-free-icons"
 import { useMap } from "react-map-gl/maplibre"
 import type { MouseEvent, MouseEventHandler } from "react"
-import type { GenericTransportation } from "@/schema.ts"
-import type { co } from "jazz-tools"
-import { formatTime } from "@/lib/datetime-utils"
-import { getTransportationTypeEmoji } from "@/types.ts"
+import type { GenericTransportation } from "@/domain"
+import { formatTime } from "@/lib/formatting"
+import { getTransportationTypeEmoji } from "@/domain/transportation"
 
 export default function TransportationEntry({
   transportation,
   onClick,
 }: {
-  transportation: co.loaded<typeof GenericTransportation>
+  transportation: GenericTransportation
   onClick?: MouseEventHandler<HTMLDivElement> | undefined
 }) {
   const { heroMap } = useMap()

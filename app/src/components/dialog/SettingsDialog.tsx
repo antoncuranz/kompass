@@ -1,5 +1,4 @@
 import { zodResolver } from "@hookform/resolvers/zod"
-import { createImage } from "jazz-tools/media"
 import { useLogOut, usePassphraseAuth } from "jazz-tools/react"
 import { useState, useTransition } from "react"
 import { useForm } from "react-hook-form"
@@ -12,8 +11,7 @@ import {
   ViewIcon,
   ViewOffSlashIcon,
 } from "@hugeicons/core-free-icons"
-import type { co } from "jazz-tools"
-import type { UserAccount } from "@/schema"
+import type { User } from "@/domain"
 import wordlist from "@/lib/wordlist"
 import { Dialog, useDialogContext } from "@/components/dialog/Dialog"
 import { ImageUpload } from "@/components/ImageUpload"
@@ -23,9 +21,11 @@ import { Form, FormField } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
 import { Spinner } from "@/components/ui/shadcn-io/spinner"
-import { exportUserData } from "@/lib/trip-utils"
+import { exportUserData } from "@/usecase/export"
 import { useInspector } from "@/components/provider/InspectorProvider"
 import { Switch } from "@/components/ui/switch"
+import { useUserQuery } from "@/repo/user"
+import { downloadBlob } from "@/lib/files"
 
 const formSchema = z.object({
   name: z.string().nonempty("Required"),
@@ -34,24 +34,24 @@ const formSchema = z.object({
 export default function SettingsDialog({
   open,
   onOpenChange,
-  account,
 }: {
   open: boolean
   onOpenChange: (open: boolean) => void
-  account: co.loaded<typeof UserAccount>
 }) {
+  const { user } = useUserQuery()
+
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <SettingsDialogContent account={account} />
-    </Dialog>
+    user.$isLoaded && (
+      <Dialog open={open} onOpenChange={onOpenChange}>
+        <SettingsDialogContent user={user} />
+      </Dialog>
+    )
   )
 }
 
-function SettingsDialogContent({
-  account,
-}: {
-  account: co.loaded<typeof UserAccount>
-}) {
+function SettingsDialogContent({ user }: { user: User }) {
+  const { update } = useUserQuery()
+
   const { onClose } = useDialogContext()
   const logOut = useLogOut()
   const passphraseAuth = usePassphraseAuth({ wordlist })
@@ -69,44 +69,31 @@ function SettingsDialogContent({
   >({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: account.profile.name,
+      name: user.name,
     },
   })
 
   function handleUpdateProfile(values: z.output<typeof formSchema>) {
     startTransition(async () => {
-      account.profile.$jazz.set("name", values.name)
-
-      if (profileImage === null) {
-        account.profile.$jazz.set("avatar", undefined)
-      } else if (profileImage) {
-        account.profile.$jazz.set(
-          "avatar",
-          await createImage(profileImage, {
-            owner: account.profile.$jazz.owner,
-            progressive: true,
-            placeholder: "blur",
-          }),
-        )
-        setProfileImage(null)
-      }
+      await update({
+        name: values.name,
+        avatarImage: profileImage,
+      })
     })
   }
 
   async function handleExportData() {
     try {
-      const data = await exportUserData(account)
+      const data = await exportUserData(user)
 
       const blob = new Blob([JSON.stringify(data, null, 2)], {
         type: "application/json",
       })
       const url = URL.createObjectURL(blob)
-      const a = document.createElement("a")
-      a.href = url
-      a.download = `kompass-data-${new Date().toISOString().split("T")[0]}.json`
-      document.body.appendChild(a)
-      a.click()
-      document.body.removeChild(a)
+      downloadBlob(
+        url,
+        `kompass-data-${new Date().toISOString().split("T")[0]}.json`,
+      )
       URL.revokeObjectURL(url)
 
       toast.success("Data exported")
@@ -131,10 +118,7 @@ function SettingsDialogContent({
       </DialogHeader>
 
       <Form form={form} onSubmit={form.handleSubmit(handleUpdateProfile)}>
-        <ImageUpload
-          onFileSelect={setProfileImage}
-          accountId={account.$jazz.id}
-        />
+        <ImageUpload onFileSelect={setProfileImage} />
 
         <FormField
           control={form.control}

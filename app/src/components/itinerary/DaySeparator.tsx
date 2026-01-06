@@ -1,7 +1,6 @@
 import { HugeiconsIcon } from "@hugeicons/react"
 import { Alert02Icon, Hotel01Icon } from "@hugeicons/core-free-icons"
-import type { Accommodation } from "@/schema.ts"
-import type { co } from "jazz-tools"
+import type { Accommodation } from "@/domain"
 import { Separator } from "@/components/ui/separator.tsx"
 import { cn } from "@/lib/utils"
 
@@ -12,10 +11,8 @@ export default function DaySeparator({
   className,
 }: {
   collapsedDays: number
-  accomodation: co.loaded<typeof Accommodation> | undefined
-  onAccommodationClick?: (
-    accommodation: co.loaded<typeof Accommodation> | undefined,
-  ) => void
+  accomodation: Accommodation | undefined
+  onAccommodationClick?: (accommodation: Accommodation | undefined) => void
   className?: string
 }) {
   return (

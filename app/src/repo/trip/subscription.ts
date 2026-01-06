@@ -1,0 +1,29 @@
+import { useAccount } from "jazz-tools/react-core"
+import { mapTrip } from "./mappers"
+import type { TripSubscription } from "@/repo/contracts"
+import { Trip } from "@/domain"
+import { UserAccount } from "@/repo/user/schema"
+import { dateFromString } from "@/lib/datetime"
+
+export function useTripSubscription(): TripSubscription {
+  const entities = useAccount(UserAccount, {
+    resolve: { root: { trips: { $each: { trip: { notes: true } } } } },
+    select: account =>
+      account.$isLoaded ? Object.values(account.root.trips) : [],
+  })
+
+  function sorted(trips: Array<Trip>) {
+    return trips.sort((a: Trip, b: Trip) => {
+      return (
+        dateFromString(b.startDate).getTime() -
+        dateFromString(a.startDate).getTime()
+      )
+    })
+  }
+
+  return {
+    trips: sorted(
+      entities.map(mapTrip).filter(a => Trip.safeParse(a).success), // prevents loading problems during creation of new entities
+    ),
+  }
+}
