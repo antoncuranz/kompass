@@ -69,6 +69,7 @@ export function useAttachmentRepository(stid: string): AttachmentRepository {
       })
 
       if (!sharedTrip.$isLoaded) {
+        if (sharedTrip.$jazz.loadingState === "unauthorized") return []
         throw new Error(`Failed to load attachments for trip ${stid}`)
       }
 

@@ -4,8 +4,8 @@ import type {
   FileAttachment,
   Transportation,
   Trip,
-  User,
 } from "@/domain"
+import { User } from "@/domain"
 import { useTripRepository } from "@/repo/trip/repository"
 import { useActivityRepository } from "@/repo/activity/repository"
 import { useAccommodationRepository } from "@/repo/accommodation/repository"
@@ -52,7 +52,7 @@ export async function exportUserData(user: User): Promise<ExportData> {
     type: "kompass",
     version: 1,
     exportedAt: new Date().toISOString(),
-    user,
+    user: User.parse(user),
     trips: exportedTrips,
   }
 }
