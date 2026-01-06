@@ -9,12 +9,15 @@ export const LocationEntity = co.map({
   longitude: z.number(),
 })
 
-export const JoinRequestStatus = z.enum(["pending", "approved", "rejected"])
+export const RequestStatusEntity = z.enum(["pending", "approved", "rejected"])
 
 export const JoinRequestEntity = co
   .map({
     account: co.account({ root: co.map({}), profile: AccountProfile }),
-    status: JoinRequestStatus,
+    status: RequestStatusEntity,
     requestedAt: z.iso.datetime(),
   })
-  .resolved({ account: { profile: AccountProfile.resolveQuery } })
+  .resolved({
+    account: { profile: AccountProfile.resolveQuery },
+    $onError: "catch",
+  })

@@ -1,7 +1,7 @@
 import type { JoinRequestEntity, LocationEntity } from "./schema"
 import type { co } from "jazz-tools"
 import type { JoinRequest, Location } from "@/domain"
-import type { JoinRequests } from "../trip/schema"
+import type { JoinRequestEntityList } from "../trip/schema"
 // eslint-disable @typescript-eslint/no-misused-spread
 
 export function mapLocation(
@@ -28,7 +28,15 @@ export function mapJoinRequest(
 }
 
 export function mapJoinRequests(
-  entity: co.loaded<typeof JoinRequests>,
+  entity: co.loaded<typeof JoinRequestEntityList>,
 ): Map<string, JoinRequest> {
-  return new Map(Object.entries(entity).map(([k, v]) => [k, mapJoinRequest(v)]))
+  const loadedRequests = Object.entries(entity).filter(
+    ([, req]) => req.$isLoaded,
+  ) as Array<[string, co.loaded<typeof JoinRequestEntity>]>
+
+  return new Map(
+    loadedRequests.map(([id, req]) => {
+      return [id, mapJoinRequest(req)]
+    }),
+  )
 }

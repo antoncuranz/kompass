@@ -1,8 +1,7 @@
 import { useCoState } from "jazz-tools/react-core"
 import { useEffect, useState } from "react"
-import { JoinRequestEntity } from "../common/schema"
 import { mapTrip, mapTripMeta } from "./mappers"
-import { SharedTripEntity } from "./schema"
+import { JoinRequestEntityList, SharedTripEntity } from "./schema"
 import type { TripQuery } from "@/repo/contracts"
 import type { TripMeta } from "@/domain"
 import { Maybe } from "@/domain"
@@ -14,7 +13,7 @@ export function useTripQuery(stid: string | undefined): TripQuery {
       members: true,
       guests: true,
       workers: true,
-      requests: { $each: JoinRequestEntity.resolveQuery },
+      requests: JoinRequestEntityList.resolveQuery,
     },
   })
   const tripEntity = useCoState(SharedTripEntity, stid, {
