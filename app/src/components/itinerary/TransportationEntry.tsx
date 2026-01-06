@@ -1,6 +1,5 @@
-import { HugeiconsIcon } from "@hugeicons/react"
-import { ArrowRight01Icon } from "@hugeicons/core-free-icons"
 import { useMap } from "react-map-gl/maplibre"
+import JumpToMapButton from "./JumpToMapButton"
 import type { MouseEvent, MouseEventHandler } from "react"
 import type { GenericTransportation } from "@/domain"
 import { formatTime } from "@/lib/formatting"
@@ -37,13 +36,7 @@ export default function TransportationEntry({
             {formatTime(transportation.arrivalDateTime)} {transportation.name}
           </span>
         </div>
-        {heroMap && (
-          <HugeiconsIcon
-            icon={ArrowRight01Icon}
-            className="text-muted-foreground absolute top-2 -right-6 bg-ard rounded-full borer hidden group-hover/flyto:block"
-            onClick={onChevronClick}
-          />
-        )}
+        {heroMap && <JumpToMapButton onClick={onChevronClick} />}
       </div>
     </div>
   )
