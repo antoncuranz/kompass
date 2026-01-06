@@ -2,6 +2,7 @@ import { Group } from "jazz-tools"
 import { mapActivity } from "./mappers"
 import { ActivityEntity } from "./schema"
 import type { ActivityMutations } from "@/repo/contracts"
+import { cleanupAttachmentReferences } from "@/repo/attachment/cleanup"
 import { SharedTripEntity } from "@/repo/trip/schema"
 
 export function useActivityMutations(stid: string): ActivityMutations {
@@ -52,6 +53,7 @@ export function useActivityMutations(stid: string): ActivityMutations {
         )
       }
 
+      await cleanupAttachmentReferences(stid, id)
       sharedTrip.trip.activities.$jazz.remove(t => t.$jazz.id === id)
     },
   }

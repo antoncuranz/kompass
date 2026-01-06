@@ -2,6 +2,7 @@ import { Group } from "jazz-tools"
 import { mapAccommodation } from "./mappers"
 import { AccommodationEntity } from "./schema"
 import type { AccommodationMutations } from "@/repo/contracts"
+import { cleanupAttachmentReferences } from "@/repo/attachment/cleanup"
 import { SharedTripEntity } from "@/repo/trip/schema"
 
 export function useAccommodationMutations(
@@ -54,6 +55,7 @@ export function useAccommodationMutations(
         )
       }
 
+      await cleanupAttachmentReferences(stid, id)
       sharedTrip.trip.accommodation.$jazz.remove(t => t.$jazz.id === id)
     },
   }

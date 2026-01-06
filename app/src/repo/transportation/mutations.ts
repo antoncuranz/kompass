@@ -6,6 +6,7 @@ import {
   TrainEntity,
 } from "./schema"
 import type { TransportationMutations } from "@/repo/contracts"
+import { cleanupAttachmentReferences } from "@/repo/attachment/cleanup"
 import { SharedTripEntity } from "@/repo/trip/schema"
 
 export function useTransportationMutations(
@@ -149,6 +150,7 @@ export function useTransportationMutations(
         )
       }
 
+      await cleanupAttachmentReferences(stid, id)
       sharedTrip.trip.transportation.$jazz.remove(t => t.$jazz.id === id)
     },
   }
