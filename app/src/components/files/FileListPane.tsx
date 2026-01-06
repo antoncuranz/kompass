@@ -12,12 +12,12 @@ import Pane from "@/components/Pane.tsx"
 import { useTrip } from "@/components/provider/TripProvider"
 import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table"
-import { useAttachmentMutations, useAttachmentSubscription } from "@/repo"
+import { useAttachmentRepository, useAttachmentSubscription } from "@/repo"
 
 export default function FileListPane() {
   const trip = useTrip()
   const { attachments } = useAttachmentSubscription(trip.stid)
-  const { create } = useAttachmentMutations(trip.stid)
+  const { create } = useAttachmentRepository(trip.stid)
 
   const fileInputRef = useRef<HTMLInputElement>(null)
 

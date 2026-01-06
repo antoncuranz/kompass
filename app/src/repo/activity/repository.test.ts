@@ -2,17 +2,17 @@ import { beforeEach, describe, expect, it } from "vitest"
 import { createTestUser, setupTestEnvironment } from "../../test/setup"
 import { assertTripPermissions } from "../../test/permissions"
 import { FileAttachmentEntity } from "../attachment/schema"
-import { useAttachmentMutations } from "../attachment/mutations"
-import { useTripMutations } from "../trip/mutations"
-import { useActivityMutations } from "./mutations"
+import { useAttachmentRepository } from "../attachment/repository"
+import { useTripRepository } from "../trip/repository"
+import { useActivityRepository } from "./repository"
 
-describe("ActivityMutations", () => {
+describe("ActivityRepository", () => {
   let tripStid: string
   let admin: any
 
   beforeEach(async () => {
     await setupTestEnvironment()
-    const tripMutations = useTripMutations()
+    const tripMutations = useTripRepository()
     admin = await createTestUser("admin", true)
     const trip = await tripMutations.create({
       name: "Test Trip",
@@ -24,7 +24,7 @@ describe("ActivityMutations", () => {
 
   it("should create an activity and verify permissions", async () => {
     // given
-    const mutations = useActivityMutations(tripStid)
+    const mutations = useActivityRepository(tripStid)
     const activityData = {
       name: "Test Activity",
       date: "2024-01-02",
@@ -41,7 +41,7 @@ describe("ActivityMutations", () => {
 
   it("should update an activity with location and verify permissions (Testcase 1)", async () => {
     // given
-    const mutations = useActivityMutations(tripStid)
+    const mutations = useActivityRepository(tripStid)
     const activity = await mutations.create({
       name: "Test Activity",
       date: "2024-01-02",
@@ -60,7 +60,7 @@ describe("ActivityMutations", () => {
 
   it("should update an activity to undefined location and verify permissions (Testcase 2)", async () => {
     // given
-    const mutations = useActivityMutations(tripStid)
+    const mutations = useActivityRepository(tripStid)
     const location = { latitude: 52.52, longitude: 13.4 }
     const activity = await mutations.create({
       name: "Test Activity",
@@ -80,7 +80,7 @@ describe("ActivityMutations", () => {
 
   it("should remove an activity and verify permissions", async () => {
     // given
-    const mutations = useActivityMutations(tripStid)
+    const mutations = useActivityRepository(tripStid)
     const activity = await mutations.create({
       name: "Test Activity",
       date: "2024-01-02",
@@ -95,8 +95,8 @@ describe("ActivityMutations", () => {
 
   it("should remove activity reference from attachments when activity is removed", async () => {
     // given
-    const mutations = useActivityMutations(tripStid)
-    const attachmentMutations = useAttachmentMutations(tripStid)
+    const mutations = useActivityRepository(tripStid)
+    const attachmentMutations = useAttachmentRepository(tripStid)
     const activity = await mutations.create({
       name: "Test Activity",
       date: "2024-01-02",

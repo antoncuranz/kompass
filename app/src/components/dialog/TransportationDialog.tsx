@@ -41,7 +41,7 @@ import { Spinner } from "@/components/ui/shadcn-io/spinner"
 import { dateFromString, dateToString } from "@/lib/datetime"
 import { titleCase } from "@/lib/formatting"
 import { isoDateTime, location, optionalString } from "@/lib/formschema"
-import { useTransportationMutations } from "@/repo"
+import { useTransportationRepository } from "@/repo"
 
 const formSchema = z.object({
   name: z.string().nonempty("Required"),
@@ -82,7 +82,7 @@ function TransportationDialogContent({
     createGeneric: createGenericTransportation,
     updateGeneric: updateGenericTransportation,
     remove,
-  } = useTransportationMutations(trip.stid)
+  } = useTransportationRepository(trip.stid)
 
   const [edit, setEdit] = useState<boolean>(transportation == null)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)

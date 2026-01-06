@@ -1,13 +1,13 @@
 import { Group } from "jazz-tools"
 import { mapAccommodation } from "./mappers"
 import { AccommodationEntity } from "./schema"
-import type { AccommodationMutations } from "@/repo/contracts"
+import type { AccommodationRepository } from "@/repo/contracts"
 import { cleanupAttachmentReferences } from "@/repo/attachment/cleanup"
 import { SharedTripEntity } from "@/repo/trip/schema"
 
-export function useAccommodationMutations(
+export function useAccommodationRepository(
   stid: string,
-): AccommodationMutations {
+): AccommodationRepository {
   return {
     create: async values => {
       const sharedTrip = await SharedTripEntity.load(stid, {
@@ -57,6 +57,20 @@ export function useAccommodationMutations(
 
       await cleanupAttachmentReferences(stid, id)
       sharedTrip.trip.accommodation.$jazz.remove(t => t.$jazz.id === id)
+    },
+
+    loadAll: async () => {
+      const sharedTrip = await SharedTripEntity.load(stid, {
+        resolve: {
+          trip: { accommodation: { $each: AccommodationEntity.resolveQuery } },
+        },
+      })
+
+      if (!sharedTrip.$isLoaded) {
+        throw new Error(`Failed to load accommodation for trip ${stid}`)
+      }
+
+      return sharedTrip.trip.accommodation.map(mapAccommodation)
     },
   }
 }

@@ -1,16 +1,16 @@
 import { beforeEach, describe, expect, it } from "vitest"
-import { useTripMutations } from "../trip/mutations"
+import { useTripRepository } from "../trip/repository"
 import { createTestUser, setupTestEnvironment } from "../../test/setup"
 import { assertTripPermissions } from "../../test/permissions"
-import { useAttachmentMutations } from "./mutations"
+import { useAttachmentRepository } from "./repository"
 
-describe("AttachmentMutations", () => {
+describe("AttachmentRepository", () => {
   let tripStid: string
   let admin: any
 
   beforeEach(async () => {
     await setupTestEnvironment()
-    const tripMutations = useTripMutations()
+    const tripMutations = useTripRepository()
     admin = await createTestUser("admin", true)
     const trip = await tripMutations.create({
       name: "Test Trip",
@@ -27,7 +27,7 @@ describe("AttachmentMutations", () => {
 
   it("should create an attachment and verify permissions", async () => {
     // given
-    const mutations = useAttachmentMutations(tripStid)
+    const mutations = useAttachmentRepository(tripStid)
     const attachmentData = {
       name: "Test Attachment",
       file: testFile,
@@ -45,7 +45,7 @@ describe("AttachmentMutations", () => {
 
   it("should update an attachment with references and verify permissions (Testcase 1)", async () => {
     // given
-    const mutations = useAttachmentMutations(tripStid)
+    const mutations = useAttachmentRepository(tripStid)
     const attachment = await mutations.create({
       name: "Test Attachment",
       file: testFile,
@@ -66,7 +66,7 @@ describe("AttachmentMutations", () => {
 
   it("should update an attachment to empty references and verify permissions (Testcase 2)", async () => {
     // given
-    const mutations = useAttachmentMutations(tripStid)
+    const mutations = useAttachmentRepository(tripStid)
     const attachment = await mutations.create({
       name: "Test Attachment",
       file: testFile,
@@ -85,7 +85,7 @@ describe("AttachmentMutations", () => {
 
   it("should remove an attachment and verify permissions", async () => {
     // given
-    const mutations = useAttachmentMutations(tripStid)
+    const mutations = useAttachmentRepository(tripStid)
     const attachment = await mutations.create({
       name: "Test Attachment",
       file: testFile,

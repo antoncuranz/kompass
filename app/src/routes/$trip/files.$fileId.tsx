@@ -19,7 +19,7 @@ import { useTrip } from "@/components/provider/TripProvider"
 import { formatDateShort } from "@/lib/formatting"
 import { downloadBlob, useReferencedItem } from "@/lib/files"
 import { getTransportationTypeEmoji } from "@/domain/transportation"
-import { useAttachmentMutations, useAttachmentQuery } from "@/repo"
+import { useAttachmentQuery, useAttachmentRepository } from "@/repo"
 import { useTripEntities } from "@/hooks/useTripEntities"
 
 export const Route = createFileRoute("/$trip/files/$fileId")({
@@ -31,7 +31,7 @@ function FileDetailPage() {
 
   const trip = useTrip()
   const { attachment, loadAsBlob } = useAttachmentQuery(fileId)
-  const { update } = useAttachmentMutations(trip.stid)
+  const { update } = useAttachmentRepository(trip.stid)
   const { activities, accommodation, transportation } = useTripEntities(
     trip.stid,
   )

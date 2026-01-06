@@ -6,7 +6,7 @@ import {
   SharedTripEntity,
   TripEntity,
 } from "./schema"
-import type { TripMutations } from "@/repo/contracts"
+import type { TripRepository } from "@/repo/contracts"
 import { TransportationEntity } from "@/repo/transportation/schema"
 import { FileAttachmentEntity } from "@/repo/attachment/schema"
 import { UserAccount } from "@/repo/user/schema"
@@ -26,7 +26,7 @@ function createUserGroups() {
   return { admins, members, guests, workers }
 }
 
-export function useTripMutations(): TripMutations {
+export function useTripRepository(): TripRepository {
   return {
     create: async values => {
       const account = await UserAccount.getMe().$jazz.ensureLoaded({
@@ -110,6 +110,20 @@ export function useTripMutations(): TripMutations {
 
       account.root.trips.$jazz.delete(stid)
       // TODO: think about revoking access
+    },
+
+    loadAll: async () => {
+      const account = await UserAccount.getMe().$jazz.ensureLoaded({
+        resolve: {
+          root: {
+            trips: {
+              $each: { trip: { notes: true } },
+            },
+          },
+        },
+      })
+
+      return Object.values(account.root.trips).map(mapTrip)
     },
   }
 }

@@ -1,19 +1,19 @@
 import { beforeEach, describe, expect, it } from "vitest"
-import { useTripMutations } from "../trip/mutations"
-import { useAttachmentMutations } from "../attachment/mutations"
+import { useTripRepository } from "../trip/repository"
+import { useAttachmentRepository } from "../attachment/repository"
 import { createTestUser, setupTestEnvironment } from "../../test/setup"
 import { assertTripPermissions } from "../../test/permissions"
 import { FileAttachmentEntity } from "../attachment/schema"
-import { useTransportationMutations } from "./mutations"
+import { useTransportationRepository } from "./repository"
 import type { GeoJSONFeatureCollection } from "zod-geojson"
 
-describe("TransportationMutations", () => {
+describe("TransportationRepository", () => {
   let tripStid: string
   let admin: any
 
   beforeEach(async () => {
     await setupTestEnvironment()
-    const tripMutations = useTripMutations()
+    const tripMutations = useTripRepository()
     admin = await createTestUser("admin", true)
     const trip = await tripMutations.create({
       name: "Test Trip",
@@ -41,7 +41,7 @@ describe("TransportationMutations", () => {
   describe("Flight", () => {
     it("should create a flight and verify permissions", async () => {
       // given
-      const mutations = useTransportationMutations(tripStid)
+      const mutations = useTransportationRepository(tripStid)
       const flightData = {
         legs: [
           {
@@ -69,7 +69,7 @@ describe("TransportationMutations", () => {
 
     it("should update a flight with PNRS and verify permissions (Testcase 1)", async () => {
       // given
-      const mutations = useTransportationMutations(tripStid)
+      const mutations = useTransportationRepository(tripStid)
       const flight = await mutations.createFlight({
         legs: [
           {
@@ -99,7 +99,7 @@ describe("TransportationMutations", () => {
 
     it("should update a flight to empty PNRS and verify permissions (Testcase 2)", async () => {
       // given
-      const mutations = useTransportationMutations(tripStid)
+      const mutations = useTransportationRepository(tripStid)
       const flight = await mutations.createFlight({
         legs: [
           {
@@ -127,7 +127,7 @@ describe("TransportationMutations", () => {
 
     it("should remove a flight and verify permissions", async () => {
       // given
-      const mutations = useTransportationMutations(tripStid)
+      const mutations = useTransportationRepository(tripStid)
       const flight = await mutations.createFlight({
         legs: [
           {
@@ -152,8 +152,8 @@ describe("TransportationMutations", () => {
 
     it("should remove flight reference from attachments when flight is removed", async () => {
       // given
-      const mutations = useTransportationMutations(tripStid)
-      const attachmentMutations = useAttachmentMutations(tripStid)
+      const mutations = useTransportationRepository(tripStid)
+      const attachmentMutations = useAttachmentRepository(tripStid)
       const flight = await mutations.createFlight({
         legs: [
           {
@@ -192,7 +192,7 @@ describe("TransportationMutations", () => {
   describe("Train", () => {
     it("should create a train and verify permissions", async () => {
       // given
-      const mutations = useTransportationMutations(tripStid)
+      const mutations = useTransportationRepository(tripStid)
       const trainData = {
         legs: [
           {
@@ -218,7 +218,7 @@ describe("TransportationMutations", () => {
 
     it("should update a train with refreshToken and verify permissions (Testcase 1)", async () => {
       // given
-      const mutations = useTransportationMutations(tripStid)
+      const mutations = useTransportationRepository(tripStid)
       const train = await mutations.createTrain({
         legs: [
           {
@@ -245,7 +245,7 @@ describe("TransportationMutations", () => {
 
     it("should update a train to undefined refreshToken and verify permissions (Testcase 2)", async () => {
       // given
-      const mutations = useTransportationMutations(tripStid)
+      const mutations = useTransportationRepository(tripStid)
       const train = await mutations.createTrain({
         legs: [
           {
@@ -273,7 +273,7 @@ describe("TransportationMutations", () => {
 
     it("should remove a train and verify permissions", async () => {
       // given
-      const mutations = useTransportationMutations(tripStid)
+      const mutations = useTransportationRepository(tripStid)
       const train = await mutations.createTrain({
         legs: [
           {
@@ -297,8 +297,8 @@ describe("TransportationMutations", () => {
 
     it("should remove train reference from attachments when train is removed", async () => {
       // given
-      const mutations = useTransportationMutations(tripStid)
-      const attachmentMutations = useAttachmentMutations(tripStid)
+      const mutations = useTransportationRepository(tripStid)
+      const attachmentMutations = useAttachmentRepository(tripStid)
       const train = await mutations.createTrain({
         legs: [
           {
@@ -336,7 +336,7 @@ describe("TransportationMutations", () => {
   describe("Generic", () => {
     it("should create generic transportation and verify permissions", async () => {
       // given
-      const mutations = useTransportationMutations(tripStid)
+      const mutations = useTransportationRepository(tripStid)
       const genericData = {
         name: "Test Ride",
         genericType: "car" as const,
@@ -357,7 +357,7 @@ describe("TransportationMutations", () => {
 
     it("should update generic transportation with geoJson and verify permissions (Testcase 1)", async () => {
       // given
-      const mutations = useTransportationMutations(tripStid)
+      const mutations = useTransportationRepository(tripStid)
       const generic = await mutations.createGeneric({
         name: "Test Ride",
         genericType: "car",
@@ -383,7 +383,7 @@ describe("TransportationMutations", () => {
 
     it("should update generic transportation to undefined geoJson and verify permissions (Testcase 2)", async () => {
       // given
-      const mutations = useTransportationMutations(tripStid)
+      const mutations = useTransportationRepository(tripStid)
       const geoJson: GeoJSONFeatureCollection = {
         type: "FeatureCollection",
         features: [],
@@ -410,7 +410,7 @@ describe("TransportationMutations", () => {
 
     it("should remove generic transportation and verify permissions", async () => {
       // given
-      const mutations = useTransportationMutations(tripStid)
+      const mutations = useTransportationRepository(tripStid)
       const generic = await mutations.createGeneric({
         name: "Test Ride",
         genericType: "car",
@@ -429,8 +429,8 @@ describe("TransportationMutations", () => {
 
     it("should remove generic reference from attachments when generic is removed", async () => {
       // given
-      const mutations = useTransportationMutations(tripStid)
-      const attachmentMutations = useAttachmentMutations(tripStid)
+      const mutations = useTransportationRepository(tripStid)
+      const attachmentMutations = useAttachmentRepository(tripStid)
       const generic = await mutations.createGeneric({
         name: "Test Ride",
         genericType: "car",

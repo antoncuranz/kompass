@@ -23,7 +23,7 @@ import { Form, FormField } from "@/components/ui/form"
 import { Input } from "@/components/ui/input.tsx"
 import { Spinner } from "@/components/ui/shadcn-io/spinner"
 import { Textarea } from "@/components/ui/textarea.tsx"
-import { useAccommodationMutations } from "@/repo"
+import { useAccommodationRepository } from "@/repo"
 
 const formSchema = z.object({
   name: z.string().nonempty("Required"),
@@ -56,7 +56,7 @@ function AccommodationDialogContent({
   accommodation?: Accommodation
 }) {
   const trip = useTrip()
-  const { create, update, remove } = useAccommodationMutations(trip.stid)
+  const { create, update, remove } = useAccommodationRepository(trip.stid)
 
   const [edit, setEdit] = useState<boolean>(accommodation == null)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)

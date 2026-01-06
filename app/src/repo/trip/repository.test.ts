@@ -1,10 +1,10 @@
 import { beforeEach, describe, expect, it } from "vitest"
-import { useTripMutations } from "./mutations"
+import { useTripRepository } from "./repository"
 import { createTestUser, setupTestEnvironment } from "@/test/setup"
 import { assertTripPermissions } from "@/test/permissions"
 
-describe("TripMutations", () => {
-  const mutations = useTripMutations()
+describe("TripRepository", () => {
+  const mutations = useTripRepository()
 
   let admin: any
 

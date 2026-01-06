@@ -1,10 +1,10 @@
 import { Group, co } from "jazz-tools"
 import { mapAttachment } from "./mappers"
 import { FileAttachmentEntity } from "./schema"
-import type { AttachmentMutations } from "@/repo/contracts"
+import type { AttachmentRepository } from "@/repo/contracts"
 import { SharedTripEntity } from "@/repo/trip/schema"
 
-export function useAttachmentMutations(stid: string): AttachmentMutations {
+export function useAttachmentRepository(stid: string): AttachmentRepository {
   return {
     create: async values => {
       const sharedTrip = await SharedTripEntity.load(stid, {
@@ -59,6 +59,20 @@ export function useAttachmentMutations(stid: string): AttachmentMutations {
       }
 
       sharedTrip.trip.files.$jazz.remove(t => t.$jazz.id === id)
+    },
+
+    loadAll: async () => {
+      const sharedTrip = await SharedTripEntity.load(stid, {
+        resolve: {
+          trip: { files: { $each: FileAttachmentEntity.resolveQuery } },
+        },
+      })
+
+      if (!sharedTrip.$isLoaded) {
+        throw new Error(`Failed to load attachments for trip ${stid}`)
+      }
+
+      return sharedTrip.trip.files.map(mapAttachment)
     },
   }
 }

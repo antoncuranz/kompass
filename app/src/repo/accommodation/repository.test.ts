@@ -2,17 +2,17 @@ import { beforeEach, describe, expect, it } from "vitest"
 import { createTestUser, setupTestEnvironment } from "../../test/setup"
 import { assertTripPermissions } from "../../test/permissions"
 import { FileAttachmentEntity } from "../attachment/schema"
-import { useAttachmentMutations } from "../attachment/mutations"
-import { useTripMutations } from "../trip/mutations"
-import { useAccommodationMutations } from "./mutations"
+import { useAttachmentRepository } from "../attachment/repository"
+import { useTripRepository } from "../trip/repository"
+import { useAccommodationRepository } from "./repository"
 
-describe("AccommodationMutations", () => {
+describe("AccommodationRepository", () => {
   let tripStid: string
   let admin: any
 
   beforeEach(async () => {
     await setupTestEnvironment()
-    const tripMutations = useTripMutations()
+    const tripMutations = useTripRepository()
     admin = await createTestUser("admin", true)
     const trip = await tripMutations.create({
       name: "Test Trip",
@@ -24,7 +24,7 @@ describe("AccommodationMutations", () => {
 
   it("should create an accommodation and verify permissions", async () => {
     // given
-    const mutations = useAccommodationMutations(tripStid)
+    const mutations = useAccommodationRepository(tripStid)
     const accommodationData = {
       name: "Test Accommodation",
       arrivalDate: "2024-01-01",
@@ -43,7 +43,7 @@ describe("AccommodationMutations", () => {
 
   it("should update an accommodation with location and verify permissions (Testcase 1)", async () => {
     // given
-    const mutations = useAccommodationMutations(tripStid)
+    const mutations = useAccommodationRepository(tripStid)
     const accommodation = await mutations.create({
       name: "Test Accommodation",
       arrivalDate: "2024-01-01",
@@ -63,7 +63,7 @@ describe("AccommodationMutations", () => {
 
   it("should update an accommodation to undefined location and verify permissions (Testcase 2)", async () => {
     // given
-    const mutations = useAccommodationMutations(tripStid)
+    const mutations = useAccommodationRepository(tripStid)
     const location = { latitude: 52.52, longitude: 13.4 }
     const accommodation = await mutations.create({
       name: "Test Accommodation",
@@ -84,7 +84,7 @@ describe("AccommodationMutations", () => {
 
   it("should remove an accommodation and verify permissions", async () => {
     // given
-    const mutations = useAccommodationMutations(tripStid)
+    const mutations = useAccommodationRepository(tripStid)
     const accommodation = await mutations.create({
       name: "Test Accommodation",
       arrivalDate: "2024-01-01",
@@ -100,8 +100,8 @@ describe("AccommodationMutations", () => {
 
   it("should remove accommodation reference from attachments when accommodation is removed", async () => {
     // given
-    const mutations = useAccommodationMutations(tripStid)
-    const attachmentMutations = useAttachmentMutations(tripStid)
+    const mutations = useAccommodationRepository(tripStid)
+    const attachmentMutations = useAttachmentRepository(tripStid)
     const accommodation = await mutations.create({
       name: "Test Accommodation",
       arrivalDate: "2024-01-01",

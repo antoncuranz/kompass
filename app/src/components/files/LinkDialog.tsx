@@ -24,7 +24,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { formatDateShort } from "@/lib/formatting"
 import { getTransportationTypeEmoji } from "@/domain/transportation"
 import { getDepartureDateTime, getTransportationShortName } from "@/domain"
-import { useAttachmentMutations } from "@/repo"
+import { useAttachmentRepository } from "@/repo"
 import { useTripEntities } from "@/hooks/useTripEntities"
 
 export default function LinkDialog({
@@ -45,7 +45,7 @@ export default function LinkDialog({
 
 function LinkDialogContent({ attachment }: { attachment: FileAttachment }) {
   const trip = useTrip()
-  const { update } = useAttachmentMutations(trip.stid)
+  const { update } = useAttachmentRepository(trip.stid)
   const { activities, accommodation, transportation } = useTripEntities(
     trip.stid,
   )

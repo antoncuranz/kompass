@@ -26,7 +26,7 @@ import { Form, FormField } from "@/components/ui/form"
 import { Spinner } from "@/components/ui/shadcn-io/spinner"
 import { dateFromString } from "@/lib/datetime"
 import { isoDate, optionalLocation, optionalString } from "@/lib/formschema"
-import { useActivityMutations } from "@/repo"
+import { useActivityRepository } from "@/repo"
 
 const formSchema = z.object({
   name: z.string().nonempty("Required"),
@@ -55,7 +55,7 @@ export default function ActivityDialog({
 
 function ActivityDialogContent({ activity }: { activity?: Activity }) {
   const trip = useTrip()
-  const { create, update, remove } = useActivityMutations(trip.stid)
+  const { create, update, remove } = useActivityRepository(trip.stid)
 
   const [edit, setEdit] = useState<boolean>(activity == null)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)

@@ -1,17 +1,22 @@
 import { Group } from "jazz-tools"
-import { mapFlight, mapGenericTransportation, mapTrain } from "./mappers"
+import {
+  loadAndMapTransportation,
+  mapFlight,
+  mapGenericTransportation,
+  mapTrain,
+} from "./mappers"
 import {
   FlightEntity,
   GenericTransportationEntity,
   TrainEntity,
 } from "./schema"
-import type { TransportationMutations } from "@/repo/contracts"
+import type { TransportationRepository } from "@/repo/contracts"
 import { cleanupAttachmentReferences } from "@/repo/attachment/cleanup"
 import { SharedTripEntity } from "@/repo/trip/schema"
 
-export function useTransportationMutations(
+export function useTransportationRepository(
   stid: string,
-): TransportationMutations {
+): TransportationRepository {
   return {
     createFlight: async values => {
       const sharedTrip = await SharedTripEntity.load(stid, {
@@ -152,6 +157,22 @@ export function useTransportationMutations(
 
       await cleanupAttachmentReferences(stid, id)
       sharedTrip.trip.transportation.$jazz.remove(t => t.$jazz.id === id)
+    },
+
+    loadAll: async () => {
+      const sharedTrip = await SharedTripEntity.load(stid, {
+        resolve: {
+          trip: { transportation: { $each: true } },
+        },
+      })
+
+      if (!sharedTrip.$isLoaded) {
+        throw new Error(`Failed to load transportation for trip ${stid}`)
+      }
+
+      return Promise.all(
+        sharedTrip.trip.transportation.map(loadAndMapTransportation),
+      )
     },
   }
 }

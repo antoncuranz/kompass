@@ -8,7 +8,7 @@ export function mapAttachment(
 ): FileAttachment {
   return {
     id: entity.$jazz.id,
-    ...entity,
+    name: entity.name,
     references: entity.references.map(x => x),
   }
 }

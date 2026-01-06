@@ -26,7 +26,7 @@ import { Input } from "@/components/ui/input.tsx"
 import { Spinner } from "@/components/ui/shadcn-io/spinner"
 import { dateFromString } from "@/lib/datetime"
 import { isoDate, trainStation } from "@/lib/formschema"
-import { useTransportationMutations } from "@/repo"
+import { useTransportationRepository } from "@/repo"
 
 const formSchema = z.object({
   departureDate: isoDate("Required"),
@@ -61,7 +61,7 @@ export default function TrainDialog({
 
 function TrainDialogContent({ train }: { train?: Train }) {
   const trip = useTrip()
-  const { createTrain, updateTrain, remove } = useTransportationMutations(
+  const { createTrain, updateTrain, remove } = useTransportationRepository(
     trip.stid,
   )
 

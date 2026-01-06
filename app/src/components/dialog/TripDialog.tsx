@@ -22,7 +22,7 @@ import { Textarea } from "@/components/ui/textarea.tsx"
 import { usePushNotifications } from "@/hooks/usePushNotificationStatus"
 import { dateFromString } from "@/lib/datetime"
 import { dateRange, optionalString } from "@/lib/formschema"
-import { useTripMutations } from "@/repo"
+import { useTripRepository } from "@/repo"
 
 const formSchema = z.object({
   name: z.string().nonempty("Required"),
@@ -48,7 +48,7 @@ export default function TripDialog({
 }
 
 function TripDialogContent({ trip }: { trip?: Trip }) {
-  const { create, update, remove } = useTripMutations()
+  const { create, update, remove } = useTripRepository()
   const [edit, setEdit] = useState<boolean>(trip == undefined)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const { onClose } = useDialogContext()

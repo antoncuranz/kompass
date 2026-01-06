@@ -1,12 +1,15 @@
+import {
+  FlightEntity,
+  GenericTransportationEntity,
+  TrainEntity,
+} from "./schema"
 import type {
   AirportEntity,
-  FlightEntity,
   FlightLegEntity,
-  GenericTransportationEntity,
   PnrEntity,
-  TrainEntity,
   TrainLegEntity,
   TrainStationEntity,
+  TransportationEntity,
 } from "./schema"
 import type {
   Airport,
@@ -17,6 +20,7 @@ import type {
   Train,
   TrainLeg,
   TrainStation,
+  Transportation,
 } from "@/domain"
 import type { co } from "jazz-tools"
 import type { GeoJSONFeatureCollection } from "zod-geojson"
@@ -92,5 +96,32 @@ export function mapGenericTransportation(
     origin: mapLocation(entity.origin),
     destination: mapLocation(entity.destination),
     geoJson: entity.geoJson as GeoJSONFeatureCollection | undefined,
+  }
+}
+
+export async function loadAndMapTransportation(
+  transportation: co.loaded<typeof TransportationEntity>,
+): Promise<Transportation> {
+  switch (transportation.type) {
+    case "flight":
+      return mapFlight(
+        await transportation.$jazz.ensureLoaded({
+          resolve: FlightEntity.resolveQuery,
+        }),
+      )
+
+    case "train":
+      return mapTrain(
+        await transportation.$jazz.ensureLoaded({
+          resolve: TrainEntity.resolveQuery,
+        }),
+      )
+
+    case "generic":
+      return mapGenericTransportation(
+        await transportation.$jazz.ensureLoaded({
+          resolve: GenericTransportationEntity.resolveQuery,
+        }),
+      )
   }
 }

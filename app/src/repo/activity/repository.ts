@@ -1,11 +1,11 @@
 import { Group } from "jazz-tools"
 import { mapActivity } from "./mappers"
 import { ActivityEntity } from "./schema"
-import type { ActivityMutations } from "@/repo/contracts"
+import type { ActivityRepository } from "@/repo/contracts"
 import { cleanupAttachmentReferences } from "@/repo/attachment/cleanup"
 import { SharedTripEntity } from "@/repo/trip/schema"
 
-export function useActivityMutations(stid: string): ActivityMutations {
+export function useActivityRepository(stid: string): ActivityRepository {
   return {
     create: async values => {
       const sharedTrip = await SharedTripEntity.load(stid, {
@@ -55,6 +55,20 @@ export function useActivityMutations(stid: string): ActivityMutations {
 
       await cleanupAttachmentReferences(stid, id)
       sharedTrip.trip.activities.$jazz.remove(t => t.$jazz.id === id)
+    },
+
+    loadAll: async () => {
+      const sharedTrip = await SharedTripEntity.load(stid, {
+        resolve: {
+          trip: { activities: { $each: ActivityEntity.resolveQuery } },
+        },
+      })
+
+      if (!sharedTrip.$isLoaded) {
+        throw new Error(`Failed to load activities for trip ${stid}`)
+      }
+
+      return sharedTrip.trip.activities.map(mapActivity)
     },
   }
 }
