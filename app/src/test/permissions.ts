@@ -212,6 +212,8 @@ async function buildAccessMatrix(sharedTrip: LoadedSharedTrip) {
   checks.set(sharedTrip.trip.files, memberOnly)
   sharedTrip.trip.files.forEach(file => {
     checks.set(file, memberOnly)
+    checks.set(file.file, memberOnly)
+    checks.set(file.references, memberOnly)
   })
 
   return checks
@@ -367,6 +369,14 @@ export async function collectTripGroups(sharedTrip: LoadedSharedTrip) {
 
   sharedTrip.trip.files.forEach((file, index) => {
     groups.push({ name: `file[${index}]`, id: file.$jazz.owner.$jazz.id })
+    groups.push({
+      name: `file[${index}].file`,
+      id: file.file.$jazz.owner.$jazz.id,
+    })
+    groups.push({
+      name: `file[${index}].references`,
+      id: file.references.$jazz.owner.$jazz.id,
+    })
   })
 
   return groups

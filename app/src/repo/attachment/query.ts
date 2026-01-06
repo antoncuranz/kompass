@@ -13,6 +13,11 @@ export function useAttachmentQuery(id: string): AttachmentQuery {
       ? Maybe.of(mapAttachment(entity))
       : Maybe.notLoaded(entity.$jazz.loadingState),
 
-    loadAsBlob: () => co.fileStream().loadAsBlob(id),
+    loadAsBlob: () => {
+      if (!entity.$isLoaded)
+        throw new Error("FileAttachmentEntity is not loaded!")
+
+      return co.fileStream().loadAsBlob(entity.file.$jazz.id)
+    },
   }
 }

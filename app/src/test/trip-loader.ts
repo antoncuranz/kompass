@@ -18,7 +18,7 @@ export const sharedTripResolveQuery = {
     activities: { $each: { location: true } },
     accommodation: { $each: { location: true } },
     transportation: { $each: true },
-    files: { $each: { references: true } },
+    files: { $each: { file: true, references: true } },
   },
   requests: { $each: true },
   statuses: true,

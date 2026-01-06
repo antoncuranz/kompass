@@ -67,7 +67,7 @@ function FileDetailPage() {
         URL.revokeObjectURL(currentBlobUrl)
       }
     }
-  }, [attachment])
+  }, [attachment.$isLoaded ? attachment.id : attachment.$loadingState])
 
   function handleDownload() {
     if (blobUrl && attachment.$isLoaded) {

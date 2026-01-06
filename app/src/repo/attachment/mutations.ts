@@ -18,15 +18,18 @@ export function useAttachmentMutations(stid: string): AttachmentMutations {
 
       const files = sharedTrip.trip.files
 
-      const group = Group.create()
-      group.addMember(files.$jazz.owner)
+      const attachmentGroup = Group.create()
+      attachmentGroup.addMember(files.$jazz.owner)
+
+      const blobGroup = Group.create()
+      blobGroup.addMember(attachmentGroup)
 
       const entity = FileAttachmentEntity.create(
         {
           ...values,
-          file: await co.fileStream().createFromBlob(values.file),
+          file: await co.fileStream().createFromBlob(values.file, blobGroup),
         },
-        group,
+        attachmentGroup,
       )
 
       files.$jazz.push(entity)
