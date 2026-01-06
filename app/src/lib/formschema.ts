@@ -1,4 +1,4 @@
-import { z } from "jazz-tools"
+import z from "zod/v4"
 import type * as core from "zod/v4/core"
 import { dateTimeToString, dateToString } from "@/lib/datetime"
 
