@@ -1,8 +1,8 @@
 import { beforeEach, describe, expect, it } from "vitest"
-import { useAttachmentMutations } from "./mutations"
 import { useTripMutations } from "../trip/mutations"
 import { createTestUser, setupTestEnvironment } from "../../test/setup"
 import { assertTripPermissions } from "../../test/permissions"
+import { useAttachmentMutations } from "./mutations"
 
 describe("AttachmentMutations", () => {
   let tripStid: string
@@ -20,7 +20,10 @@ describe("AttachmentMutations", () => {
     tripStid = trip.stid
   })
 
-  const testFile = new Blob(["test"], { type: "text/plain" })
+  const testFile = new File(
+    [new Blob(["test"], { type: "text/plain" })],
+    "test.txt",
+  )
 
   it("should create an attachment and verify permissions", async () => {
     // given

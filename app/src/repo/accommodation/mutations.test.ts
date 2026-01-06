@@ -109,7 +109,7 @@ describe("AccommodationMutations", () => {
     })
     const attachment = await attachmentMutations.create({
       name: "Test Attachment",
-      file: new Blob(["test"], { type: "text/plain" }),
+      file: new File([new Blob(["test"], { type: "text/plain" })], "test.txt"),
       references: [accommodation.id],
     })
 

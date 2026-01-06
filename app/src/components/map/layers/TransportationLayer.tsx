@@ -1,6 +1,6 @@
 import { Layer, Source } from "react-map-gl/maplibre"
-import type { FeatureCollection } from "geojson"
 import type { Transportation, TransportationType } from "@/domain"
+import type { GeoJSONFeatureCollection } from "zod-geojson"
 import { useTransportationSubscription } from "@/repo"
 import { useTrip } from "@/components/provider/TripProvider"
 
@@ -60,7 +60,7 @@ export default function TransportationLayer() {
     .sort(sortByTransportationType)
     .map(t => ({
       transportation: t,
-      geoJson: t.geoJson as FeatureCollection, // TODO
+      geoJson: t.geoJson as GeoJSONFeatureCollection,
     }))
 
   return (

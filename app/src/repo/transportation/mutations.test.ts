@@ -1,10 +1,11 @@
 import { beforeEach, describe, expect, it } from "vitest"
-import { useTransportationMutations } from "./mutations"
 import { useTripMutations } from "../trip/mutations"
 import { useAttachmentMutations } from "../attachment/mutations"
 import { createTestUser, setupTestEnvironment } from "../../test/setup"
 import { assertTripPermissions } from "../../test/permissions"
 import { FileAttachmentEntity } from "../attachment/schema"
+import { useTransportationMutations } from "./mutations"
+import type { GeoJSONFeatureCollection } from "zod-geojson"
 
 describe("TransportationMutations", () => {
   let tripStid: string
@@ -81,6 +82,7 @@ describe("TransportationMutations", () => {
             durationInMinutes: 120,
           },
         ],
+        pnrs: [],
       })
       const pnrs = [{ airline: "LH", pnr: "ABCDEF" }]
 
@@ -138,6 +140,7 @@ describe("TransportationMutations", () => {
             durationInMinutes: 120,
           },
         ],
+        pnrs: [],
       })
 
       // when
@@ -163,10 +166,14 @@ describe("TransportationMutations", () => {
             durationInMinutes: 120,
           },
         ],
+        pnrs: [],
       })
       const attachment = await attachmentMutations.create({
         name: "Flight Attachment",
-        file: new Blob(["test"], { type: "text/plain" }),
+        file: new File(
+          [new Blob(["test"], { type: "text/plain" })],
+          "test.txt",
+        ),
         references: [flight.id],
       })
 
@@ -175,7 +182,7 @@ describe("TransportationMutations", () => {
 
       // then
       const updatedAttachment = await FileAttachmentEntity.load(attachment.id)
-      if (!updatedAttachment?.$isLoaded) {
+      if (!updatedAttachment.$isLoaded) {
         throw new Error("Unable to load updated attachment")
       }
       expect(updatedAttachment.references).not.toContain(flight.id)
@@ -307,7 +314,10 @@ describe("TransportationMutations", () => {
       })
       const attachment = await attachmentMutations.create({
         name: "Train Attachment",
-        file: new Blob(["test"], { type: "text/plain" }),
+        file: new File(
+          [new Blob(["test"], { type: "text/plain" })],
+          "test.txt",
+        ),
         references: [train.id],
       })
 
@@ -316,7 +326,7 @@ describe("TransportationMutations", () => {
 
       // then
       const updatedAttachment = await FileAttachmentEntity.load(attachment.id)
-      if (!updatedAttachment?.$isLoaded) {
+      if (!updatedAttachment.$isLoaded) {
         throw new Error("Unable to load updated attachment")
       }
       expect(updatedAttachment.references).not.toContain(train.id)
@@ -329,7 +339,7 @@ describe("TransportationMutations", () => {
       const mutations = useTransportationMutations(tripStid)
       const genericData = {
         name: "Test Ride",
-        genericType: "car",
+        genericType: "car" as const,
         departureDateTime: "2024-01-01T10:00:00Z",
         arrivalDateTime: "2024-01-01T12:00:00Z",
         origin: location,
@@ -356,7 +366,10 @@ describe("TransportationMutations", () => {
         origin: location,
         destination: location,
       })
-      const geoJson = { type: "Point", coordinates: [13.4, 52.52] }
+      const geoJson: GeoJSONFeatureCollection = {
+        type: "FeatureCollection",
+        features: [],
+      }
 
       // when
       const updated = await mutations.updateGeneric(generic.id, {
@@ -371,7 +384,10 @@ describe("TransportationMutations", () => {
     it("should update generic transportation to undefined geoJson and verify permissions (Testcase 2)", async () => {
       // given
       const mutations = useTransportationMutations(tripStid)
-      const geoJson = { type: "Point", coordinates: [13.4, 52.52] }
+      const geoJson: GeoJSONFeatureCollection = {
+        type: "FeatureCollection",
+        features: [],
+      }
       const generic = await mutations.createGeneric({
         name: "Test Ride",
         genericType: "car",
@@ -425,7 +441,10 @@ describe("TransportationMutations", () => {
       })
       const attachment = await attachmentMutations.create({
         name: "Generic Attachment",
-        file: new Blob(["test"], { type: "text/plain" }),
+        file: new File(
+          [new Blob(["test"], { type: "text/plain" })],
+          "test.txt",
+        ),
         references: [generic.id],
       })
 
@@ -434,7 +453,7 @@ describe("TransportationMutations", () => {
 
       // then
       const updatedAttachment = await FileAttachmentEntity.load(attachment.id)
-      if (!updatedAttachment?.$isLoaded) {
+      if (!updatedAttachment.$isLoaded) {
         throw new Error("Unable to load updated attachment")
       }
       expect(updatedAttachment.references).not.toContain(generic.id)

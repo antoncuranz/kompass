@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
 import type { GenericTransportation } from "@/domain"
+import type { GeoJSONFeatureCollection } from "zod-geojson"
 import {
   TransportationType,
   TransportationTypeValues,
@@ -113,7 +114,7 @@ function TransportationDialogContent({
   const { isSubmitting } = form.formState
 
   function enrichGeoJsonPoints(
-    geoJson: GeoJSON.FeatureCollection,
+    geoJson: GeoJSONFeatureCollection,
     values: z.infer<typeof formSchema>,
   ) {
     for (const feature of geoJson.features) {

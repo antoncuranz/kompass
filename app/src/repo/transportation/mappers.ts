@@ -19,6 +19,7 @@ import type {
   TrainStation,
 } from "@/domain"
 import type { co } from "jazz-tools"
+import type { GeoJSONFeatureCollection } from "zod-geojson"
 import { mapLocation } from "@/repo/common/mappers"
 // eslint-disable @typescript-eslint/no-misused-spread
 
@@ -51,7 +52,7 @@ export function mapFlight(entity: co.loaded<typeof FlightEntity>): Flight {
     ...entity,
     legs: entity.legs.map(mapFlightLeg),
     pnrs: entity.pnrs.$isLoaded ? entity.pnrs.map(mapPnr) : [],
-    geoJson: entity.geoJson as GeoJSON.GeoJSON, // TODO
+    geoJson: entity.geoJson as GeoJSONFeatureCollection,
   }
 }
 
@@ -78,6 +79,7 @@ export function mapTrain(entity: co.loaded<typeof TrainEntity>): Train {
     id: entity.$jazz.id,
     ...entity,
     legs: entity.legs.map(mapTrainLeg),
+    geoJson: entity.geoJson as GeoJSONFeatureCollection | undefined,
   }
 }
 
@@ -89,5 +91,6 @@ export function mapGenericTransportation(
     ...entity,
     origin: mapLocation(entity.origin),
     destination: mapLocation(entity.destination),
+    geoJson: entity.geoJson as GeoJSONFeatureCollection | undefined,
   }
 }

@@ -32,7 +32,7 @@ export function useTransportationMutations(
         {
           type: "flight",
           ...rest,
-          pnrs: pnrs ?? [],
+          pnrs: pnrs,
         },
         group,
       )
@@ -43,9 +43,7 @@ export function useTransportationMutations(
     },
 
     updateFlight: async (flightId, values) => {
-      const entity = await FlightEntity.load(flightId, {
-        resolve: { pnrs: true },
-      })
+      const entity = await FlightEntity.load(flightId)
       if (!entity.$isLoaded) {
         throw new Error(
           "Unable to load FlightEntity: " + entity.$jazz.loadingState,
@@ -54,8 +52,8 @@ export function useTransportationMutations(
 
       const { pnrs, ...rest } = values
       entity.$jazz.applyDiff(rest)
-      if (pnrs) {
-        entity.pnrs.$jazz.applyDiff(pnrs)
+      if (entity.pnrs.$isLoaded) {
+        entity.pnrs.$jazz.applyDiff(pnrs ?? [])
       }
 
       return mapFlight(entity)
@@ -119,6 +117,7 @@ export function useTransportationMutations(
         {
           type: "generic",
           ...values,
+          geoJson: values.geoJson,
         },
         group,
       )

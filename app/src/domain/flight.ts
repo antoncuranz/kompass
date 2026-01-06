@@ -1,6 +1,6 @@
 import * as z from "zod"
-import { GeoJSONSchema } from "zod-geojson"
-import { Location } from "./"
+import { GeoJSONFeatureCollectionSchema } from "zod-geojson"
+import { CreateLocation, Location } from "./"
 
 const Airport = z.object({
   iata: z.string(),
@@ -9,6 +9,11 @@ const Airport = z.object({
   location: Location,
 })
 export type Airport = z.infer<typeof Airport>
+
+const CreateAirport = z.object({
+  ...Airport.shape,
+  location: CreateLocation,
+})
 
 const FlightLeg = z.object({
   id: z.string(),
@@ -23,7 +28,14 @@ const FlightLeg = z.object({
   aircraft: z.string().optional(),
 })
 export type FlightLeg = z.infer<typeof FlightLeg>
-const CreateFlightLeg = FlightLeg.omit({ id: true })
+
+const CreateFlightLeg = z
+  .object({
+    ...FlightLeg.shape,
+    origin: CreateAirport,
+    destination: CreateAirport,
+  })
+  .omit({ id: true })
 
 const PNR = z.object({
   id: z.string(),
@@ -39,7 +51,7 @@ export const Flight = z.object({
   legs: z.array(FlightLeg),
   pnrs: z.array(PNR),
   price: z.number().optional(),
-  geoJson: GeoJSONSchema.optional(),
+  geoJson: GeoJSONFeatureCollectionSchema.optional(),
 })
 export type Flight = z.infer<typeof Flight>
 
