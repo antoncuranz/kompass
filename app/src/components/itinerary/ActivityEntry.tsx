@@ -1,6 +1,5 @@
-import { HugeiconsIcon } from "@hugeicons/react"
-import { ArrowRight01Icon } from "@hugeicons/core-free-icons"
 import { useMap } from "react-map-gl/maplibre"
+import JumpToMapButton from "./JumpToMapButton"
 import type { MouseEvent, MouseEventHandler } from "react"
 import type { Activity } from "@/domain"
 import { formatTime } from "@/lib/formatting"
@@ -31,11 +30,7 @@ export default function ActivityEntry({
         {activity.time && formatTime(activity.time, true)}
       </span>
       {activity.location && heroMap && (
-        <HugeiconsIcon
-          icon={ArrowRight01Icon}
-          className="absolute top-2 -right-3 bg-card rounded-full border hidden group-hover/flyto:block"
-          onClick={onChevronClick}
-        />
+        <JumpToMapButton onClick={onChevronClick} />
       )}
     </div>
   )

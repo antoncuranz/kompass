@@ -1,12 +1,12 @@
 import { HugeiconsIcon } from "@hugeicons/react"
 import {
   ArrowDown01Icon,
-  ArrowRight01Icon,
   ArrowUp01Icon,
   PencilEdit01Icon,
 } from "@hugeicons/core-free-icons"
 import { useState } from "react"
 import { useMap } from "react-map-gl/maplibre"
+import JumpToMapButton from "./JumpToMapButton"
 import type { MouseEvent, MouseEventHandler } from "react"
 import type { TrainLeg } from "@/domain"
 import { Button } from "@/components/ui/button.tsx"
@@ -57,13 +57,25 @@ export default function TrainEntry({
     <Collapsible
       open={open}
       onOpenChange={setOpen}
-      className={cn(
-        "rounded-lg border mx-5 p-2 px-3 grid bg-card z-10 relative group/flyto",
-        "shadow-sm active:shadow-xs transition-all",
-        className,
-      )}
+      className={state =>
+        cn(
+          "mx-5 grid bg-card z-10 relative group/flyto rounded-lg",
+          state.open &&
+            "inset-ring-1 inset-ring-[var(--color-border)] shadow-sm",
+          className,
+        )
+      }
     >
-      <CollapsibleTrigger className="grid grid-cols-[1.5rem_1fr] gap-2 cursor-pointer w-full text-left">
+      <CollapsibleTrigger
+        className={state =>
+          cn(
+            "grid grid-cols-[1.5rem_1fr] gap-2 cursor-pointer relative h-auto w-full text-base text-left active:scale-[1] not-disabled:hover:bg-transparent",
+            state.open &&
+              "border-dashed shadow-none bg-transparent rounded-b-none",
+          )
+        }
+        render={<Button variant="secondary" size="base" />}
+      >
         <span className="mt-0 m-auto text-2xl leading-[1.3rem] h-6">🚇</span>
         <div className="flex overflow-hidden whitespace-nowrap w-full">
           <span className="overflow-hidden text-ellipsis w-full">
@@ -72,26 +84,14 @@ export default function TrainEntry({
               : `${formatTime(trainLeg.departureDateTime)}-${formatTime(trainLeg.arrivalDateTime)} ${trainLeg.lineName} from ${trainLeg.origin.name} to ${trainLeg.destination.name}`}
           </span>
           {open ? (
-            <HugeiconsIcon
-              icon={ArrowUp01Icon}
-              className="float-right text-muted-foreground"
-            />
+            <HugeiconsIcon className="size-6" icon={ArrowUp01Icon} />
           ) : (
-            <HugeiconsIcon
-              icon={ArrowDown01Icon}
-              className="float-right text-muted-foreground"
-            />
+            <HugeiconsIcon className="size-6" icon={ArrowDown01Icon} />
           )}
         </div>
-        {heroMap && (
-          <HugeiconsIcon
-            icon={ArrowRight01Icon}
-            className="absolute top-2 -right-3 bg-card rounded-full border hidden group-hover/flyto:block"
-            onClick={onChevronClick}
-          />
-        )}
+        {heroMap && <JumpToMapButton onClick={onChevronClick} />}
       </CollapsibleTrigger>
-      <CollapsibleContent>
+      <CollapsibleContent className="pb-2 px-3">
         <div
           className="grid mt-1"
           style={{ gridTemplateColumns: "1.5rem 1fr", columnGap: "0.5rem" }}
