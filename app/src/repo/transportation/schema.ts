@@ -1,6 +1,6 @@
 import { co, z } from "jazz-tools"
 import { LocationEntity } from "@/repo/common/schema"
-import { TransportationType } from "@/domain"
+import { TransportationTypeValues } from "@/domain"
 
 export const AirportEntity = co
   .map({
@@ -85,7 +85,7 @@ export const GenericTransportationEntity = co
   .map({
     type: z.literal("generic"),
     name: z.string(),
-    genericType: TransportationType,
+    genericType: z.enum(TransportationTypeValues),
     departureDateTime: z.iso.datetime(),
     arrivalDateTime: z.iso.datetime(),
     origin: LocationEntity,

@@ -60,7 +60,7 @@ export const Trip = z.object({
 })
 export type Trip = z.infer<typeof Trip>
 
-export const CreateTrip = Trip.omit({ stid: true, tid: true, notes: true })
+export const CreateTrip = Trip.omit({ stid: true, notes: true })
 export type CreateTrip = z.infer<typeof CreateTrip>
 
 export const UpdateTrip = CreateTrip.partial()
