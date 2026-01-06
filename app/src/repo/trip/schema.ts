@@ -3,7 +3,7 @@ import { ActivityEntity } from "@/repo/activity/schema"
 import { AccommodationEntity } from "@/repo/accommodation/schema"
 import { TransportationEntity } from "@/repo/transportation/schema"
 import { FileAttachmentEntity } from "@/repo/attachment/schema"
-import { JoinRequestEntity, JoinRequestStatus } from "@/repo/common/schema"
+import { JoinRequestEntity, RequestStatusEntity } from "@/repo/common/schema"
 
 export const TripEntity = co
   .map({
@@ -37,18 +37,18 @@ export const TripEntity = co
     files: { $each: FileAttachmentEntity.resolveQuery, $onError: "catch" },
   })
 
-export const RequestStatuses = co
-  .record(z.string(), JoinRequestStatus)
+export const RequestStatusEntityList = co
+  .record(z.string(), RequestStatusEntity)
   .resolved({ $each: true })
 
-export const JoinRequests = co
+export const JoinRequestEntityList = co
   .record(z.string(), JoinRequestEntity)
-  .resolved({ $each: JoinRequestEntity.resolveQuery, $onError: "catch" })
+  .resolved({ $each: JoinRequestEntity.resolveQuery })
 
 export const SharedTripEntity = co.map({
   trip: TripEntity,
-  requests: JoinRequests,
-  statuses: RequestStatuses,
+  requests: JoinRequestEntityList,
+  statuses: RequestStatusEntityList,
   admins: Group, // write-access to SharedTripEntity
   members: Group, // write-access to Trip
   guests: Group, // read-access to less sensitive Trip data

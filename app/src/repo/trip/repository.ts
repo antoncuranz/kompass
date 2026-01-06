@@ -1,8 +1,8 @@
 import { Group, co } from "jazz-tools"
 import { mapTrip } from "./mappers"
 import {
-  JoinRequests,
-  RequestStatuses,
+  JoinRequestEntityList,
+  RequestStatusEntityList,
   SharedTripEntity,
   TripEntity,
 } from "./schema"
@@ -79,8 +79,8 @@ export function useTripRepository(): TripRepository {
           members,
           guests,
           workers,
-          requests: JoinRequests.create({}, requestsGroup),
-          statuses: RequestStatuses.create({}, statusesGroup),
+          requests: JoinRequestEntityList.create({}, requestsGroup),
+          statuses: RequestStatusEntityList.create({}, statusesGroup),
         },
         sharedTripGroup,
       )

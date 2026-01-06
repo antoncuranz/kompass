@@ -50,7 +50,7 @@ export async function mapTripMeta(
       members: true
       guests: true
       workers: true
-      requests: { $each: { account: { profile: true } } }
+      requests: { $each: { account: { profile: true }; $onError: "catch" } }
     }
   >,
 ): Promise<TripMeta> {
