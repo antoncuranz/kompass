@@ -28,7 +28,7 @@ function App() {
   const cards = trips.map((trip: Trip, idx) => (
     <Link key={trip.stid} to={"/" + trip.stid + "/itinerary"}>
       <TripCard
-        trip={trip} // TODO: sometimes, trip is undefined (race condition?)
+        trip={trip}
         className={cardClasses}
         fallbackColor={fallbackColors[idx % fallbackColors.length]}
         onEdit={() => {

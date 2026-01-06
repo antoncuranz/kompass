@@ -3,6 +3,7 @@ import { mapAttachment } from "./mappers"
 import { FileAttachmentEntity } from "./schema"
 import type { AttachmentSubscription } from "@/repo/contracts"
 import { SharedTripEntity } from "@/repo/trip/schema"
+import { FileAttachment } from "@/domain"
 
 export function useAttachmentSubscription(
   stid: string,
@@ -15,6 +16,8 @@ export function useAttachmentSubscription(
   })
 
   return {
-    attachments: entities.map(mapAttachment),
+    attachments: entities
+      .map(mapAttachment)
+      .filter(a => FileAttachment.safeParse(a).success), // prevents loading problems during creation of new entities
   }
 }

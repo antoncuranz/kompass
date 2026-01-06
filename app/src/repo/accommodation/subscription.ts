@@ -3,6 +3,7 @@ import { mapAccommodation } from "./mappers"
 import { AccommodationEntity } from "./schema"
 import type { AccommodationSubscription } from "@/repo/contracts"
 import { SharedTripEntity } from "@/repo/trip/schema"
+import { Accommodation } from "@/domain"
 
 export function useAccommodationSubscription(
   stid: string,
@@ -15,6 +16,8 @@ export function useAccommodationSubscription(
   })
 
   return {
-    accommodation: entities.map(mapAccommodation),
+    accommodation: entities
+      .map(mapAccommodation)
+      .filter(a => Accommodation.safeParse(a).success), // prevents loading problems during creation of new entities
   }
 }
