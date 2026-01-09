@@ -24,7 +24,7 @@
     "@typescript/native-preview": "^7.0.0-dev.20251230.1",
     "oxfmt": "^0.23.0",
     "oxlint": "^1.36.0",
-    "oxlint-tsgolint": "^0.10.0"
+    "oxlint-tsgolint": "^0.11.0"
   },
   "overrides": {
     "rfc6902": "5.1.2"
