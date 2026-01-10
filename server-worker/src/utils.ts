@@ -9,7 +9,7 @@ import type { Account } from "jazz-tools"
 import { parseAuthToken } from "jazz-tools"
 import { startWorker } from "jazz-tools/worker"
 import config from "./config"
-import { ServerWorkerAccount } from "./schema"
+import { ServerWorkerAccount } from "./repo/jazz"
 
 const jazzWorkerOptions = {
   syncServer: config.JAZZ_SYNC_URL,

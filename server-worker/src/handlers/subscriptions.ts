@@ -1,10 +1,9 @@
 import { HttpApiBuilder } from "@effect/platform"
 import { InternalServerError, NotFound } from "@effect/platform/HttpApiError"
 import { Effect } from "effect"
-import type { Schema } from "effect"
 import type { Account } from "jazz-tools"
 import { ServerWorkerApi } from "../api"
-import type { PushSubscription } from "../schema"
+import type { PushSubscription } from "../domain/notification"
 import { getSwAccount, hash, withJazzWorkerAndAuth } from "../utils"
 
 // Subscription operations
@@ -28,10 +27,7 @@ function getSubscriptions(account: Account) {
   })
 }
 
-function addSubscription(
-  account: Account,
-  subscription: Schema.Schema.Type<typeof PushSubscription>,
-) {
+function addSubscription(account: Account, subscription: PushSubscription) {
   return Effect.gen(function* () {
     const swAccount = yield* getSwAccount
     const hashedId = hash(account.$jazz.id)

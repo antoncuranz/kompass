@@ -10,6 +10,10 @@ const schema = z.object({
   VAPID_SUBJECT: z.string().nonempty(),
   VAPID_PUBLIC_KEY: z.string().nonempty(),
   VAPID_PRIVATE_KEY: z.string().nonempty(),
+  TRANSPORTATION_API_URL: z
+    .string()
+    .nonempty()
+    .default("http://127.0.0.1:8080/api/v1"),
 })
 
 const parsed = schema.safeParse(process.env)

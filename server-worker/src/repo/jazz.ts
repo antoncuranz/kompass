@@ -1,9 +1,8 @@
-import { Schema } from "effect"
 import { co, z } from "jazz-tools"
 
 // Jazz CoValue Schemas
 
-const PushSubscriptionEntity = co
+export const PushSubscriptionEntity = co
   .map({
     endpoint: z.string(),
     expirationTime: z.number().nullish(),
@@ -13,6 +12,40 @@ const PushSubscriptionEntity = co
     }),
   })
   .resolved({ keys: true })
+
+export const AirportEntity = co.map({
+  iata: z.string(),
+})
+
+export const FlightLegEntity = co
+  .map({
+    origin: AirportEntity,
+    destination: AirportEntity,
+    airline: z.string(),
+    flightNumber: z.string(),
+    departureDateTime: z.iso.datetime(),
+    arrivalDateTime: z.iso.datetime(),
+    amadeusFlightDate: z.iso.date().optional(),
+    durationInMinutes: z.number(),
+    aircraft: z.string().optional(),
+  })
+  .resolved({
+    origin: true,
+    destination: true,
+  })
+
+export const FlightEntity = co
+  .map({
+    type: z.literal("flight"),
+    legs: co.list(FlightLegEntity),
+  })
+  .resolved({
+    legs: { $each: { ...FlightLegEntity.resolveQuery, $onError: "catch" } },
+  })
+
+export const TransportationEntity = co.discriminatedUnion("type", [
+  FlightEntity,
+])
 
 export const ServerWorkerAccount = co
   .account({
@@ -47,22 +80,3 @@ export const ServerWorkerAccount = co
       transportationLists: { $each: { $each: true } },
     },
   })
-
-// Effect Schemas
-
-export const PushSubscriptionEndpoint = Schema.String
-
-export const PushSubscription = Schema.Struct({
-  endpoint: PushSubscriptionEndpoint,
-  expirationTime: Schema.NullishOr(Schema.Number),
-  keys: Schema.Struct({
-    p256dh: Schema.String,
-    auth: Schema.String,
-  }),
-})
-
-export const PushNotification = Schema.Struct({
-  title: Schema.String,
-  body: Schema.String,
-  icon: Schema.String,
-})
