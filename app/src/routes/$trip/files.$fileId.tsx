@@ -5,6 +5,7 @@ import {
   AirplaneTakeOff01Icon,
   Building03Icon,
   Cancel01Icon,
+  Download01Icon,
   Link01Icon,
   Location01Icon,
   Train01Icon,
@@ -21,6 +22,7 @@ import { downloadBlob, useReferencedItem } from "@/lib/files"
 import { getTransportationTypeEmoji } from "@/domain/transportation"
 import { useAttachmentQuery, useAttachmentRepository } from "@/repo"
 import { useTripEntities } from "@/hooks/useTripEntities"
+import { Button } from "@/components/ui/button"
 
 export const Route = createFileRoute("/$trip/files/$fileId")({
   component: FileDetailPage,
@@ -95,7 +97,21 @@ function FileDetailPage() {
 
   return (
     <>
-      <Pane title={attachment.name} testId="file-detail-card">
+      <Pane
+        title={attachment.name}
+        testId="file-detail-card"
+        rightSlot={
+          <Button
+            variant="secondary"
+            size="icon-round"
+            onClick={handleDownload}
+            disabled={!blobUrl}
+            aria-label="Download file"
+          >
+            <HugeiconsIcon icon={Download01Icon} />
+          </Button>
+        }
+      >
         <div className="h-full flex flex-col overflow-hidden">
           <FileViewer
             fileUrl={blobUrl}
@@ -103,7 +119,7 @@ function FileDetailPage() {
             onDownload={handleDownload}
           />
 
-          <div className="border-t p-2">
+          <div className="hidden sm:block border-t p-2">
             <div className="flex items-center gap-2 flex-wrap">
               <HugeiconsIcon
                 icon={Link01Icon}

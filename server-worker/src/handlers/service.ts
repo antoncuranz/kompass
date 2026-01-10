@@ -1,8 +1,9 @@
 import { HttpApiBuilder } from "@effect/platform"
-import { InternalServerError, NotFound } from "@effect/platform/HttpApiError"
+import { NotFound } from "@effect/platform/HttpApiError"
 import { Effect } from "effect"
 import type { Schema } from "effect"
 import type { Account } from "jazz-tools"
+import type { WebPushError } from "web-push"
 import webpush from "web-push"
 import { ServerWorkerApi } from "../api"
 import config from "../config"
@@ -27,9 +28,17 @@ function sendNotification(
   notification: Schema.Schema.Type<typeof PushNotification>,
 ) {
   return Effect.tryPromise({
-    try: () =>
-      webpush.sendNotification(subscription, JSON.stringify(notification)),
-    catch: () => new InternalServerError(),
+    try: () => webpush.sendNotification(subscription, JSON.stringify(notification)),
+    catch: error => error as WebPushError,
+  })
+}
+
+function deleteSubscription(account: Account, endpoint: string) {
+  return Effect.gen(function* () {
+    const swAccount = yield* getSwAccount
+    const hashedId = hash(account.$jazz.id)
+    yield* Effect.log(`Subscription expired, removing: ${endpoint}`)
+    swAccount.root.pushSubscriptions[hashedId]?.$jazz.delete(endpoint)
   })
 }
 
@@ -40,11 +49,13 @@ function getSubscriptionsForNotification(account: Account) {
     const pushSubscriptions = swAccount.root.pushSubscriptions
 
     if (!(hashedId in pushSubscriptions)) {
+      yield* Effect.logWarning(`No subscriptions found for hashed account ID: ${hashedId}`)
       return yield* new NotFound()
     }
 
     const userSubscriptions = pushSubscriptions[hashedId]
     if (!userSubscriptions || Object.keys(userSubscriptions).length === 0) {
+      yield* Effect.logWarning(`Empty subscriptions for hashed account ID: ${hashedId}`)
       return yield* new NotFound()
     }
 
@@ -83,7 +94,13 @@ export const ServiceImpl = HttpApiBuilder.group(
               icon: "https://kompa.ss/favicon.png",
             }
             for (const subscription of subscriptions) {
-              yield* sendNotification(subscription, notification)
+              yield* sendNotification(subscription, notification).pipe(
+                Effect.catchAll(error =>
+                  error.statusCode === 410
+                    ? deleteSubscription(acc, subscription.endpoint)
+                    : Effect.logError("Failed to send push notification", error),
+                ),
+              )
             }
           }),
         ),

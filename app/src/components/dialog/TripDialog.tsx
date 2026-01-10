@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useState } from "react"
+import { useState, useTransition } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { HugeiconsIcon } from "@hugeicons/react"
@@ -52,6 +52,7 @@ function TripDialogContent({ trip }: { trip?: Trip }) {
   const [edit, setEdit] = useState<boolean>(trip == undefined)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const { onClose } = useDialogContext()
+  const [isTogglingNotifications, startTransition] = useTransition()
 
   const {
     toggle: toggleNotifications,
@@ -153,8 +154,10 @@ function TripDialogContent({ trip }: { trip?: Trip }) {
                 <>
                   <Switch
                     checked={notificationStatus === "active"}
-                    onCheckedChange={toggleNotifications}
-                    disabled={!edit}
+                    onCheckedChange={() =>
+                      startTransition(() => toggleNotifications())
+                    }
+                    disabled={!edit || isTogglingNotifications}
                   />
                   <Button
                     variant="secondary"
