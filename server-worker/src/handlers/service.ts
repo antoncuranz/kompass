@@ -1,8 +1,9 @@
 import { HttpApiBuilder } from "@effect/platform"
-import { InternalServerError, NotFound } from "@effect/platform/HttpApiError"
-import { Effect, Either } from "effect"
+import { NotFound } from "@effect/platform/HttpApiError"
+import { Effect } from "effect"
 import type { Schema } from "effect"
 import type { Account } from "jazz-tools"
+import type { WebPushError } from "web-push"
 import webpush from "web-push"
 import { ServerWorkerApi } from "../api"
 import config from "../config"
@@ -26,17 +27,18 @@ function sendNotification(
   subscription: Schema.Schema.Type<typeof PushSubscription>,
   notification: Schema.Schema.Type<typeof PushNotification>,
 ) {
+  return Effect.tryPromise({
+    try: () => webpush.sendNotification(subscription, JSON.stringify(notification)),
+    catch: error => error as WebPushError,
+  })
+}
+
+function deleteSubscription(account: Account, endpoint: string) {
   return Effect.gen(function* () {
-    const result = yield* Effect.tryPromise(() =>
-      webpush.sendNotification(subscription, JSON.stringify(notification)),
-    ).pipe(Effect.either)
-
-    if (Either.isLeft(result)) {
-      yield* Effect.logError("Failed to send push notification", result.left.error)
-      return yield* new InternalServerError()
-    }
-
-    return result.right
+    const swAccount = yield* getSwAccount
+    const hashedId = hash(account.$jazz.id)
+    yield* Effect.log(`Subscription expired, removing: ${endpoint}`)
+    swAccount.root.pushSubscriptions[hashedId]?.$jazz.delete(endpoint)
   })
 }
 
@@ -92,7 +94,13 @@ export const ServiceImpl = HttpApiBuilder.group(
               icon: "https://kompa.ss/favicon.png",
             }
             for (const subscription of subscriptions) {
-              yield* sendNotification(subscription, notification)
+              yield* sendNotification(subscription, notification).pipe(
+                Effect.catchAll(error =>
+                  error.statusCode === 410
+                    ? deleteSubscription(acc, subscription.endpoint)
+                    : Effect.logError("Failed to send push notification", error),
+                ),
+              )
             }
           }),
         ),
