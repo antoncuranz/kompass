@@ -32,6 +32,7 @@ const buttonVariants = cva(
         icon: "w-10",
         "icon-lg": "w-10 [&_svg:not([class*='size-'])]:size-6",
         "icon-round": "w-10 rounded-full",
+        fab: "w-12 h-12 rounded-full shadow-lg [&_svg:not([class*='size-'])]:size-6",
       },
     },
     defaultVariants: {

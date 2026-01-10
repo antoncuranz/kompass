@@ -90,7 +90,7 @@ function ItineraryPage() {
       <div className="fixed bottom-6 right-6 z-50 sm:hidden">
         <AddEntryDropdown
           trigger={
-            <Button size="icon" className="rounded-full h-12 w-12 shadow-lg">
+            <Button size="fab">
               <HugeiconsIcon icon={Add01Icon} size={24} />
             </Button>
           }

@@ -30,7 +30,11 @@ function sendNotification(
     try: () =>
       webpush.sendNotification(subscription, JSON.stringify(notification)),
     catch: () => new InternalServerError(),
-  })
+  }).pipe(
+    Effect.tapError(error =>
+      Effect.logError("Failed to send push notification", error),
+    ),
+  )
 }
 
 function getSubscriptionsForNotification(account: Account) {
@@ -40,11 +44,13 @@ function getSubscriptionsForNotification(account: Account) {
     const pushSubscriptions = swAccount.root.pushSubscriptions
 
     if (!(hashedId in pushSubscriptions)) {
+      yield* Effect.logWarning(`No subscriptions found for hashed account ID: ${hashedId}`)
       return yield* new NotFound()
     }
 
     const userSubscriptions = pushSubscriptions[hashedId]
     if (!userSubscriptions || Object.keys(userSubscriptions).length === 0) {
+      yield* Effect.logWarning(`Empty subscriptions for hashed account ID: ${hashedId}`)
       return yield* new NotFound()
     }
 
