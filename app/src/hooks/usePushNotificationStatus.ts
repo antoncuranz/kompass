@@ -14,8 +14,8 @@ type BlockedReason =
   | "Admin access required"
 
 interface PushNotificationStatus {
-  toggle: () => void
-  sendTestNotification: () => void
+  toggle: () => Promise<void>
+  sendTestNotification: () => Promise<void>
   status: "active" | "inactive" | "blocked"
   blockedReason: BlockedReason | null
 }
@@ -42,8 +42,8 @@ export function usePushNotifications(
 ): PushNotificationStatus {
   if (!stid)
     return {
-      toggle: () => {},
-      sendTestNotification: () => {},
+      toggle: async () => {},
+      sendTestNotification: async () => {},
       status: "inactive",
       blockedReason: null,
     }
@@ -55,8 +55,8 @@ export function usePushNotifications(
 
   if (!sharedTrip.$isLoaded)
     return {
-      toggle: () => {},
-      sendTestNotification: () => {},
+      toggle: async () => {},
+      sendTestNotification: async () => {},
       status: "blocked",
       blockedReason: "Loading...",
     }
