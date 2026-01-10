@@ -1,6 +1,6 @@
 import { HttpApiBuilder } from "@effect/platform"
 import { InternalServerError, NotFound } from "@effect/platform/HttpApiError"
-import { Effect } from "effect"
+import { Effect, Either } from "effect"
 import type { Schema } from "effect"
 import type { Account } from "jazz-tools"
 import webpush from "web-push"
@@ -26,15 +26,18 @@ function sendNotification(
   subscription: Schema.Schema.Type<typeof PushSubscription>,
   notification: Schema.Schema.Type<typeof PushNotification>,
 ) {
-  return Effect.tryPromise({
-    try: () =>
+  return Effect.gen(function* () {
+    const result = yield* Effect.tryPromise(() =>
       webpush.sendNotification(subscription, JSON.stringify(notification)),
-    catch: () => new InternalServerError(),
-  }).pipe(
-    Effect.tapError(error =>
-      Effect.logError("Failed to send push notification", error),
-    ),
-  )
+    ).pipe(Effect.either)
+
+    if (Either.isLeft(result)) {
+      yield* Effect.logError("Failed to send push notification", result.left.error)
+      return yield* new InternalServerError()
+    }
+
+    return result.right
+  })
 }
 
 function getSubscriptionsForNotification(account: Account) {
