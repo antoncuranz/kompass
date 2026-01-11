@@ -4,16 +4,16 @@ import {
   HttpMiddleware,
 } from "@effect/platform"
 import { BunHttpServer, BunRuntime } from "@effect/platform-bun"
-import { Effect, Layer } from "effect"
+import { Effect, Layer, Schedule } from "effect"
 import { ServerWorkerApi } from "./api"
 import { MonitorsLive } from "./handlers/monitors"
 import { ServiceLive } from "./handlers/service"
 import { SubscriptionsLive } from "./handlers/subscriptions"
-import { startFlightChecker } from "./jobs/flightChecker"
 import { AuthRepositoryLive } from "./repo/auth"
 import { NotificationRepositoryLive } from "./repo/notifications"
 import { StorageRepositoryLive } from "./repo/storage"
 import { TransportationRepositoryLive } from "./repo/transportation"
+import { checkAllFlights } from "./usecase/flightChecker"
 
 const RepoLayers = Layer.mergeAll(
   AuthRepositoryLive,
@@ -34,7 +34,14 @@ const Server = HttpApiBuilder.serve(HttpMiddleware.logger).pipe(
   Layer.provide(BunHttpServer.layer({ port: 8080 })),
 )
 
-startFlightChecker().pipe(
+const scheduledFlightChecker = Effect.repeat(
+  checkAllFlights().pipe(
+    Effect.catchAll(e => Effect.logError("Flight checker job failed", e)),
+  ),
+  Schedule.spaced("1 hour"),
+)
+
+Effect.fork(scheduledFlightChecker).pipe(
   Effect.andThen(Layer.launch(Server)),
   Effect.provide(RepoLayers),
   BunRuntime.runMain,
