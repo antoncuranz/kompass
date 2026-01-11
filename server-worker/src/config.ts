@@ -1,29 +1,32 @@
-import dotenv from "dotenv"
-import { z } from "zod"
+import { Config, Context, Layer } from "effect"
+import type { Redacted } from "effect/Redacted"
 
-dotenv.config()
+export class AppConfig extends Context.Tag("AppConfig")<
+  AppConfig,
+  {
+    readonly jazzSyncUrl: string
+    readonly jazzAccountId: string
+    readonly jazzAccountSecret: Redacted<string>
+    readonly vapidSubject: string
+    readonly vapidPublicKey: string
+    readonly vapidPrivateKey: Redacted<string>
+    readonly transportationApiUrl: string
+  }
+>() {}
 
-const schema = z.object({
-  JAZZ_SYNC_URL: z.string().nonempty().default("ws://127.0.0.1:4200"),
-  JAZZ_WORKER_ACCOUNT: z.string().nonempty(),
-  JAZZ_WORKER_SECRET: z.string().nonempty(),
-  VAPID_SUBJECT: z.string().nonempty(),
-  VAPID_PUBLIC_KEY: z.string().nonempty(),
-  VAPID_PRIVATE_KEY: z.string().nonempty(),
-  TRANSPORTATION_API_URL: z
-    .string()
-    .nonempty()
-    .default("http://127.0.0.1:8080/api/v1"),
-})
-
-const parsed = schema.safeParse(process.env)
-
-if (!parsed.success) {
-  console.error(
-    "❌ Invalid environment variables:",
-    JSON.stringify(z.treeifyError(parsed.error), null, 4),
-  )
-  process.exit(1)
-}
-
-export default parsed.data
+export const AppConfigLive = Layer.effect(
+  AppConfig,
+  Config.all({
+    jazzSyncUrl: Config.string("JAZZ_SYNC_URL").pipe(
+      Config.withDefault("ws://127.0.0.1:4200"),
+    ),
+    jazzAccountId: Config.string("JAZZ_WORKER_ACCOUNT"),
+    jazzAccountSecret: Config.redacted("JAZZ_WORKER_SECRET"),
+    vapidSubject: Config.string("VAPID_SUBJECT"),
+    vapidPublicKey: Config.string("VAPID_PUBLIC_KEY"),
+    vapidPrivateKey: Config.redacted("VAPID_PRIVATE_KEY"),
+    transportationApiUrl: Config.string("TRANSPORTATION_API_URL").pipe(
+      Config.withDefault("http://127.0.0.1:8080/api/v1"),
+    ),
+  }),
+)

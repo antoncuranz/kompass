@@ -5,6 +5,7 @@ import {
 } from "@effect/platform"
 import { BunHttpServer, BunRuntime } from "@effect/platform-bun"
 import { Effect, Layer, Schedule } from "effect"
+import { AppConfigLive } from "./config"
 import { ServerWorkerApi } from "./api"
 import { MonitorsLive } from "./handlers/monitors"
 import { ServiceLive } from "./handlers/service"
@@ -20,7 +21,7 @@ const RepoLayers = Layer.mergeAll(
   StorageRepositoryLive,
   TransportationRepositoryLive,
   NotificationRepositoryLive,
-)
+).pipe(Layer.provideMerge(AppConfigLive))
 
 const HttpApiLayers = HttpApiBuilder.api(ServerWorkerApi).pipe(
   Layer.provide(ServiceLive),
@@ -41,8 +42,9 @@ const scheduledFlightChecker = Effect.repeat(
   Schedule.spaced("1 hour"),
 )
 
-Effect.fork(scheduledFlightChecker).pipe(
-  Effect.andThen(Layer.launch(Server)),
-  Effect.provide(RepoLayers),
-  BunRuntime.runMain,
-)
+const program = Effect.gen(function* () {
+  yield* Effect.fork(scheduledFlightChecker)
+  yield* Layer.launch(Server)
+})
+
+program.pipe(Effect.provide(RepoLayers), BunRuntime.runMain)

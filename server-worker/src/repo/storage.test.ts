@@ -2,7 +2,9 @@ import { describe, expect, it } from "vitest"
 import { Effect } from "effect"
 import { StorageRepository } from "./contracts"
 import { StorageRepositoryLive } from "./storage"
+import type { AppConfig } from "../config"
 import type { PushSubscription } from "../domain/notification"
+import { AppConfigTest } from "../test/setup"
 
 const mockSubscription: PushSubscription = {
   endpoint: "https://push.example.com/subscription/123",
@@ -23,9 +25,14 @@ const mockSubscription2: PushSubscription = {
 }
 
 function runWithStorage<A, E>(
-  effect: Effect.Effect<A, E, StorageRepository>,
+  effect: Effect.Effect<A, E, StorageRepository | AppConfig>,
 ): Promise<A> {
-  return Effect.runPromise(effect.pipe(Effect.provide(StorageRepositoryLive)))
+  return Effect.runPromise(
+    effect.pipe(
+      Effect.provide(StorageRepositoryLive),
+      Effect.provide(AppConfigTest),
+    ),
+  )
 }
 
 describe("StorageRepository - Push Subscription CRUD", () => {
