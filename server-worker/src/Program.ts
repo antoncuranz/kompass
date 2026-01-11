@@ -40,7 +40,7 @@ const scheduledFlightChecker = Effect.repeat(
   checkAllFlights().pipe(
     Effect.catchAll(e => Effect.logError("Flight checker job failed", e)),
   ),
-  Schedule.spaced("1 hour"),
+  Schedule.spaced("5 minutes"),
 )
 
 const program = Effect.gen(function* () {
