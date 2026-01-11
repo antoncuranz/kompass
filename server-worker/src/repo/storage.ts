@@ -273,8 +273,6 @@ export const StorageRepositoryLive = Layer.effect(
             const pushSubscriptions = account.root.pushSubscriptions
 
             if (!(userId in pushSubscriptions)) {
-              console.log("anton")
-              console.log(Object.entries(pushSubscriptions))
               pushSubscriptions.$jazz.set(userId, {})
             }
 

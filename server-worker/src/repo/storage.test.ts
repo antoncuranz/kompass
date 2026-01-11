@@ -141,3 +141,157 @@ describe("StorageRepository - Push Subscription CRUD", () => {
     expect(afterRemove).toEqual([])
   })
 })
+
+describe("StorageRepository - Monitor Management CRUD", () => {
+  it("should manage monitors (add, has, getSubscribers, remove)", async () => {
+    const listId = "test-list-monitors"
+    const userId1 = "monitor-user-1"
+    const userId2 = "monitor-user-2"
+
+    // Initially no monitor
+    const initialHas = await runWithStorage(
+      Effect.gen(function* () {
+        const storage = yield* StorageRepository
+        return yield* storage.hasMonitor(listId, userId1)
+      }),
+    )
+    expect(initialHas).toBe(false)
+
+    // Initially no subscribers
+    const initialSubscribers = await runWithStorage(
+      Effect.gen(function* () {
+        const storage = yield* StorageRepository
+        return yield* storage.getSubscribers(listId)
+      }),
+    )
+    expect(initialSubscribers).toEqual([])
+
+    // Add first monitor
+    await runWithStorage(
+      Effect.gen(function* () {
+        const storage = yield* StorageRepository
+        yield* storage.addMonitor(listId, userId1)
+      }),
+    )
+
+    // Verify hasMonitor returns true
+    const afterFirstAdd = await runWithStorage(
+      Effect.gen(function* () {
+        const storage = yield* StorageRepository
+        return yield* storage.hasMonitor(listId, userId1)
+      }),
+    )
+    expect(afterFirstAdd).toBe(true)
+
+    // Verify subscribers contains user1
+    const subscribersAfterFirst = await runWithStorage(
+      Effect.gen(function* () {
+        const storage = yield* StorageRepository
+        return yield* storage.getSubscribers(listId)
+      }),
+    )
+    expect(subscribersAfterFirst).toContain(userId1)
+    expect(subscribersAfterFirst).toHaveLength(1)
+
+    // Add second monitor
+    await runWithStorage(
+      Effect.gen(function* () {
+        const storage = yield* StorageRepository
+        yield* storage.addMonitor(listId, userId2)
+      }),
+    )
+
+    // Verify both users are subscribers
+    const subscribersAfterSecond = await runWithStorage(
+      Effect.gen(function* () {
+        const storage = yield* StorageRepository
+        return yield* storage.getSubscribers(listId)
+      }),
+    )
+    expect(subscribersAfterSecond).toContain(userId1)
+    expect(subscribersAfterSecond).toContain(userId2)
+    expect(subscribersAfterSecond).toHaveLength(2)
+
+    // Remove first monitor
+    await runWithStorage(
+      Effect.gen(function* () {
+        const storage = yield* StorageRepository
+        yield* storage.removeMonitor(listId, userId1)
+      }),
+    )
+
+    // Verify user1 no longer has monitor
+    const afterRemove = await runWithStorage(
+      Effect.gen(function* () {
+        const storage = yield* StorageRepository
+        return yield* storage.hasMonitor(listId, userId1)
+      }),
+    )
+    expect(afterRemove).toBe(false)
+
+    // Verify only user2 remains as subscriber
+    const subscribersAfterRemove = await runWithStorage(
+      Effect.gen(function* () {
+        const storage = yield* StorageRepository
+        return yield* storage.getSubscribers(listId)
+      }),
+    )
+    expect(subscribersAfterRemove).toEqual([userId2])
+  })
+
+  it("should handle operations on non-existent lists/monitors gracefully", async () => {
+    const listId = "non-existent-list"
+    const userId = "non-existent-monitor-user"
+
+    // hasMonitor for non-existent list returns false
+    const hasMonitor = await runWithStorage(
+      Effect.gen(function* () {
+        const storage = yield* StorageRepository
+        return yield* storage.hasMonitor(listId, userId)
+      }),
+    )
+    expect(hasMonitor).toBe(false)
+
+    // getSubscribers for non-existent list returns empty
+    const subscribers = await runWithStorage(
+      Effect.gen(function* () {
+        const storage = yield* StorageRepository
+        return yield* storage.getSubscribers(listId)
+      }),
+    )
+    expect(subscribers).toEqual([])
+
+    // removeMonitor for non-existent list does not throw
+    await runWithStorage(
+      Effect.gen(function* () {
+        const storage = yield* StorageRepository
+        yield* storage.removeMonitor(listId, userId)
+      }),
+    )
+  })
+})
+
+describe("StorageRepository - Transportation Lists and Debug", () => {
+  it("should get transportation list IDs and debug info", async () => {
+    // getTransportationListIds returns an array (may be empty or have data from other tests)
+    const listIds = await runWithStorage(
+      Effect.gen(function* () {
+        const storage = yield* StorageRepository
+        return yield* storage.getTransportationListIds()
+      }),
+    )
+    expect(Array.isArray(listIds)).toBe(true)
+
+    // getDebugInfo returns a JSON string
+    const debugInfo = await runWithStorage(
+      Effect.gen(function* () {
+        const storage = yield* StorageRepository
+        return yield* storage.getDebugInfo()
+      }),
+    )
+    expect(typeof debugInfo).toBe("string")
+    const parsed = JSON.parse(debugInfo)
+    expect(parsed).toHaveProperty("pushSubscriptions")
+    expect(parsed).toHaveProperty("transportationLists")
+  })
+})

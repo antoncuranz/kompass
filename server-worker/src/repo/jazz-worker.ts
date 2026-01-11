@@ -23,12 +23,14 @@ export function withJazzWorker<A, E, R>(
         })
 
         await worker.waitForConnection()
-        const loaded = await worker.worker.$jazz.ensureLoaded({resolve: ServerWorkerAccount.resolveQuery})
-        if (!loaded.$isLoaded) {
+        const loaded = await worker.worker.$jazz.ensureLoaded({
+          resolve: ServerWorkerAccount.resolveQuery,
+        })
+        if (!loaded.$isLoaded) {
           throw new Error("Unable to load ServerWorkerAccount")
         }
 
-        return {...worker, account: loaded}
+        return { ...worker, account: loaded }
       }),
       worker => use(worker.worker),
       worker => Effect.promise(() => worker.shutdownWorker()),
