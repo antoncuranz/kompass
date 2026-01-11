@@ -1,7 +1,10 @@
 import { describe, expect, it } from "vitest"
 import { Effect } from "effect"
+import { Group, co } from "jazz-tools"
 import { StorageRepository } from "./contracts"
 import { StorageRepositoryLive } from "./storage"
+import { FlightEntity, FlightLegEntity, TransportationEntity } from "./jazz"
+import { withJazzWorker } from "./jazz-worker"
 import type { AppConfig } from "../config"
 import type { PushSubscription } from "../domain/notification"
 import { AppConfigTest } from "../test/setup"
@@ -293,5 +296,138 @@ describe("StorageRepository - Transportation Lists and Debug", () => {
     const parsed = JSON.parse(debugInfo)
     expect(parsed).toHaveProperty("pushSubscriptions")
     expect(parsed).toHaveProperty("transportationLists")
+  })
+})
+
+describe("StorageRepository - Flight Leg CRUD", () => {
+  it("should get flight legs and update flight leg", async () => {
+    // Create test flight data within the worker context
+    const { listId, legId } = await runWithStorage(
+      withJazzWorker(account =>
+        Effect.sync(() => {
+          const group = Group.create(account)
+
+          const leg = FlightLegEntity.create(
+            {
+              origin: {
+                iata: "BER",
+              },
+              destination: {
+                iata: "DOH",
+              },
+              airline: "Qatar Airways",
+              flightNumber: "QR 80",
+              departureDateTime: "2026-01-27T08:50:00",
+              arrivalDateTime: "2026-01-27T16:30:00",
+              amadeusFlightDate: "2026-01-27",
+              durationInMinutes: 340,
+              aircraft: "Boeing 787-9",
+            },
+            group,
+          )
+
+          const flight = FlightEntity.create(
+            {
+              type: "flight",
+              legs: [leg],
+            },
+            group,
+          )
+
+          const transportationList = co
+            .list(TransportationEntity)
+            .create([flight], group)
+
+          return {
+            listId: transportationList.$jazz.id,
+            legId: leg.$jazz.id,
+          }
+        }),
+      ),
+    )
+
+    // getFlightLegs should return the created flight leg
+    const flightLegs = await runWithStorage(
+      Effect.gen(function* () {
+        const storage = yield* StorageRepository
+        return yield* storage.getFlightLegs(listId)
+      }),
+    )
+
+    expect(flightLegs).toHaveLength(1)
+    const leg = flightLegs[0]
+    expect(leg).toBeDefined()
+    expect(leg?.id).toBe(legId)
+    expect(leg?.origin?.iata).toBe("BER")
+    expect(leg?.destination?.iata).toBe("DOH")
+    expect(leg?.airline).toBe("Qatar Airways")
+    expect(leg?.flightNumber).toBe("QR 80")
+    expect(leg?.departureDateTime).toBe("2026-01-27T08:50:00")
+    expect(leg?.arrivalDateTime).toBe("2026-01-27T16:30:00")
+    expect(leg?.durationInMinutes).toBe(340)
+    expect(leg?.aircraft).toBe("Boeing 787-9")
+
+    // updateFlightLeg should update the flight leg
+    await runWithStorage(
+      Effect.gen(function* () {
+        const storage = yield* StorageRepository
+        yield* storage.updateFlightLeg(legId, {
+          departureDateTime: "2026-01-27T09:00:00",
+          arrivalDateTime: "2026-01-27T17:00:00",
+          durationInMinutes: 360,
+          aircraft: "Boeing 787-10",
+        })
+      }),
+    )
+
+    // Verify the update
+    const updatedLegs = await runWithStorage(
+      Effect.gen(function* () {
+        const storage = yield* StorageRepository
+        return yield* storage.getFlightLegs(listId)
+      }),
+    )
+
+    expect(updatedLegs).toHaveLength(1)
+    const updatedLeg = updatedLegs[0]
+    expect(updatedLeg?.departureDateTime).toBe("2026-01-27T09:00:00")
+    expect(updatedLeg?.arrivalDateTime).toBe("2026-01-27T17:00:00")
+    expect(updatedLeg?.durationInMinutes).toBe(360)
+    expect(updatedLeg?.aircraft).toBe("Boeing 787-10")
+    // Unchanged fields should remain
+    expect(updatedLeg?.origin?.iata).toBe("BER")
+    expect(updatedLeg?.destination?.iata).toBe("DOH")
+    expect(updatedLeg?.airline).toBe("Qatar Airways")
+    expect(updatedLeg?.flightNumber).toBe("QR 80")
+  })
+
+  it("should handle non-existent transportation list", async () => {
+    const result = await runWithStorage(
+      Effect.gen(function* () {
+        const storage = yield* StorageRepository
+        return yield* storage.getFlightLegs("non-existent-list-id")
+      }).pipe(Effect.either),
+    )
+
+    expect(result._tag).toBe("Left")
+    if (result._tag === "Left") {
+      expect(result.left._tag).toBe("EntityNotFoundError")
+    }
+  })
+
+  it("should handle non-existent flight leg for update", async () => {
+    const result = await runWithStorage(
+      Effect.gen(function* () {
+        const storage = yield* StorageRepository
+        yield* storage.updateFlightLeg("non-existent-leg-id", {
+          durationInMinutes: 100,
+        })
+      }).pipe(Effect.either),
+    )
+
+    expect(result._tag).toBe("Left")
+    if (result._tag === "Left") {
+      expect(result.left._tag).toBe("EntityNotFoundError")
+    }
   })
 })
