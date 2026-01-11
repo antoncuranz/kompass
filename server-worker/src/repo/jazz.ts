@@ -43,9 +43,9 @@ export const FlightEntity = co
     legs: { $each: { ...FlightLegEntity.resolveQuery, $onError: "catch" } },
   })
 
-export const TransportationEntity = co.discriminatedUnion("type", [
-  FlightEntity,
-])
+export const TransportationEntity = co.map({
+  type: z.string(),
+})
 
 export const ServerWorkerAccount = co
   .account({

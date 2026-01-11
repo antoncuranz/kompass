@@ -61,13 +61,12 @@ export const StorageRepositoryLive = Layer.effect(
 
             const loadedFlights = yield* Effect.forEach(flights, flight =>
               Effect.promise(() =>
-                flight.$jazz.ensureLoaded({
-                  resolve: FlightEntity.resolveQuery,
-                }),
+                FlightEntity.load(flight.$jazz.id, { loadAs: account }),
               ),
             )
 
             return loadedFlights
+              .filter(flight => flight.$isLoaded)
               .flatMap(flight => Array.from(flight.legs.values()))
               .filter(leg => leg.$isLoaded)
               .map(leg => ({
