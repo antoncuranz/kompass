@@ -239,33 +239,6 @@ const StorageRepositoryImpl = StorageRepository.of({
 
   // Push subscription management
 
-  getSubscriptionEndpoints: (userId: string) =>
-    withJazzWorker(() =>
-      Effect.gen(function* () {
-        const account = yield* getSwAccount
-        const pushSubscriptions = account.root.pushSubscriptions
-
-        if (!(userId in pushSubscriptions)) {
-          return []
-        }
-
-        const userSubscriptions = pushSubscriptions[userId]
-        if (!userSubscriptions) {
-          return []
-        }
-
-        return Object.keys(userSubscriptions)
-      }),
-    ).pipe(
-      Effect.mapError(
-        e =>
-          new RepositoryError({
-            message: "Failed to get subscription endpoints",
-            cause: e,
-          }),
-      ),
-    ),
-
   getPushSubscriptions: (userId: string) =>
     withJazzWorker(() =>
       Effect.gen(function* () {

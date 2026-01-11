@@ -18,9 +18,10 @@ export const SubscriptionsLive = HttpApiBuilder.group(
             .authenticateUser(req.request.headers["authorization"])
             .pipe(Effect.mapError(() => new Unauthorized()))
 
-          return yield* storage
-            .getSubscriptionEndpoints(userId)
-            .pipe(Effect.mapError(() => new Unauthorized()))
+          return yield* storage.getPushSubscriptions(userId).pipe(
+            Effect.map(subs => subs.map(s => s.endpoint)),
+            Effect.mapError(() => new Unauthorized()),
+          )
         }),
       )
       .handle("add-subscription", ({ request, payload: subscription }) =>

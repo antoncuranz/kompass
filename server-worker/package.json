@@ -8,7 +8,8 @@
     "typecheck": "tsgo --noEmit",
     "lint": "oxlint --type-aware",
     "format": "oxfmt",
-    "fix": "oxfmt && oxlint --type-aware --fix"
+    "fix": "oxfmt && oxlint --type-aware --fix",
+    "test": "vitest"
   },
   "dependencies": {
     "@effect/platform": "^0.94.0",
@@ -24,7 +25,8 @@
     "@typescript/native-preview": "^7.0.0-dev.20251230.1",
     "oxfmt": "^0.23.0",
     "oxlint": "^1.36.0",
-    "oxlint-tsgolint": "^0.11.0"
+    "oxlint-tsgolint": "^0.11.0",
+    "vitest": "^4.0.16"
   },
   "overrides": {
     "rfc6902": "5.1.2"

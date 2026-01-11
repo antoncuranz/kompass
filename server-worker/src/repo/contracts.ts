@@ -88,10 +88,6 @@ export class StorageRepository extends Context.Tag("StorageRepository")<
     ) => Effect.Effect<Array<string>, RepositoryError | EntityNotFoundError>
 
     // Push subscription management
-    getSubscriptionEndpoints: (
-      userId: string,
-    ) => Effect.Effect<Array<string>, RepositoryError>
-
     getPushSubscriptions: (
       userId: string,
     ) => Effect.Effect<Array<PushSubscription>, RepositoryError>
