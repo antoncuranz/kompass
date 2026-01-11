@@ -9,7 +9,7 @@
     "lint": "oxlint --type-aware",
     "format": "oxfmt",
     "fix": "oxfmt && oxlint --type-aware --fix",
-    "test": "vitest"
+    "test": "vitest run"
   },
   "dependencies": {
     "@effect/platform": "^0.94.0",

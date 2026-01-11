@@ -4,7 +4,7 @@ import { EntityNotFoundError, RepositoryError } from "../domain/errors"
 import type { FlightLeg, UpdateFlightLeg } from "../domain/transportation"
 import type { PushSubscription } from "../domain/notification"
 import { FlightEntity, FlightLegEntity, TransportationEntity } from "./jazz"
-import { getSwAccount, withJazzWorker } from "./jazz-worker"
+import { withJazzWorker } from "./jazz-worker"
 import { StorageRepository } from "./contracts"
 import type { AppConfig } from "../config"
 // eslint-disable @typescript-eslint/no-misused-spread
@@ -14,12 +14,11 @@ export const StorageRepositoryLive = Layer.effect(
   Effect.sync(() => {
     return StorageRepository.of({
       getDebugInfo: () =>
-        withJazzWorker(() =>
-          Effect.gen(function* () {
-            const acc = yield* getSwAccount
+        withJazzWorker(account =>
+          Effect.sync(() => {
             const data = {
-              pushSubscriptions: acc.root.pushSubscriptions.toJSON(),
-              transportationLists: acc.root.transportationLists.toJSON(),
+              pushSubscriptions: account.root.pushSubscriptions.toJSON(),
+              transportationLists: account.root.transportationLists.toJSON(),
             }
             return JSON.stringify(data)
           }),
@@ -34,28 +33,17 @@ export const StorageRepositoryLive = Layer.effect(
         ),
 
       getTransportationListIds: () =>
-        withJazzWorker(() =>
-          Effect.gen(function* () {
-            const account = yield* getSwAccount
-            return Object.keys(account.root.transportationLists)
-          }),
-        ).pipe(
-          Effect.mapError(
-            e =>
-              new RepositoryError({
-                message: "Failed to get list IDs",
-                cause: e,
-              }),
-          ),
+        withJazzWorker(account =>
+          Effect.succeed(Object.keys(account.root.transportationLists)),
         ),
 
       getFlightLegs: (listId: string) =>
-        withJazzWorker(() =>
+        withJazzWorker(account =>
           Effect.gen(function* () {
             const transportationList = yield* Effect.promise(() =>
               co
                 .list(TransportationEntity)
-                .load(listId, { resolve: { $each: true } }),
+                .load(listId, { resolve: { $each: true }, loadAs: account }),
             )
 
             if (!transportationList.$isLoaded) {
@@ -108,11 +96,12 @@ export const StorageRepositoryLive = Layer.effect(
         ),
 
       updateFlightLeg: (legId: string, values: UpdateFlightLeg) =>
-        withJazzWorker(() =>
+        withJazzWorker(account =>
           Effect.gen(function* () {
             const leg = yield* Effect.promise(() =>
               FlightLegEntity.load(legId, {
                 resolve: FlightLegEntity.resolveQuery,
+                loadAs: account,
               }),
             )
 
@@ -161,9 +150,8 @@ export const StorageRepositoryLive = Layer.effect(
       // Monitor management
 
       hasMonitor: (listId: string, userId: string) =>
-        withJazzWorker(() =>
-          Effect.gen(function* () {
-            const account = yield* getSwAccount
+        withJazzWorker(account =>
+          Effect.sync(() => {
             const transportationLists = account.root.transportationLists
 
             if (!(listId in transportationLists)) {
@@ -184,9 +172,8 @@ export const StorageRepositoryLive = Layer.effect(
         ),
 
       addMonitor: (listId: string, userId: string) =>
-        withJazzWorker(() =>
-          Effect.gen(function* () {
-            const account = yield* getSwAccount
+        withJazzWorker(account =>
+          Effect.sync(() => {
             const transportationLists = account.root.transportationLists
 
             if (!(listId in transportationLists)) {
@@ -209,9 +196,8 @@ export const StorageRepositoryLive = Layer.effect(
         ),
 
       removeMonitor: (listId: string, userId: string) =>
-        withJazzWorker(() =>
-          Effect.gen(function* () {
-            const account = yield* getSwAccount
+        withJazzWorker(account =>
+          Effect.sync(() => {
             const transportationLists = account.root.transportationLists
 
             if (!(listId in transportationLists)) {
@@ -234,9 +220,8 @@ export const StorageRepositoryLive = Layer.effect(
         ),
 
       getSubscribers: (listId: string) =>
-        withJazzWorker(() =>
-          Effect.gen(function* () {
-            const account = yield* getSwAccount
+        withJazzWorker(account =>
+          Effect.sync(() => {
             const subscribers = account.root.transportationLists[listId]
             if (!subscribers) {
               return []
@@ -256,9 +241,8 @@ export const StorageRepositoryLive = Layer.effect(
       // Push subscription management
 
       getPushSubscriptions: (userId: string) =>
-        withJazzWorker(() =>
-          Effect.gen(function* () {
-            const account = yield* getSwAccount
+        withJazzWorker(account =>
+          Effect.sync(() => {
             const subscriptionsMap = account.root.pushSubscriptions[userId]
             if (!subscriptionsMap) {
               return []
@@ -284,12 +268,13 @@ export const StorageRepositoryLive = Layer.effect(
         ),
 
       addPushSubscription: (userId: string, subscription: PushSubscription) =>
-        withJazzWorker(() =>
-          Effect.gen(function* () {
-            const account = yield* getSwAccount
+        withJazzWorker(account =>
+          Effect.sync(() => {
             const pushSubscriptions = account.root.pushSubscriptions
 
             if (!(userId in pushSubscriptions)) {
+              console.log("anton")
+              console.log(Object.entries(pushSubscriptions))
               pushSubscriptions.$jazz.set(userId, {})
             }
 
@@ -309,9 +294,8 @@ export const StorageRepositoryLive = Layer.effect(
         ),
 
       removePushSubscription: (userId: string, endpoint: string) =>
-        withJazzWorker(() =>
-          Effect.gen(function* () {
-            const account = yield* getSwAccount
+        withJazzWorker(account =>
+          Effect.sync(() => {
             const subscriptionsMap = account.root.pushSubscriptions[userId]
             if (subscriptionsMap) {
               subscriptionsMap.$jazz.delete(endpoint)
