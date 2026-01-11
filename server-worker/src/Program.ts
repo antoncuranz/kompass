@@ -1,4 +1,5 @@
 import {
+  FetchHttpClient,
   HttpApiBuilder,
   HttpApiSwagger,
   HttpMiddleware,
@@ -21,7 +22,7 @@ const RepoLayers = Layer.mergeAll(
   StorageRepositoryLive,
   TransportationRepositoryLive,
   NotificationRepositoryLive,
-).pipe(Layer.provideMerge(AppConfigLive))
+).pipe(Layer.provide(FetchHttpClient.layer), Layer.provideMerge(AppConfigLive))
 
 const HttpApiLayers = HttpApiBuilder.api(ServerWorkerApi).pipe(
   Layer.provide(ServiceLive),

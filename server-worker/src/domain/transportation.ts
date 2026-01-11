@@ -14,9 +14,9 @@ const FlightLegSchema = Schema.Struct({
   flightNumber: Schema.String,
   departureDateTime: Schema.String,
   arrivalDateTime: Schema.String,
-  amadeusFlightDate: Schema.NullishOr(Schema.String),
+  amadeusFlightDate: Schema.optional(Schema.String),
   durationInMinutes: Schema.Number,
-  aircraft: Schema.NullishOr(Schema.String),
+  aircraft: Schema.optional(Schema.String),
 })
 
 export type FlightLeg = Schema.Schema.Type<typeof FlightLegSchema>

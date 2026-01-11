@@ -1,9 +1,5 @@
 import { Effect, Layer, Schema } from "effect"
-import {
-  FetchHttpClient,
-  HttpClient,
-  HttpClientRequest,
-} from "@effect/platform"
+import { HttpClient, HttpClientRequest } from "@effect/platform"
 import { RepositoryError } from "../domain/errors"
 import type { FlightLegRequest } from "../domain/transportation"
 import { TransportationRepository } from "./contracts"
@@ -31,6 +27,7 @@ export const TransportationRepositoryLive = Layer.effect(
   TransportationRepository,
   Effect.gen(function* () {
     const config = yield* AppConfig
+    const httpClient = yield* HttpClient.HttpClient
 
     return TransportationRepository.of({
       fetchLeg: (request: FlightLegRequest) => {
@@ -50,7 +47,7 @@ export const TransportationRepositoryLive = Layer.effect(
             return {
               ...apiLeg,
               aircraft: apiLeg.aircraft ?? undefined,
-              amadeusFlightDate: apiLeg.amadeusFlightDate,
+              amadeusFlightDate: apiLeg.amadeusFlightDate ?? undefined,
             }
           }),
           Effect.catchAll(error =>
@@ -61,8 +58,8 @@ export const TransportationRepositoryLive = Layer.effect(
               }),
             ),
           ),
+          Effect.provideService(HttpClient.HttpClient, httpClient),
           Effect.scoped,
-          Effect.provide(FetchHttpClient.layer),
         )
       },
     })
