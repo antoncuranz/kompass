@@ -7,7 +7,10 @@ import {
   Unauthorized,
 } from "@effect/platform/HttpApiError"
 import { Schema } from "effect"
-import { PushSubscription, PushSubscriptionEndpoint } from "./schema"
+import {
+  PushSubscriptionEndpoint,
+  PushSubscriptionSchema,
+} from "./domain/notification"
 
 // Service group - health and internal endpoints
 const ServiceGroup = HttpApiGroup.make("Service")
@@ -24,6 +27,7 @@ const ServiceGroup = HttpApiGroup.make("Service")
       .addError(BadRequest)
       .addError(NotFound),
   )
+  .add(HttpApiEndpoint.post("check-flights", "/internal/check-flights"))
 
 // Subscriptions group - push notification subscriptions
 const SubscriptionsGroup = HttpApiGroup.make("Subscriptions")
@@ -35,7 +39,7 @@ const SubscriptionsGroup = HttpApiGroup.make("Subscriptions")
   )
   .add(
     HttpApiEndpoint.post("add-subscription", "/web-push/subscriptions")
-      .setPayload(PushSubscription)
+      .setPayload(PushSubscriptionSchema)
       .addError(Unauthorized)
       .addError(BadRequest),
   )

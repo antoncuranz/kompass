@@ -1,94 +1,55 @@
 import { HttpApiBuilder } from "@effect/platform"
-import { InternalServerError, NotFound } from "@effect/platform/HttpApiError"
+import { NotFound, Unauthorized } from "@effect/platform/HttpApiError"
 import { Effect } from "effect"
-import type { Schema } from "effect"
-import type { Account } from "jazz-tools"
 import { ServerWorkerApi } from "../api"
-import type { PushSubscription } from "../schema"
-import { getSwAccount, hash, withJazzWorkerAndAuth } from "../utils"
+import { AuthRepository, StorageRepository } from "../repo/contracts"
 
-// Subscription operations
-
-function getSubscriptions(account: Account) {
-  return Effect.gen(function* () {
-    const swAccount = yield* getSwAccount
-    const hashedId = hash(account.$jazz.id)
-    const pushSubscriptions = swAccount.root.pushSubscriptions
-
-    if (!(hashedId in pushSubscriptions)) {
-      return []
-    }
-
-    const userSubscriptions = pushSubscriptions[hashedId]
-    if (!userSubscriptions) {
-      return []
-    }
-
-    return Object.keys(userSubscriptions)
-  })
-}
-
-function addSubscription(
-  account: Account,
-  subscription: Schema.Schema.Type<typeof PushSubscription>,
-) {
-  return Effect.gen(function* () {
-    const swAccount = yield* getSwAccount
-    const hashedId = hash(account.$jazz.id)
-    const pushSubscriptions = swAccount.root.pushSubscriptions
-
-    if (!(hashedId in pushSubscriptions)) {
-      pushSubscriptions.$jazz.set(hashedId, {})
-    }
-
-    const userSubscriptions = pushSubscriptions[hashedId]
-    if (!userSubscriptions) {
-      return yield* new InternalServerError()
-    }
-
-    userSubscriptions.$jazz.set(subscription.endpoint, subscription)
-  })
-}
-
-function deleteSubscription(account: Account, endpoint: string) {
-  return Effect.gen(function* () {
-    const swAccount = yield* getSwAccount
-    const hashedId = hash(account.$jazz.id)
-    const pushSubscriptions = swAccount.root.pushSubscriptions
-
-    if (!(hashedId in pushSubscriptions)) {
-      return yield* new NotFound()
-    }
-
-    const userSubscriptions = pushSubscriptions[hashedId]
-    if (!userSubscriptions || !(endpoint in userSubscriptions)) {
-      return yield* new NotFound()
-    }
-
-    userSubscriptions.$jazz.delete(endpoint)
-  })
-}
-
-// API handlers
-
-export const SubscriptionsImpl = HttpApiBuilder.group(
+export const SubscriptionsLive = HttpApiBuilder.group(
   ServerWorkerApi,
   "Subscriptions",
   handlers =>
     handlers
       .handle("get-subscriptions", req =>
-        withJazzWorkerAndAuth(req.request, account =>
-          getSubscriptions(account),
-        ),
+        Effect.gen(function* () {
+          const auth = yield* AuthRepository
+          const storage = yield* StorageRepository
+
+          const userId = yield* auth
+            .authenticateUser(req.request.headers["authorization"])
+            .pipe(Effect.mapError(() => new Unauthorized()))
+
+          return yield* storage.getPushSubscriptions(userId).pipe(
+            Effect.map(subs => subs.map(s => s.endpoint)),
+            Effect.mapError(() => new Unauthorized()),
+          )
+        }),
       )
       .handle("add-subscription", ({ request, payload: subscription }) =>
-        withJazzWorkerAndAuth(request, account =>
-          addSubscription(account, subscription),
-        ),
+        Effect.gen(function* () {
+          const auth = yield* AuthRepository
+          const storage = yield* StorageRepository
+
+          const userId = yield* auth
+            .authenticateUser(request.headers["authorization"])
+            .pipe(Effect.mapError(() => new Unauthorized()))
+
+          yield* storage
+            .addPushSubscription(userId, subscription)
+            .pipe(Effect.mapError(() => new Unauthorized()))
+        }),
       )
       .handle("rm-subscription", req =>
-        withJazzWorkerAndAuth(req.request, account =>
-          deleteSubscription(account, req.payload),
-        ),
+        Effect.gen(function* () {
+          const auth = yield* AuthRepository
+          const storage = yield* StorageRepository
+
+          const userId = yield* auth
+            .authenticateUser(req.request.headers["authorization"])
+            .pipe(Effect.mapError(() => new Unauthorized()))
+
+          yield* storage
+            .removePushSubscription(userId, req.payload)
+            .pipe(Effect.mapError(() => new NotFound()))
+        }),
       ),
 )

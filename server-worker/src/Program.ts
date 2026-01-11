@@ -1,25 +1,51 @@
 import {
+  FetchHttpClient,
   HttpApiBuilder,
   HttpApiSwagger,
   HttpMiddleware,
 } from "@effect/platform"
 import { BunHttpServer, BunRuntime } from "@effect/platform-bun"
-import { Layer } from "effect"
+import { Effect, Layer, Schedule } from "effect"
+import { AppConfigLive } from "./config"
 import { ServerWorkerApi } from "./api"
-import { MonitorsImpl } from "./handlers/monitors"
-import { ServiceImpl } from "./handlers/service"
-import { SubscriptionsImpl } from "./handlers/subscriptions"
+import { MonitorsLive } from "./handlers/monitors"
+import { ServiceLive } from "./handlers/service"
+import { SubscriptionsLive } from "./handlers/subscriptions"
+import { AuthRepositoryLive } from "./repo/auth"
+import { NotificationRepositoryLive } from "./repo/notifications"
+import { StorageRepositoryLive } from "./repo/storage"
+import { TransportationRepositoryLive } from "./repo/transportation"
+import { checkAllFlights } from "./usecase/flightChecker"
 
-const ServerWorkerImpl = HttpApiBuilder.api(ServerWorkerApi).pipe(
-  Layer.provide(ServiceImpl),
-  Layer.provide(SubscriptionsImpl),
-  Layer.provide(MonitorsImpl),
+const RepoLayers = Layer.mergeAll(
+  AuthRepositoryLive,
+  StorageRepositoryLive,
+  TransportationRepositoryLive,
+  NotificationRepositoryLive,
+).pipe(Layer.provide(FetchHttpClient.layer), Layer.provideMerge(AppConfigLive))
+
+const HttpApiLayers = HttpApiBuilder.api(ServerWorkerApi).pipe(
+  Layer.provide(ServiceLive),
+  Layer.provide(SubscriptionsLive),
+  Layer.provide(MonitorsLive),
 )
 
 const Server = HttpApiBuilder.serve(HttpMiddleware.logger).pipe(
   Layer.provide(HttpApiSwagger.layer()),
-  Layer.provide(ServerWorkerImpl),
+  Layer.provide(HttpApiLayers),
   Layer.provide(BunHttpServer.layer({ port: 8080 })),
 )
 
-Layer.launch(Server).pipe(BunRuntime.runMain)
+const scheduledFlightChecker = Effect.repeat(
+  checkAllFlights().pipe(
+    Effect.catchAll(e => Effect.logError("Flight checker job failed", e)),
+  ),
+  Schedule.spaced("1 day"),
+)
+
+const program = Effect.gen(function* () {
+  yield* Effect.fork(scheduledFlightChecker)
+  yield* Layer.launch(Server)
+})
+
+program.pipe(Effect.provide(RepoLayers), BunRuntime.runMain)

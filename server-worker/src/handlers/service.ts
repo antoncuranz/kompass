@@ -1,108 +1,47 @@
 import { HttpApiBuilder } from "@effect/platform"
-import { NotFound } from "@effect/platform/HttpApiError"
-import { Effect } from "effect"
-import type { Schema } from "effect"
-import type { Account } from "jazz-tools"
-import type { WebPushError } from "web-push"
-import webpush from "web-push"
-import { ServerWorkerApi } from "../api"
-import config from "../config"
-import type { PushNotification, PushSubscription } from "../schema"
 import {
-  getSwAccount,
-  hash,
-  withJazzWorker,
-  withJazzWorkerAndAuth,
-} from "../utils"
+  InternalServerError,
+  Unauthorized,
+} from "@effect/platform/HttpApiError"
+import { Effect } from "effect"
+import { ServerWorkerApi } from "../api"
+import { AuthRepository, StorageRepository } from "../repo/contracts"
+import { checkAllFlights } from "../usecase/flightChecker"
+import { sendNotificationToUser } from "../usecase/notifications"
 
-webpush.setVapidDetails(
-  config.VAPID_SUBJECT,
-  config.VAPID_PUBLIC_KEY,
-  config.VAPID_PRIVATE_KEY,
-)
-
-// Push notification helpers
-
-function sendNotification(
-  subscription: Schema.Schema.Type<typeof PushSubscription>,
-  notification: Schema.Schema.Type<typeof PushNotification>,
-) {
-  return Effect.tryPromise({
-    try: () => webpush.sendNotification(subscription, JSON.stringify(notification)),
-    catch: error => error as WebPushError,
-  })
-}
-
-function deleteSubscription(account: Account, endpoint: string) {
-  return Effect.gen(function* () {
-    const swAccount = yield* getSwAccount
-    const hashedId = hash(account.$jazz.id)
-    yield* Effect.log(`Subscription expired, removing: ${endpoint}`)
-    swAccount.root.pushSubscriptions[hashedId]?.$jazz.delete(endpoint)
-  })
-}
-
-function getSubscriptionsForNotification(account: Account) {
-  return Effect.gen(function* () {
-    const swAccount = yield* getSwAccount
-    const hashedId = hash(account.$jazz.id)
-    const pushSubscriptions = swAccount.root.pushSubscriptions
-
-    if (!(hashedId in pushSubscriptions)) {
-      yield* Effect.logWarning(`No subscriptions found for hashed account ID: ${hashedId}`)
-      return yield* new NotFound()
-    }
-
-    const userSubscriptions = pushSubscriptions[hashedId]
-    if (!userSubscriptions || Object.keys(userSubscriptions).length === 0) {
-      yield* Effect.logWarning(`Empty subscriptions for hashed account ID: ${hashedId}`)
-      return yield* new NotFound()
-    }
-
-    return Object.values(userSubscriptions)
-  })
-}
-
-// API handlers
-
-export const ServiceImpl = HttpApiBuilder.group(
+export const ServiceLive = HttpApiBuilder.group(
   ServerWorkerApi,
   "Service",
   handlers =>
     handlers
       .handle("health", () => Effect.void)
       .handle("get-account", () =>
-        withJazzWorker(() =>
-          Effect.gen(function* () {
-            const acc = yield* getSwAccount
-            const data = {
-              pushSubscriptions: acc.root.pushSubscriptions.toJSON(),
-              transportationLists: acc.root.transportationLists.toJSON(),
-            }
-            yield* Effect.log(data)
-            return JSON.stringify(data)
-          }),
-        ),
+        Effect.gen(function* () {
+          const storage = yield* StorageRepository
+          const data = yield* storage.getDebugInfo()
+          yield* Effect.log(data)
+          return data
+        }).pipe(Effect.catchAll(() => Effect.fail(new InternalServerError()))),
       )
       .handle("send-notification", req =>
-        withJazzWorkerAndAuth(req.request, acc =>
-          Effect.gen(function* () {
-            const subscriptions = yield* getSubscriptionsForNotification(acc)
-            const notification = {
-              title: "Test notification",
-              body: "This is a test notification",
-              icon: "https://kompa.ss/favicon.png",
-            }
-            for (const subscription of subscriptions) {
-              yield* sendNotification(subscription, notification).pipe(
-                Effect.catchAll(error =>
-                  error.statusCode === 410
-                    ? deleteSubscription(acc, subscription.endpoint)
-                    : Effect.logError("Failed to send push notification", error),
-                ),
-              )
-            }
-          }),
+        Effect.gen(function* () {
+          const auth = yield* AuthRepository
+
+          const userId = yield* auth
+            .authenticateUser(req.request.headers["authorization"])
+            .pipe(Effect.mapError(() => new Unauthorized()))
+
+          const notification = {
+            title: "Test notification",
+            body: "This is a test notification",
+            icon: "https://kompa.ss/favicon.png",
+          }
+          yield* sendNotificationToUser(userId, notification)
+        }),
+      )
+      .handle("check-flights", () =>
+        checkAllFlights().pipe(
+          Effect.catchAll(() => Effect.fail(new InternalServerError())),
         ),
       ),
 )
