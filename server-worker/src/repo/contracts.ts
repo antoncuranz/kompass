@@ -12,6 +12,16 @@ import type {
   RepositoryError,
   SubscriptionExpiredError,
 } from "../domain/errors"
+import type { UnauthorizedError } from "../domain/auth"
+
+export class AuthRepository extends Context.Tag("AuthRepository")<
+  AuthRepository,
+  {
+    authenticateUser: (
+      authHeader: string | undefined,
+    ) => Effect.Effect<string, UnauthorizedError>
+  }
+>() {}
 
 export class TransportationRepository extends Context.Tag(
   "TransportationRepository",
@@ -39,34 +49,61 @@ export class NotificationRepository extends Context.Tag(
 export class StorageRepository extends Context.Tag("StorageRepository")<
   StorageRepository,
   {
-    // We might want to fetch a whole list, but for the checker we iterate lists.
-    // We need to fetch all Transportation Lists (ServerWorkerAccount root).
+    // Debug
+    getDebugInfo: () => Effect.Effect<string, RepositoryError>
+
+    // Transportation list management
     getTransportationListIds: () => Effect.Effect<
       Array<string>,
       RepositoryError
     >
 
-    // Get all flights in a transportation list
     getFlightLegs: (
       listId: string,
     ) => Effect.Effect<Array<FlightLeg>, RepositoryError | EntityNotFoundError>
-
-    getSubscribers: (
-      listId: string,
-    ) => Effect.Effect<Array<string>, RepositoryError | EntityNotFoundError>
-
-    getPushSubscriptions: (
-      userId: string,
-    ) => Effect.Effect<Array<PushSubscription>, RepositoryError>
-
-    removePushSubscription: (
-      userId: string,
-      endpoint: string,
-    ) => Effect.Effect<void, RepositoryError>
 
     updateFlightLeg: (
       legId: string,
       data: UpdateFlightLeg,
     ) => Effect.Effect<void, RepositoryError | EntityNotFoundError>
+
+    // Monitor management
+    hasMonitor: (
+      listId: string,
+      userId: string,
+    ) => Effect.Effect<boolean, RepositoryError>
+
+    addMonitor: (
+      listId: string,
+      userId: string,
+    ) => Effect.Effect<void, RepositoryError>
+
+    removeMonitor: (
+      listId: string,
+      userId: string,
+    ) => Effect.Effect<void, RepositoryError>
+
+    getSubscribers: (
+      listId: string,
+    ) => Effect.Effect<Array<string>, RepositoryError | EntityNotFoundError>
+
+    // Push subscription management
+    getSubscriptionEndpoints: (
+      userId: string,
+    ) => Effect.Effect<Array<string>, RepositoryError>
+
+    getPushSubscriptions: (
+      userId: string,
+    ) => Effect.Effect<Array<PushSubscription>, RepositoryError>
+
+    addPushSubscription: (
+      userId: string,
+      subscription: PushSubscription,
+    ) => Effect.Effect<void, RepositoryError>
+
+    removePushSubscription: (
+      userId: string,
+      endpoint: string,
+    ) => Effect.Effect<void, RepositoryError>
   }
 >() {}

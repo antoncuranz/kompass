@@ -50,12 +50,12 @@ export const TransportationEntity = co.discriminatedUnion("type", [
 export const ServerWorkerAccount = co
   .account({
     root: co.map({
-      // hash(user.$jazz.id) => set(pushSubscription) (key: endpoint)
+      // user.$jazz.id => set(pushSubscription) (key: endpoint)
       pushSubscriptions: co.record(
         z.string(),
         co.record(z.string(), PushSubscriptionEntity),
       ),
-      // transportationList.$jazz.id => set(hash(user.$jazz.id)) (value: isSubscribed, should always be true)
+      // transportationList.$jazz.id => set(user.$jazz.id) (value: isSubscribed, should always be true)
       transportationLists: co.record(
         z.string(),
         co.record(z.string(), z.boolean()),
