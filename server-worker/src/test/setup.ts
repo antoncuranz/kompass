@@ -1,27 +1,45 @@
-import { setupJazzTestSync } from "jazz-tools/testing"
-import { Effect, Layer, Redacted } from "effect"
-import { beforeEach } from "vitest"
+import { Layer, Redacted } from "effect"
+import { beforeEach, onTestFinished } from "vitest"
 import { AppConfig } from "../config"
+import { startSyncServer } from "jazz-run/startSyncServer"
+import { createWorkerAccount } from "jazz-run/createWorkerAccount"
 
-/**
- * Helper to run an Effect and return the result for assertions.
- * Throws if the effect fails.
- */
-export async function runEffect<A, E>(effect: Effect.Effect<A, E>): Promise<A> {
-  return Effect.runPromise(effect)
+export let AppConfigTest: Layer.Layer<AppConfig, never, never>
+
+async function setupSyncServer(
+  defaultHost: string = "127.0.0.1",
+  defaultPort: string = "4200",
+) {
+  const server = await startSyncServer({
+    host: defaultHost,
+    port: defaultPort,
+    inMemory: true,
+    db: "sync-db/storage.db",
+  })
+
+  const port = (server.address() as { port: number }).port.toString()
+
+  onTestFinished(() => {
+    server.close()
+  })
+
+  return { server, peer: `ws://${defaultHost}:${port}` }
 }
 
-// Setup mock for jazz-worker before each test
 beforeEach(async () => {
-  await setupJazzTestSync()
-})
+  const { peer } = await setupSyncServer()
+  const { accountID, agentSecret } = await createWorkerAccount({
+    name: "Test Worker",
+    peer,
+  })
 
-export const AppConfigTest = Layer.succeed(AppConfig, {
-  jazzSyncUrl: "ws://test:4200",
-  jazzAccountId: "test-account",
-  jazzAccountSecret: Redacted.make("test-secret"),
-  vapidSubject: "mailto:test@test.com",
-  vapidPublicKey: "test-public-key",
-  vapidPrivateKey: Redacted.make("test-private-key"),
-  transportationApiUrl: "http://test:8080/api/v1",
+  AppConfigTest = Layer.succeed(AppConfig, {
+    jazzSyncUrl: peer,
+    jazzAccountId: accountID,
+    jazzAccountSecret: Redacted.make(agentSecret),
+    vapidSubject: "mailto:test@test.com",
+    vapidPublicKey: "test-public-key",
+    vapidPrivateKey: Redacted.make("test-private-key"),
+    transportationApiUrl: "http://test:8080/api/v1",
+  })
 })
