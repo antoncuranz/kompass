@@ -8,7 +8,7 @@ export let AppConfigTest: Layer.Layer<AppConfig, never, never>
 
 async function setupSyncServer(
   defaultHost: string = "127.0.0.1",
-  defaultPort: string = "4200",
+  defaultPort: string | undefined = undefined,
 ) {
   const server = await startSyncServer({
     host: defaultHost,

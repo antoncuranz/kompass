@@ -9,7 +9,7 @@ export const AuthRepositoryLive = Layer.effect(
   Effect.sync(() => {
     return AuthRepository.of({
       authenticateUser: (authHeader: string | undefined) =>
-        withJazzWorker(() =>
+        withJazzWorker(swAccount =>
           Effect.gen(function* () {
             if (!authHeader) {
               return yield* new UnauthorizedError({
@@ -20,7 +20,7 @@ export const AuthRepositoryLive = Layer.effect(
             const authToken = authHeader.substring("Jazz ".length)
 
             const { account, error } = yield* Effect.tryPromise({
-              try: () => parseAuthToken(authToken),
+              try: () => parseAuthToken(authToken, { loadAs: swAccount }),
               catch: () =>
                 new UnauthorizedError({ message: "Invalid auth token" }),
             })
