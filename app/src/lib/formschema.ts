@@ -55,6 +55,13 @@ export function optionalLocation(params?: string | core.$ZodObjectParams) {
     .optional()
 }
 
+export function optionalTime() {
+  return z
+    .string()
+    .transform(x => (x ? `${x}:00` : undefined))
+    .optional()
+}
+
 export function trainStation(params?: string | core.$ZodObjectParams) {
   return z
     .object(
