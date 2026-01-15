@@ -102,4 +102,5 @@
 - All type errors resolved by using `getPricingTotal()` as compatibility layer
 - The implementation follows a pragmatic approach: get core changes working first, then enhance UI progressively
 - Fixed: Price in simple mode now correctly saves with `amountRemaining: 0` instead of `undefined`
-- Fixed: Dropdown menu z-index increased from `z-50` to `z-[100]` to appear above dialog modals
+- Fixed: Dropdown menu z-index increased from `z-50` to `z-100` to appear above dialog modals
+- Rebased onto main branch (includes activity time field feature from #335)
