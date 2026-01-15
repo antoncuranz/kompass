@@ -38,17 +38,17 @@ export const TransportationRepositoryLive = Layer.effect(
           Effect.andThen(HttpClient.execute),
           Effect.andThen(response => response.json),
           Effect.andThen(Schema.decodeUnknown(ApiFlightResponseSchema)),
-          Effect.map(response => {
+          Effect.flatMap(response => {
             const apiLeg = response.legs[0]
             if (!apiLeg) {
-              throw new Error("No leg found in response")
+              return Effect.fail(new Error("No leg found in response"))
             }
 
-            return {
+            return Effect.succeed({
               ...apiLeg,
               aircraft: apiLeg.aircraft ?? undefined,
               amadeusFlightDate: apiLeg.amadeusFlightDate ?? undefined,
-            }
+            })
           }),
           Effect.catchAll(error =>
             Effect.fail(

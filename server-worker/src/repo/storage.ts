@@ -9,20 +9,16 @@ import { StorageRepository } from "./contracts"
 import type { AppConfig } from "../config"
 // eslint-disable @typescript-eslint/no-misused-spread
 
-export const StorageRepositoryLive = Layer.effect(
+export const StorageRepositoryLive = Layer.succeed(
   StorageRepository,
-  Effect.sync(() => {
-    return StorageRepository.of({
-      getDebugInfo: () =>
-        withJazzWorker(account =>
-          Effect.sync(() => {
-            const data = {
-              pushSubscriptions: account.root.pushSubscriptions.toJSON(),
-              transportationLists: account.root.transportationLists.toJSON(),
-            }
-            return JSON.stringify(data)
-          }),
-        ).pipe(
+  StorageRepository.of({
+    getDebugInfo: () =>
+      withJazzWorker(account =>
+        Effect.succeed(JSON.stringify({
+          pushSubscriptions: account.root.pushSubscriptions.toJSON(),
+          transportationLists: account.root.transportationLists.toJSON(),
+        })),
+      ).pipe(
           Effect.mapError(
             e =>
               new RepositoryError({
@@ -47,12 +43,10 @@ export const StorageRepositoryLive = Layer.effect(
             )
 
             if (!transportationList.$isLoaded) {
-              return yield* Effect.fail(
-                new EntityNotFoundError({
-                  id: listId,
-                  entityType: "TransportationList",
-                }),
-              )
+              return yield* new EntityNotFoundError({
+                id: listId,
+                entityType: "TransportationList",
+              })
             }
 
             const flights = transportationList
@@ -105,25 +99,19 @@ export const StorageRepositoryLive = Layer.effect(
             )
 
             if (!leg.$isLoaded) {
-              return yield* Effect.fail(
-                new EntityNotFoundError({
+              return yield* new EntityNotFoundError({
                   id: legId,
                   entityType: "FlightLegEntity",
-                }),
-              )
+                })
             }
 
             const { aircraft, ...rest } = values
 
-            yield* Effect.sync(() =>
-              leg.$jazz.applyDiff({
-                ...rest,
-              }),
-            )
+            leg.$jazz.applyDiff({
+              ...rest,
+            })
             if (aircraft !== undefined) {
-              yield* Effect.sync(() =>
-                leg.$jazz.applyDiff({ aircraft: aircraft ?? undefined }),
-              )
+              leg.$jazz.applyDiff({ aircraft: aircraft ?? undefined })
             }
           }),
         ).pipe(
@@ -307,6 +295,5 @@ export const StorageRepositoryLive = Layer.effect(
               }),
           ),
         ),
-    })
   }),
 )
