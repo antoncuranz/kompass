@@ -35,6 +35,11 @@ function SharePage() {
       name: member.name,
       role: "Guest",
     })),
+    ...tripMeta.workers.map(member => ({
+      id: member.id,
+      name: member.name,
+      role: "Worker",
+    })),
   ]
 
   return (
