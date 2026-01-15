@@ -1,5 +1,5 @@
 import * as z from "zod"
-import { CreateLocation, Location } from "./"
+import { CreateLocation, Location, Pricing } from "./"
 
 export const Activity = z.object({
   id: z.string(),
@@ -7,7 +7,7 @@ export const Activity = z.object({
   description: z.string().optional(),
   date: z.iso.date(),
   time: z.iso.time().optional(),
-  price: z.number().optional(),
+  pricing: Pricing.optional(),
   address: z.string().optional(),
   location: Location.optional(),
 })

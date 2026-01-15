@@ -29,6 +29,7 @@ function DropdownMenuTrigger({
 
 function DropdownMenuPositioner({
   sideOffset = 4,
+  className,
   ...props
 }: React.ComponentProps<typeof MenuPrimitive.Positioner>) {
   return (
@@ -36,6 +37,7 @@ function DropdownMenuPositioner({
       <MenuPrimitive.Positioner
         data-slot="dropdown-menu-positioner"
         sideOffset={sideOffset}
+        className={cn("z-100", className)}
         {...props}
       />
     </MenuPrimitive.Portal>
@@ -50,7 +52,7 @@ function DropdownMenuContent({
     <MenuPrimitive.Popup
       data-slot="dropdown-menu-content"
       className={cn(
-        "bg-popover text-popover-foreground data-[open]:animate-in data-[closed]:animate-out data-[closed]:fade-out-0 data-[open]:fade-in-0 data-[closed]:zoom-out-95 data-[open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 max-h-(--available-height) min-w-[8rem] origin-(--transform-origin) overflow-x-hidden overflow-y-auto rounded-md border p-1 shadow-md",
+        "bg-popover text-popover-foreground data-[open]:animate-in data-[closed]:animate-out data-[closed]:fade-out-0 data-[open]:fade-in-0 data-[closed]:zoom-out-95 data-[open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-100 max-h-(--available-height) min-w-[8rem] origin-(--transform-origin) overflow-x-hidden overflow-y-auto rounded-md border p-1 shadow-md",
         "shadow-lg", // customization
         className,
       )}

@@ -3,6 +3,7 @@ import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import type { Accommodation } from "@/domain"
+import { Pricing } from "@/domain"
 import { useTrip } from "@/components/provider/TripProvider"
 import { dateFromString } from "@/lib/datetime"
 import { dateRange, optionalLocation, optionalString } from "@/lib/formschema"
@@ -10,7 +11,7 @@ import { dateRange, optionalLocation, optionalString } from "@/lib/formschema"
 import { calculateDisabledDateRanges } from "@/lib/accommodation"
 import { Dialog, useDialogContext } from "@/components/dialog/Dialog.tsx"
 import AddressInput from "@/components/dialog/input/AddressInput.tsx"
-import AmountInput from "@/components/dialog/input/AmountInput.tsx"
+import PricingInput from "@/components/dialog/input/PricingInput.tsx"
 import DateInput from "@/components/dialog/input/DateInput.tsx"
 import LocationInput from "@/components/dialog/input/LocationInput.tsx"
 import { Button } from "@/components/ui/button.tsx"
@@ -29,7 +30,7 @@ const formSchema = z.object({
   name: z.string().nonempty("Required"),
   description: optionalString(),
   dateRange: dateRange("Required"),
-  price: z.number().optional(),
+  pricing: Pricing.optional(),
   address: optionalString(),
   location: optionalLocation(),
 })
@@ -77,7 +78,7 @@ function AccommodationDialogContent({
             to: dateFromString(accommodation.departureDate),
           }
         : undefined,
-      price: accommodation?.price ?? undefined,
+      pricing: accommodation?.pricing,
       address: accommodation?.address ?? "",
       location: accommodation?.location ?? undefined,
     },
@@ -88,18 +89,15 @@ function AccommodationDialogContent({
   const disabledRanges = calculateDisabledDateRanges(trip, accommodation?.id)
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    const payload = {
+      ...values,
+      arrivalDate: values.dateRange.from,
+      departureDate: values.dateRange.to,
+    }
     if (accommodation) {
-      await update(accommodation.id, {
-        ...values,
-        arrivalDate: values.dateRange.from,
-        departureDate: values.dateRange.to,
-      })
+      await update(accommodation.id, payload)
     } else {
-      await create({
-        ...values,
-        arrivalDate: values.dateRange.from,
-        departureDate: values.dateRange.to,
-      })
+      await create(payload)
     }
     onClose()
   }
@@ -159,9 +157,9 @@ function AccommodationDialogContent({
         />
         <FormField
           control={form.control}
-          name="price"
+          name="pricing"
           label="Price"
-          render={({ field }) => <AmountInput {...field} />}
+          render={({ field }) => <PricingInput {...field} />}
         />
         <FormField
           control={form.control}

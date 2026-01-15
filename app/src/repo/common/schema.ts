@@ -9,6 +9,13 @@ export const LocationEntity = co.map({
   longitude: z.number(),
 })
 
+export const PricingEntity = co.map({
+  amountPaid: z.number().optional(),
+  amountRemaining: z.number().optional(),
+  dueCurrency: z.string().optional(),
+  dueDate: z.iso.date().optional(),
+})
+
 export const RequestStatusEntity = z.enum(["pending", "approved", "rejected"])
 
 export const JoinRequestEntity = co

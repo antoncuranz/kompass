@@ -3,8 +3,9 @@ import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
-import type { GenericTransportation } from "@/domain"
 import type { GeoJSONFeatureCollection } from "zod-geojson"
+import type { GenericTransportation } from "@/domain"
+import { Pricing } from "@/domain"
 import {
   TransportationType,
   TransportationTypeValues,
@@ -17,7 +18,7 @@ import {
   useDialogContext,
 } from "@/components/dialog/Dialog.tsx"
 import AddressInput from "@/components/dialog/input/AddressInput.tsx"
-import AmountInput from "@/components/dialog/input/AmountInput.tsx"
+import PricingInput from "@/components/dialog/input/PricingInput.tsx"
 import DateTimeInput from "@/components/dialog/input/DateTimeInput.tsx"
 import LocationInput from "@/components/dialog/input/LocationInput.tsx"
 import { Button } from "@/components/ui/button.tsx"
@@ -46,7 +47,7 @@ import { useTransportationRepository } from "@/repo"
 const formSchema = z.object({
   name: z.string().nonempty("Required"),
   genericType: TransportationType,
-  price: z.number().optional(),
+  pricing: Pricing.optional(),
   departureDateTime: isoDateTime("Required"),
   arrivalDateTime: isoDateTime("Required"),
   origin: location("Required"),
@@ -97,7 +98,7 @@ function TransportationDialogContent({
     defaultValues: {
       name: transportation?.name ?? "",
       genericType: transportation?.genericType,
-      price: transportation?.price ?? undefined,
+      pricing: transportation?.pricing,
       departureDateTime: transportation?.departureDateTime
         ? dateFromString(transportation.departureDateTime)
         : undefined,
@@ -238,9 +239,9 @@ function TransportationDialogContent({
           />
           <FormField
             control={form.control}
-            name="price"
+            name="pricing"
             label="Price"
-            render={({ field }) => <AmountInput {...field} />}
+            render={({ field }) => <PricingInput {...field} />}
           />
         </RowContainer>
         <Separator className="mt-4 mb-2" />

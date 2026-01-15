@@ -1,7 +1,7 @@
 import type { co } from "jazz-tools"
 import type { AccommodationEntity } from "./schema"
 import type { Accommodation } from "@/domain"
-import { mapLocation } from "@/repo/common/mappers"
+import { mapLocation, mapPricing } from "@/repo/common/mappers"
 // eslint-disable @typescript-eslint/no-misused-spread
 
 export function mapAccommodation(
@@ -10,6 +10,7 @@ export function mapAccommodation(
   return {
     id: entity.$jazz.id,
     ...entity,
+    pricing: mapPricing(entity.pricing),
     location: entity.location && mapLocation(entity.location),
   }
 }

@@ -1,6 +1,10 @@
-import type { JoinRequestEntity, LocationEntity } from "./schema"
+import type {
+  JoinRequestEntity,
+  LocationEntity,
+  PricingEntity,
+} from "./schema"
 import type { co } from "jazz-tools"
-import type { JoinRequest, Location } from "@/domain"
+import type { JoinRequest, Location, Pricing } from "@/domain"
 import type { JoinRequestEntityList } from "../trip/schema"
 // eslint-disable @typescript-eslint/no-misused-spread
 
@@ -10,6 +14,18 @@ export function mapLocation(
   return {
     id: entity.$jazz.id,
     ...entity,
+  }
+}
+
+export function mapPricing(
+  entity: co.loaded<typeof PricingEntity> | undefined,
+): Pricing | undefined {
+  if (!entity) return undefined
+  return {
+    amountPaid: entity.amountPaid,
+    amountRemaining: entity.amountRemaining,
+    dueCurrency: entity.dueCurrency,
+    dueDate: entity.dueDate,
   }
 }
 

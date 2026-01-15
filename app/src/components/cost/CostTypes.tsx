@@ -1,14 +1,14 @@
-import type { Accommodation, Activity, Transportation } from "@/domain"
+import type { Accommodation, Activity, Pricing, Transportation } from "@/domain"
 import { dateFromString } from "@/lib/datetime"
 import { formatDateShort } from "@/lib/formatting"
-import { getDepartureDateTime, getTransportationName } from "@/domain"
+import { getDepartureDateTime, getPricingTotal, getTransportationName } from "@/domain"
 
 type ActivityWithPrice = {
   type: "activity"
   item: Activity
   name: string
   date: string
-  price?: number
+  pricing?: Pricing
 }
 
 type AccommodationWithPrice = {
@@ -16,7 +16,7 @@ type AccommodationWithPrice = {
   item: Accommodation
   name: string
   date: string
-  price?: number
+  pricing?: Pricing
 }
 
 type TransportationWithPrice = {
@@ -24,7 +24,7 @@ type TransportationWithPrice = {
   item: Transportation
   name: string
   date: string
-  price?: number
+  pricing?: Pricing
 }
 
 export type CostItem =
@@ -42,7 +42,7 @@ export function createCostItems(
     item: activity,
     name: activity.name,
     date: formatDateShort(activity.date),
-    price: activity.price,
+    pricing: activity.pricing,
   }))
 
   const accommodationItems: Array<CostItem> = accommodation.map(acc => {
@@ -56,7 +56,7 @@ export function createCostItems(
       item: acc,
       name: acc.name,
       date: `${formatDateShort(acc.arrivalDate)} +${nights}`,
-      price: acc.price,
+      pricing: acc.pricing,
     }
   })
 
@@ -65,7 +65,7 @@ export function createCostItems(
     item: t,
     name: getTransportationName(t),
     date: formatDateShort(getDepartureDateTime(t).split("T")[0]),
-    price: t.price,
+    pricing: t.pricing,
   }))
 
   return {
@@ -86,7 +86,7 @@ export function calculateTotals(
   grandTotal: number
 } {
   const sum = (items: Array<CostItem>) =>
-    items.reduce((s, i) => s + (i.price ?? 0), 0)
+    items.reduce((s, i) => s + (getPricingTotal(i.pricing) ?? 0), 0)
   const activitiesTotal = sum(activities)
   const accommodationsTotal = sum(accommodations)
   const transportationsTotal = sum(transportations)

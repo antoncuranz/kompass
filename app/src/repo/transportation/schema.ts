@@ -1,5 +1,5 @@
 import { co, z } from "jazz-tools"
-import { LocationEntity } from "@/repo/common/schema"
+import { LocationEntity, PricingEntity } from "@/repo/common/schema"
 import { TransportationTypeValues } from "@/domain"
 
 export const AirportEntity = co
@@ -38,12 +38,13 @@ export const FlightEntity = co
     type: z.literal("flight"),
     legs: co.list(FlightLegEntity),
     pnrs: co.list(PnrEntity).withPermissions({ onInlineCreate: "newGroup" }),
-    price: z.number().optional(),
+    pricing: PricingEntity.optional(),
     geoJson: z.object().optional(),
   })
   .resolved({
     legs: { $each: FlightLegEntity.resolveQuery },
     pnrs: { $each: PnrEntity.resolveQuery, $onError: "catch" },
+    pricing: PricingEntity.resolveQuery,
   })
 
 export const TrainStationEntity = co
@@ -74,11 +75,12 @@ export const TrainEntity = co
     type: z.literal("train"),
     legs: co.list(TrainLegEntity),
     refreshToken: z.string().optional(),
-    price: z.number().optional(),
+    pricing: PricingEntity.optional(),
     geoJson: z.object().optional(),
   })
   .resolved({
     legs: { $each: TrainLegEntity.resolveQuery },
+    pricing: PricingEntity.resolveQuery,
   })
 
 export const GenericTransportationEntity = co
@@ -92,12 +94,13 @@ export const GenericTransportationEntity = co
     destination: LocationEntity,
     originAddress: z.string().optional(),
     destinationAddress: z.string().optional(),
-    price: z.number().optional(),
+    pricing: PricingEntity.optional(),
     geoJson: z.object().optional(),
   })
   .resolved({
     origin: LocationEntity.resolveQuery,
     destination: LocationEntity.resolveQuery,
+    pricing: PricingEntity.resolveQuery,
   })
 
 export const TransportationEntity = co.discriminatedUnion("type", [
