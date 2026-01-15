@@ -25,13 +25,19 @@ import LocationInput from "@/components/dialog/input/LocationInput.tsx"
 import { Form, FormField } from "@/components/ui/form"
 import { Spinner } from "@/components/ui/shadcn-io/spinner"
 import { dateFromString } from "@/lib/datetime"
-import { isoDate, optionalLocation, optionalString } from "@/lib/formschema"
+import {
+  isoDate,
+  optionalLocation,
+  optionalString,
+  optionalTime,
+} from "@/lib/formschema"
 import { useActivityRepository } from "@/repo"
 
 const formSchema = z.object({
   name: z.string().nonempty("Required"),
   description: optionalString(),
   date: isoDate("Required"),
+  time: optionalTime(),
   price: z.number().optional(),
   address: optionalString(),
   location: optionalLocation(),
@@ -71,6 +77,7 @@ function ActivityDialogContent({ activity }: { activity?: Activity }) {
       name: activity?.name ?? "",
       description: activity?.description ?? "",
       date: activity?.date ? dateFromString(activity.date) : undefined,
+      time: activity?.time?.slice(0, 5) ?? "",
       price: activity?.price ?? undefined,
       address: activity?.address ?? "",
       location: activity?.location ?? undefined,
@@ -142,11 +149,23 @@ function ActivityDialogContent({ activity }: { activity?: Activity }) {
           />
           <FormField
             control={form.control}
-            name="price"
-            label="Price"
-            render={({ field }) => <AmountInput {...field} />}
+            name="time"
+            label="Time"
+            render={({ field }) => (
+              <Input
+                type="time"
+                className="appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
+                {...field}
+              />
+            )}
           />
         </RowContainer>
+        <FormField
+          control={form.control}
+          name="price"
+          label="Price"
+          render={({ field }) => <AmountInput {...field} />}
+        />
         <FormField
           control={form.control}
           name="address"
