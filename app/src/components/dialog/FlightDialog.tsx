@@ -7,6 +7,7 @@ import { toast } from "sonner"
 import { z } from "zod"
 import type { AmbiguousFlightChoice } from "@/components/dialog/types"
 import type { Flight, FlightLeg, PNR } from "@/domain"
+import { Pricing } from "@/domain"
 import { useTrip } from "@/components/provider/TripProvider"
 import AmbiguousFlightDialog from "@/components/dialog/AmbiguousFlightDialog"
 import {
@@ -14,7 +15,7 @@ import {
   RowContainer,
   useDialogContext,
 } from "@/components/dialog/Dialog.tsx"
-import AmountInput from "@/components/dialog/input/AmountInput.tsx"
+import PricingInput from "@/components/dialog/input/PricingInput.tsx"
 import DateInput from "@/components/dialog/input/DateInput.tsx"
 import { Button } from "@/components/ui/button.tsx"
 import {
@@ -43,7 +44,7 @@ const formSchema = z.object({
       pnr: z.string().nonempty("Required"),
     }),
   ),
-  price: z.number().optional(),
+  pricing: Pricing.optional(),
 })
 
 type AmbiguousDialogData = {
@@ -111,7 +112,7 @@ function FlightDialogContent({ flight }: { flight?: Flight }) {
     defaultValues: {
       legs: mapLegsOrDefault(flight?.legs),
       pnrs: mapPnrsOrDefault(flight?.pnrs ?? []),
-      price: flight?.price ?? undefined,
+      pricing: flight?.pricing ?? undefined,
     },
     disabled: !edit,
   })
@@ -330,9 +331,9 @@ function FlightDialogContent({ flight }: { flight?: Flight }) {
 
         <FormField
           control={form.control}
-          name="price"
+          name="pricing"
           label="Price"
-          render={({ field }) => <AmountInput {...field} />}
+          render={({ field }) => <PricingInput {...field} />}
         />
       </Form>
       <AmbiguousFlightDialog

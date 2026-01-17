@@ -1,13 +1,14 @@
 import { expect } from "vitest"
 import { createTestUser } from "./setup"
-import { flightResolveQuery, loadSharedTrip } from "./trip-loader"
+import {
+  flightResolveQuery,
+  genericTransportResolveQuery,
+  loadSharedTrip,
+  trainResolveQuery,
+} from "./trip-loader"
 import type { Account, CoValue, Group, co } from "jazz-tools"
 import type { SharedTripEntity } from "@/repo/trip/schema"
 import type { LoadedSharedTrip } from "./trip-loader"
-import {
-  GenericTransportationEntity,
-  TrainEntity,
-} from "@/repo/transportation/schema"
 
 // Permission abbreviations: rw = read+write, r = read-only, w = write-only, - = none
 type Access = "rw" | "r" | "w" | "-"
@@ -145,6 +146,9 @@ async function buildAccessMatrix(sharedTrip: LoadedSharedTrip) {
     if (activity.location) {
       checks.set(activity.location, tripAccess)
     }
+    if (activity.pricing?.$isLoaded) {
+      checks.set(activity.pricing, tripAccess)
+    }
   })
 
   // Accommodation (same as Trip)
@@ -153,6 +157,9 @@ async function buildAccessMatrix(sharedTrip: LoadedSharedTrip) {
     checks.set(acc, tripAccess)
     if (acc.location) {
       checks.set(acc.location, tripAccess)
+    }
+    if (acc.pricing?.$isLoaded) {
+      checks.set(acc.pricing, tripAccess)
     }
   })
 
@@ -180,11 +187,14 @@ async function buildAccessMatrix(sharedTrip: LoadedSharedTrip) {
           flight.pnrs.forEach(pnr => {
             checks.set(pnr, memberOnly)
           })
+          if (flight.pricing?.$isLoaded) {
+            checks.set(flight.pricing, transportAccess)
+          }
           break
         }
         case "train": {
           const train = await trans.$jazz.ensureLoaded({
-            resolve: TrainEntity.resolveQuery,
+            resolve: trainResolveQuery,
           })
           checks.set(train.legs, transportAccess)
           train.legs.forEach(leg => {
@@ -194,14 +204,20 @@ async function buildAccessMatrix(sharedTrip: LoadedSharedTrip) {
             checks.set(leg.destination, transportAccess)
             checks.set(leg.destination.location, transportAccess)
           })
+          if (train.pricing?.$isLoaded) {
+            checks.set(train.pricing, transportAccess)
+          }
           break
         }
         case "generic": {
           const generic = await trans.$jazz.ensureLoaded({
-            resolve: GenericTransportationEntity.resolveQuery,
+            resolve: genericTransportResolveQuery,
           })
           checks.set(generic.origin, transportAccess)
           checks.set(generic.destination, transportAccess)
+          if (generic.pricing?.$isLoaded) {
+            checks.set(generic.pricing, transportAccess)
+          }
           break
         }
       }
@@ -252,6 +268,12 @@ export async function collectTripGroups(sharedTrip: LoadedSharedTrip) {
         id: activity.location.$jazz.owner.$jazz.id,
       })
     }
+    if (activity.pricing) {
+      groups.push({
+        name: `activity[${index}].pricing`,
+        id: activity.pricing.$jazz.owner.$jazz.id,
+      })
+    }
   })
 
   sharedTrip.trip.accommodation.forEach((acc, index) => {
@@ -263,6 +285,12 @@ export async function collectTripGroups(sharedTrip: LoadedSharedTrip) {
       groups.push({
         name: `accommodation[${index}].location`,
         id: acc.location.$jazz.owner.$jazz.id,
+      })
+    }
+    if (acc.pricing) {
+      groups.push({
+        name: `accommodation[${index}].pricing`,
+        id: acc.pricing.$jazz.owner.$jazz.id,
       })
     }
   })
@@ -315,11 +343,17 @@ export async function collectTripGroups(sharedTrip: LoadedSharedTrip) {
               id: pnr.$jazz.owner.$jazz.id,
             })
           })
+          if (flight.pricing) {
+            groups.push({
+              name: `transportation[${index}].pricing`,
+              id: flight.pricing.$jazz.owner.$jazz.id,
+            })
+          }
           break
         }
         case "train": {
           const train = await trans.$jazz.ensureLoaded({
-            resolve: TrainEntity.resolveQuery,
+            resolve: trainResolveQuery,
           })
           groups.push({
             name: `transportation[${index}].legs`,
@@ -347,11 +381,17 @@ export async function collectTripGroups(sharedTrip: LoadedSharedTrip) {
               id: leg.destination.location.$jazz.owner.$jazz.id,
             })
           })
+          if (train.pricing) {
+            groups.push({
+              name: `transportation[${index}].pricing`,
+              id: train.pricing.$jazz.owner.$jazz.id,
+            })
+          }
           break
         }
         case "generic": {
           const generic = await trans.$jazz.ensureLoaded({
-            resolve: GenericTransportationEntity.resolveQuery,
+            resolve: genericTransportResolveQuery,
           })
           groups.push({
             name: `transportation[${index}].origin`,
@@ -361,6 +401,12 @@ export async function collectTripGroups(sharedTrip: LoadedSharedTrip) {
             name: `transportation[${index}].destination`,
             id: generic.destination.$jazz.owner.$jazz.id,
           })
+          if (generic.pricing) {
+            groups.push({
+              name: `transportation[${index}].pricing`,
+              id: generic.pricing.$jazz.owner.$jazz.id,
+            })
+          }
           break
         }
       }

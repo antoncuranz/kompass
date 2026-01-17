@@ -1,6 +1,6 @@
 import * as z from "zod"
 import { GeoJSONFeatureCollectionSchema } from "zod-geojson"
-import { CreateLocation, Location } from "./"
+import { CreateLocation, Location, Pricing } from "./"
 
 const TrainStation = z.object({
   id: z.string(),
@@ -37,7 +37,7 @@ export const Train = z.object({
   type: z.literal("train"),
   legs: z.array(TrainLeg),
   refreshToken: z.string().optional(),
-  price: z.number().optional(),
+  pricing: Pricing.optional(),
   geoJson: GeoJSONFeatureCollectionSchema.optional(),
 })
 export type Train = z.infer<typeof Train>

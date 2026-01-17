@@ -1,5 +1,5 @@
 import { co, z } from "jazz-tools"
-import { LocationEntity } from "@/repo/common/schema"
+import { LocationEntity, PricingEntity } from "@/repo/common/schema"
 
 export const AccommodationEntity = co
   .map({
@@ -7,8 +7,11 @@ export const AccommodationEntity = co
     description: z.string().optional(),
     arrivalDate: z.iso.date(),
     departureDate: z.iso.date(),
-    price: z.number().optional(),
+    pricing: PricingEntity.optional(),
     address: z.string().optional(),
     location: LocationEntity.optional(),
   })
-  .resolved({ location: LocationEntity.resolveQuery })
+  .resolved({
+    location: LocationEntity.resolveQuery,
+    pricing: PricingEntity.resolveQuery,
+  })

@@ -6,13 +6,14 @@ import { useFieldArray, useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
 import type { Train, TrainLeg } from "@/domain"
+import { Pricing } from "@/domain"
 import { useTrip } from "@/components/provider/TripProvider"
 import {
   Dialog,
   RowContainer,
   useDialogContext,
 } from "@/components/dialog/Dialog.tsx"
-import AmountInput from "@/components/dialog/input/AmountInput.tsx"
+import PricingInput from "@/components/dialog/input/PricingInput.tsx"
 import DateInput from "@/components/dialog/input/DateInput.tsx"
 import TrainStationInput from "@/components/dialog/input/TrainStationInput.tsx"
 import { Button } from "@/components/ui/button.tsx"
@@ -40,7 +41,7 @@ const formSchema = z.object({
       }),
     )
     .transform(x => x.map(y => y.value)),
-  price: z.number().optional(),
+  pricing: Pricing.optional(),
 })
 
 export default function TrainDialog({
@@ -83,7 +84,7 @@ function TrainDialogContent({ train }: { train?: Train }) {
       toStationId: getDefaultToStation(train?.legs),
       viaStationId: undefined,
       trainNumbers: mapLegsOrDefault(train?.legs),
-      price: train?.price ?? undefined,
+      pricing: train?.pricing,
     },
     disabled: !edit,
   })
@@ -129,15 +130,16 @@ function TrainDialogContent({ train }: { train?: Train }) {
 
     if (response.ok) {
       const responseJson = await response.json()
+      const pricing = values.pricing
       if (train) {
         await updateTrain(train.id, {
           ...responseJson,
-          price: values.price,
+          pricing,
         })
       } else {
         await createTrain({
           ...responseJson,
-          price: values.price,
+          pricing,
         })
       }
       onClose()
@@ -216,9 +218,9 @@ function TrainDialogContent({ train }: { train?: Train }) {
           />
           <FormField
             control={form.control}
-            name="price"
+            name="pricing"
             label="Price"
-            render={({ field }) => <AmountInput {...field} />}
+            render={({ field }) => <PricingInput {...field} />}
           />
         </RowContainer>
 

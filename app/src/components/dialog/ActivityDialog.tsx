@@ -3,6 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import type { Activity } from "@/domain"
+import { Pricing } from "@/domain"
 import { useTrip } from "@/components/provider/TripProvider"
 import { Button } from "@/components/ui/button.tsx"
 import {
@@ -19,7 +20,7 @@ import {
   useDialogContext,
 } from "@/components/dialog/Dialog.tsx"
 import AddressInput from "@/components/dialog/input/AddressInput.tsx"
-import AmountInput from "@/components/dialog/input/AmountInput.tsx"
+import PricingInput from "@/components/dialog/input/PricingInput.tsx"
 import DateInput from "@/components/dialog/input/DateInput.tsx"
 import LocationInput from "@/components/dialog/input/LocationInput.tsx"
 import { Form, FormField } from "@/components/ui/form"
@@ -38,7 +39,7 @@ const formSchema = z.object({
   description: optionalString(),
   date: isoDate("Required"),
   time: optionalTime(),
-  price: z.number().optional(),
+  pricing: Pricing.optional(),
   address: optionalString(),
   location: optionalLocation(),
 })
@@ -78,7 +79,7 @@ function ActivityDialogContent({ activity }: { activity?: Activity }) {
       description: activity?.description ?? "",
       date: activity?.date ? dateFromString(activity.date) : undefined,
       time: activity?.time?.slice(0, 5) ?? "",
-      price: activity?.price ?? undefined,
+      pricing: activity?.pricing,
       address: activity?.address ?? "",
       location: activity?.location ?? undefined,
     },
@@ -162,9 +163,9 @@ function ActivityDialogContent({ activity }: { activity?: Activity }) {
         </RowContainer>
         <FormField
           control={form.control}
-          name="price"
+          name="pricing"
           label="Price"
-          render={({ field }) => <AmountInput {...field} />}
+          render={({ field }) => <PricingInput {...field} />}
         />
         <FormField
           control={form.control}

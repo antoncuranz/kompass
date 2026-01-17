@@ -24,7 +24,7 @@ import type {
 } from "@/domain"
 import type { co } from "jazz-tools"
 import type { GeoJSONFeatureCollection } from "zod-geojson"
-import { mapLocation } from "@/repo/common/mappers"
+import { mapLocation, mapPricing } from "@/repo/common/mappers"
 // eslint-disable @typescript-eslint/no-misused-spread
 
 function mapAirport(entity: co.loaded<typeof AirportEntity>): Airport {
@@ -56,6 +56,7 @@ export function mapFlight(entity: co.loaded<typeof FlightEntity>): Flight {
     ...entity,
     legs: entity.legs.map(mapFlightLeg),
     pnrs: entity.pnrs.$isLoaded ? entity.pnrs.map(mapPnr) : [],
+    pricing: mapPricing(entity.pricing),
     geoJson: entity.geoJson as GeoJSONFeatureCollection,
   }
 }
@@ -83,6 +84,7 @@ export function mapTrain(entity: co.loaded<typeof TrainEntity>): Train {
     id: entity.$jazz.id,
     ...entity,
     legs: entity.legs.map(mapTrainLeg),
+    pricing: mapPricing(entity.pricing),
     geoJson: entity.geoJson as GeoJSONFeatureCollection | undefined,
   }
 }
@@ -95,6 +97,7 @@ export function mapGenericTransportation(
     ...entity,
     origin: mapLocation(entity.origin),
     destination: mapLocation(entity.destination),
+    pricing: mapPricing(entity.pricing),
     geoJson: entity.geoJson as GeoJSONFeatureCollection | undefined,
   }
 }
