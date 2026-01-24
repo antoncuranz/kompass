@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useLogOut, usePassphraseAuth } from "jazz-tools/react"
-import { useState, useTransition } from "react"
+import { useRef, useState, useTransition } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
@@ -8,6 +8,7 @@ import { HugeiconsIcon } from "@hugeicons/react"
 import {
   Download01Icon,
   Logout05Icon,
+  Upload01Icon,
   ViewIcon,
   ViewOffSlashIcon,
 } from "@hugeicons/core-free-icons"
@@ -21,7 +22,8 @@ import { Form, FormField } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
 import { Spinner } from "@/components/ui/shadcn-io/spinner"
-import { exportUserData } from "@/usecase/export"
+import { exportToZip } from "@/usecase/export"
+import { importFromZip } from "@/usecase/import"
 import { useInspector } from "@/components/provider/InspectorProvider"
 import { Switch } from "@/components/ui/switch"
 import { useUserQuery } from "@/repo/user"
@@ -61,6 +63,7 @@ function SettingsDialogContent({ user }: { user: User }) {
   const [showPassphrase, setShowPassphrase] = useState(false)
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false)
   const [isUpdating, startTransition] = useTransition()
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   const form = useForm<
     z.input<typeof formSchema>,
@@ -84,21 +87,39 @@ function SettingsDialogContent({ user }: { user: User }) {
 
   async function handleExportData() {
     try {
-      const data = await exportUserData(user)
-
-      const blob = new Blob([JSON.stringify(data, null, 2)], {
-        type: "application/json",
-      })
-      const url = URL.createObjectURL(blob)
+      const zipBlob = await exportToZip(user)
+      const url = URL.createObjectURL(zipBlob)
       downloadBlob(
         url,
-        `kompass-data-${new Date().toISOString().split("T")[0]}.json`,
+        `kompass-data-${new Date().toISOString().split("T")[0]}.zip`,
       )
       URL.revokeObjectURL(url)
 
       toast.success("Data exported")
     } catch (error) {
       toast.error("Failed to export data: " + error)
+    }
+  }
+
+  async function handleImportData(event: React.ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0]
+    if (!file) return
+
+    try {
+      const result = await importFromZip(file)
+      if (result.errors.length > 0) {
+        result.errors.forEach(err => toast.error(err))
+      }
+      if (result.imported > 0) {
+        toast.success(`Imported ${result.imported} trip(s)`)
+      }
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error)
+      toast.error(`Import failed: ${message}`)
+    } finally {
+      if (fileInputRef.current) {
+        fileInputRef.current.value = ""
+      }
     }
   }
 
@@ -175,6 +196,22 @@ function SettingsDialogContent({ user }: { user: User }) {
         >
           <HugeiconsIcon icon={Download01Icon} />
           Export Data
+        </Button>
+
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept=".zip"
+          onChange={handleImportData}
+          className="hidden"
+        />
+        <Button
+          variant="secondary"
+          className="w-full"
+          onClick={() => fileInputRef.current?.click()}
+        >
+          <HugeiconsIcon icon={Upload01Icon} />
+          Import Data
         </Button>
 
         <Button
