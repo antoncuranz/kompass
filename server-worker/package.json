@@ -15,7 +15,7 @@
     "@effect/platform": "^0.94.0",
     "@effect/platform-bun": "^0.87.0",
     "effect": "^3.19.13",
-    "jazz-tools": "^0.19.14",
+    "jazz-tools": "^0.20.0",
     "web-push": "^3.6.7"
   },
   "devDependencies": {

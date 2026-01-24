@@ -1,4 +1,8 @@
-export type UnavailableReason = "loading" | "unavailable" | "unauthorized"
+export type UnavailableReason =
+  | "deleted"
+  | "loading"
+  | "unauthorized"
+  | "unavailable"
 export type NotLoaded = {
   $loadingState: UnavailableReason
   $isLoaded: false
