@@ -1,4 +1,5 @@
 import { useAccount } from "jazz-tools/react-core"
+import { tryMap } from "../common/mappers"
 import { mapTrip } from "./mappers"
 import type { TripSubscription } from "@/repo/contracts"
 import { Trip } from "@/domain"
@@ -22,8 +23,6 @@ export function useTripSubscription(): TripSubscription {
   }
 
   return {
-    trips: sorted(
-      entities.map(mapTrip).filter(a => Trip.safeParse(a).success), // prevents loading problems during creation of new entities
-    ),
+    trips: sorted(tryMap(entities, mapTrip, Trip)),
   }
 }

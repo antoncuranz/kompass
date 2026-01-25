@@ -1,4 +1,5 @@
 import { useCoState } from "jazz-tools/react-core"
+import { tryMap } from "../common/mappers"
 import { mapAttachment } from "./mappers"
 import { FileAttachmentEntity } from "./schema"
 import type { AttachmentSubscription } from "@/repo/contracts"
@@ -19,8 +20,6 @@ export function useAttachmentSubscription(
   })
 
   return {
-    attachments: entities
-      .map(mapAttachment)
-      .filter(a => FileAttachment.safeParse(a).success), // prevents loading problems during creation of new entities
+    attachments: tryMap(entities, mapAttachment, FileAttachment),
   }
 }

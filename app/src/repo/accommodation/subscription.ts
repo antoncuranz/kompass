@@ -1,4 +1,5 @@
 import { useCoState } from "jazz-tools/react-core"
+import { tryMap } from "../common/mappers"
 import { mapAccommodation } from "./mappers"
 import { AccommodationEntity } from "./schema"
 import type { AccommodationSubscription } from "@/repo/contracts"
@@ -19,8 +20,6 @@ export function useAccommodationSubscription(
   })
 
   return {
-    accommodation: entities
-      .map(mapAccommodation)
-      .filter(a => Accommodation.safeParse(a).success), // prevents loading problems during creation of new entities
+    accommodation: tryMap(entities, mapAccommodation, Accommodation),
   }
 }

@@ -1,4 +1,5 @@
 import { useCoState } from "jazz-tools/react-core"
+import { tryMap } from "../common/mappers"
 import { mapActivity } from "./mappers"
 import { ActivityEntity } from "./schema"
 import type { ActivitySubscription } from "@/repo/contracts"
@@ -17,8 +18,6 @@ export function useActivitySubscription(stid: string): ActivitySubscription {
   })
 
   return {
-    activities: entities
-      .map(mapActivity)
-      .filter(a => Activity.safeParse(a).success), // prevents loading problems during creation of new entities
+    activities: tryMap(entities, mapActivity, Activity),
   }
 }
