@@ -1,3 +1,4 @@
+import type { DayRenderData } from "@/components/itinerary/types"
 import type {
   Accommodation,
   Activity,
@@ -6,7 +7,7 @@ import type {
   Train,
   Transportation,
 } from "@/domain"
-import type { DayRenderData } from "@/components/itinerary/types"
+import { getDepartureDateTime } from "@/domain"
 import ActivityEntry from "@/components/itinerary/ActivityEntry.tsx"
 import DayLabel from "@/components/itinerary/DayLabel.tsx"
 import DaySeparator from "@/components/itinerary/DaySeparator.tsx"
@@ -16,6 +17,17 @@ import TransportationEntry from "@/components/itinerary/TransportationEntry.tsx"
 import { Separator } from "@/components/ui/separator.tsx"
 import { getDaysBetween, isSameDay } from "@/lib/datetime"
 import { formatDuration } from "@/lib/formatting"
+
+type DayEntry =
+  | { kind: "activity"; data: Activity }
+  | { kind: "transportation"; data: Transportation }
+
+function getSortKey(entry: DayEntry): string {
+  if (entry.kind === "activity") {
+    return entry.data.time ?? ""
+  }
+  return getDepartureDateTime(entry.data).slice(11, 19)
+}
 
 export default function Day({
   dayData,
@@ -39,6 +51,14 @@ export default function Day({
     : 0
   const hasNightTransportation =
     dayData.transportation.find(isOvernight) != undefined
+
+  const entries: Array<DayEntry> = [
+    ...dayData.activities.map(a => ({ kind: "activity" as const, data: a })),
+    ...dayData.transportation.map(t => ({
+      kind: "transportation" as const,
+      data: t,
+    })),
+  ].sort((a, b) => getSortKey(a).localeCompare(getSortKey(b)))
 
   function isOvernight(transportation: Transportation): boolean {
     switch (transportation.type) {
@@ -138,19 +158,19 @@ export default function Day({
     <div>
       <DayLabel date={dayData.day} />
 
-      {dayData.activities.map(act => (
-        <ActivityEntry
-          key={act.id}
-          activity={act}
-          onClick={() => onActivityClick(act)}
-        />
-      ))}
-
-      {dayData.transportation.map((transportation, idx) => (
-        <div key={idx} className="mt-4">
-          {renderTransportation(transportation)}
-        </div>
-      ))}
+      {entries.map((entry, idx) =>
+        entry.kind === "activity" ? (
+          <ActivityEntry
+            key={entry.data.id}
+            activity={entry.data}
+            onClick={() => onActivityClick(entry.data)}
+          />
+        ) : (
+          <div key={idx} className="mt-4">
+            {renderTransportation(entry.data)}
+          </div>
+        ),
+      )}
 
       {nextDay &&
         (hasNightTransportation ? (
