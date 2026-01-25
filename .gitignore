@@ -1,8 +1,9 @@
 /.idea/
+/.agent/
+/.vscode/
 /**/.vscode/*
 !/.vscode/launch.json
 !/.vscode/tasks.json
-/.vscode/.env
 /kompass.iml
 /frontend/.env
 /transportation-api/optd_*.csv
