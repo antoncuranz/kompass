@@ -4,6 +4,22 @@ import type { JoinRequest, Location } from "@/domain"
 import type { JoinRequestEntityList } from "../trip/schema"
 // eslint-disable @typescript-eslint/no-misused-spread
 
+export function tryMap<TIn, TOut>(
+  array: ReadonlyArray<TIn>,
+  mapper: (item: TIn) => TOut,
+  onError: (error: unknown, item: TIn) => void = (error, _) =>
+    console.log(error),
+): Array<TOut> {
+  return array.reduce<Array<TOut>>((acc, item) => {
+    try {
+      acc.push(mapper(item))
+    } catch (error) {
+      onError(error, item)
+    }
+    return acc
+  }, [])
+}
+
 export function mapLocation(
   entity: co.loaded<typeof LocationEntity>,
 ): Location {

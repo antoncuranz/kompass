@@ -7,5 +7,6 @@ export const FileAttachmentEntity = co
     references: co.list(z.string()),
   })
   .resolved({
+    file: true,
     references: true,
   })
