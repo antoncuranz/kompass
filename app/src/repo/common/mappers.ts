@@ -2,17 +2,24 @@ import type { JoinRequestEntity, LocationEntity } from "./schema"
 import type { co } from "jazz-tools"
 import type { JoinRequest, Location } from "@/domain"
 import type { JoinRequestEntityList } from "../trip/schema"
+import type { ZodType } from "zod"
 // eslint-disable @typescript-eslint/no-misused-spread
 
 export function tryMap<TIn, TOut>(
   array: ReadonlyArray<TIn>,
-  mapper: (item: TIn) => TOut,
-  onError: (error: unknown, item: TIn) => void = (error, _) =>
-    console.log(error),
+  mapper: (item: TIn) => any,
+  schema: ZodType,
+  onError: (error: unknown, item: TIn) => void = (error, item) =>
+    console.log(error, item),
 ): Array<TOut> {
   return array.reduce<Array<TOut>>((acc, item) => {
     try {
-      acc.push(mapper(item))
+      const mapped = mapper(item)
+      if (schema.safeParse(mapped).success) {
+        acc.push(mapped)
+      } else {
+        onError("parsing error", item)
+      }
     } catch (error) {
       onError(error, item)
     }

@@ -5,6 +5,7 @@ import { ActivityEntity } from "./schema"
 import type { ActivitySubscription } from "@/repo/contracts"
 import type { co } from "jazz-tools"
 import { SharedTripEntity } from "@/repo/trip/schema"
+import { Activity } from "@/domain"
 
 const EMPTY_ARRAY: Array<co.loaded<typeof ActivityEntity>> = []
 
@@ -17,6 +18,6 @@ export function useActivitySubscription(stid: string): ActivitySubscription {
   })
 
   return {
-    activities: tryMap(entities, mapActivity),
+    activities: tryMap(entities, mapActivity, Activity),
   }
 }

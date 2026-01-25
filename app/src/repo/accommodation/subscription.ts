@@ -5,6 +5,7 @@ import { AccommodationEntity } from "./schema"
 import type { AccommodationSubscription } from "@/repo/contracts"
 import type { co } from "jazz-tools"
 import { SharedTripEntity } from "@/repo/trip/schema"
+import { Accommodation } from "@/domain"
 
 const EMPTY_ARRAY: Array<co.loaded<typeof AccommodationEntity>> = []
 
@@ -19,6 +20,6 @@ export function useAccommodationSubscription(
   })
 
   return {
-    accommodation: tryMap(entities, mapAccommodation),
+    accommodation: tryMap(entities, mapAccommodation, Accommodation),
   }
 }
