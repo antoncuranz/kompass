@@ -23,7 +23,7 @@
     "@types/web-push": "^3.6.4",
     "@typescript/native-preview": "^7.0.0-dev.20251230.1",
     "jazz-run": "^0.20.0",
-    "oxfmt": "^0.28.0",
+    "oxfmt": "^0.31.0",
     "oxlint": "^1.36.0",
     "oxlint-tsgolint": "^0.12.0",
     "vitest": "^4.0.16"
