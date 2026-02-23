@@ -12,7 +12,7 @@ tool (
 require (
 	cloud.google.com/go v0.123.0
 	github.com/ansrivas/fiberprometheus/v2 v2.16.0
-	github.com/caarlos0/env/v11 v11.3.1
+	github.com/caarlos0/env/v11 v11.4.0
 	github.com/go-faster/errors v0.7.1
 	github.com/go-faster/jx v1.2.0
 	github.com/go-playground/validator/v10 v10.30.1
