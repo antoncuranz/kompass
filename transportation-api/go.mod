@@ -1,6 +1,6 @@
 module kompass
 
-go 1.24.5
+go 1.25.0
 
 tool (
 	github.com/jmattheis/goverter/cmd/goverter
@@ -18,7 +18,7 @@ require (
 	github.com/go-playground/validator/v10 v10.30.1
 	github.com/goccy/go-json v0.10.5
 	github.com/gofiber/fiber/v2 v2.52.12
-	github.com/ogen-go/ogen v1.20.0
+	github.com/ogen-go/ogen v1.20.1
 	github.com/paulmach/orb v0.12.0
 	github.com/rs/zerolog v1.34.0
 	github.com/stretchr/testify v1.11.1
@@ -140,7 +140,7 @@ require (
 	golang.org/x/crypto v0.48.0 // indirect
 	golang.org/x/exp v0.0.0-20250911091902-df9299821621 // indirect
 	golang.org/x/mod v0.33.0 // indirect
-	golang.org/x/net v0.50.0 // indirect
+	golang.org/x/net v0.51.0 // indirect
 	golang.org/x/sync v0.19.0 // indirect
 	golang.org/x/sys v0.41.0 // indirect
 	golang.org/x/text v0.34.0 // indirect
