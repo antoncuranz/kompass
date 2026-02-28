@@ -33,7 +33,7 @@
     "date-fns": "^4.1.0",
     "jazz-tools": "^0.20.0",
     "jszip": "^3.10.1",
-    "lucide-react": "^0.564.0",
+    "lucide-react": "^0.575.0",
     "maplibre-gl": "^5.10.0",
     "motion": "^12.23.24",
     "prosekit": "^0.18.0",
