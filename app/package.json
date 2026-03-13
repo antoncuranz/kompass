@@ -60,7 +60,7 @@
     "@types/react-dom": "^19.2.0",
     "@typescript/native-preview": "^7.0.0-dev.20251101.1",
     "@vite-pwa/assets-generator": "^1.0.2",
-    "@vitejs/plugin-react": "^5.0.4",
+    "@vitejs/plugin-react": "^6.0.0",
     "@vitest/ui": "^4.0.16",
     "eslint-plugin-oxlint": "^1.32.0",
     "jsdom": "^27.0.0",
