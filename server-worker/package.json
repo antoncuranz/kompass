@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@effect/platform": "^0.96.0",
-    "@effect/platform-bun": "^0.88.0",
+    "@effect/platform-bun": "^0.89.0",
     "effect": "^3.19.13",
     "jazz-tools": "^0.20.0",
     "web-push": "^3.6.7"
