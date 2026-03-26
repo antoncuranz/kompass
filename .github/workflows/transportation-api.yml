@@ -45,7 +45,7 @@ jobs:
         run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
       - name: Build and push transportation-api
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context: transportation-api
           push: true
