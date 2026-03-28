@@ -20,7 +20,7 @@ require (
 	github.com/gofiber/fiber/v2 v2.52.12
 	github.com/ogen-go/ogen v1.20.2
 	github.com/paulmach/orb v0.12.0
-	github.com/rs/zerolog v1.34.0
+	github.com/rs/zerolog v1.35.0
 	github.com/stretchr/testify v1.11.1
 	github.com/swaggo/fiber-swagger v1.3.1-0.20250217163408-2de6d674e0ae
 	github.com/swaggo/swag/v2 v2.0.0-rc5
