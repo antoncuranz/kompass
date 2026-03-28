@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useState, useTransition } from "react"
 import { useForm } from "react-hook-form"
+import { usePostHog } from "posthog-js/react"
 import { z } from "zod"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { Alert02Icon, Notification01Icon } from "@hugeicons/core-free-icons"
@@ -53,6 +54,7 @@ function TripDialogContent({ trip }: { trip?: Trip }) {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const { onClose } = useDialogContext()
   const [isTogglingNotifications, startTransition] = useTransition()
+  const posthog = usePostHog()
 
   const {
     toggle: toggleNotifications,
@@ -95,6 +97,7 @@ function TripDialogContent({ trip }: { trip?: Trip }) {
         startDate: values.dateRange.from,
         endDate: values.dateRange.to,
       })
+      posthog.capture("trip_created")
     }
     onClose()
   }
@@ -106,6 +109,7 @@ function TripDialogContent({ trip }: { trip?: Trip }) {
 
     if (showDeleteConfirm) {
       await remove(trip.stid)
+      posthog.capture("trip_deleted")
       onClose()
     } else {
       setShowDeleteConfirm(true)

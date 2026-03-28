@@ -3,6 +3,7 @@ import { HugeiconsIcon } from "@hugeicons/react"
 import { Add01Icon, MinusSignIcon } from "@hugeicons/core-free-icons"
 import { useState } from "react"
 import { useFieldArray, useForm } from "react-hook-form"
+import { usePostHog } from "posthog-js/react"
 import { toast } from "sonner"
 import { z } from "zod"
 import type { AmbiguousFlightChoice } from "@/components/dialog/types"
@@ -78,6 +79,7 @@ function FlightDialogContent({ flight }: { flight?: Flight }) {
   const [ambiguousDialogData, setAmbiguousDialogData] =
     useState<AmbiguousDialogData>({ legs: [], choices: {} })
   const { onClose } = useDialogContext()
+  const posthog = usePostHog()
 
   function mapLegsOrDefault(flightLegs: Array<FlightLeg> | undefined) {
     if (flightLegs) {
@@ -148,6 +150,7 @@ function FlightDialogContent({ flight }: { flight?: Flight }) {
         await updateFlight(flight.id, augmentedValues)
       } else {
         await createFlight(augmentedValues)
+        posthog.capture("flight_created", { stid: trip.stid })
       }
       onClose()
     } else if (response.status === 422) {

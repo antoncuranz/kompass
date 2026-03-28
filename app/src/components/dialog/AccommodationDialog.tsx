@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
+import { usePostHog } from "posthog-js/react"
 import { z } from "zod"
 import type { Accommodation } from "@/domain"
 import { useTrip } from "@/components/provider/TripProvider"
@@ -61,6 +62,7 @@ function AccommodationDialogContent({
   const [edit, setEdit] = useState<boolean>(accommodation == null)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const { onClose } = useDialogContext()
+  const posthog = usePostHog()
 
   const form = useForm<
     z.input<typeof formSchema>,
@@ -100,6 +102,7 @@ function AccommodationDialogContent({
         arrivalDate: values.dateRange.from,
         departureDate: values.dateRange.to,
       })
+      posthog.capture("accommodation_created", { stid: trip.stid })
     }
     onClose()
   }

@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
+import { usePostHog } from "posthog-js/react"
 import { z } from "zod"
 import type { Activity } from "@/domain"
 import { useTrip } from "@/components/provider/TripProvider"
@@ -62,6 +63,7 @@ export default function ActivityDialog({
 function ActivityDialogContent({ activity }: { activity?: Activity }) {
   const trip = useTrip()
   const { create, update, remove } = useActivityRepository(trip.stid)
+  const posthog = usePostHog()
 
   const [edit, setEdit] = useState<boolean>(activity == null)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
@@ -91,6 +93,7 @@ function ActivityDialogContent({ activity }: { activity?: Activity }) {
       await update(activity.id, values)
     } else {
       await create(values)
+      posthog.capture("activity_created", { stid: trip.stid })
     }
     onClose()
   }

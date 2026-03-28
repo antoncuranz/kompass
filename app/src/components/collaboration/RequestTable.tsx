@@ -1,6 +1,7 @@
 import { HugeiconsIcon } from "@hugeicons/react"
 import { Cancel01Icon, Tick02Icon } from "@hugeicons/core-free-icons"
 import { useState, useTransition } from "react"
+import { usePostHog } from "posthog-js/react"
 import { toast } from "sonner"
 import type { GrantedRole, JoinRequest } from "@/domain"
 import { Button } from "@/components/ui/button.tsx"
@@ -53,14 +54,17 @@ function RequestRow({
 }) {
   const [isProcessing, startTransition] = useTransition()
   const [selectedRole, setSelectedRole] = useState<GrantedRole>("guest")
+  const posthog = usePostHog()
 
   function processRequest(approve: boolean) {
     startTransition(async () => {
       if (approve) {
         await approveJoinRequest(stid, joinRequest.id, selectedRole)
+        posthog.capture("join_request_approved", { role: selectedRole, stid })
         toast.success(`Access granted as ${selectedRole}`)
       } else {
         await rejectJoinRequest(stid, joinRequest.id)
+        posthog.capture("join_request_rejected", { stid })
         toast.success("Access request rejected")
       }
     })

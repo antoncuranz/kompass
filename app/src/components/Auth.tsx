@@ -6,6 +6,7 @@ import {
 } from "jazz-tools/react"
 import { useState, useTransition } from "react"
 import { useForm } from "react-hook-form"
+import { usePostHog } from "posthog-js/react"
 import { toast } from "sonner"
 import { z } from "zod"
 import wordlist from "../lib/wordlist.ts"
@@ -35,6 +36,7 @@ export function Auth() {
     appName: "kompass",
   })
   const { user, update } = useUserQuery()
+  const posthog = usePostHog()
 
   const [passphraseFormShown, setPassphraseFormShown] = useState<boolean>(false)
   const [profileImage, setProfileImage] = useState<File | null>(null)
@@ -55,6 +57,8 @@ export function Auth() {
     try {
       await passkeyAuth.signUp(name)
       await uploadProfileImage()
+      posthog.identify(name)
+      posthog.capture("user_signed_up", { method: "passkey" })
     } catch {
       toast.error("Failed to sign up")
     }
@@ -63,6 +67,8 @@ export function Auth() {
   async function handlePassphraseSignup(name: string) {
     await passphraseAuth.signUp(name)
     await uploadProfileImage()
+    posthog.identify(name)
+    posthog.capture("user_signed_up", { method: "passphrase" })
   }
 
   const signupForm = useForm<
@@ -95,9 +101,10 @@ export function Auth() {
       return
     }
     startTransition(async () => {
-      await loginForm.handleSubmit(
-        async values => await passphraseAuth.logIn(values.passphrase),
-      )()
+      await loginForm.handleSubmit(async values => {
+        await passphraseAuth.logIn(values.passphrase)
+        posthog.capture("user_logged_in", { method: "passphrase" })
+      })()
     })
   }
 
@@ -169,6 +176,7 @@ export function Auth() {
                 startTransition(async () => {
                   try {
                     await passkeyAuth.logIn()
+                    posthog.capture("user_logged_in", { method: "passkey" })
                   } catch {
                     toast.error("Failed to log in")
                   }

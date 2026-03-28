@@ -1,0 +1,67 @@
+[
+  {
+    "event": "user_signed_up",
+    "description": "User completed sign up (passkey or passphrase)",
+    "file": "src/components/Auth.tsx"
+  },
+  {
+    "event": "user_logged_in",
+    "description": "User logged in (passkey or passphrase)",
+    "file": "src/components/Auth.tsx"
+  },
+  {
+    "event": "user_logged_out",
+    "description": "User logged out from settings",
+    "file": "src/components/dialog/SettingsDialog.tsx"
+  },
+  {
+    "event": "trip_created",
+    "description": "User created a new trip",
+    "file": "src/components/dialog/TripDialog.tsx"
+  },
+  {
+    "event": "trip_deleted",
+    "description": "User deleted a trip",
+    "file": "src/components/dialog/TripDialog.tsx"
+  },
+  {
+    "event": "trip_link_copied",
+    "description": "User copied the trip share link",
+    "file": "src/components/buttons/ShareButton.tsx"
+  },
+  {
+    "event": "join_request_approved",
+    "description": "Admin approved a join request with a role",
+    "file": "src/components/collaboration/RequestTable.tsx"
+  },
+  {
+    "event": "join_request_rejected",
+    "description": "Admin rejected a join request",
+    "file": "src/components/collaboration/RequestTable.tsx"
+  },
+  {
+    "event": "activity_created",
+    "description": "User added an activity to a trip",
+    "file": "src/components/dialog/ActivityDialog.tsx"
+  },
+  {
+    "event": "accommodation_created",
+    "description": "User added accommodation to a trip",
+    "file": "src/components/dialog/AccommodationDialog.tsx"
+  },
+  {
+    "event": "flight_created",
+    "description": "User added a flight to a trip",
+    "file": "src/components/dialog/FlightDialog.tsx"
+  },
+  {
+    "event": "profile_updated",
+    "description": "User updated their profile name or avatar",
+    "file": "src/components/dialog/SettingsDialog.tsx"
+  },
+  {
+    "event": "data_exported",
+    "description": "User exported their data as JSON",
+    "file": "src/components/dialog/SettingsDialog.tsx"
+  }
+]

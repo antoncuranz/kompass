@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useLogOut, usePassphraseAuth } from "jazz-tools/react"
 import { useRef, useState, useTransition } from "react"
 import { useForm } from "react-hook-form"
+import { usePostHog } from "posthog-js/react"
 import { toast } from "sonner"
 import { z } from "zod"
 import { HugeiconsIcon } from "@hugeicons/react"
@@ -58,6 +59,7 @@ function SettingsDialogContent({ user }: { user: User }) {
   const logOut = useLogOut()
   const passphraseAuth = usePassphraseAuth({ wordlist })
   const { showInspector, toggleInspector } = useInspector()
+  const posthog = usePostHog()
 
   const [profileImage, setProfileImage] = useState<File | null | undefined>()
   const [showPassphrase, setShowPassphrase] = useState(false)
@@ -82,6 +84,7 @@ function SettingsDialogContent({ user }: { user: User }) {
         name: values.name,
         avatarImage: profileImage,
       })
+      posthog.capture("profile_updated")
     })
   }
 
@@ -95,6 +98,7 @@ function SettingsDialogContent({ user }: { user: User }) {
       )
       URL.revokeObjectURL(url)
 
+      posthog.capture("data_exported")
       toast.success("Data exported")
     } catch (error) {
       toast.error("Failed to export data: " + error)
@@ -125,6 +129,8 @@ function SettingsDialogContent({ user }: { user: User }) {
 
   function handleLogout() {
     if (showLogoutConfirm) {
+      posthog.capture("user_logged_out")
+      posthog.reset()
       logOut()
       onClose()
     } else {
