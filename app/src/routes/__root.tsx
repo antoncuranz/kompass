@@ -25,11 +25,11 @@ function DynamicTitle() {
 
 function PageviewTracker() {
   const posthog = usePostHog()
-  const location = useRouterState({ select: (s) => s.location })
+  const pathname = useRouterState({ select: (s) => s.location.pathname })
 
   useEffect(() => {
     posthog.capture("$pageview", { $current_url: window.location.href })
-  }, [location.pathname, posthog])
+  }, [pathname, posthog])
 
   return null
 }
