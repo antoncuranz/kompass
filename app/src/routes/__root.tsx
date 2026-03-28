@@ -44,11 +44,10 @@ export const Route = createRootRoute({
       <PostHogProvider
         apiKey={config.POSTHOG_PROJECT_TOKEN || ""}
         options={{
-          api_host: "/ingest",
-          ui_host: config.POSTHOG_HOST,
+          api_host: config.POSTHOG_HOST,
           defaults: "2026-01-30",
           capture_exceptions: true,
-          debug: import.meta.env.DEV,
+          debug: true, // import.meta.env.DEV,
         }}
       >
         <div className="root">
