@@ -41,7 +41,7 @@ export const Route = createRootRoute({
 
     return (
       <PostHogProvider
-        apiKey={import.meta.env.VITE_PUBLIC_POSTHOG_PROJECT_TOKEN!}
+        apiKey={import.meta.env.VITE_PUBLIC_POSTHOG_PROJECT_TOKEN}
         options={{
           api_host: "/ingest",
           ui_host: import.meta.env.VITE_PUBLIC_POSTHOG_HOST || "https://eu.i.posthog.com",
