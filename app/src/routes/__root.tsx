@@ -7,6 +7,7 @@ import { Auth } from "@/components/Auth"
 import { useRequestListener } from "@/hooks/useRequestListener"
 import { useInspector } from "@/components/provider/InspectorProvider"
 import { useTripQuery } from "@/repo"
+import config from "@/config"
 
 function DynamicTitle() {
   const tripId = useParams({ strict: false }).trip
@@ -41,10 +42,10 @@ export const Route = createRootRoute({
 
     return (
       <PostHogProvider
-        apiKey={import.meta.env.VITE_PUBLIC_POSTHOG_PROJECT_TOKEN}
+        apiKey={config.POSTHOG_PROJECT_TOKEN || ""}
         options={{
           api_host: "/ingest",
-          ui_host: import.meta.env.VITE_PUBLIC_POSTHOG_HOST || "https://eu.i.posthog.com",
+          ui_host: config.POSTHOG_HOST,
           defaults: "2026-01-30",
           capture_exceptions: true,
           debug: import.meta.env.DEV,

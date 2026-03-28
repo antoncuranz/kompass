@@ -1,16 +1,13 @@
 import { URL, fileURLToPath } from "node:url"
 import tailwindcss from "@tailwindcss/vite"
 import viteReact from "@vitejs/plugin-react"
-import { defineConfig, loadEnv } from "vite"
+import { defineConfig } from "vite"
 import { VitePWA } from "vite-plugin-pwa"
 
 import { tanstackRouter } from "@tanstack/router-plugin/vite"
 
 // https://vitejs.dev/config/
-export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, process.cwd(), "")
-
-  return {
+export default defineConfig({
   plugins: [
     tanstackRouter({
       target: "react",
@@ -64,11 +61,10 @@ export default defineConfig(({ mode }) => {
     proxy: {
       "/api/v1": "http://127.0.0.1:8080",
       "/ingest": {
-        target: env.VITE_PUBLIC_POSTHOG_HOST || "https://eu.i.posthog.com",
+        target: "https://eu.i.posthog.com",
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/ingest/, ""),
       },
     },
   },
-  }
 })
