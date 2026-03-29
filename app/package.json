@@ -63,7 +63,7 @@
     "@vitejs/plugin-react": "^5.0.4",
     "@vitest/ui": "^4.0.16",
     "eslint-plugin-oxlint": "^1.32.0",
-    "jsdom": "^27.0.0",
+    "jsdom": "^29.0.0",
     "oxfmt": "^0.42.0",
     "oxlint": "^1.31.0",
     "oxlint-tsgolint": "^0.18.0",
