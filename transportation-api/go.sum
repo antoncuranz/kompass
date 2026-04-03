@@ -387,6 +387,8 @@ github.com/xdg-go/scram v1.1.1/go.mod h1:RaEWvsqvNKKvBPvcKeFjrG2cJqOkHTiyTpzz23n
 github.com/xdg-go/stringprep v1.0.3/go.mod h1:W3f5j4i+9rC0kuIEJL0ky1VpHXQU3ocBgklLGvcBnW8=
 github.com/xnacly/go-iso8601-duration v1.1.0 h1:5FQeoPSs0lxzCGp82TLR8F6Rm3N6idawnNBf+fsJSZs=
 github.com/xnacly/go-iso8601-duration v1.1.0/go.mod h1:S1+1mC/X7HsHlc0DZNB+ljkZoopmYjzJnEXTHkq/nKE=
+github.com/xnacly/go-iso8601-duration v1.2.0 h1:XsJeGKwqKe2JnkyC0xXPPyccwIEld6L4RSRT6Qqf8mU=
+github.com/xnacly/go-iso8601-duration v1.2.0/go.mod h1:S1+1mC/X7HsHlc0DZNB+ljkZoopmYjzJnEXTHkq/nKE=
 github.com/xrash/smetrics v0.0.0-20240521201337-686a1a2994c1 h1:gEOO8jv9F4OT7lGCjxCBTO/36wtF6j2nSip77qHd4x4=
 github.com/xrash/smetrics v0.0.0-20240521201337-686a1a2994c1/go.mod h1:Ohn+xnUBiLI6FVj/9LpzZWtj1/D6lUovWYBkxHVV3aM=
 github.com/xyproto/randomstring v1.0.5 h1:YtlWPoRdgMu3NZtP45drfy1GKoojuR7hmRcnhZqKjWU=
