@@ -19,7 +19,7 @@ require (
 	github.com/goccy/go-json v0.10.6
 	github.com/gofiber/fiber/v2 v2.52.12
 	github.com/gofiber/fiber/v3 v3.1.0
-	github.com/ogen-go/ogen v1.20.2
+	github.com/ogen-go/ogen v1.20.3
 	github.com/paulmach/orb v0.13.0
 	github.com/rs/zerolog v1.35.0
 	github.com/stretchr/testify v1.11.1
