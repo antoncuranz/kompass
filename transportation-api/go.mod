@@ -28,7 +28,7 @@ require (
 	github.com/testcontainers/testcontainers-go v0.43.0
 	github.com/wiremock/go-wiremock v1.16.0
 	github.com/wiremock/wiremock-testcontainers-go v1.1.0
-	github.com/xnacly/go-iso8601-duration v1.2.0
+	github.com/xnacly/go-iso8601-duration v1.3.0
 )
 
 require (
