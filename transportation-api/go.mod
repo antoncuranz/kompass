@@ -18,7 +18,7 @@ require (
 	github.com/go-playground/validator/v10 v10.30.3
 	github.com/goccy/go-json v0.10.6
 	github.com/gofiber/fiber/v2 v2.52.15
-	github.com/gofiber/fiber/v3 v3.4.0
+	github.com/gofiber/fiber/v3 v3.5.0
 	github.com/ogen-go/ogen v1.24.0
 	github.com/paulmach/orb v0.13.0
 	github.com/rs/zerolog v1.35.1
@@ -83,7 +83,7 @@ require (
 	github.com/jmattheis/goverter v1.9.4 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
-	github.com/klauspost/compress v1.19.1 // indirect
+	github.com/klauspost/compress v1.19.2 // indirect
 	github.com/leodido/go-urn v1.4.0 // indirect
 	github.com/lufia/plan9stats v0.0.0-20260330125221-c963978e514e // indirect
 	github.com/magiconair/properties v1.8.10 // indirect
