@@ -24,7 +24,7 @@ require (
 	github.com/rs/zerolog v1.35.1
 	github.com/stretchr/testify v1.12.1
 	github.com/swaggo/fiber-swagger v1.3.1-0.20250217163408-2de6d674e0ae
-	github.com/swaggo/swag/v2 v2.0.0-rc5
+	github.com/swaggo/swag/v2 v2.0.0-rc6
 	github.com/testcontainers/testcontainers-go v0.44.0
 	github.com/wiremock/go-wiremock v1.16.0
 	github.com/wiremock/wiremock-testcontainers-go v1.1.0
