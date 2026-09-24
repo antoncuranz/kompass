@@ -71,7 +71,7 @@
     "vite": "^7.1.7",
     "vite-plugin-pwa": "^1.2.0",
     "vitest": "^4.0.16",
-    "web-vitals": "^5.1.0"
+    "web-vitals": "^6.0.0"
   },
   "overrides": {
     "rfc6902": "5.2.0"
