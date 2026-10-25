@@ -1,9 +1,10 @@
 import { createFileRoute, redirect } from "@tanstack/react-router"
 
 export const Route = createFileRoute("/$trip/")({
-  loader: () => {
+  loader: ({ params }) => {
     throw redirect({
-      href: "./itinerary",
+      to: "/$trip/itinerary",
+      params,
     })
   },
 })
