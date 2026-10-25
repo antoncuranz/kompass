@@ -66,8 +66,9 @@ export function useRequestListener() {
           const sharedTrip = await SharedTripEntity.load(sharedTripId, { resolve: { trip: true } })
           if (!sharedTrip.$isLoaded) continue
 
-          await addTripToCurrentUser(sharedTripId)
-          toast.success(`"${sharedTrip.trip.name}" added to your trips`)
+          if (await addTripToCurrentUser(sharedTripId)) {
+            toast.success(`"${sharedTrip.trip.name}" added to your trips`)
+          }
 
           requests.$jazz.delete(sharedTripId)
         } catch (error) {

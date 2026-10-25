@@ -35,6 +35,7 @@ test.describe("Collaboration", () => {
 
     await guestPage.reload()
     await expect(guestPage.getByTestId("itinerary-card")).toBeVisible()
+    await expect(guestPage.getByText("Trip added to your trips")).toBeVisible()
 
     await guestPage.goto("/")
     await expect(guestPage.getByRole("link", { name: tripName })).toBeVisible()

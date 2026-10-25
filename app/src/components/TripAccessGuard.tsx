@@ -1,4 +1,5 @@
 import { useEffect } from "react"
+import { toast } from "sonner"
 import { DialogFooter, DialogHeader, DialogTitle } from "./ui/dialog"
 import { Dialog } from "./dialog/Dialog"
 import { addTripToCurrentUser, sendJoinRequest } from "@/lib/collaboration"
@@ -15,7 +16,9 @@ export default function TripAccessGuard({ stid }: { stid: string }) {
 
   useEffect(() => {
     if (userRole && userRole !== "unauthorized") {
-      void addTripToCurrentUser(stid)
+      void addTripToCurrentUser(stid).then(added => {
+        if (added) toast.success("Trip added to your trips")
+      })
     }
   }, [stid, userRole])
 

@@ -20,7 +20,10 @@ export async function addTripToCurrentUser(stid: string) {
 
   if (!(stid in account.root.trips)) {
     account.root.trips.$jazz.set(stid, sharedTrip)
+    return true
   }
+
+  return false
 }
 
 export async function sendJoinRequest(stid: string) {
