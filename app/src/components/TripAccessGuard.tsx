@@ -1,6 +1,8 @@
+import { useEffect } from "react"
+import { toast } from "sonner"
 import { DialogFooter, DialogHeader, DialogTitle } from "./ui/dialog"
 import { Dialog } from "./dialog/Dialog"
-import { sendJoinRequest } from "@/lib/collaboration"
+import { addTripToCurrentUser, sendJoinRequest } from "@/lib/collaboration"
 import { Button } from "@/components/ui/button.tsx"
 import { useJoinRequests, useUserRole } from "@/repo/user"
 
@@ -11,6 +13,14 @@ export default function TripAccessGuard({ stid }: { stid: string }) {
   const existingRequestStatus = joinRequests.$isLoaded
     ? joinRequests.get(stid)?.status
     : undefined
+
+  useEffect(() => {
+    if (userRole && userRole !== "unauthorized") {
+      void addTripToCurrentUser(stid).then(added => {
+        if (added) toast.success("Trip added to your trips")
+      })
+    }
+  }, [stid, userRole])
 
   return (
     userRole === "unauthorized" && (
