@@ -26,7 +26,8 @@ export default function BaseMap({
         zoom: 10,
       }}
       style={{ background: "#04162a" }}
-      onIdle={() => {
+      onIdle={event => {
+        event.target.getContainer().dataset.mapReady = "true"
         if (import.meta.env.MODE !== "production") {
           console.log("map idle")
         }
