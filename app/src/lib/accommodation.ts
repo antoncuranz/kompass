@@ -62,7 +62,7 @@ export function calculateDisabledDateRanges(
         end: dateFromString(arrivalDate),
       }
     })
-    .filter(interval => interval !== null) as Array<Interval>
+    .filter(interval => interval !== null)
 
   const mergedIntervals = mergeIntervals([
     ...accommodationIntervals,

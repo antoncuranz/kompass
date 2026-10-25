@@ -9,25 +9,25 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as TripRouteImport } from './routes/$trip'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as TripRouteImport } from './routes/$trip'
 import { Route as TripIndexRouteImport } from './routes/$trip/index'
-import { Route as TripShareRouteImport } from './routes/$trip/share'
-import { Route as TripNotesRouteImport } from './routes/$trip/notes'
-import { Route as TripMapRouteImport } from './routes/$trip/map'
-import { Route as TripItineraryRouteImport } from './routes/$trip/itinerary'
-import { Route as TripFilesRouteImport } from './routes/$trip/files'
 import { Route as TripCostRouteImport } from './routes/$trip/cost'
+import { Route as TripFilesRouteImport } from './routes/$trip/files'
+import { Route as TripItineraryRouteImport } from './routes/$trip/itinerary'
+import { Route as TripMapRouteImport } from './routes/$trip/map'
+import { Route as TripNotesRouteImport } from './routes/$trip/notes'
+import { Route as TripShareRouteImport } from './routes/$trip/share'
 import { Route as TripFilesFileIdRouteImport } from './routes/$trip/files.$fileId'
 
-const TripRoute = TripRouteImport.update({
-  id: '/$trip',
-  path: '/$trip',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TripRoute = TripRouteImport.update({
+  id: '/$trip',
+  path: '/$trip',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TripIndexRoute = TripIndexRouteImport.update({
@@ -35,24 +35,9 @@ const TripIndexRoute = TripIndexRouteImport.update({
   path: '/',
   getParentRoute: () => TripRoute,
 } as any)
-const TripShareRoute = TripShareRouteImport.update({
-  id: '/share',
-  path: '/share',
-  getParentRoute: () => TripRoute,
-} as any)
-const TripNotesRoute = TripNotesRouteImport.update({
-  id: '/notes',
-  path: '/notes',
-  getParentRoute: () => TripRoute,
-} as any)
-const TripMapRoute = TripMapRouteImport.update({
-  id: '/map',
-  path: '/map',
-  getParentRoute: () => TripRoute,
-} as any)
-const TripItineraryRoute = TripItineraryRouteImport.update({
-  id: '/itinerary',
-  path: '/itinerary',
+const TripCostRoute = TripCostRouteImport.update({
+  id: '/cost',
+  path: '/cost',
   getParentRoute: () => TripRoute,
 } as any)
 const TripFilesRoute = TripFilesRouteImport.update({
@@ -60,9 +45,24 @@ const TripFilesRoute = TripFilesRouteImport.update({
   path: '/files',
   getParentRoute: () => TripRoute,
 } as any)
-const TripCostRoute = TripCostRouteImport.update({
-  id: '/cost',
-  path: '/cost',
+const TripItineraryRoute = TripItineraryRouteImport.update({
+  id: '/itinerary',
+  path: '/itinerary',
+  getParentRoute: () => TripRoute,
+} as any)
+const TripMapRoute = TripMapRouteImport.update({
+  id: '/map',
+  path: '/map',
+  getParentRoute: () => TripRoute,
+} as any)
+const TripNotesRoute = TripNotesRouteImport.update({
+  id: '/notes',
+  path: '/notes',
+  getParentRoute: () => TripRoute,
+} as any)
+const TripShareRoute = TripShareRouteImport.update({
+  id: '/share',
+  path: '/share',
   getParentRoute: () => TripRoute,
 } as any)
 const TripFilesFileIdRoute = TripFilesFileIdRouteImport.update({
@@ -152,18 +152,18 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/$trip': {
-      id: '/$trip'
-      path: '/$trip'
-      fullPath: '/$trip'
-      preLoaderRoute: typeof TripRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
       id: '/'
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$trip': {
+      id: '/$trip'
+      path: '/$trip'
+      fullPath: '/$trip'
+      preLoaderRoute: typeof TripRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$trip/': {
@@ -173,32 +173,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TripIndexRouteImport
       parentRoute: typeof TripRoute
     }
-    '/$trip/share': {
-      id: '/$trip/share'
-      path: '/share'
-      fullPath: '/$trip/share'
-      preLoaderRoute: typeof TripShareRouteImport
-      parentRoute: typeof TripRoute
-    }
-    '/$trip/notes': {
-      id: '/$trip/notes'
-      path: '/notes'
-      fullPath: '/$trip/notes'
-      preLoaderRoute: typeof TripNotesRouteImport
-      parentRoute: typeof TripRoute
-    }
-    '/$trip/map': {
-      id: '/$trip/map'
-      path: '/map'
-      fullPath: '/$trip/map'
-      preLoaderRoute: typeof TripMapRouteImport
-      parentRoute: typeof TripRoute
-    }
-    '/$trip/itinerary': {
-      id: '/$trip/itinerary'
-      path: '/itinerary'
-      fullPath: '/$trip/itinerary'
-      preLoaderRoute: typeof TripItineraryRouteImport
+    '/$trip/cost': {
+      id: '/$trip/cost'
+      path: '/cost'
+      fullPath: '/$trip/cost'
+      preLoaderRoute: typeof TripCostRouteImport
       parentRoute: typeof TripRoute
     }
     '/$trip/files': {
@@ -208,11 +187,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TripFilesRouteImport
       parentRoute: typeof TripRoute
     }
-    '/$trip/cost': {
-      id: '/$trip/cost'
-      path: '/cost'
-      fullPath: '/$trip/cost'
-      preLoaderRoute: typeof TripCostRouteImport
+    '/$trip/itinerary': {
+      id: '/$trip/itinerary'
+      path: '/itinerary'
+      fullPath: '/$trip/itinerary'
+      preLoaderRoute: typeof TripItineraryRouteImport
+      parentRoute: typeof TripRoute
+    }
+    '/$trip/map': {
+      id: '/$trip/map'
+      path: '/map'
+      fullPath: '/$trip/map'
+      preLoaderRoute: typeof TripMapRouteImport
+      parentRoute: typeof TripRoute
+    }
+    '/$trip/notes': {
+      id: '/$trip/notes'
+      path: '/notes'
+      fullPath: '/$trip/notes'
+      preLoaderRoute: typeof TripNotesRouteImport
+      parentRoute: typeof TripRoute
+    }
+    '/$trip/share': {
+      id: '/$trip/share'
+      path: '/share'
+      fullPath: '/$trip/share'
+      preLoaderRoute: typeof TripShareRouteImport
       parentRoute: typeof TripRoute
     }
     '/$trip/files/$fileId': {
