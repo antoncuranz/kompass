@@ -354,10 +354,8 @@ export async function approveAccessRequest(page: Page, guestName: string) {
 }
 
 export async function ensureMapLoaded(page: Page) {
-  const consolePromise = page.waitForEvent(
-    "console",
-    msg => msg.text() === "map idle",
+  await expect(page.getByRole("region", { name: "Map" })).toHaveAttribute(
+    "data-map-ready",
+    "true",
   )
-  await page.getByRole("region", { name: "Map" }).click()
-  await consolePromise
 }

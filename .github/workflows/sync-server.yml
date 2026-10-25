@@ -14,7 +14,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Extract JAZZ_VERSION
         id: jazz_version
@@ -25,7 +25,7 @@ jobs:
 
       - name: Login to GHCR
         if: github.event_name == 'push'
-        uses: docker/login-action@v4.0.0
+        uses: docker/login-action@v4.7.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
