@@ -4,6 +4,25 @@ import { JoinRequestEntity } from "@/repo/common/schema"
 import { SharedTripEntity } from "@/repo/trip/schema"
 import { UserAccount } from "@/repo/user/schema"
 
+export async function addTripToCurrentUser(stid: string) {
+  const [account, sharedTrip] = await Promise.all([
+    UserAccount.getMe().$jazz.ensureLoaded({
+      resolve: { root: { trips: true } },
+    }),
+    SharedTripEntity.load(stid, { resolve: { trip: true } }),
+  ])
+
+  if (!sharedTrip.$isLoaded) {
+    throw new Error(
+      "Unable to load SharedTripEntity: " + sharedTrip.$jazz.loadingState,
+    )
+  }
+
+  if (!(stid in account.root.trips)) {
+    account.root.trips.$jazz.set(stid, sharedTrip)
+  }
+}
+
 export async function sendJoinRequest(stid: string) {
   const sharedTrip = await SharedTripEntity.load(stid, {
     resolve: { admins: true, requests: true },

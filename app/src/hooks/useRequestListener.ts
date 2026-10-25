@@ -2,6 +2,7 @@ import { useEffect } from "react"
 import { useAccount } from "jazz-tools/react"
 import { toast } from "sonner"
 import { JoinRequestEntity } from "@/repo/common/schema"
+import { addTripToCurrentUser } from "@/lib/collaboration"
 import { SharedTripEntity } from "@/repo/trip/schema"
 import { UserAccount } from "@/repo/user/schema"
 
@@ -53,30 +54,20 @@ export function useRequestListener() {
 
     async function processRequests() {
       const account = await UserAccount.getMe().$jazz.ensureLoaded({
-        resolve: {
-          root: {
-            requests: { $each: JoinRequestEntity.resolveQuery },
-            trips: true,
-          },
-        },
+        resolve: { root: { requests: { $each: JoinRequestEntity.resolveQuery } } },
       })
 
-      const { requests, trips } = account.root
+      const { requests } = account.root
 
       for (const { sharedTripId, status } of requestsToProcess) {
         if (status !== "approved") continue
 
         try {
-          const sharedTrip = await SharedTripEntity.load(sharedTripId, {
-            resolve: { trip: true },
-          })
-
+          const sharedTrip = await SharedTripEntity.load(sharedTripId, { resolve: { trip: true } })
           if (!sharedTrip.$isLoaded) continue
 
-          if (!(sharedTripId in trips)) {
-            trips.$jazz.set(sharedTripId, sharedTrip)
-            toast.success(`"${sharedTrip.trip.name}" added to your trips`)
-          }
+          await addTripToCurrentUser(sharedTripId)
+          toast.success(`"${sharedTrip.trip.name}" added to your trips`)
 
           requests.$jazz.delete(sharedTripId)
         } catch (error) {
