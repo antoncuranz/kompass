@@ -4,25 +4,64 @@ import { toast } from "sonner"
 import { SharedTripEntity } from "@/repo/trip/schema"
 import { UserAccount } from "@/repo/user/schema"
 
+type ApprovedRequest = {
+  sharedTripId: string
+  status: string
+}
+
+function sameApprovedRequests(
+  previous: Array<ApprovedRequest> | undefined,
+  next: Array<ApprovedRequest> | undefined,
+) {
+  if (!previous || !next) return previous === next
+
+  return (
+    previous.length === next.length &&
+    previous.every(
+      (request, index) =>
+        request.sharedTripId === next[index]?.sharedTripId &&
+        request.status === next[index]?.status,
+    )
+  )
+}
+
 export function useRequestListener() {
-  const account = useAccount(UserAccount, {
+  const approvedRequests = useAccount(UserAccount, {
     resolve: {
       root: {
         requests: { $each: true },
-        trips: true,
       },
     },
+    // CoValue references are stable when a nested JoinRequest changes. Select
+    // its status so an approval causes this hook to re-render and process it.
+    select: account =>
+      account.$isLoaded
+        ? Object.entries(account.root.requests).map(([sharedTripId, request]) => ({
+            sharedTripId,
+            status: request.status,
+          }))
+        : undefined,
+    equalityFn: sameApprovedRequests,
   })
 
   useEffect(() => {
-    if (!account.$isLoaded) return
-
-    const requests = account.root.requests
-    const tripMap = account.root.trips
+    if (!approvedRequests) return
+    const requestsToProcess = approvedRequests
 
     async function processRequests() {
-      for (const [sharedTripId, request] of Object.entries(requests)) {
-        if (request.status !== "approved") continue
+      const account = await UserAccount.getMe().$jazz.ensureLoaded({
+        resolve: {
+          root: {
+            requests: { $each: true },
+            trips: true,
+          },
+        },
+      })
+
+      const { requests, trips } = account.root
+
+      for (const { sharedTripId, status } of requestsToProcess) {
+        if (status !== "approved") continue
 
         try {
           const sharedTrip = await SharedTripEntity.load(sharedTripId, {
@@ -31,8 +70,8 @@ export function useRequestListener() {
 
           if (!sharedTrip.$isLoaded) continue
 
-          if (!(sharedTripId in tripMap)) {
-            tripMap.$jazz.set(sharedTripId, sharedTrip)
+          if (!(sharedTripId in trips)) {
+            trips.$jazz.set(sharedTripId, sharedTrip)
             toast.success(`"${sharedTrip.trip.name}" added to your trips`)
           }
 
@@ -44,7 +83,7 @@ export function useRequestListener() {
     }
 
     void processRequests()
-  }, [account])
+  }, [approvedRequests])
 
   return null
 }

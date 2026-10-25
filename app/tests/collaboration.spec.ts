@@ -33,8 +33,8 @@ test.describe("Collaboration", () => {
     const shareCard = ownerPage.getByTestId("share-card")
     await expect(shareCard).toHaveScreenshot()
 
-    // const itinerary = guestPage.getByTestId("itinerary-card")
-    // await expect(itinerary).toHaveScreenshot()
+    await guestPage.goto("/")
+    await expect(guestPage.getByRole("link", { name: tripName })).toBeVisible()
 
     await ownerContext.close()
     await guestContext.close()
