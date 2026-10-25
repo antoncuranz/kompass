@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useLogOut, usePassphraseAuth } from "jazz-tools/react"
+import { useLogOut, usePasskeyAuth, usePassphraseAuth } from "jazz-tools/react"
 import { useRef, useState, useTransition } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
@@ -56,6 +56,7 @@ function SettingsDialogContent({ user }: { user: User }) {
 
   const { onClose } = useDialogContext()
   const logOut = useLogOut()
+  const passkeyAuth = usePasskeyAuth({ appName: "kompass" })
   const passphraseAuth = usePassphraseAuth({ wordlist })
   const { showInspector, toggleInspector } = useInspector()
 
@@ -63,6 +64,7 @@ function SettingsDialogContent({ user }: { user: User }) {
   const [showPassphrase, setShowPassphrase] = useState(false)
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false)
   const [isUpdating, startTransition] = useTransition()
+  const [isCreatingPasskey, startPasskeyTransition] = useTransition()
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const form = useForm<
@@ -132,6 +134,17 @@ function SettingsDialogContent({ user }: { user: User }) {
     }
   }
 
+  function handleCreatePasskey() {
+    startPasskeyTransition(async () => {
+      try {
+        await passkeyAuth.signUp(user.name)
+        toast.success("Passkey created")
+      } catch {
+        toast.error("Failed to create passkey")
+      }
+    })
+  }
+
   return (
     <>
       <DialogHeader>
@@ -162,6 +175,22 @@ function SettingsDialogContent({ user }: { user: User }) {
       <Separator />
 
       <div className="px-3 py-3 space-y-3">
+        <div>
+          <label className="text-sm font-medium block mb-2">Passkeys</label>
+          <Button
+            variant="secondary"
+            className="w-full"
+            onClick={handleCreatePasskey}
+            disabled={isCreatingPasskey}
+          >
+            {isCreatingPasskey ? (
+              <Spinner variant="pinwheel" />
+            ) : (
+              "Create Passkey"
+            )}
+          </Button>
+        </div>
+
         <label className="text-sm font-medium block mb-2">Passphrase</label>
         <div className="flex gap-2">
           <Input
