@@ -1,6 +1,7 @@
 import { useEffect } from "react"
 import { useAccount } from "jazz-tools/react"
 import { toast } from "sonner"
+import { JoinRequestEntity } from "@/repo/common/schema"
 import { SharedTripEntity } from "@/repo/trip/schema"
 import { UserAccount } from "@/repo/user/schema"
 
@@ -29,17 +30,19 @@ export function useRequestListener() {
   const approvedRequests = useAccount(UserAccount, {
     resolve: {
       root: {
-        requests: { $each: true },
+        requests: { $each: JoinRequestEntity.resolveQuery },
       },
     },
     // CoValue references are stable when a nested JoinRequest changes. Select
     // its status so an approval causes this hook to re-render and process it.
     select: account =>
       account.$isLoaded
-        ? Object.entries(account.root.requests).map(([sharedTripId, request]) => ({
-            sharedTripId,
-            status: request.status,
-          }))
+        ? Object.entries(account.root.requests).flatMap(
+            ([sharedTripId, request]) =>
+              request.$isLoaded
+                ? [{ sharedTripId, status: request.status }]
+                : [],
+          )
         : undefined,
     equalityFn: sameApprovedRequests,
   })
@@ -52,7 +55,7 @@ export function useRequestListener() {
       const account = await UserAccount.getMe().$jazz.ensureLoaded({
         resolve: {
           root: {
-            requests: { $each: true },
+            requests: { $each: JoinRequestEntity.resolveQuery },
             trips: true,
           },
         },
