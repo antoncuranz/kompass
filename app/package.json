@@ -34,7 +34,7 @@
     "jazz-tools": "^0.20.0",
     "jszip": "^3.10.1",
     "lucide-react": "^1.0.0",
-    "maplibre-gl": "^5.10.0",
+    "maplibre-gl": "^6.0.0",
     "motion": "^14.0.0",
     "prosekit": "^0.22.0",
     "react": "^19.2.0",
