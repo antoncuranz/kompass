@@ -3,7 +3,7 @@
 # renovate: datasource=npm depName=jazz-run
 ARG JAZZ_VERSION="0.20.19"
 
-FROM node:24.22.2-alpine
+FROM node:26.13.0-alpine
 
 ENV \
     NODE_ENV=production
