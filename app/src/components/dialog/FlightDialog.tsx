@@ -82,8 +82,9 @@ function FlightDialogContent({ flight }: { flight?: Flight }) {
   function mapLegsOrDefault(flightLegs: Array<FlightLeg> | undefined) {
     if (flightLegs) {
       return flightLegs.map(leg => ({
-        date: dateFromString(leg.amadeusFlightDate ?? leg.departureDateTime),
+        date: dateFromString(leg.departureDateTime),
         flightNumber: leg.flightNumber,
+        originAirport: leg.origin.iata,
       }))
     }
 
@@ -181,6 +182,7 @@ function FlightDialogContent({ flight }: { flight?: Flight }) {
 
     for (const [legId, flight] of selectedFlights) {
       form.setValue(`legs.${legId}.originAirport`, flight.originIata)
+      form.setValue(`legs.${legId}.date`, dateFromString(flight.departureDateTime))
     }
 
     void form.handleSubmit(onSubmit)()

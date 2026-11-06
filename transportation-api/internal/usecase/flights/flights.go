@@ -30,10 +30,9 @@ func (uc *UseCase) FindFlight(ctx context.Context, request request.Flight) (enti
 	sortByDepartureDate(flightLegs)
 
 	flight := entity.Flight{
-		Legs: flightLegs,
+		Legs:    flightLegs,
 		GeoJson: uc.createGeoJson(flightLegs),
 	}
-
 
 	return flight, nil
 }
@@ -72,8 +71,5 @@ func sortByDepartureDate(legs []entity.FlightLeg) {
 }
 
 func getFlightDate(leg entity.FlightLeg) civil.Date {
-	if leg.AmadeusFlightDate != nil {
-		return *leg.AmadeusFlightDate
-	}
 	return leg.DepartureDateTime.Date
 }

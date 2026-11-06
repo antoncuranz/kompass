@@ -54,9 +54,6 @@ function isLegInFuture(leg: FlightLeg): boolean {
 }
 
 function getFlightDate(leg: FlightLeg): string {
-  if (leg.amadeusFlightDate) {
-    return leg.amadeusFlightDate
-  }
   const datePart = leg.departureDateTime.split("T")[0]
   return datePart ?? leg.departureDateTime.substring(0, 10)
 }

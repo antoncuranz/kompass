@@ -4,7 +4,7 @@ package app
 import (
 	"fmt"
 	"kompass/internal/controller/http/v1/response"
-	"kompass/internal/repo/amadeus"
+	"kompass/internal/repo/aerodatabox"
 	"kompass/internal/repo/dbvendo"
 	"kompass/internal/repo/openrouteservice"
 	"kompass/internal/repo/opentraveldata"
@@ -62,7 +62,7 @@ func createUseCases(cfg *config.Config, log *logger.Logger) usecase.UseCases {
 		log.Fatal(fmt.Errorf("app - createUseCases - opentraveldata.New: %w", err))
 	}
 
-	flightsUseCase := flights.New(amadeus.New(cfg.WebApi, optd))
+	flightsUseCase := flights.New(aerodatabox.New(cfg.WebApi, optd))
 	trainsUseCase := trains.New(dbvendo.New(cfg.WebApi))
 	geocodingUseCase := geocoding.New(trainsUseCase, ors)
 

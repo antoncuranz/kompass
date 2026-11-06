@@ -133,8 +133,9 @@ type EntityFlightGeoJson struct{}
 
 // Ref: #/components/schemas/entity.FlightLeg
 type EntityFlightLeg struct {
-	Aircraft          NilString     `json:"aircraft"`
-	Airline           string        `json:"airline"`
+	Aircraft NilString `json:"aircraft"`
+	Airline  string    `json:"airline"`
+	// Deprecated: retained for older clients. Derive lookup dates from DepartureDateTime.
 	AmadeusFlightDate NilString     `json:"amadeusFlightDate"`
 	ArrivalDateTime   string        `json:"arrivalDateTime"`
 	DepartureDateTime string        `json:"departureDateTime"`

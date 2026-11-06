@@ -56,6 +56,8 @@ components:
         airline:
           type: string
         amadeusFlightDate:
+          description: 'Deprecated: retained for older clients. Derive lookup dates
+            from DepartureDateTime.'
           nullable: true
           type: string
         arrivalDateTime:

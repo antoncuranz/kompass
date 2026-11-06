@@ -17,10 +17,10 @@ Go microservice providing transportation search (flights, trains), geocoding, an
 
 ## Key Integrations
 
-### Amadeus API (`internal/repo/amadeus`)
-Flight schedule/status data. OAuth2 client credentials flow. Requires OPTD for IATA lookups (airport/airline/aircraft enrichment).
+### AeroDataBox API (`internal/repo/aerodatabox`)
+Flight schedule data via the RapidAPI gateway and X-RapidAPI-Key / X-RapidAPI-Host authentication. Uses OPTD for airport enrichment.
 
-**Note**: No token caching—requests new token per flight lookup.
+Configure `AERODATABOX_APIKEY` with your RapidAPI key and optionally `AERODATABOX_URL` (default `https://aerodatabox.p.rapidapi.com`). Without an origin, lookups group through-flight legs from the initial departure date using connecting airports and chronological scheduled times (maximum 24-hour stopover, eight legs). Explicit-origin lookups use the selected leg’s local departure date. Lookup dates are derived from `departureDateTime`; no separate date is stored. `amadeusFlightDate` is retained as a compatibility alias for older clients and ignored by the app and worker.
 
 ### DB Vendo API (`internal/repo/dbvendo`)
 Train journey data. Paginates search results up to 10 times using `laterThan` tokens. Matches train numbers with whitespace/case flexibility.
@@ -70,4 +70,4 @@ Run `make codegen` after changing annotations or interfaces.
 
 **Integration**: `make integration-test` uses testcontainers + WireMock
 - WireMock mappings: `integration-test/wiremock/`
-- Mocks Amadeus, DB Vendo, ORS responses
+- Mocks AeroDataBox, DB Vendo, ORS responses

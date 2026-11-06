@@ -1,0 +1,92 @@
+[
+  {
+    "greatCircleDistance": {
+      "meter": 2128968.03,
+      "km": 2128.97,
+      "mile": 1322.88,
+      "nm": 1149.55,
+      "feet": 6984803.26
+    },
+    "departure": {
+      "airport": {
+        "icao": "YSSY",
+        "iata": "SYD",
+        "name": "Sydney Kingsford Smith",
+        "shortName": "Kingsford Smith",
+        "municipalityName": "Sydney",
+        "location": {
+          "lat": -33.9461,
+          "lon": 151.177
+        },
+        "countryCode": "AU",
+        "timeZone": "Australia/Sydney"
+      },
+      "scheduledTime": {
+        "utc": "2026-11-06 22:00Z",
+        "local": "2026-11-07 09:00+11:00"
+      },
+      "revisedTime": {
+        "utc": "2026-11-06 22:00Z",
+        "local": "2026-11-07 09:00+11:00"
+      },
+      "runwayTime": {
+        "utc": "2026-11-06 22:46Z",
+        "local": "2026-11-07 09:46+11:00"
+      },
+      "terminal": "1",
+      "runway": "34L",
+      "quality": [
+        "Basic",
+        "Live"
+      ]
+    },
+    "arrival": {
+      "airport": {
+        "icao": "NZCH",
+        "iata": "CHC",
+        "name": "Christchurch",
+        "shortName": "Christchurch",
+        "municipalityName": "Christchurch",
+        "location": {
+          "lat": -43.4894,
+          "lon": 172.532
+        },
+        "countryCode": "NZ",
+        "timeZone": "Pacific/Auckland"
+      },
+      "scheduledTime": {
+        "utc": "2026-11-07 01:15Z",
+        "local": "2026-11-07 14:15+13:00"
+      },
+      "revisedTime": {
+        "utc": "2026-11-07 01:22Z",
+        "local": "2026-11-07 14:22+13:00"
+      },
+      "runwayTime": {
+        "utc": "2026-11-07 01:22Z",
+        "local": "2026-11-07 14:22+13:00"
+      },
+      "runway": "02",
+      "quality": [
+        "Basic",
+        "Live"
+      ]
+    },
+    "lastUpdatedUtc": "2026-11-07 01:35Z",
+    "number": "EK 412",
+    "callSign": "UAE3HJ",
+    "status": "Arrived",
+    "codeshareStatus": "IsOperator",
+    "isCargo": false,
+    "aircraft": {
+      "reg": "A6-EOM",
+      "modeS": "8963EA",
+      "model": "Airbus A380-800"
+    },
+    "airline": {
+      "name": "Emirates",
+      "iata": "EK",
+      "icao": "UAE"
+    }
+  }
+]

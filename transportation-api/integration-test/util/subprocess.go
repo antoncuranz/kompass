@@ -28,7 +28,8 @@ func StartTransportationAPISubprocess(t testing.TB, wiremockURL string, port str
 	cmd.Dir = "../" // Set working directory to transportation-api root so migrations can be found
 	cmd.Env = append(os.Environ(),
 		fmt.Sprintf("HTTP_PORT=%s", port),
-		fmt.Sprintf("AMADEUS_URL=%s/amadeus", wiremockURL),
+		fmt.Sprintf("AERODATABOX_URL=%s/aerodatabox", wiremockURL),
+		"AERODATABOX_APIKEY=test-api-key",
 		fmt.Sprintf("DBVENDO_URL=%s/dbvendo", wiremockURL),
 		fmt.Sprintf("ORS_URL=%s/ors", wiremockURL),
 	)
