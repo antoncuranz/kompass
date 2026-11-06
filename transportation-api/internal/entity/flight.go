@@ -8,7 +8,7 @@ import (
 )
 
 type Flight struct {
-	Legs    []FlightLeg                  `json:"legs"`
+	Legs    []FlightLeg                `json:"legs"`
 	GeoJson *geojson.FeatureCollection `json:"geoJson"`
 }
 
@@ -31,9 +31,10 @@ type FlightLeg struct {
 	FlightNumber      string         `json:"flightNumber"`
 	DepartureDateTime civil.DateTime `json:"departureDateTime"`
 	ArrivalDateTime   civil.DateTime `json:"arrivalDateTime"`
-	AmadeusFlightDate *civil.Date    `json:"amadeusFlightDate" extensions:"nullable"`
-	DurationInMinutes int32          `json:"durationInMinutes"`
-	Aircraft          *string        `json:"aircraft" extensions:"nullable"`
+	// Deprecated: retained for older clients. Derive lookup dates from DepartureDateTime.
+	AmadeusFlightDate *civil.Date `json:"amadeusFlightDate" extensions:"nullable"`
+	DurationInMinutes int32       `json:"durationInMinutes"`
+	Aircraft          *string     `json:"aircraft" extensions:"nullable"`
 }
 
 type PNR struct {

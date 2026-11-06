@@ -1,0 +1,183 @@
+[
+  {
+    "greatCircleDistance": {
+      "meter": 2128968.03,
+      "km": 2128.97,
+      "mile": 1322.88,
+      "nm": 1149.55,
+      "feet": 6984803.26
+    },
+    "departure": {
+      "airport": {
+        "icao": "YSSY",
+        "iata": "SYD",
+        "name": "Sydney Kingsford Smith",
+        "shortName": "Kingsford Smith",
+        "municipalityName": "Sydney",
+        "location": {
+          "lat": -33.9461,
+          "lon": 151.177
+        },
+        "countryCode": "AU",
+        "timeZone": "Australia/Sydney"
+      },
+      "scheduledTime": {
+        "utc": "2026-11-05 22:00Z",
+        "local": "2026-11-06 09:00+11:00"
+      },
+      "revisedTime": {
+        "utc": "2026-11-05 22:00Z",
+        "local": "2026-11-06 09:00+11:00"
+      },
+      "runwayTime": {
+        "utc": "2026-11-05 22:46Z",
+        "local": "2026-11-06 09:46+11:00"
+      },
+      "terminal": "1",
+      "runway": "34L",
+      "quality": [
+        "Basic",
+        "Live"
+      ]
+    },
+    "arrival": {
+      "airport": {
+        "icao": "NZCH",
+        "iata": "CHC",
+        "name": "Christchurch",
+        "shortName": "Christchurch",
+        "municipalityName": "Christchurch",
+        "location": {
+          "lat": -43.4894,
+          "lon": 172.532
+        },
+        "countryCode": "NZ",
+        "timeZone": "Pacific/Auckland"
+      },
+      "scheduledTime": {
+        "utc": "2026-11-06 01:15Z",
+        "local": "2026-11-06 14:15+13:00"
+      },
+      "revisedTime": {
+        "utc": "2026-11-06 01:22Z",
+        "local": "2026-11-06 14:22+13:00"
+      },
+      "runwayTime": {
+        "utc": "2026-11-06 01:22Z",
+        "local": "2026-11-06 14:22+13:00"
+      },
+      "runway": "02",
+      "quality": [
+        "Basic",
+        "Live"
+      ]
+    },
+    "lastUpdatedUtc": "2026-11-06 01:35Z",
+    "number": "EK 412",
+    "callSign": "UAE3HJ",
+    "status": "Arrived",
+    "codeshareStatus": "IsOperator",
+    "isCargo": false,
+    "aircraft": {
+      "reg": "A6-EOM",
+      "modeS": "8963EA",
+      "model": "Airbus A380-800"
+    },
+    "airline": {
+      "name": "Emirates",
+      "iata": "EK",
+      "icao": "UAE"
+    }
+  },
+  {
+    "greatCircleDistance": {
+      "meter": 12038861.49,
+      "km": 12038.86,
+      "mile": 7480.6,
+      "nm": 6500.47,
+      "feet": 39497577.07
+    },
+    "departure": {
+      "airport": {
+        "icao": "OMDB",
+        "iata": "DXB",
+        "name": "Dubai",
+        "shortName": "Dubai",
+        "municipalityName": "Dubai",
+        "location": {
+          "lat": 25.252798,
+          "lon": 55.3644
+        },
+        "countryCode": "AE",
+        "timeZone": "Asia/Dubai"
+      },
+      "scheduledTime": {
+        "utc": "2026-11-06 06:15Z",
+        "local": "2026-11-06 10:15+04:00"
+      },
+      "revisedTime": {
+        "utc": "2026-11-06 06:18Z",
+        "local": "2026-11-06 10:18+04:00"
+      },
+      "runwayTime": {
+        "utc": "2026-11-06 06:38Z",
+        "local": "2026-11-06 10:38+04:00"
+      },
+      "terminal": "3",
+      "gate": "A12",
+      "runway": "30R",
+      "quality": [
+        "Basic",
+        "Live"
+      ]
+    },
+    "arrival": {
+      "airport": {
+        "icao": "YSSY",
+        "iata": "SYD",
+        "name": "Sydney Kingsford Smith",
+        "shortName": "Kingsford Smith",
+        "municipalityName": "Sydney",
+        "location": {
+          "lat": -33.9461,
+          "lon": 151.177
+        },
+        "countryCode": "AU",
+        "timeZone": "Australia/Sydney"
+      },
+      "scheduledTime": {
+        "utc": "2026-11-06 20:00Z",
+        "local": "2026-11-07 07:00+11:00"
+      },
+      "revisedTime": {
+        "utc": "2026-11-06 19:32Z",
+        "local": "2026-11-07 06:32+11:00"
+      },
+      "predictedTime": {
+        "utc": "2026-11-06 19:45Z",
+        "local": "2026-11-07 06:45+11:00"
+      },
+      "terminal": "1",
+      "quality": [
+        "Basic",
+        "Live"
+      ]
+    },
+    "lastUpdatedUtc": "2026-11-06 07:53Z",
+    "number": "EK 412",
+    "callSign": "UAE3HJ",
+    "status": "EnRoute",
+    "codeshareStatus": "IsOperator",
+    "isCargo": false,
+    "aircraft": {
+      "reg": "A6-EEV",
+      "modeS": "896195",
+      "model": "Airbus A380-800"
+    },
+    "airline": {
+      "name": "Emirates",
+      "iata": "EK",
+      "icao": "UAE"
+    }
+  }
+]

@@ -1,0 +1,81 @@
+{
+  "mappings": [
+    {
+      "request": {
+        "method": "GET",
+        "url": "/aerodatabox/flights/number/EK412/2026-11-06?dateLocalRole=Departure",
+        "headers": {
+          "X-RapidAPI-Key": {
+            "equalTo": "test-api-key"
+          },
+          "X-RapidAPI-Host": {
+            "equalTo": "aerodatabox.p.rapidapi.com"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "bodyFileName": "aerodatabox_ek412.json"
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "url": "/aerodatabox/flights/number/LH717/2026-11-06?dateLocalRole=Departure",
+        "headers": {
+          "X-RapidAPI-Key": {
+            "equalTo": "test-api-key"
+          },
+          "X-RapidAPI-Host": {
+            "equalTo": "aerodatabox.p.rapidapi.com"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "bodyFileName": "aerodatabox_lh717.json"
+      },
+      "scenarioName": "LH717 update",
+      "requiredScenarioState": "Started",
+      "newScenarioState": "Updated"
+    },
+    {
+      "request": {
+        "method": "GET",
+        "url": "/aerodatabox/flights/number/LH717/2026-11-06?dateLocalRole=Departure",
+        "headers": {
+          "X-RapidAPI-Key": {
+            "equalTo": "test-api-key"
+          },
+          "X-RapidAPI-Host": {
+            "equalTo": "aerodatabox.p.rapidapi.com"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "bodyFileName": "aerodatabox_lh717_updated.json"
+      },
+      "scenarioName": "LH717 update",
+      "requiredScenarioState": "Updated"
+    },
+    {
+      "request": {
+        "method": "GET",
+        "url": "/aerodatabox/flights/number/EK412/2026-11-07?dateLocalRole=Departure",
+        "headers": {
+          "X-RapidAPI-Key": {
+            "equalTo": "test-api-key"
+          },
+          "X-RapidAPI-Host": {
+            "equalTo": "aerodatabox.p.rapidapi.com"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "bodyFileName": "aerodatabox_ek412_onward.json"
+      }
+    }
+  ]
+}

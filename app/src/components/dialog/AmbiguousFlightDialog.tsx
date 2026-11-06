@@ -120,6 +120,7 @@ function AmbiguousFlightDialogContent({
                               {choice.originIata} → {choice.destinationIata}
                             </span>
                             <span className="text-sm text-muted-foreground">
+                              {formatDateShort(choice.departureDateTime)}{" "}
                               {formatTimePadded(choice.departureDateTime)}
                             </span>
                           </div>

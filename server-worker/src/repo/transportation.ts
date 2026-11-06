@@ -9,7 +9,7 @@ import { AppConfig } from "../config"
 const ApiFlightLegSchema = Schema.Struct({
   aircraft: Schema.NullOr(Schema.String),
   airline: Schema.String,
-  amadeusFlightDate: Schema.NullOr(Schema.String),
+  amadeusFlightDate: Schema.optional(Schema.NullOr(Schema.String)),
   arrivalDateTime: Schema.String,
   departureDateTime: Schema.String,
   durationInMinutes: Schema.Number,
