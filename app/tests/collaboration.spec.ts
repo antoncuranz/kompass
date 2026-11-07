@@ -36,6 +36,11 @@ test.describe("Collaboration", () => {
     await guestPage.reload()
     await expect(guestPage.getByTestId("itinerary-card")).toBeVisible()
 
+    await guestPage.goto("/")
+    await expect(guestPage.getByRole("link", { name: tripName })).toBeVisible()
+    await guestPage.reload()
+    await expect(guestPage.getByRole("link", { name: tripName })).toBeVisible()
+
     await ownerContext.close()
     await guestContext.close()
   })

@@ -4,7 +4,7 @@ import { JoinRequestEntityList, SharedTripEntity } from "@/repo/trip/schema"
 
 const AccountRoot = co.map({
   trips: co.record(z.string(), SharedTripEntity),
-  tripMap: co.record(z.string(), SharedTripEntity), // deprecated
+  tripMap: co.optional(co.record(z.string(), SharedTripEntity)), // deprecated
   requests: JoinRequestEntityList,
 })
 
@@ -17,7 +17,6 @@ export const UserAccount = co
     if (!account.$jazz.has("root")) {
       account.$jazz.set("root", {
         trips: {},
-        tripMap: {},
         requests: {},
       })
       return
@@ -29,8 +28,16 @@ export const UserAccount = co
       resolve: { root: true },
     })
 
-    // rename tripMap to trips
-    root.$jazz.set("trips", root.tripMap)
+    if (root.$jazz.has("tripMap")) {
+      if (!root.$jazz.has("trips")) {
+        const { tripMap } = await root.$jazz.ensureLoaded({
+          resolve: { tripMap: true },
+        })
+        if (!tripMap) throw new Error("Legacy trip map is missing")
+        root.$jazz.set("trips", tripMap)
+      }
+      root.$jazz.delete("tripMap")
+    }
 
     // V0 Migration - Trips
 
