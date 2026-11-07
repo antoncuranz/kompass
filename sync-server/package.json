@@ -1,0 +1,12 @@
+{
+  "name": "kompass-sync-server",
+  "private": true,
+  "version": "0.20.19-security.1",
+  "dependencies": {
+    "jazz-run": "0.20.19"
+  },
+  "overrides": {
+    "toml": "^5.0.1",
+    "undici": "^6.29.1"
+  }
+}
