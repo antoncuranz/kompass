@@ -49,35 +49,70 @@ export function useRequestListener() {
   })
 
   useEffect(() => {
-    if (!approvedRequests) return
-    const requestsToProcess = approvedRequests
+    if (!approvedRequests?.some(request => request.status === "approved"))
+      return
+    const currentAccount = UserAccount.getMe()
+    let cancelled = false
+    const isCancelled = () =>
+      cancelled || UserAccount.getMe().$jazz.id !== currentAccount.$jazz.id
+    let timer: ReturnType<typeof setTimeout> | undefined
+    const reportedErrors = new Set<string>()
 
     async function processRequests() {
-      const account = await UserAccount.getMe().$jazz.ensureLoaded({
-        resolve: { root: { requests: { $each: JoinRequestEntity.resolveQuery } } },
-      })
+      let retry = false
+      try {
+        const account = await currentAccount.$jazz.ensureLoaded({
+          resolve: {
+            root: { requests: { $each: JoinRequestEntity.resolveQuery } },
+          },
+        })
+        for (const { sharedTripId, status } of approvedRequests ?? []) {
+          if (isCancelled()) return
+          if (status !== "approved") continue
+          if (!account.root.requests.$jazz.has(sharedTripId)) continue
+          const request = account.root.requests[sharedTripId]
+          if (!request.$isLoaded || request.status !== "approved") continue
 
-      const { requests } = account.root
-
-      for (const { sharedTripId, status } of requestsToProcess) {
-        if (status !== "approved") continue
-
-        try {
-          const sharedTrip = await SharedTripEntity.load(sharedTripId, { resolve: { trip: true } })
-          if (!sharedTrip.$isLoaded) continue
-
-          if (await addTripToCurrentUser(sharedTripId)) {
-            toast.success(`"${sharedTrip.trip.name}" added to your trips`)
+          try {
+            const sharedTrip = await SharedTripEntity.load(sharedTripId, {
+              resolve: { trip: true },
+            })
+            if (isCancelled()) return
+            if (!sharedTrip.$isLoaded) {
+              retry = true
+              continue
+            }
+            if (await addTripToCurrentUser(sharedTripId)) {
+              toast.success(`"${sharedTrip.trip.name}" added to your trips`)
+            }
+            if (isCancelled()) return
+            account.root.requests.$jazz.delete(sharedTripId)
+          } catch (error) {
+            retry = true
+            if (!isCancelled() && !reportedErrors.has(sharedTripId)) {
+              reportedErrors.add(sharedTripId)
+              toast.error("Failed to process trip access request: " + error)
+            }
           }
-
-          requests.$jazz.delete(sharedTripId)
-        } catch (error) {
+        }
+      } catch (error) {
+        retry = true
+        if (!isCancelled() && !reportedErrors.has("account")) {
+          reportedErrors.add("account")
           toast.error("Failed to process trip access request: " + error)
         }
       }
+      // Approval and group permissions may sync separately. Keep the request
+      // until the trip has actually been added, and retry transient failures.
+      if (!isCancelled() && retry)
+        timer = setTimeout(() => void processRequests(), 3000)
     }
 
     void processRequests()
+    return () => {
+      cancelled = true
+      clearTimeout(timer)
+    }
   }, [approvedRequests])
 
   return null

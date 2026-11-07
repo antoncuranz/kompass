@@ -18,7 +18,7 @@ export async function addTripToCurrentUser(stid: string) {
     )
   }
 
-  if (!(stid in account.root.trips)) {
+  if (!account.root.trips.$jazz.has(stid)) {
     account.root.trips.$jazz.set(stid, sharedTrip)
     return true
   }

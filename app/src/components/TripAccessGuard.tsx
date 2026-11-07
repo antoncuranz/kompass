@@ -16,9 +16,13 @@ export default function TripAccessGuard({ stid }: { stid: string }) {
 
   useEffect(() => {
     if (userRole && userRole !== "unauthorized") {
-      void addTripToCurrentUser(stid).then(added => {
-        if (added) toast.success("Trip added to your trips")
-      })
+      void addTripToCurrentUser(stid)
+        .then(added => {
+          if (added) toast.success("Trip added to your trips")
+        })
+        .catch(error => {
+          toast.error("Failed to add trip to your trips: " + error)
+        })
     }
   }, [stid, userRole])
 
