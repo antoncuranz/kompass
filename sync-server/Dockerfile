@@ -1,8 +1,5 @@
 # syntax=docker/dockerfile:1
 
-# renovate: datasource=npm depName=jazz-run
-ARG JAZZ_VERSION="0.20.19"
-
 FROM node:24.22.2-alpine
 
 ENV \
@@ -21,12 +18,16 @@ RUN \
         python3 \
         catatonit
 
+COPY package.json package-lock.json ./
+
+# The entrypoint runs jazz-run directly; npm is only needed while building.
 RUN \
-    npm install jazz-run@${JAZZ_VERSION} && \
+    npm ci --omit=dev && \
     npm cache clean --force && \
+    rm -rf /usr/local/lib/node_modules/npm /usr/local/bin/npm /usr/local/bin/npx && \
     chown -R root:root /app && chmod -R 755 /app
 
-COPY . /
+COPY entrypoint.sh /entrypoint.sh
 
 USER nobody:nogroup
 WORKDIR /data

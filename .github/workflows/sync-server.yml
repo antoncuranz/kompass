@@ -16,10 +16,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v7
 
-      - name: Extract JAZZ_VERSION
-        id: jazz_version
+      - name: Extract image version
+        id: image_version
         run: |
-          VERSION=$(grep 'ARG JAZZ_VERSION=' sync-server/Dockerfile | sed 's/.*JAZZ_VERSION="\(.*\)"/\1/')
+          VERSION=$(node -p "require('./sync-server/package.json').version")
           echo "found version $VERSION"
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
@@ -38,4 +38,4 @@ jobs:
           push: ${{ github.event_name == 'push' }}
           tags: |
             ghcr.io/antoncuranz/kompass/sync-server:latest
-            ghcr.io/antoncuranz/kompass/sync-server:${{ steps.jazz_version.outputs.version }}
+            ghcr.io/antoncuranz/kompass/sync-server:${{ steps.image_version.outputs.version }}
