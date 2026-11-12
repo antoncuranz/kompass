@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM node:24.22.2-alpine
+FROM node:24.22.3-alpine
 
 ENV \
     NODE_ENV=production
