@@ -3,6 +3,7 @@
   "extends": ["config:recommended", ":disableRateLimiting", ":automergeMinor"],
   "dependencyDashboardTitle": "Renovate Dashboard 🤖",
   "commitMessageExtra": "from {{{displayFrom}}} to {{{displayTo}}}",
+  "dockerfile": { "pinDigests": true },
   "customManagers": [
     {
       "description": "Process annotated dependencies",

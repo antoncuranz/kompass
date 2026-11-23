@@ -1,4 +1,4 @@
-FROM dhi.io/node:24-alpine-dev
+FROM dhi.io/node:24-alpine-dev@sha256:665a173e7d07f3707c68311c6722c91a4524eb7ffd09fe8f400f62fa12d81fd8
 
 ENV \
     NODE_ENV=production
