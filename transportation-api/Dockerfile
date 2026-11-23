@@ -1,5 +1,5 @@
 # Step 1: Modules caching
-FROM golang:1.27-alpine as modules
+FROM dhi.io/golang:1.27-alpine-dev AS modules
 
 COPY go.mod go.sum /modules/
 
@@ -8,7 +8,7 @@ WORKDIR /modules
 RUN go mod download
 
 # Step 2: Builder
-FROM golang:1.27-alpine as builder
+FROM dhi.io/golang:1.27-alpine-dev AS builder
 
 COPY --from=modules /go/pkg /go/pkg
 COPY . /app
