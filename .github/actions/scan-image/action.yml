@@ -1,0 +1,51 @@
+name: Scan container image
+description: Generate an SBOM and scan it with Docker Hardened Images VEX where applicable
+inputs:
+  image:
+    description: Local image to scan
+    required: true
+  name:
+    description: Artifact name
+    required: true
+  vex-image:
+    description: DHI runtime image name, or empty for scratch
+    required: false
+runs:
+  using: composite
+  steps:
+    - name: Generate SBOM with Syft
+      uses: anchore/sbom-action@v0
+      with:
+        image: ${{ inputs.image }}
+        format: spdx-json
+        output-file: ${{ runner.temp }}/${{ inputs.name }}.spdx.json
+        artifact-name: ${{ inputs.name }}-sbom.spdx.json
+        upload-release-assets: false
+
+    - name: Download DHI VEX
+      if: inputs.vex-image != ''
+      shell: bash
+      env:
+        VEX_IMAGE: ${{ inputs.vex-image }}
+      run: |
+        curl --fail --silent --show-error --location \
+          "https://raw.githubusercontent.com/docker-hardened-images/advisories/main/vex/${VEX_IMAGE}/dhi-${VEX_IMAGE}.vex.json" \
+          --output "$RUNNER_TEMP/dhi.vex.json"
+        jq -e '.statements | type == "array"' "$RUNNER_TEMP/dhi.vex.json" > /dev/null
+
+    - name: Scan SBOM with Grype and DHI VEX
+      if: inputs.vex-image != ''
+      uses: anchore/scan-action@v7
+      with:
+        sbom: ${{ runner.temp }}/${{ inputs.name }}.spdx.json
+        vex: ${{ runner.temp }}/dhi.vex.json
+        output-format: table
+        fail-build: false
+
+    - name: Scan SBOM with Grype
+      if: inputs.vex-image == ''
+      uses: anchore/scan-action@v7
+      with:
+        sbom: ${{ runner.temp }}/${{ inputs.name }}.spdx.json
+        output-format: table
+        fail-build: false

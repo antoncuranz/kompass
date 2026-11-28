@@ -23,6 +23,13 @@ jobs:
           echo "found version $VERSION"
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
+      - name: Login to Docker Hardened Images
+        uses: docker/login-action@v4.8.0
+        with:
+          registry: dhi.io
+          username: ${{ secrets.DHI_USERNAME }}
+          password: ${{ secrets.DHI_TOKEN }}
+
       - name: Login to GHCR
         if: github.event_name == 'push'
         uses: docker/login-action@v4.8.0
@@ -31,11 +38,26 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ github.token }}
 
-      - name: Build and push sync-server
+      - name: Build image
         uses: docker/build-push-action@v7
         with:
           context: sync-server
-          push: ${{ github.event_name == 'push' }}
-          tags: |
-            ghcr.io/antoncuranz/kompass/sync-server:latest
-            ghcr.io/antoncuranz/kompass/sync-server:${{ steps.image_version.outputs.version }}
+          load: true
+          tags: kompass-ci:sync-server
+
+      - name: Generate SBOM and scan image
+        uses: ./.github/actions/scan-image
+        with:
+          image: kompass-ci:sync-server
+          name: sync-server
+          vex-image: node
+
+      - name: Push image
+        if: github.event_name == 'push'
+        env:
+          IMAGE_VERSION: ${{ steps.image_version.outputs.version }}
+        run: |
+          docker tag kompass-ci:sync-server ghcr.io/antoncuranz/kompass/sync-server:latest
+          docker tag kompass-ci:sync-server "ghcr.io/antoncuranz/kompass/sync-server:$IMAGE_VERSION"
+          docker push ghcr.io/antoncuranz/kompass/sync-server:latest
+          docker push "ghcr.io/antoncuranz/kompass/sync-server:$IMAGE_VERSION"

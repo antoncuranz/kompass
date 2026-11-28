@@ -33,7 +33,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v7
 
+      - name: Login to Docker Hardened Images
+        uses: docker/login-action@v4.8.0
+        with:
+          registry: dhi.io
+          username: ${{ secrets.DHI_USERNAME }}
+          password: ${{ secrets.DHI_TOKEN }}
+
       - name: Login to GHCR
+        if: github.event_name == 'push'
         uses: docker/login-action@v4.8.0
         with:
           registry: ghcr.io
@@ -44,11 +52,25 @@ jobs:
         id: vars
         run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
-      - name: Build and push transportation-api
+      - name: Build image
         uses: docker/build-push-action@v7
         with:
           context: transportation-api
-          push: true
-          tags: |
-            ghcr.io/antoncuranz/kompass/transportation-api:${{ steps.vars.outputs.sha_short }}
-            ${{ github.event_name == 'push' && 'ghcr.io/antoncuranz/kompass/transportation-api:latest' || '' }}
+          load: true
+          tags: kompass-ci:transportation-api
+
+      - name: Generate SBOM and scan image
+        uses: ./.github/actions/scan-image
+        with:
+          image: kompass-ci:transportation-api
+          name: transportation-api
+
+      - name: Push image
+        if: github.event_name == 'push'
+        env:
+          IMAGE_SHA: ${{ steps.vars.outputs.sha_short }}
+        run: |
+          docker tag kompass-ci:transportation-api ghcr.io/antoncuranz/kompass/transportation-api:latest
+          docker tag kompass-ci:transportation-api "ghcr.io/antoncuranz/kompass/transportation-api:$IMAGE_SHA"
+          docker push ghcr.io/antoncuranz/kompass/transportation-api:latest
+          docker push "ghcr.io/antoncuranz/kompass/transportation-api:$IMAGE_SHA"

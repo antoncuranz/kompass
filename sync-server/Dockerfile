@@ -1,6 +1,4 @@
-# syntax=docker/dockerfile:1
-
-FROM node:24.22.3-alpine
+FROM dhi.io/node:24-alpine-dev@sha256:665a173e7d07f3707c68311c6722c91a4524eb7ffd09fe8f400f62fa12d81fd8
 
 ENV \
     NODE_ENV=production
@@ -24,12 +22,12 @@ COPY package.json package-lock.json ./
 RUN \
     npm ci --omit=dev && \
     npm cache clean --force && \
-    rm -rf /usr/local/lib/node_modules/npm /usr/local/bin/npm /usr/local/bin/npx && \
+    rm -rf /usr/lib/node_modules/npm /usr/bin/npm /usr/bin/npx && \
     chown -R root:root /app && chmod -R 755 /app
 
 COPY entrypoint.sh /entrypoint.sh
 
-USER nobody:nogroup
+USER 65532:65532
 WORKDIR /data
 VOLUME ["/data"]
 
